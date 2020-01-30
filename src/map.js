@@ -1,13 +1,14 @@
-import React from 'react';
-import { YMaps, Map, Clusterer, Placemark } from 'react-yandex-maps';
-
-import points from './point.json';
+import React, {useEffect, useState} from 'react';
+import {YMaps, Map, Clusterer, Placemark, ObjectManager, ZoomControl} from 'react-yandex-maps';
+import axios from 'axios'
+import point from './point.json';
 
 const mapState = {
     center: [41.204380, 74.766098],
     zoom: 7,
     behaviors: ['default', 'scrollZoom'],
 };
+
 
 const getPointData = index => {
     return {
@@ -22,36 +23,55 @@ const getPointOptions = () => {
     };
 };
 
-const ClustererCreate = () =>
-    <YMaps>
-        <Map
-            onClick={(e)=>{
-                alert(e.get("coords"))
-            }}
-            width={100 + '%'}
-            height={100 + 'vh'}
-            state={mapState}
-        >
-            <Clusterer
-                options={{
-                    preset: 'islands#invertedVioletClusterIcons',
-                    groupByCoordinates: false,
-                    clusterDisableClickZoom: true,
-                    clusterHideIconOnBalloonOpen: false,
-                    geoObjectHideIconOnBalloonOpen: false,
+const ClustererCreate = () => {
+    useEffect(() => {
+        axios.get('https://jsonplaceholder.typicode.com/todos/1').then(res => console.log(res))
+    }, []);
+
+    const [points,setPoints] = useState(point)
+    console.log(points)
+    return (
+        <YMaps query={{load: 'control.ZoomControl'}}>
+            <Map
+                onClick={(e) => {
+                    let items = {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: e.get("coords")
+                        }
+                    }
+                    let arr = {...points};
+                    arr.features.push(items);
+                    setPoints(arr)
                 }}
+                width={70 + '%'}
+                height={70 + 'vh'}
+                state={mapState}
             >
-                {points.features.map((coordinates) =>
-                    <Placemark
-                        onClick={() =>alert(coordinates.geometry.coordinates)}
-                        key={coordinates.id}
-                        geometry={ coordinates.geometry }
-                        properties={getPointData(coordinates.id)}
-                        options={getPointOptions()}
-                    />
-                )}
-            </Clusterer>
-        </Map>
-    </YMaps>;
+
+                <Clusterer
+                    options={{
+                        preset: 'islands#invertedVioletClusterIcons',
+                        groupByCoordinates: false,
+                        clusterDisableClickZoom: false,
+                        clusterHideIconOnBalloonOpen: true,
+                        geoObjectHideIconOnBalloonOpen: false,
+                    }}
+                >
+                    {points.features.map((coordinates) =>
+                        <Placemark
+                            //onClick={() =>console.log(coordinates.geometry.coordinates)}
+                            key={Math.random()}
+                            geometry={coordinates.geometry}
+                            modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
+                            properties={getPointData(coordinates.id)}
+                            options={getPointOptions()}
+                        />
+                    )}
+                </Clusterer>
+            </Map>
+        </YMaps>)
+};
 
 export default ClustererCreate;
