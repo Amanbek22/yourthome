@@ -1,0 +1,17 @@
+.cardsWrapper{
+    text-align: center;
+    margin: 60px 7%;
+}
+.whereBuy{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #727272;
+}
+.cardWrapper{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+}

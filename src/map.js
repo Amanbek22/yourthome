@@ -55,7 +55,7 @@ const ClustererCreate = () => {
                         setPoints(arr)
                     }}
                     width={100 + '%'}
-                    height={85 + 'vh'}
+                    height={82 + 'vh'}
                     state={mapState}
                 >
 
@@ -74,7 +74,6 @@ const ClustererCreate = () => {
                     >
                         {points.features.map((coordinates) =>
                             <Placemark
-                                onClick={() =>alert(coordinates.name)}
                                 key={Math.random()}
                                 geometry={coordinates.geometry}
                                 modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}

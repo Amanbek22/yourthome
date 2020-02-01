@@ -1,7 +1,7 @@
 .filterWrapper{
     background: url("../../img/Rectangle2.png") center center no-repeat;
     background-size: cover;
-    height: 300px;
+    display: block;
     position: relative;
     color: white;
 }
@@ -10,10 +10,11 @@
     background: rgba(0, 0, 0, 0.8);
     border-radius: 3px;
     padding: 22px 20px;
-    position: absolute;
+    /*position: absolute;*/
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(45%, 0%);
+    margin: 60px 0;
 }
 .links{
     text-align: left;
