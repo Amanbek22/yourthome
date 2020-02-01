@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+.menuWrapper{
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    position: relative;
+}
+.signWrapper{
+    margin: 0 7%;
+    height: 30px;
+    align-items: center;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    text-align: right;
+}
+.signWrapper>div>a{
+    font-size: 14px;
+    color: #000;
+    text-decoration: none;
+}
+.line{
+    margin-top: 5px;
+    background: #C1C1C1;
+    border: 1px solid #C1C1C1;
+}
+.navWrapper{
+    margin: 12px 7%;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    height: 35px;
+}
+.imgWrapper{
+    width: 197px;
+    display: grid;
+    grid-template-columns: 1fr 10fr;
+    align-items: center;
+}
+.block{
+    background: #C1C1C1;
+    width: 35px;
+    height: 35px;
+}
+.links{
+    text-align: center;
+    font-size: 18px;
+}
+.links>a{
+    margin: 0 25px;
+}
+.addButtonWrapper{
+    text-align: right;
+}
+.addButton{
+    background: none;
+    border: 1px solid #05BA02;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+.addButton:focus{
+    outline:none;
+}

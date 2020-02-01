@@ -3,6 +3,7 @@
   "features": [
     {
       "type": "Feature",
+      "name":"2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -15,6 +16,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре оша",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -26,6 +28,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -37,6 +40,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -48,6 +52,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре нарына",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -58,6 +63,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре оша",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -68,6 +74,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -78,6 +85,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -88,6 +96,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -98,6 +107,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -108,6 +118,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -118,6 +129,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -128,6 +140,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -138,6 +151,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -148,6 +162,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -158,6 +173,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -168,6 +184,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -178,6 +195,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -188,6 +206,7 @@
     },
     {
       "type": "Feature",
+      "name": "2км квартира в центре бишкека",
       "geometry": {
         "type": "Point",
         "coordinates": [
@@ -196,6 +215,5 @@
       },
       "id": "ak10559055"
     }
-
   ]
 }

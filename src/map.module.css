@@ -1,0 +1,13 @@
+.wrapper{
+    display: grid;
+    grid-template-columns: 8fr 2fr;
+}
+
+.slider{
+    width: 150px;
+    height: 150px;
+}
+.slider>img{
+    width: 100%;
+    height: 100%;
+}

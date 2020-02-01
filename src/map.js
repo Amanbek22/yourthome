@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {YMaps, Map, Clusterer, Placemark, ObjectManager, ZoomControl} from 'react-yandex-maps';
+import css from './map.module.css'
+import {YMaps, Map, Clusterer, Placemark} from 'react-yandex-maps';
 import axios from 'axios'
 import point from './point.json';
 
@@ -10,16 +11,12 @@ const mapState = {
 };
 
 
-const getPointData = index => {
-    return {
-        balloonContentBody: 'placemark <strong>balloon ' + index + '</strong>',
-        clusterCaption: 'placemark <strong>' + index + '</strong>',
-    };
-};
+
 
 const getPointOptions = () => {
     return {
         preset: 'islands#violetIcon',
+
     };
 };
 
@@ -30,48 +27,85 @@ const ClustererCreate = () => {
 
     const [points,setPoints] = useState(point)
     console.log(points)
-    return (
-        <YMaps query={{load: 'control.ZoomControl'}}>
-            <Map
-                onClick={(e) => {
-                    let items = {
-                        type: "Feature",
-                        geometry: {
-                            type: "Point",
-                            coordinates: e.get("coords")
-                        }
-                    }
-                    let arr = {...points};
-                    arr.features.push(items);
-                    setPoints(arr)
-                }}
-                width={70 + '%'}
-                height={70 + 'vh'}
-                state={mapState}
-            >
 
-                <Clusterer
-                    options={{
-                        preset: 'islands#invertedVioletClusterIcons',
-                        groupByCoordinates: false,
-                        clusterDisableClickZoom: false,
-                        clusterHideIconOnBalloonOpen: true,
-                        geoObjectHideIconOnBalloonOpen: false,
+    const getPointData = index => {
+        return {
+            balloonContentBody: '<div style="width: 150px;height: 150px" } ><img width="100%" height="100%" src="https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"/> </div>',
+            clusterCaption: 'placemark <strong>' + index + '</strong>',
+            hintContent: 'Собственный значок метки',
+        };
+    };
+
+
+
+    return (
+        <div className={css.wrapper}>
+            <YMaps query={{load: 'control.ZoomControl'}}>
+                <Map
+                    onClick={(e) => {
+                        let items = {
+                            type: "Feature",
+                            geometry: {
+                                type: "Point",
+                                coordinates: e.get("coords")
+                            }
+                        }
+                        let arr = {...points};
+                        arr.features.push(items);
+                        setPoints(arr)
                     }}
+                    width={100 + '%'}
+                    height={85 + 'vh'}
+                    state={mapState}
                 >
-                    {points.features.map((coordinates) =>
-                        <Placemark
-                            //onClick={() =>console.log(coordinates.geometry.coordinates)}
-                            key={Math.random()}
-                            geometry={coordinates.geometry}
-                            modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
-                            properties={getPointData(coordinates.id)}
-                            options={getPointOptions()}
-                        />
-                    )}
-                </Clusterer>
-            </Map>
-        </YMaps>)
+
+                    <Clusterer
+                        options={{
+                            preset: 'islands#invertedVioletClusterIcons',
+                            groupByCoordinates: false,
+                            clusterDisableClickZoom: false,
+                            clusterHideIconOnBalloonOpen: true,
+                            geoObjectHideIconOnBalloonOpen: false,
+                        }}
+                        properties={{
+                            iconContent: 'Я тащусь',
+                            hintContent: 'Ну давай уже тащи',
+                        }}
+                    >
+                        {points.features.map((coordinates) =>
+                            <Placemark
+                                onClick={() =>alert(coordinates.name)}
+                                key={Math.random()}
+                                geometry={coordinates.geometry}
+                                modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
+                                properties={getPointData(coordinates.id) }
+                                options={getPointOptions()}
+                                // options={{
+                                //     iconLayout: 'default#image',
+                                //     iconImageHref: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
+                                //     iconImageSize: [30, 42],
+                                //     iconImageOffset: [-3, -42]
+                                // }}
+                            >
+                            </Placemark>
+                        )}
+                    </Clusterer>
+                </Map>
+            </YMaps>
+            <div>
+                {
+                    points.features.map(item => {
+                        return(
+                            <div>
+                                {item.name}
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        </div>
+
+    )
 };
 
 export default ClustererCreate;
