@@ -3,9 +3,9 @@ import css from './cards.module.css'
 import Card from "../card/card";
 
 const Cards = props =>{
-    let arr= [1,2,3,4,5]
+    let arr= [1,2,3,4555,5]
     let apartments = arr.map((item)=>{
-        return(<Card/>)
+        return(<Card price={item}/>)
     })
 
 
@@ -24,7 +24,6 @@ const Cards = props =>{
                 <h3 className={css.whereBuy}>Приобрести квартиру в новостройках</h3>
                 <div className={css.cardWrapper}>
                     {apartments}
-
                 </div>
             </div>
         </div>

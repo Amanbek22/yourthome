@@ -4,17 +4,14 @@
     display: block;
     position: relative;
     color: white;
+    padding: 25px 0;
 }
 .filterWrapperSecond{
-    display: inline-block;
+    display: block;
     background: rgba(0, 0, 0, 0.8);
     border-radius: 3px;
     padding: 22px 20px;
-    /*position: absolute;*/
-    left: 50%;
-    top: 50%;
-    transform: translate(45%, 0%);
-    margin: 60px 0;
+    margin: 5px 20%;
 }
 .links{
     text-align: left;
@@ -41,7 +38,7 @@
 .moreWrapper{
     margin-top: 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 3fr;
     align-items: center;
 }
 .moreSettings{

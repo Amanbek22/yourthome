@@ -30,7 +30,7 @@
     align-items: center;
     height: 35px;
 }
-.imgWrapper{
+.imgWrapper>a{
     width: 197px;
     display: grid;
     grid-template-columns: 1fr 10fr;
@@ -56,7 +56,13 @@
     border: 1px solid #05BA02;
     border-radius: 5px;
     padding: 10px 20px;
+    transition: all 0.8s;
 }
 .addButton:focus{
     outline:none;
+}
+.addButton:hover{
+    background: #05BA02;
+    color: white;
+    transition: all 0.35s;
 }
