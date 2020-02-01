@@ -46,22 +46,37 @@
     font-weight: normal;
 }
 .findButton{
+    display: grid;
+    grid-template-columns: 4fr 2fr;
     text-align: right;
+
 }
-.findButton>span>a{
+.show>a{
     background: rgba(0, 0, 0, 0.53);
     border: 1px solid #CDCDCD;
     box-sizing: border-box;
     border-radius: 2px;
     color: #ffffff;
     padding: 8px 15px;
-    margin-right: 10px;
 }
-.findButton>a{
+.search>a{
     color: #ffffff;
     background: #2B7608;
     border: 1px solid #57C425;
     box-sizing: border-box;
     border-radius: 2px;
     padding: 8px 15px;
+}
+@media screen and (max-width: 1000px) {
+
+}
+@media screen and (max-width: 800px) {
+    .findButton{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .moreWrapper{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
 }

@@ -12,6 +12,25 @@
     color: #727272;
 }
 .cardWrapper{
+    text-align: center;
     display: grid;
     grid-template-columns: repeat(5,1fr);
+}
+@media screen and (max-width: 1000px) {
+    .cardWrapper{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+    }
+}
+@media screen and (max-width: 768px) {
+    .cardWrapper{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+@media screen and (max-width: 530px) {
+    .cardWrapper{
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+    }
 }

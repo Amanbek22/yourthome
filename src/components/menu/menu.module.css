@@ -66,3 +66,26 @@
     color: white;
     transition: all 0.35s;
 }
+
+@media screen and (max-width: 1000px) {
+    .navWrapper{
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+        align-items: center;
+    }
+}
+@media screen and (max-width: 800px) {
+    .imgWrapper{
+        margin: auto;
+    }
+    .navWrapper{
+        display: grid;
+        text-align: center;
+        height: 100%;
+        grid-template-columns: 1fr;
+        align-items: center;
+    }
+    .addButtonWrapper{
+        text-align: center;
+    }
+}

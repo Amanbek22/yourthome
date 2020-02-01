@@ -2,7 +2,7 @@ import React from 'react';
 import css from './filter.module.css'
 import {Link} from "react-router-dom";
 
-const Filter = props =>{
+const Filter = props => {
     return (
         <div className={css.filterWrapper}>
             <div className={css.filterWrapperSecond}>
@@ -23,10 +23,12 @@ const Filter = props =>{
                         <p>Дополнительные параметры</p>
                     </div>
                     <div className={css.findButton}>
-                        <span>
-                            <Link to={"/map"} >Показать на карте</Link>
-                        </span>
-                        <Link to="/map">Начать поиск</Link>
+                        <div className={css.show}>
+                            <Link to={"/map"}>Показать на карте</Link>
+                        </div>
+                        <div className={css.search}>
+                            <Link to="/map">Начать поиск</Link>
+                        </div>
                     </div>
                 </div>
             </div>
