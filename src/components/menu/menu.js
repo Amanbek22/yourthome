@@ -9,7 +9,7 @@ const Menu = props => {
             <div>
                 <div className={css.signWrapper}>
                     <div>
-                        <Link to="/sign">Вход / Регистрация</Link>
+                        <Link to="/sign_in">Вход</Link> / <Link to={"/sign_up"}>Регистрация</Link>
                     </div>
                     <div>
                         <Link to="/sign">English / Russion</Link>

@@ -1,0 +1,18 @@
+.wrapper{
+    background: url("../../img/footerbg.png") center center no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+    padding: 2% 12%;
+    margin-top: 5px;
+}
+.firstWrapper{
+    text-align: left;
+    display: grid;
+    grid-template-columns: 2fr 3fr 3fr 3fr;
+    grid-gap: 1em;
+    color: white;
+}
+.options{
+    font-size: 14px;
+    text-align: left;
+}

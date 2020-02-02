@@ -1,0 +1,43 @@
+.mainWrapper{
+
+}
+.wrapper{
+    padding: 25px;
+    margin: 5px 35%;
+}
+.form{
+    text-align: left;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1em;
+}
+
+.form>input{
+    width: 100%;
+    padding: 10px 0 10px 10px;
+    border: 1px solid #B1B1B1;
+    border-radius: 4px;
+}
+.form>input:focus{
+    outline: none;
+}
+.remember{
+    font-size: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+.remember>a {
+    text-align: right;
+}
+.enter>a{
+    font-size: 12px;
+}
+.enter>button{
+    float: right;
+    padding: 10px;
+    background: #57C325;
+    border: none;
+    border-radius: 4px;
+    color: white;
+}
