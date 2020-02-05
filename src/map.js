@@ -40,9 +40,12 @@ const ClustererCreate = () => {
 
     return (
         <div className={css.wrapper}>
-            <YMaps query={{load: 'control.ZoomControl'}}>
+            <YMaps
+                query={{load: 'control.ZoomControl'}}>
                 <Map
+
                     onClick={(e) => {
+                        let coords = e.get("coords")
                         let items = {
                             type: "Feature",
                             geometry: {
@@ -53,7 +56,9 @@ const ClustererCreate = () => {
                         let arr = {...points};
                         arr.features.push(items);
                         setPoints(arr)
+
                     }}
+
                     width={100 + '%'}
                     height={82 + 'vh'}
                     state={mapState}

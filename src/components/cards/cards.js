@@ -18,12 +18,18 @@ const Cards = props =>{
                     <div className={css.cardWrapper}>
                         {apartments}
                     </div>
+                    <div className={css.moreWrapper}>
+                        <button className={css.more}>Просмотреть все</button>
+                    </div>
                 </div>
             </div>
             <div>
                 <h3 className={css.whereBuy}>Приобрести квартиру в новостройках</h3>
                 <div className={css.cardWrapper}>
                     {apartments}
+                </div>
+                <div className={css.moreWrapper}>
+                    <button className={css.more}>Просмотреть все</button>
                 </div>
             </div>
         </div>

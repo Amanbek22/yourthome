@@ -12,7 +12,12 @@ const Filter = props => {
                     <Link to="/">Новостройка</Link>
                 </div>
                 <div className={css.inputsWrapper}>
-                    <input type="text"/>
+                    <select name="find_by_city" >
+                        <option value="Bishkek">Bishkek</option>
+                        <option value="Bishkek">Bishkek</option>
+                        <option value="Bishkek">Bishkek</option>
+
+                    </select>
                     <input type="text"/>
                     <input type="text"/>
                     <input type="text"/>

@@ -1,52 +1,115 @@
 import React, {useState} from 'react';
-import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
+import {GoogleMap, InfoWindow, Marker, Polygon, Rectangle, withGoogleMap, withScriptjs} from "react-google-maps";
 import someData from './point.json'
 import css from './map.module.css'
-const { MarkerClusterer } = require("react-google-maps/lib/components/addons/MarkerClusterer");
+import appartment from './img/room.png'
+import Element from "./components/element/element";
+import roomsImg from './img/room.png'
+
+const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
-        const [points, setPoints] = useState(someData);
-        const pushLocation = e =>{
-            let latlng = [e.latLng.lat(), e.latLng.lng()]
-            let items = {
-                type: "Feature",
-                geometry: {
-                    type: "Point",
-                    coordinates: latlng
-                }
-            }
-            let arr = {...points};
-            arr.features.push(items);
-            setPoints(arr)
-        }
+        const [selectedPark, setSelectedPark] = useState(null)
+        const [sortedArea, setSortedArea] = useState()
         return (
-            <div >
-            <GoogleMap
-                onClick={pushLocation}
-                defaultZoom={7}
-                defaultCenter={{lat: 42, lng: 74}}
-            >
-                <MarkerClusterer
-                    onClick={props.onMarkerClustererClick}
-                    averageCenter
-                    enableRetinaIcons
-                    gridSize={60}
+            <div>
+                <GoogleMap
+                    ctrlBtn={true}
+                    onClick={(e) => console.log(e)}
+                    //onClick={(e)=>console.log(e)}
+
+                    // onClick={props.pushLocation}
+                    defaultZoom={7}
+                    defaultCenter={{lat: 42, lng: 74}}
                 >
-                {points.features.map((item) => (
-                    <Marker
-                        onClick={(e)=>console.log(e)}
-                        position={{
-                            lat: item.geometry.coordinates[0],
-                            lng: item.geometry.coordinates[1]
+
+                    <MarkerClusterer
+                        onClick={props.onMarkerClustererClick}
+                        averageCenter
+                        enableRetinaIcons
+                        gridSize={60}
+                    >
+                        {props.points.features.map((item) => (
+                            <Marker
+                                onClick={() => setSelectedPark(item)}
+                                position={{
+                                    lat: item.geometry.coordinates[0],
+                                    lng: item.geometry.coordinates[1]
+                                }}
+                            />
+                        ))}
+                    </MarkerClusterer>
+                    {selectedPark && (
+                        <InfoWindow position={{
+                            lat: selectedPark.geometry.coordinates[0],
+                            lng: selectedPark.geometry.coordinates[1]
                         }}
-                    />
-                ))}
-                </MarkerClusterer>
-            </GoogleMap>
+                                    onCloseClick={() => setSelectedPark(null)}
+                        >
+                            <div>
+                                <img src={appartment} alt="dsvs"/>
+                                <div>fbfdbd;idfovslas</div>
+                            </div>
+                        </InfoWindow>
+                    )}
+                </GoogleMap>
             </div>
         )
     }
 ))
 
+const WrapperMap = props => {
+    const [points, setPoints] = useState(someData);
+    const pushLocation = e => {
+        let add = prompt("input your addres?", "");
+        let latlng = [e.latLng.lat(), e.latLng.lng()]
+        let items = {
+            name: add,
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: latlng
+            }
+        }
+        let arr = {...points};
+        arr.features.push(items);
+        setPoints(arr)
+    }
+    let items = points.features.map(item => {
+        return (
+            <div>
+                <Element
+                    img={roomsImg}
+                    forSale={"Квартира  на продажу"}
+                    address={"г. Ташкент, Алмазарский район, Чиланзар-1/4"}
+                    area={75}
+                    room={3}
+                    floor={"5/9"}
+                    addetDate={"Вчера"}
+                />
+            </div>
+        )
+    })
+    return (
+        <div className={css.wrapper}>
+            <div className={css.map}>
+            <MyMapComponent
+                googleMapURL="
+                        https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM
+                        "
+                loadingElement={<div style={{height: `80%`}}/>}
+                containerElement={<div style={{height: `550px`}}/>}
+                mapElement={<div style={{height: `100%`, width: `100%`}}/>}
+                points={points}
+                pushLocation={pushLocation}
+            />
+            </div>
+            <div className={css.elemetsWrapper}>
+                {items}
+            </div>
+        </div>
+    )
+}
 
-export default MyMapComponent;
+
+export default WrapperMap;

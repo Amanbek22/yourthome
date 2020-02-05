@@ -16,6 +16,20 @@
     display: grid;
     grid-template-columns: repeat(5,1fr);
 }
+.moreWrapper{
+    text-align: right;
+    margin-right: 3%;
+}
+.more{
+    background: #ffffff;
+    border: 1px solid #05BA02;
+    padding: 12px 35px;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+.more:focus{
+    outline: none;
+}
 @media screen and (max-width: 1000px) {
     .cardWrapper{
         display: grid;
