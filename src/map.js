@@ -56,7 +56,9 @@ const ClustererCreate = () => {
                         let arr = {...points};
                         arr.features.push(items);
                         setPoints(arr)
-
+                        axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=31c920f3-85fb-4a6d-b196-63d2573a2938
+                    &format=json&geocode=${coords[0]},${coords[1]}&lang=en-US`)
+                            .then(res=>console.log(res))
                     }}
 
                     width={100 + '%'}

@@ -11,12 +11,11 @@ import SignUp from "./components/signUp/signup";
 import WrapperMap from "./googleMap";
 import someData from './point.json'
 
-
 function App() {
   return (
       <div className="wrapper">
         <Router>
-            <div>
+            <div className={"menuWrapper"}>
                 <Menu />
             </div>
             <div className={"content"}>
