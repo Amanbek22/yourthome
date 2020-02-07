@@ -1,12 +1,22 @@
 .wrapper{
+    position: relative;
+    border: 1px solid  #B1B1B1;
+    margin: 0  0 10px 0;
+}
+
+.wrapper>a{
     display: grid;
     grid-template-columns: 1fr 2fr;
-    margin: 0  0 10px 0;
+
     grid-gap: 1em;
-    border: 1px solid  #B1B1B1;
+
+
+}
+.optionsWrapper{
+    overflow: hidden;
 }
 .optionWrapper>div{
-    margin: 15px 0;
+    margin: 5px 0;
 }
 .imgWrapper>img{
     width: 100%;
@@ -16,6 +26,9 @@
 .forSale{
     font-size: 17px;
     font-weight: 600;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .address{
     font-size: 12px;
@@ -28,4 +41,39 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 1em;
+}
+.btnWrapper{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+}
+.moreBtnWrapper>button{
+    background: #4BA620;
+    border: none;
+    padding: 8px 15px;
+    color: #ffffff;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+}
+.saved{
+    background: #D9D9D9;
+    position: relative;
+    width: 30%;
+    margin-left: 70%;
+
+}
+
+.saved>img{
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }

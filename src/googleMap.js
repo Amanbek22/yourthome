@@ -78,7 +78,7 @@ const WrapperMap = props => {
             }
         }
         let arr = {...points};
-        arr.features.push(items);
+        arr.features.unshift(items);
         setPoints(arr)
     }
     let items = points.features.map(item => {
@@ -92,6 +92,7 @@ const WrapperMap = props => {
                     room={3}
                     floor={"5/9"}
                     addetDate={"Вчера"}
+                    saved={true}
                 />
             </div>
         )

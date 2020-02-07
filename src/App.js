@@ -24,21 +24,28 @@ function App() {
                     <Filter/>
                     <Cards/>
                     <Abaut/>
+                    <div className={"footer"}>
+                        <Footer/>
+                    </div>
                 </Route>
                 <Route exact path="/map">
                     <WrapperMap/>
                 </Route>
                 <Route exact path={"/sign_in"}>
                     <SignIn/>
+                    <div className={"footer"}>
+                        <Footer/>
+                    </div>
                 </Route>
                 <Route exact path={"/sign_up"}>
                     <SignUp/>
+                    <div className={"footer"}>
+                        <Footer/>
+                    </div>
                 </Route>
             </Switch>
             </div>
-            <div className={"footer"}>
-                <Footer/>
-            </div>
+
         </Router>
       </div>
   );
