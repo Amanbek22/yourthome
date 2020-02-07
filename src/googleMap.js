@@ -49,7 +49,11 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                         >
                             <div>
                                 <img src={appartment} alt="dsvs"/>
-                                <div>fbfdbd;idfovslas</div>
+                                <div>
+                                    <button>
+                                        Подробнее
+                                    </button>
+                                </div>
                             </div>
                         </InfoWindow>
                     )}
@@ -92,7 +96,8 @@ const WrapperMap = props => {
                     room={3}
                     floor={"5/9"}
                     addetDate={"Вчера"}
-                    saved={true}
+                    saved={false}
+                    url={""}
                 />
             </div>
         )

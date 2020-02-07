@@ -17,7 +17,7 @@ const Element = props => {
 
     return (
         <div className={css.wrapper}>
-            <Link to={"/"}>
+            <Link to={"/" + props.url}>
                 <div className={css.imgWrapper}>
                     <img src={props.img} alt="Room img"/>
                 </div>

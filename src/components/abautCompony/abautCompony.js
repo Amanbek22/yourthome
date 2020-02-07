@@ -1,5 +1,5 @@
 import React from 'react';
-import css from './abautCompony.module.css'
+import css from './abautCompony.module.css';
 import abautImg from '../../img/abautus.png';
 
 const Abaut = props => {

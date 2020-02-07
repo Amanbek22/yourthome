@@ -25,7 +25,7 @@ function App() {
                     <Cards/>
                     <Abaut/>
                     <div className={"footer"}>
-                        <Footer/>
+                        <Footer />
                     </div>
                 </Route>
                 <Route exact path="/map">
