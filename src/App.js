@@ -8,8 +8,8 @@ import Abaut from "./components/abautCompony/abautCompony";
 import Footer from "./components/footer/footer";
 import SignIn from "./components/signin/signin";
 import SignUp from "./components/signUp/signup";
-import WrapperMap from "./googleMap";
-import someData from './point.json'
+import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
+// import someData from './point.json'
 
 function App() {
   return (
@@ -29,7 +29,7 @@ function App() {
                     </div>
                 </Route>
                 <Route exact path="/map">
-                    <WrapperMap/>
+                    <WrapperMapContainer/>
                 </Route>
                 <Route exact path={"/sign_in"}>
                     <SignIn/>

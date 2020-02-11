@@ -12,7 +12,7 @@ const Menu = props => {
                         <Link to="/sign_in">Вход</Link> / <Link to={"/sign_up"}>Регистрация</Link>
                     </div>
                     <div>
-                        <Link to="/sign">English / Russion</Link>
+                        <Link to="/">English / Russion</Link>
                     </div>
                 </div>
                 <div className={css.line}/>

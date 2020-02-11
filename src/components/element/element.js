@@ -13,7 +13,7 @@ const Element = props => {
         } else {
             setBgColor("#D9D9D9")
         }
-    })
+    },[stateSaved])
 
     return (
         <div className={css.wrapper}>
