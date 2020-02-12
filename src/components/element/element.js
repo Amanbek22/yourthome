@@ -35,21 +35,7 @@ const Element = props => {
                 </div>
             </Link>
             <div className={css.btnWrapper}>
-                <div
-                    onClick={()=>{
-                        if(bgColor === "#D9D9D9") {
-                            setStateSaved(true)
-                        }else{
-                            setStateSaved(false)
-                        }
-                    }}
-                    className={css.saved}
-                    style={{background: bgColor}}
-                >
-                    <img src={elips}/>
-                    <img src={star}/>
-                </div>
-                <Link to={"/"} className={css.moreBtnWrapper}>
+                <Link to={"/more-info"} className={css.moreBtnWrapper}>
                     <button>Подробнее</button>
                 </Link>
             </div>

@@ -3,10 +3,13 @@
     grid-template-columns: 7fr 3fr;
     grid-gap: 1em;
     position: relative;
+    margin: 0 1%;
 }
 .map{
-
-
+    height: 88vh;
+    position: sticky;
+    top: 15vh;
+    left: 0;
 }
 .elemetsWrapper{
     text-align: start;
@@ -19,4 +22,12 @@
 .slider>img{
     width: 100%;
     height: 100%;
+}
+.filterWrapper{
+    background: #ffffff;
+    padding: 2px;
+    position: sticky;
+    left: 0;
+    top: 9.3vh;
+    z-index: 99999;
 }

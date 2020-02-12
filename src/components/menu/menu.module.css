@@ -6,7 +6,8 @@
     position: sticky;
     top: 0;
     left: 0;
-    z-index: 9999999999999999999999;
+    z-index: 999999;
+    background: rgba(255, 0, 0, 0);
 }
 .signWrapper{
     margin: 0 7%;
@@ -32,6 +33,7 @@
     grid-template-columns: 1fr 2fr 1fr;
     align-items: center;
     height: 35px;
+
 }
 .imgWrapper>a{
     width: 197px;

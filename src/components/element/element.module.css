@@ -46,9 +46,6 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 1em;
 }
 .moreBtnWrapper>button{
     background: #4BA620;

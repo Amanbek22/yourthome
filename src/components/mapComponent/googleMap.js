@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import { GoogleMap, InfoWindow, Marker, Rectangle, withGoogleMap, withScriptjs} from "react-google-maps";
+import {GoogleMap, InfoWindow, Marker, Rectangle, withGoogleMap, withScriptjs} from "react-google-maps";
 import someData from '../../point.json'
 import css from './map.module.css'
 import appartment from '../../img/room.png'
 import Element from "../element/element";
 import roomsImg from '../../img/room.png'
 import axios from "axios";
-
+import FilterForMap from "../filterForMap/filterForMap";
+import {Link} from "react-router-dom";
 
 
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
-window.googlemap = <GoogleMap />;
+window.googlemap = <GoogleMap/>;
 
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
@@ -25,9 +26,8 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                 <GoogleMap
                     //onClick={(e) => console.log(e)}
                     //onTilesLoaded={
-                        // onMarkerMounted
+                    // onMarkerMounted
                     //}
-
                     onClick={props.pushLocation}
                     defaultZoom={7}
                     defaultCenter={{lat: 41.204380, lng: 74.766098}}
@@ -63,9 +63,9 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                             <div>
                                 <img src={appartment} alt="dsvs"/>
                                 <div>
-                                    <button>
+                                    <Link to={"/more-info"}>
                                         Подробнее
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </InfoWindow>
@@ -74,9 +74,6 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                 </GoogleMap>
             </div>
         )
-
-
-        // const [selectedPark, setSelectedPark] = useState(null)
     }
 ))
 
@@ -91,9 +88,10 @@ const WrapperMap = props => {
     const pushLocation = e => {
         let add = prompt("input your addres?", "");
         let latlng = [e.latLng.lat(), e.latLng.lng()];
-        let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyAqTZGbCYLktmdDrHasRhnNKRS5t-6X3n4`
-        axios.get(url)
-            .then(res => console.log(res));
+        let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyDMDrqHrfbKWIzQDmnxHl2WcJGAnAgUX0A`
+        let newurl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng[0]}&lon=${latlng[1]}&accept-language=ru`
+        axios.get(newurl)
+            .then(res => alert(res.data.display_name));
         let items = {
             name: add,
             type: "Feature",
@@ -122,25 +120,30 @@ const WrapperMap = props => {
         )
     })
     return (
-        <div className={css.wrapper}>
-            <div className={css.map}>
-                <MyMapComponent
-                    setSortedArea={sorted}
-                    googleMapURL="
+        <div>
+            <div className={css.filterWrapper}>
+                <FilterForMap/>
+            </div>
+            <div className={css.wrapper}>
+                <div className={css.map}>
+                    <MyMapComponent
+                        setSortedArea={sorted}
+                        googleMapURL="
                         https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyA1uIgJLlFocMlwcu8b3wKPKkdT2mWV3AU
                         "
-                    loadingElement={<div
-                        style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
-                    containerElement={<div
-                        style={{height: `85vh`, position: `sticky`, zIndex: `99999990`, top: `15vh`, left: `0`}}/>}
-                    mapElement={<div
-                        style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
-                    points={props.points}
-                    pushLocation={pushLocation}
-                />
-            </div>
-            <div className={css.elemetsWrapper}>
-                {items}
+                        loadingElement={<div
+                            style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
+                        containerElement={<div
+                            style={{height: `85vh`, position: `sticky`, zIndex: `99999990`, top: `15vh`, left: `0`}}/>}
+                        mapElement={<div
+                            style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
+                        points={props.points}
+                        pushLocation={pushLocation}
+                    />
+                </div>
+                <div className={css.elemetsWrapper}>
+                    {items}
+                </div>
             </div>
         </div>
     )

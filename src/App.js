@@ -9,6 +9,9 @@ import Footer from "./components/footer/footer";
 import SignIn from "./components/signin/signin";
 import SignUp from "./components/signUp/signup";
 import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
+import ExampleMap from "./exampleMap";
+import MainPage from "./components/mainPage/mainPage";
+import DeteilsPage from "./components/deteilesPage/deteisPage";
 // import someData from './point.json'
 
 function App() {
@@ -20,14 +23,17 @@ function App() {
             </div>
             <div className={"content"}>
             <Switch>
-                <Route exact path={"/"} >
-                    <Filter/>
-                    <Cards/>
-                    <Abaut/>
-                    <div className={"footer"}>
-                        <Footer />
-                    </div>
+                <Route exact path={"/"}>
+                    <MainPage />
                 </Route>
+                {/*<Route exact path={"/"} >*/}
+                    {/*<Filter/>*/}
+                    {/*<Cards/>*/}
+                    {/*<Abaut/>*/}
+                    {/*<div className={"footer"}>*/}
+                        {/*<Footer />*/}
+                    {/*</div>*/}
+                {/*</Route>*/}
                 <Route exact path="/map">
                     <WrapperMapContainer/>
                 </Route>
@@ -42,6 +48,11 @@ function App() {
                     <div className={"footer"}>
                         <Footer/>
                     </div>
+                </Route>
+                <Route exact path={"/more-info"}>
+                    <DeteilsPage
+
+                    />
                 </Route>
             </Switch>
             </div>

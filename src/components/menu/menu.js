@@ -7,15 +7,7 @@ const Menu = props => {
     return (
         <div className={css.menuWrapper}>
             <div>
-                <div className={css.signWrapper}>
-                    <div>
-                        <Link to="/sign_in">Вход</Link> / <Link to={"/sign_up"}>Регистрация</Link>
-                    </div>
-                    <div>
-                        <Link to="/">English / Russion</Link>
-                    </div>
-                </div>
-                <div className={css.line}/>
+
                 <div className={css.navWrapper}>
                     <div className={css.imgWrapper}>
                         <Link to={"/"}>
@@ -32,13 +24,14 @@ const Menu = props => {
                         </Link>
                     </div>
                     <div className={css.links}>
-                        <Link to="/">Продажа</Link>
-                        <Link to="/">Аренда</Link>
-                        <Link to="/">Новостройка</Link>
+                        {/*<Link to="/">Продажа</Link>*/}
+                        {/*<Link to="/">Аренда</Link>*/}
+                        {/*<Link to="/">Новостройка</Link>*/}
                     </div>
                     <div className={css.addButtonWrapper}>
                         <button className={css.addButton}>
-                            + Добавить объявление
+                            {/*+ Добавить объявление*/}
+                            Sign in
                         </button>
                     </div>
                 </div>
