@@ -5,6 +5,7 @@ import {googleMapReducer} from "./googleMap_reducer";
 
 let reducers = combineReducers({
     points: googleMapReducer,
+    selectedPark: googleMapReducer
 })
 
 let store  = createStore(reducers)

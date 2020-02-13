@@ -1,19 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import css from './element.module.css'
 import {Link} from "react-router-dom";
-import elips from '../../img/ellipse.png'
-import star from '../../img/Star.png'
+
 
 const Element = props => {
-    const [bgColor, setBgColor] = useState("#D9D9D9");
-    const [stateSaved, setStateSaved] = useState(props.saved)
-    useEffect(()=> {
-        if (stateSaved === true) {
-            setBgColor("#4BA620")
-        } else {
-            setBgColor("#D9D9D9")
-        }
-    },[stateSaved])
+
 
     return (
         <div className={css.wrapper}>

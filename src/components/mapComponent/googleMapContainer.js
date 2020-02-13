@@ -5,8 +5,7 @@ import {setPoint, addPoints, setSelected} from '../../redux/googleMap_reducer'
 
 const mapStateToProps = state => {
     return {
-        points: state.points,
-        selectedPark: state.selectedPark
+        points: state.points
     }
 }
 

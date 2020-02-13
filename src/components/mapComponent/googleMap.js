@@ -1,47 +1,53 @@
 import React, {useEffect, useState} from 'react';
-import {GoogleMap, InfoWindow, Marker, Rectangle, withGoogleMap, withScriptjs} from "react-google-maps";
+import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import someData from '../../point.json'
 import css from './map.module.css'
 import appartment from '../../img/room.png'
-import Element from "../element/element";
-import roomsImg from '../../img/room.png'
 import axios from "axios";
 import FilterForMap from "../filterForMap/filterForMap";
 import {Link} from "react-router-dom";
-
+import Element from "../element/element";
+import roomsImg from '../../img/room.png'
 
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
-window.googlemap = <GoogleMap/>;
-
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
+        let map = React.createRef()
+        let arr = [];
+        let newarr = [];
         const onMarkerMounted = (element) => {
-            // props.setSortedArea(element )
+            arr.push(element)
         }
         const [selectedPark, setSelectedPark] = useState(null);
         return (
             <div className={css.mainWrapper}>
-
                 <GoogleMap
-                    //onClick={(e) => console.log(e)}
-                    //onTilesLoaded={
-                    // onMarkerMounted
-                    //}
+                    ref={map}
                     onClick={props.pushLocation}
                     defaultZoom={7}
                     defaultCenter={{lat: 41.204380, lng: 74.766098}}
+                    onBoundsChanged={() => {
+                        newarr = [];
+                        arr.map((item => {
+                            if (map.current.getBounds().contains(item.props.position)) {
+                                // console.log(item)
+                                newarr.push(item.props.id)
+                                // console.log(newarr)
+                            } else {
+                                console.log("Failed")
+                            }
+                        }))
+                        props.setVisibleMarkers(newarr)
+                    }}
 
                 >
                     <MarkerClusterer
-                        onClick={props.onMarkerClustererClick}
-                        averageCenter
-                        enableRetinaIcons
-                        gridSize={60}
+                        //onClick={props.onMarkerClustererClick}
                     >
-                        {props.points.points.map((item) => (
+                        {props.points.map((item) => (
                             <Marker
-                                // ref={onMarkerMounted}
+                                ref={onMarkerMounted}
                                 onClick={() => setSelectedPark(item)}
                                 position={{
                                     lat: item.geometry.coordinates[0],
@@ -49,7 +55,8 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                 }}
                                 title={item.name}
                                 name={item.name}
-                                key={item.name}
+                                key={item.id}
+                                id={item.id}
                             />
                         ))}
                     </MarkerClusterer>
@@ -81,14 +88,15 @@ const WrapperMap = props => {
     useEffect(() => {
         props.setPoint(someData.features)
     }, []);
-    let sorted = (elemet) => {
-        props.setSortedArea(elemet)
-    };
-
+    const [selected, setSelected] = useState([])
+    const selectedPark = item => {
+        setSelected(item)
+    }
+    // console.log("STATE CHPOK",selected)
     const pushLocation = e => {
         let add = prompt("input your addres?", "");
         let latlng = [e.latLng.lat(), e.latLng.lng()];
-        let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyDMDrqHrfbKWIzQDmnxHl2WcJGAnAgUX0A`
+        //let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyDMDrqHrfbKWIzQDmnxHl2WcJGAnAgUX0A`
         let newurl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng[0]}&lon=${latlng[1]}&accept-language=ru`
         axios.get(newurl)
             .then(res => alert(res.data.display_name));
@@ -102,7 +110,14 @@ const WrapperMap = props => {
         }
         props.addPoints([items])
     }
-    let items = props.points.points.map(item => {
+    let arr = [];
+        selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
+    console.log(arr);
+
+
+
+    let items = arr.map(item => {
+
         return (
             <div>
                 <Element
@@ -119,6 +134,24 @@ const WrapperMap = props => {
             </div>
         )
     })
+    // let items = props.points.points.map(item => {
+    //     return (
+    //         <div>
+    //             <Element
+    //                 img={roomsImg}
+    //                 forSale={item.name}
+    //                 address={"г. Ташкент, Алмазарский район, Чиланзар-1/4"}
+    //                 area={75}
+    //                 room={3}
+    //                 floor={"5/9"}
+    //                 addetDate={"Вчера"}
+    //                 saved={item.saved}
+    //                 url={""}
+    //             />
+    //         </div>
+    //     )
+    // })
+
     return (
         <div>
             <div className={css.filterWrapper}>
@@ -127,17 +160,23 @@ const WrapperMap = props => {
             <div className={css.wrapper}>
                 <div className={css.map}>
                     <MyMapComponent
-                        setSortedArea={sorted}
+                        setVisibleMarkers={selectedPark}
                         googleMapURL="
-                        https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyA1uIgJLlFocMlwcu8b3wKPKkdT2mWV3AU
+                        https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM
                         "
                         loadingElement={<div
                             style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
                         containerElement={<div
-                            style={{height: `85vh`, position: `sticky`, zIndex: `99999990`, top: `15vh`, left: `0`}}/>}
+                            style={{
+                                height: `85vh`,
+                                position: `sticky`,
+                                zIndex: `99999990`,
+                                top: `15vh`,
+                                left: `0`
+                            }}/>}
                         mapElement={<div
                             style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
-                        points={props.points}
+                        points={props.points.points}
                         pushLocation={pushLocation}
                     />
                 </div>

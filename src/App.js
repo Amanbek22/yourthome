@@ -2,16 +2,16 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Menu from "./components/menu/menu";
-import Filter from "./components/filterComponent/filter";
-import Cards from "./components/cards/cards";
-import Abaut from "./components/abautCompony/abautCompony";
+// import Filter from "./components/filterComponent/filter";
+// import Cards from "./components/cards/cards";
+// import Abaut from "./components/abautCompony/abautCompony";
 import Footer from "./components/footer/footer";
 import SignIn from "./components/signin/signin";
 import SignUp from "./components/signUp/signup";
 import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
-import ExampleMap from "./exampleMap";
+// import ExampleMap from "./exampleMap";
 import MainPage from "./components/mainPage/mainPage";
-import DeteilsPage from "./components/deteilesPage/deteisPage";
+import DeteilsPage from "./components/deteilesPage/deteilsPage";
 // import someData from './point.json'
 
 function App() {

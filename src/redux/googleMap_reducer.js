@@ -4,7 +4,6 @@ const selected = "SELECTED_ITEM"
 
 let initialState = {
     points: [],
-    selectedPark: null,
 }
 
 
@@ -21,7 +20,7 @@ export const googleMapReducer = (state = initialState,action) => {
             }
         case selected:
             return{
-                selectedPark: action.item
+                selectedPark: [...action.item]
             }
         default:
             return{
