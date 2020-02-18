@@ -90,7 +90,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 const WrapperMap = props => {
     useEffect(() => {
         props.setPoint(someData.features)
-        axios.get("http://yourthomeneobis2.herokuapp.com/announcements/")
+        axios.get("https://yourthomeneobis2.herokuapp.com/announcements/")
             .then(res=>{
                 console.log(res)
             })

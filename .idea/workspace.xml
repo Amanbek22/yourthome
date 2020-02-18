@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3f4483b7-2fa4-4e2a-92aa-c3b7f43caa14" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/deteilesPage/deteils.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/deteilesPage/deteilsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/deteilesPage/deteilsPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/mapComponent/googleMap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mapComponent/googleMap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/point.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/point.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -34,8 +31,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/mapComponent/googleMap.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="92" column="23" selection-start-line="92" selection-start-column="23" selection-end-line="92" selection-end-column="23" />
+            <state relative-caret-position="211">
+              <caret line="95" column="14" lean-forward="true" selection-start-line="95" selection-start-column="14" selection-end-line="95" selection-end-column="14" />
               <folding>
                 <element signature="e#0#49#0" expanded="true" />
               </folding>
@@ -278,23 +275,22 @@
       <workItem from="1581876895513" duration="1299000" />
       <workItem from="1581930073377" duration="5230000" />
       <workItem from="1582014470803" duration="541000" />
-      <workItem from="1582021458675" duration="5611000" />
+      <workItem from="1582021458675" duration="6405000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="245772000" />
+    <option name="totallyTimeSpent" value="246566000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="npm" order="0" sideWeight="0.5008183" side_tool="true" weight="0.24330357" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="2" sideWeight="0.49918166" visible="true" weight="0.18377976" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" x="21" y="431" width="1345" height="252" id="Terminal" order="1" type="FLOATING" weight="0.21674877" />
+      <window_info active="true" anchor="bottom" x="21" y="431" width="1345" height="252" id="Terminal" order="1" type="FLOATING" visible="true" weight="0.21674877" />
       <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" weight="0.32733223" />
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Message" order="4" />
@@ -667,8 +663,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/mapComponent/googleMap.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="92" column="23" selection-start-line="92" selection-start-column="23" selection-end-line="92" selection-end-column="23" />
+        <state relative-caret-position="211">
+          <caret line="95" column="14" lean-forward="true" selection-start-line="95" selection-start-column="14" selection-end-line="95" selection-end-column="14" />
           <folding>
             <element signature="e#0#49#0" expanded="true" />
           </folding>
