@@ -35,7 +35,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                 newarr.push(item.props.id)
                                 // console.log(newarr)
                             } else {
-                                console.log("Failed")
+
                             }
                         }))
                         props.setVisibleMarkers(newarr)
@@ -53,10 +53,13 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                     lat: item.geometry.coordinates[0],
                                     lng: item.geometry.coordinates[1]
                                 }}
+
                                 title={item.name}
-                                name={item.name}
+                                text={item.price}
                                 key={item.id}
                                 id={item.id}
+                                cursor={"pointer"}
+                                name={item.name}
                             />
                         ))}
                     </MarkerClusterer>
@@ -87,15 +90,19 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 const WrapperMap = props => {
     useEffect(() => {
         props.setPoint(someData.features)
+        axios.get("http://yourthomeneobis2.herokuapp.com/announcements/")
+            .then(res=>{
+                console.log(res)
+            })
     }, []);
     const [selected, setSelected] = useState([])
     const selectedPark = item => {
         setSelected(item)
     }
-    // console.log("STATE CHPOK",selected)
     const pushLocation = e => {
         let add = prompt("input your addres?", "");
         let latlng = [e.latLng.lat(), e.latLng.lng()];
+        console.log("" + latlng[0],+ "\n"+latlng[1]);
         //let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyDMDrqHrfbKWIzQDmnxHl2WcJGAnAgUX0A`
         let newurl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng[0]}&lon=${latlng[1]}&accept-language=ru`
         axios.get(newurl)
@@ -106,16 +113,13 @@ const WrapperMap = props => {
             geometry: {
                 type: "Point",
                 coordinates: latlng
-            }
+            },
+            id: Math.random()
         }
         props.addPoints([items])
     }
     let arr = [];
-        selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
-    console.log(arr);
-
-
-
+    selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
     let items = arr.map(item => {
 
         return (
@@ -151,7 +155,6 @@ const WrapperMap = props => {
     //         </div>
     //     )
     // })
-
     return (
         <div>
             <div className={css.filterWrapper}>

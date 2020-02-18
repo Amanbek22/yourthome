@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3f4483b7-2fa4-4e2a-92aa-c3b7f43caa14" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/deteilesPage/deteils.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/deteilesPage/deteisPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/deteilesPage/deteilsPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/element/element.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/element/element.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/deteilesPage/deteilsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/deteilesPage/deteilsPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/mapComponent/googleMap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mapComponent/googleMap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/mapComponent/googleMapContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/mapComponent/googleMapContainer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/point.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/point.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/googleMap_reducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/googleMap_reducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/redux/redux_store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/redux/redux_store.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -24,29 +20,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/mapComponent/googleMapContainer.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/App.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="4" column="44" lean-forward="true" selection-start-line="4" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-                <element signature="e#337#385#0" expanded="true" />
-                <element signature="e#597#651#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/mainPage/mainPage.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="220">
@@ -58,20 +31,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/mainPage/mainPage.module.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="523">
-              <caret line="32" column="29" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/mapComponent/googleMap.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="164" column="149" selection-start-line="164" selection-start-column="149" selection-end-line="164" selection-end-column="149" />
+            <state relative-caret-position="151">
+              <caret line="92" column="23" selection-start-line="92" selection-start-column="23" selection-end-line="92" selection-end-column="23" />
               <folding>
                 <element signature="e#0#49#0" expanded="true" />
               </folding>
@@ -82,8 +46,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/redux/googleMap_reducer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+            <state relative-caret-position="620">
+              <caret line="31" selection-start-line="31" selection-end-line="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/deteilesPage/deteilsPage.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
+              <folding>
+                <element signature="e#0#26#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -103,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/point.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="103" column="5" lean-forward="true" selection-start-line="103" selection-start-column="5" selection-end-line="103" selection-end-column="5" />
+            <state relative-caret-position="440">
+              <caret line="26" column="19" lean-forward="true" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -124,8 +100,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/mapComponent/map.module.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+            <state relative-caret-position="640">
+              <caret line="32" column="1" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -135,14 +111,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>type</find>
       <find>Feature</find>
       <find>&quot;Feature&quot;</find>
       <find>control</find>
@@ -151,6 +126,9 @@
       <find>ak100559055</find>
       <find>key</find>
       <find>props.id</find>
+      <find>type</find>
+      <find>coordinates</find>
+      <find>1500</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -190,18 +168,20 @@
         <option value="$PROJECT_DIR$/src/App.css" />
         <option value="$PROJECT_DIR$/src/components/mainPage/mainPage.js" />
         <option value="$PROJECT_DIR$/src/components/mainPage/mainPage.module.css" />
-        <option value="$PROJECT_DIR$/src/components/mapComponent/map.module.css" />
         <option value="$PROJECT_DIR$/src/components/menu/menu.js" />
         <option value="$PROJECT_DIR$/src/components/filterForMap/filterForMap.js" />
         <option value="$PROJECT_DIR$/src/components/filterForMap/filter.module.css" />
         <option value="$PROJECT_DIR$/src/components/deteiledPage/deteisPage.js" />
         <option value="$PROJECT_DIR$/src/components/deteilesPage/deteisPage.js" />
-        <option value="$PROJECT_DIR$/src/point.json" />
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/redux/redux_store.js" />
         <option value="$PROJECT_DIR$/src/redux/googleMap_reducer.js" />
         <option value="$PROJECT_DIR$/src/components/mapComponent/googleMapContainer.js" />
         <option value="$PROJECT_DIR$/src/components/element/element.js" />
+        <option value="$PROJECT_DIR$/src/components/deteilesPage/deteilsPage.js" />
+        <option value="$PROJECT_DIR$/src/components/deteilesPage/deteils.module.css" />
+        <option value="$PROJECT_DIR$/src/components/mapComponent/map.module.css" />
+        <option value="$PROJECT_DIR$/src/point.json" />
         <option value="$PROJECT_DIR$/src/components/mapComponent/googleMap.js" />
       </list>
     </option>
@@ -228,24 +208,7 @@
             <path>
               <item name="yourthome" type="b2602c69:ProjectViewProjectNode" />
               <item name="yourthome" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yourthome" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yourthome" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yourthome" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yourthome" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yourthome" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yourthome" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="redux" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -309,12 +272,18 @@
       <workItem from="1581505437381" duration="13116000" />
       <workItem from="1581529129090" duration="5840000" />
       <workItem from="1581573946150" duration="4386000" />
-      <workItem from="1581586649462" duration="18753000" />
+      <workItem from="1581586649462" duration="19047000" />
+      <workItem from="1581664642177" duration="1749000" />
+      <workItem from="1581677200965" duration="1619000" />
+      <workItem from="1581876895513" duration="1299000" />
+      <workItem from="1581930073377" duration="5230000" />
+      <workItem from="1582014470803" duration="541000" />
+      <workItem from="1582021458675" duration="5611000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="229429000" />
+    <option name="totallyTimeSpent" value="245772000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -322,7 +291,7 @@
     <layout>
       <window_info id="npm" order="0" sideWeight="0.5008183" side_tool="true" weight="0.24330357" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" sideWeight="0.49918166" visible="true" weight="0.15550596" />
+      <window_info content_ui="combo" id="Project" order="2" sideWeight="0.49918166" visible="true" weight="0.18377976" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" x="21" y="431" width="1345" height="252" id="Terminal" order="1" type="FLOATING" weight="0.21674877" />
@@ -510,13 +479,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="18" column="21" lean-forward="true" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/googleMap.js" />
     <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -603,46 +565,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/mapComponent/map.module.css">
+    <entry file="file://$PROJECT_DIR$/src/components/mapComponent/googleMapContainer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/deteilesPage/deteilsPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+        <state relative-caret-position="80">
+          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="44" lean-forward="true" selection-start-line="4" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
+        <state relative-caret-position="20">
+          <caret line="4" column="44" selection-start-line="4" selection-start-column="44" selection-end-line="6" selection-end-column="44" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
             <element signature="e#337#385#0" expanded="true" />
-            <element signature="e#597#651#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/redux/redux_store.js">
+    <entry file="file://$PROJECT_DIR$/src/components/deteilesPage/deteils.module.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
+        <state>
+          <caret selection-end-line="2" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/mainPage/mainPage.module.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
+        <state relative-caret-position="640">
           <caret line="32" column="29" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="29" column="4" lean-forward="true" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -658,15 +616,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/redux/googleMap_reducer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
+        <state relative-caret-position="620">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/mapComponent/googleMapContainer.js">
+    <entry file="file://$PROJECT_DIR$/src/components/deteilesPage/deteilsPage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+        <state relative-caret-position="60">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -680,17 +641,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/mapComponent/map.module.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="32" column="1" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/redux/redux_store.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/point.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="103" column="5" lean-forward="true" selection-start-line="103" selection-start-column="5" selection-end-line="103" selection-end-column="5" />
+        <state relative-caret-position="440">
+          <caret line="26" column="19" lean-forward="true" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/mapComponent/googleMap.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="164" column="149" selection-start-line="164" selection-start-column="149" selection-end-line="164" selection-end-column="149" />
+        <state relative-caret-position="151">
+          <caret line="92" column="23" selection-start-line="92" selection-start-column="23" selection-end-line="92" selection-end-column="23" />
           <folding>
             <element signature="e#0#49#0" expanded="true" />
           </folding>
