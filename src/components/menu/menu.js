@@ -29,11 +29,9 @@ const Menu = props => {
                         {/*<Link to="/">Новостройка</Link>*/}
                     </div>
                     <div className={css.addButtonWrapper}>
-                        <button className={css.addButton}>
-                            <Link to={"/add"}>
+                        <Link to={"/add-apartment"} className={css.addButton}>
                             + Добавить объявление
-                            </Link>
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import css from './element.module.css'
 import {Link} from "react-router-dom";
 

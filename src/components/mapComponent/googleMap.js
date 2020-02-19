@@ -101,20 +101,25 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 ))
 
 const WrapperMap = props => {
-    useEffect(async e => {
+    useEffect(() => {
         // props.setPoint(someData.features)
-        await axios.get("https://yourthomeneobis2.herokuapp.com/announcements/")
+        axios.get("https://yourthomeneobis2.herokuapp.com/announcements/")
             .then(res=>{
                 console.log(res.data)
                 props.setPoint(res.data)
             })
     }, []);
     const [selected, setSelected] = useState([])
-    const selectedPark = async item => {
-        await setSelected(item)
+    const selectedPark = item => {
+        setSelected(item)
     }
     let arr = [];
-    if (selected.length > 0){
+    useEffect(()=>{
+        if (selected.length >= 0){
+            selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
+        }
+    },[selected])
+    if (selected.length >= 0){
             selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
     }
 

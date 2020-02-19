@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
+import React from 'react';
+import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import css from "./addApartmant.module.css";
 import axios from "axios";
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let map = React.createRef()
         return (
-            <div className={css.mainWrapper}>
+            <div >
                 <GoogleMap
                     ref={map}
                      onClick={props.pushLocation}
@@ -23,10 +23,10 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 const AddApartment = props => {
     let address = {}
-    const pushLocation = async  e => {
+    const pushLocation =  e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
         let newurl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng[0]}&lon=${latlng[1]}&accept-language=ru`
-        await axios.get(newurl)
+         axios.get(newurl)
             .then(res =>{
                 let addresss = res.data.address;
                 address = addresss;
@@ -57,9 +57,14 @@ const AddApartment = props => {
             }
         };
         axios.post("https://yourthomeneobis2.herokuapp.com/apartment/",item)
-            .then(res=>{
-                alert('Daaamn you did it!')
-            })
+            .then(
+                (response)=>{
+                    alert('Daaamn you did it!')
+                },
+                (error)=>{
+                    alert("Wrong address")
+                }
+            )
 
     }
 
@@ -88,7 +93,7 @@ const AddApartment = props => {
                 />
             </div>
             <div>
-                <input value={"help"} placeholder={"Площадь"} type="text"/>
+                <input placeholder={"Площадь"} type="text"/>
                 <input placeholder={"Количества комнат"} type="text"/>
                 <input placeholder={"какой этаж"} type="text"/>
             </div>

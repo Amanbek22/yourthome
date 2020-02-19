@@ -35,7 +35,10 @@ function App() {
                         {/*<Footer />*/}
                     {/*</div>*/}
                 {/*</Route>*/}
-                <Route exact path="/map">
+                <Route path={"/add-apartment"}>
+                    <AddApartment />
+                </Route>
+                <Route exact path={"/map"}>
                     <WrapperMapContainer/>
                 </Route>
                 <Route exact path={"/sign_in"}>
@@ -55,9 +58,7 @@ function App() {
 
                     />
                 </Route>
-                <Route exact path={"/add"}>
-                    <AddApartment/>
-                </Route>
+
             </Switch>
             </div>
 
