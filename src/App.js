@@ -12,6 +12,7 @@ import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
 // import ExampleMap from "./exampleMap";
 import MainPage from "./components/mainPage/mainPage";
 import DeteilsPage from "./components/deteilesPage/deteilsPage";
+import AddApartment from "./components/add_apartment/addApartmant";
 // import someData from './point.json'
 
 function App() {
@@ -53,6 +54,9 @@ function App() {
                     <DeteilsPage
 
                     />
+                </Route>
+                <Route exact path={"/add"}>
+                    <AddApartment/>
                 </Route>
             </Switch>
             </div>

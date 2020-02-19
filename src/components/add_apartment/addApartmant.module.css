@@ -1,0 +1,7 @@
+.wrapper{
+    display: grid;
+    grid-template-columns: 6fr 2fr;
+}
+.wrapper>div>input{
+    width: 90%;
+}

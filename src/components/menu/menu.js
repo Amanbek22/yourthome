@@ -30,8 +30,9 @@ const Menu = props => {
                     </div>
                     <div className={css.addButtonWrapper}>
                         <button className={css.addButton}>
-                            {/*+ Добавить объявление*/}
-                            Sign in
+                            <Link to={"/add"}>
+                            + Добавить объявление
+                            </Link>
                         </button>
                     </div>
                 </div>

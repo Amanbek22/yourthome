@@ -7,42 +7,47 @@ let initialState = {
 }
 
 
-
-export const googleMapReducer = (state = initialState,action) => {
+export const googleMapReducer = (state = initialState, action) => {
     switch (action.type) {
         case setPoints:
-            return {
-                points: [...state.points,...action.points]
+            if (state.points.length === 0) {
+                return {
+                    points: [...state.points, ...action.points]
+                }
+            } else {
+                return{
+                    points: [...action.points]
+                }
             }
         case addPoint:
-            return{
-                points: [...state.points,...action.item]
+            return {
+                points: [...state.points, ...action.item]
             }
         case selected:
-            return{
+            return {
                 selectedPark: [...action.item]
             }
         default:
-            return{
+            return {
                 ...state
             }
     }
 }
 
 
-export const setPoint = (points) =>{
+export const setPoint = (points) => {
     return {
         type: setPoints,
         points: points
     }
 }
-export const addPoints = (point) =>{
+export const addPoints = (point) => {
     return {
         type: addPoint,
         item: point
     }
 }
-export const setSelected = item =>{
+export const setSelected = item => {
     return {
         type: selected,
         item
