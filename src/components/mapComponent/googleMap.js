@@ -139,28 +139,30 @@ const WrapperMap = props => {
                 owner: "na za\b\b, "
             }
         // props.addPoints([items])
-        axios.post("https://yourthomeneobis2.herokuapp.com/apartment",{
-            "type": 4,
-            "room": "3",
-            "square": 55,
-            "date_of_arrival": "2020-02-20",
-            "date_of_departure": "2020-02-22",
-            "price": 30000,
-            "description": "это квартира.",
-            "status": true,
-            "images": [],
-            "owner": 1,
-            "latitude": 34.3456789,
-            "longitude": 33.3456789,
-            "address": {
-                "house_number": 6,
-                "street": "Абая",
-                "city": "Бишкек",
-                "postcode": "722011",
-                "country": "Кыргызстан",
-                "country_code": "kg"
-            }
-        }).then(res=>{
+        axios.post("https://yourthomeneobis2.herokuapp.com/apartment",items
+        //     {
+        //     "type": 4,
+        //     "room": "3",
+        //     "square": 55,
+        //     "date_of_arrival": "2020-02-20",
+        //     "date_of_departure": "2020-02-22",
+        //     "price": 30000,
+        //     "description": "это квартира.",
+        //     "status": true,
+        //     "images": [],
+        //     "owner": 1,
+        //     "latitude": 34.3456789,
+        //     "longitude": 33.3456789,
+        //     "address": {
+        //         "house_number": 6,
+        //         "street": "Абая",
+        //         "city": "Бишкек",
+        //         "postcode": "722011",
+        //         "country": "Кыргызстан",
+        //         "country_code": "kg"
+        //     }
+        // }
+        ).then(res=>{
             console.log(res)
         })
     }
