@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import css from './map.module.css'
-import appartment from '../../img/room.png'
+import apartment from '../../img/room.png'
 import axios from "axios";
 import FilterForMap from "../filterForMap/filterForMap";
 import {Link} from "react-router-dom";
@@ -16,6 +16,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let arr = [];
         let newarr = [];
         const onMarkerMounted = (element) => {
+            console.log(element)
             arr.push(element)
         }
         const [selectedPark, setSelectedPark] = useState(null);
@@ -26,9 +27,22 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     //onClick={props.pushLocation}
                     defaultZoom={7}
                     defaultCenter={{lat: 41.204380, lng: 74.766098}}
+                    onTilesLoaded={()=>{
+                        newarr = [];
+                        arr.forEach((item => {
+                            if (map.current.getBounds().contains(item.props.position)) {
+                                // console.log(item)
+                                newarr.push(item.props.id)
+                                // console.log(newarr)
+                            } else {
+                                console.log("failed")
+                            }
+                        }))
+                        props.setVisibleMarkers(newarr)
+                    }}
                     onBoundsChanged={() => {
                         newarr = [];
-                        arr.map((item => {
+                        arr.forEach((item => {
                             if (map.current.getBounds().contains(item.props.position)) {
                                 // console.log(item)
                                 newarr.push(item.props.id)
@@ -70,7 +84,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                     onCloseClick={() => setSelectedPark(null)}
                         >
                             <div>
-                                <img src={appartment} alt="dsvs"/>
+                                <img src={apartment} alt="dsvs"/>
                                 <div>
                                     <Link to={"/more-info"}>
                                         Подробнее
@@ -87,24 +101,24 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 ))
 
 const WrapperMap = props => {
-    useEffect(() => {
+    useEffect(async e => {
         // props.setPoint(someData.features)
-        axios.get("https://yourthomeneobis2.herokuapp.com/announcements/")
+        await axios.get("https://yourthomeneobis2.herokuapp.com/announcements/")
             .then(res=>{
                 console.log(res.data)
                 props.setPoint(res.data)
             })
     }, []);
     const [selected, setSelected] = useState([])
-    // const [address,setAddress] = useState()
-    let address = {}
-    const selectedPark = item => {
-        setSelected(item)
+    const selectedPark = async item => {
+        await setSelected(item)
     }
     let arr = [];
-    selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
-    let items = arr.map(item => {
+    if (selected.length > 0){
+            selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
+    }
 
+    let items = arr.map(item => {
         return (
             <div key={item.id}>
             <Element
