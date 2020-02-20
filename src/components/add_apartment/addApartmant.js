@@ -33,7 +33,7 @@ const AddApartment = props => {
     const [country, setCountry] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [image, setImage] = useState();
+    const [image, setImage] = useState(null);
     // console.log(item)
     let address = {};
     // let item;
@@ -55,15 +55,18 @@ const AddApartment = props => {
             })
         console.log(address)
     }
+    let fd = new FormData();
+
     const sendData = () => {
-        console.log(typeof (Number(rooms)))
+        fd.append(image,floor);
+        console.log(fd)
         if (latLng.length > 0) {
             axios.post("https://yourthomeneobis2.herokuapp.com/apartment/", {
                 "type": 1,
                 "room": rooms,
                 "floor": Number(floor),
                 "square": Number(area),
-                "preview_image": null,
+                "preview_image": fd,
                 "date_of_arrival": "2020-02-22",
                 "date_of_departure": "2020-02-22",
                 "price": Number(price),

@@ -63,23 +63,23 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     }}
                 >
                     <MarkerClusterer>
-                        {props.points.map((item) => (
-                            <Marker
-                                ref={onMarkerMounted}
-                                onClick={() => setSelectedPark(item)}
-                                position={{
-                                    lat: item.latitude,
-                                    lng: item.longitude
-                                }}
+                        {/*{props.points.map((item) => (*/}
+                            {/*<Marker*/}
+                                {/*ref={onMarkerMounted}*/}
+                                {/*onClick={() => setSelectedPark(item)}*/}
+                                {/*position={{*/}
+                                    {/*lat: item.latitude,*/}
+                                    {/*lng: item.longitude*/}
+                                {/*}}*/}
 
-                                title={item.description}
-                                text={item.price}
-                                key={item.id}
-                                id={item.id}
-                                cursor={"pointer"}
-                                name={item.name}
-                            />
-                        ))}
+                                {/*title={item.description}*/}
+                                {/*text={item.price}*/}
+                                {/*key={item.id}*/}
+                                {/*id={item.id}*/}
+                                {/*cursor={"pointer"}*/}
+                                {/*name={item.name}*/}
+                            {/*/>*/}
+                        {/*))}*/}
                     </MarkerClusterer>
                     {selectedPark && (
                         <InfoWindow position={{
@@ -110,7 +110,7 @@ const WrapperMap = props => {
 
     useEffect(() => {
         //props.setPoint(someData)
-        axios.get("https://yourthomeneobis2.herokuapp.com/announcements/")
+        axios.get("http://yourthomeneobis2.herokuapp.com/announcements")
             .then(res => {
                 console.log(res.data)
                 props.setPoint(res.data)
