@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import css from "./addApartmant.module.css";
 import axios from "axios";
@@ -6,10 +6,10 @@ import axios from "axios";
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let map = React.createRef()
         return (
-            <div >
+            <div>
                 <GoogleMap
                     ref={map}
-                     onClick={props.pushLocation}
+                    onClick={props.pushLocation}
                     defaultZoom={7}
                     defaultCenter={{lat: 41.204380, lng: 74.766098}}
                 >
@@ -22,56 +22,76 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 
 const AddApartment = props => {
-    let address = {}
-    const pushLocation =  e => {
+    const [rooms, setRooms] = useState("");
+    const [area, setArea] = useState("");
+    const [floor, setFloor] = useState("");
+    const [item, setItem] = useState();
+    const [latLng, setLatLng] = useState([])
+    const [num, setNum] = useState();
+    const [street, setStreet] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
+    const [description, setDescription] = useState("");
+    const [image, setImage] = useState();
+    console.log(item)
+    let address = {};
+    // let item;
+    let add;
+    const pushLocation = async e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
+        setLatLng(latlng)
         let newurl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng[0]}&lon=${latlng[1]}&accept-language=ru`
-         axios.get(newurl)
-            .then(res =>{
-                let addresss = res.data.address;
-                address = addresss;
+        //let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM`
+        await axios.get(newurl)
+            .then(res => {
+                let address_1 = res.data.address;
+                address = address_1;
+                console.log(address_1)
+                setNum(address_1.house_number)
+                setStreet(address_1.road)
+                setCity(address_1.city)
+                setCountry(address_1.country)
             })
-        let add = prompt("input your description?", "Help me!");
-        //let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyDMDrqHrfbKWIzQDmnxHl2WcJGAnAgUX0A`
-        let item = {
-            "type": 1,
-            "room": "3",
-            "square": 85.0,
-            "date_of_arrival": "2020-02-20",
-            "date_of_departure": "2020-02-22",
-            "price": 30000,
-            "description": add,
-            "status": true,
-            "images": [
-            ],
-            "owner": 1,
-            "latitude": latlng[0],
-            "longitude": latlng[1],
-            "address": {
-                "house_number": Number(address.house_number),
-                "street": address.road,
-                "city": address.city,
-                "postcode": "722011",
-                "country": address.country,
-                "country_code": address.country_code
-            }
-        };
-        axios.post("https://yourthomeneobis2.herokuapp.com/apartment/",item)
-            .then(
-                (response)=>{
-                    alert('Daaamn you did it!')
-                },
-                (error)=>{
-                    alert("Wrong address")
-                }
-            )
-
+        console.log(address)
     }
-
+    const sendData = () => {
+        console.log(typeof (Number(rooms)))
+        if (latLng.length > 0) {
+            axios.post("https://yourthomeneobis2.herokuapp.com/apartment/", {
+                "type": 1,
+                "room": rooms,
+                "square": 1,
+                "date_of_arrival": "2020-02-22",
+                "date_of_departure": "2020-02-22",
+                "price": Number(floor),
+                "description": description,
+                "status": false,
+                "images": [],
+                "owner": 1,
+                "latitude": latLng[0],
+                "longitude": latLng[1],
+                "address": {
+                    "house_number": Number(num),
+                    "street": street,
+                    "city": city,
+                    "postcode": "1",
+                    "country": country,
+                    "country_code": "1"
+                }
+            })
+                .then(
+                    (response) => {
+                        alert('Daaamn you did it!')
+                    },
+                    (error) => {
+                        alert("Wrong address")
+                    }
+                )
+        }
+    }
 
     return (
         <div className={css.wrapper}>
-
             <div>
                 <MyMapComponent
                     googleMapURL="
@@ -93,14 +113,35 @@ const AddApartment = props => {
                 />
             </div>
             <div>
-                <input placeholder={"Площадь"} type="text"/>
-                <input placeholder={"Количества комнат"} type="text"/>
-                <input placeholder={"какой этаж"} type="text"/>
+                <div>
+                    <div>
+                        <label>Number of house</label>
+                        <input value={num} placeholder={"Номер дома"} type="text"/>
+                    </div>
+                    <div>
+                        <label>Street</label>
+                        <input value={street} placeholder={"улица"} type="text"/>
+                    </div>
+                    <div>
+                        <label>City</label>
+                        <input value={city} placeholder={"город"} type="text"/>
+                    </div>
+                    <div>
+                        <label>Country</label>
+                        <input value={country} placeholder={"Страна"} type="text"/>
+                    </div>
+                </div>
+                <input value={description} onChange={e=>setDescription(e.target.value)} placeholder={"Описание"} type="text"/>
+                <input value={area} onChange={(e) => setArea(e.target.value)} placeholder={"Площадь"} type="text"/>
+                <input value={rooms} onChange={(e) => setRooms(e.target.value)} placeholder={"Количества комнат"}
+                       type="text"/>
+                <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Цена"} type="text"/>
+                <input value={image} onChange={(e) => setImage(e.target.value)} type="file"/>
+                <button onClick={sendData} className={css.sendBtn}>Send</button>
             </div>
         </div>
     )
 }
-
 
 
 export default AddApartment;

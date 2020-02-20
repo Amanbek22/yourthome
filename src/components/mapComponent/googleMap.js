@@ -10,30 +10,39 @@ import roomsImg from '../../img/room.png'
 
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
-
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
+
         let map = React.createRef()
         let arr = [];
         let newarr = [];
         const onMarkerMounted = (element) => {
-            console.log(element)
             arr.push(element)
         }
         const [selectedPark, setSelectedPark] = useState(null);
+        useEffect(()=>{
+            window.addEventListener('load', ()=>{
+                arr.forEach((item => {
+                    if (map.current.getBounds().contains(item.props.position)) {
+                        newarr.push(item.props.id)
+                    } else {
+                        console.log("failed")
+                    }
+                }))
+                props.setVisibleMarkers(newarr);
+            });
+        },[])
         return (
-            <div className={css.mainWrapper}>
+            <div className={css.mainWrapper} >
                 <GoogleMap
                     ref={map}
                     //onClick={props.pushLocation}
                     defaultZoom={7}
                     defaultCenter={{lat: 41.204380, lng: 74.766098}}
-                    onTilesLoaded={()=>{
+                    onLoade={()=>{
                         newarr = [];
                         arr.forEach((item => {
                             if (map.current.getBounds().contains(item.props.position)) {
-                                // console.log(item)
                                 newarr.push(item.props.id)
-                                // console.log(newarr)
                             } else {
                                 console.log("failed")
                             }
@@ -44,20 +53,15 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                         newarr = [];
                         arr.forEach((item => {
                             if (map.current.getBounds().contains(item.props.position)) {
-                                // console.log(item)
                                 newarr.push(item.props.id)
-                                // console.log(newarr)
                             } else {
                                 console.log("failed")
                             }
                         }))
                         props.setVisibleMarkers(newarr)
                     }}
-
                 >
-                    <MarkerClusterer
-                        //onClick={props.onMarkerClustererClick}
-                    >
+                    <MarkerClusterer>
                         {props.points.map((item) => (
                             <Marker
                                 ref={onMarkerMounted}
@@ -101,31 +105,29 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 ))
 
 const WrapperMap = props => {
+    const [selected, setSelected] = useState([])
+
     useEffect(() => {
         // props.setPoint(someData.features)
         axios.get("https://yourthomeneobis2.herokuapp.com/announcements/")
             .then(res=>{
                 console.log(res.data)
                 props.setPoint(res.data)
+                setSelected(res.data)
             })
     }, []);
-    const [selected, setSelected] = useState([])
     const selectedPark = item => {
         setSelected(item)
     }
     let arr = [];
-    useEffect(()=>{
-        if (selected.length >= 0){
-            selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
-        }
-    },[selected])
-    if (selected.length >= 0){
+    console.log(selected)
+    if (selected.length > 0){
             selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
     }
 
     let items = arr.map(item => {
         return (
-            <div key={item.id}>
+            <div key={item.id} >
             <Element
                     img={roomsImg}
                     forSale={item.description}
@@ -135,6 +137,7 @@ const WrapperMap = props => {
                     area={item.square}
                     room={item.room}
                     floor={"5/9"}
+                    price={item.price}
                     addetDate={"Вчера"}
                     url={""}
                 />

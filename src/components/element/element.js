@@ -20,7 +20,7 @@ const Element = props => {
                         <div>Этаж: {props.floor}</div>
                     </div>
                     <div>
-                        Добавлено {props.addetDate}
+                        Цена: {props.price}
                     </div>
                 </div>
             </Link>

@@ -5,20 +5,20 @@
     padding: 25px;
     margin: 5px 35%;
 }
-.form{
+.wrapper>div{
     text-align: left;
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 1em;
 }
 
-.form>input{
+.wrapper>div>input{
     width: 100%;
     padding: 10px 0 10px 10px;
     border: 1px solid #B1B1B1;
     border-radius: 4px;
 }
-.form>input:focus{
+.wrapper>div>input:focus{
     outline: none;
 }
 .remember{

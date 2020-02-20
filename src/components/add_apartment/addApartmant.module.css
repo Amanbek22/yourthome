@@ -5,3 +5,9 @@
 .wrapper>div>input{
     width: 90%;
 }
+.sendBtn{
+    background: #05BA02;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+}
