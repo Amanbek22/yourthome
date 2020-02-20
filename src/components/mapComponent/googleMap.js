@@ -7,6 +7,7 @@ import FilterForMap from "../filterForMap/filterForMap";
 import {Link} from "react-router-dom";
 import Element from "../element/element";
 import roomsImg from '../../img/room.png'
+import someData from '../../point.json'
 
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
@@ -19,8 +20,8 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
             arr.push(element)
         }
         const [selectedPark, setSelectedPark] = useState(null);
-        useEffect(()=>{
-            window.addEventListener('load', ()=>{
+        useEffect(() => {
+            window.addEventListener('load', () => {
                 arr.forEach((item => {
                     if (map.current.getBounds().contains(item.props.position)) {
                         newarr.push(item.props.id)
@@ -30,15 +31,15 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                 }))
                 props.setVisibleMarkers(newarr);
             });
-        },[])
+        }, [])
         return (
-            <div className={css.mainWrapper} >
+            <div className={css.mainWrapper}>
                 <GoogleMap
                     ref={map}
                     //onClick={props.pushLocation}
                     defaultZoom={7}
                     defaultCenter={{lat: 41.204380, lng: 74.766098}}
-                    onLoade={()=>{
+                    onLoade={() => {
                         newarr = [];
                         arr.forEach((item => {
                             if (map.current.getBounds().contains(item.props.position)) {
@@ -108,27 +109,25 @@ const WrapperMap = props => {
     const [selected, setSelected] = useState([])
 
     useEffect(() => {
-        // props.setPoint(someData.features)
+        //props.setPoint(someData)
         axios.get("https://yourthomeneobis2.herokuapp.com/announcements/")
-            .then(res=>{
+            .then(res => {
                 console.log(res.data)
                 props.setPoint(res.data)
-                setSelected(res.data)
             })
     }, []);
     const selectedPark = item => {
         setSelected(item)
     }
     let arr = [];
-    console.log(selected)
-    if (selected.length > 0){
-            selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
+    if (selected.length > 0) {
+        selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
     }
 
     let items = arr.map(item => {
         return (
-            <div key={item.id} >
-            <Element
+            <div key={item.id}>
+                <Element
                     img={roomsImg}
                     forSale={item.description}
                     house_number={item.address.house_number}
@@ -147,7 +146,7 @@ const WrapperMap = props => {
     return (
         <div>
             <div className={css.filterWrapper}>
-                <FilterForMap/>
+                <FilterForMap />
             </div>
             <div className={css.wrapper}>
                 <div className={css.map}>
@@ -160,11 +159,11 @@ const WrapperMap = props => {
                             style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
                         containerElement={<div
                             style={{
-                                height: `85vh`,
+                                height: `84vh`,
                                 position: `sticky`,
                                 zIndex: `99999990`,
-                                top: `15vh`,
-                                left: `0`
+                                top: `16vh`,
+                                left: `0`,
                             }}/>}
                         mapElement={<div
                             style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}

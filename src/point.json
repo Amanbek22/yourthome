@@ -1,0 +1,98 @@
+[
+  {
+    "type": "Квартира",
+    "room": "3",
+    "floor": 1,
+    "address": {
+      "id": 5,
+      "house_number": 254,
+      "street": "Чокморова Суймонкула улица",
+      "city": "Бишкек",
+      "postcode": "1",
+      "country": "Киргизия",
+      "country_code": "1"
+    },
+    "square": 30.0,
+    "preview_image": "https://yourthomeneobis2.herokuapp.com/media/photos/1a4da06bcdf207407ef4767711eeb20e.jpg",
+    "date_of_arrival": "2020-02-12",
+    "date_of_departure": "2020-02-29",
+    "price": 10000,
+    "description": "это квартира.",
+    "status": true,
+    "pub_date": "2020-02-21T02:17:36.470722+06:00",
+    "images": [],
+    "owner": "na ni, "
+  },
+  {
+    "type": "Квартира",
+    "room": "3",
+    "floor": 1,
+    "address": {
+      "id": 3,
+      "house_number": 60,
+      "street": "Темирова улица",
+      "city": "Бишкек",
+      "postcode": "1",
+      "country": "Киргизия",
+      "country_code": "1"
+    },
+    "square": 48.8,
+    "preview_image": null,
+    "date_of_arrival": "2020-02-21",
+    "date_of_departure": "2020-02-21",
+    "price": 5000,
+    "description": "Сдаю квартиру",
+    "status": false,
+    "pub_date": "2020-02-21T02:19:53.716226+06:00",
+    "images": [],
+    "owner": "na ni, "
+  },
+  {
+    "type": "Квартира",
+    "room": "3",
+    "floor": 3,
+    "address": {
+      "id": 13,
+      "house_number": 4,
+      "street": "Кекол переулок",
+      "city": "Бишкек",
+      "postcode": "1",
+      "country": "Киргизия",
+      "country_code": "1"
+    },
+    "square": 45.0,
+    "preview_image": null,
+    "date_of_arrival": "2020-02-22",
+    "date_of_departure": "2020-02-22",
+    "price": 800,
+    "description": "укуаука",
+    "status": false,
+    "pub_date": "2020-02-21T02:29:26.326532+06:00",
+    "images": [],
+    "owner": "Neo Neobisov, 0708626798"
+  },
+  {
+    "type": "Квартира",
+    "room": "2",
+    "floor": 2,
+    "address": {
+      "id": 14,
+      "house_number": 5,
+      "street": "Тыныстанова",
+      "city": "Бишкек",
+      "postcode": "722200",
+      "country": "Кыргызстан",
+      "country_code": "kg"
+    },
+    "square": 25.0,
+    "preview_image": null,
+    "date_of_arrival": "2020-02-12",
+    "date_of_departure": "2020-02-12",
+    "price": 2500,
+    "description": "Это квартира",
+    "status": false,
+    "pub_date": "2020-02-21T02:32:26.779372+06:00",
+    "images": [],
+    "owner": "Neo Neobisov, 0708626798"
+  }
+]

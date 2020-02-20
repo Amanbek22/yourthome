@@ -2,20 +2,36 @@ import React from 'react';
 import css from './filter.module.css'
 
 const FilterForMap = props =>{
+    const onCityChange = e =>{
+        // sort by city
+
+    }
+    const onApartmentChange = e =>{
+        // sort by property
+        alert(e.target.value)
+    }
+    const onRoomsChange = e =>{
+        // sort by rooms
+        alert(e.target.value)
+    }
     return(
-        <form className={css.wrapper}>
-            <select name="cityes" >
-                <option value="Kyrgyzstan">Kyrgyzstan</option>
-                <option value="Russion">Russion</option>
-                <option value="Russion">Russion</option>
+        <div className={css.wrapper}>
+            <select onChange={onCityChange} name="cities" >
+                <option value="all">Все Города</option>
+                <option value="bishkek">Бишкек</option>
+                <option value="osh">Ош</option>
+                <option value="talas">Талас</option>
+                <option value="naryn">Нарын</option>
             </select>
-            <input placeholder={"Введите адрес или выберите из списка "} type="text"/>
-            <select name="type" >
-                <option value="Appartment">Appartment</option>
-                <option value="Appartment">Appartment</option>
-                <option value="Appartment">Appartment</option>
+            <input placeholder={""} type="text"/>
+            <select onChange={onApartmentChange} name="type" >
+                <option value="all">Все виды жилья</option>
+                <option value="apartment">Apartment</option>
+                <option value="house">House</option>
+                <option value="yourt">Yourt</option>
             </select>
-            <select name="rooms" >
+            <select onChange={onRoomsChange} name="rooms" >
+                <option value="all">Количество комнат</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -23,16 +39,17 @@ const FilterForMap = props =>{
             </select>
             <div className={css.impWrapper}>
                 <select name="price" >
+                    <option value="all">цена от скольки</option>
                     <option value="1500">1500</option>
+                    <option value="2000">2000</option>
                 </select>
                 <select name="more" >
                     <option value="more">more</option>
+                    <option value="more">more</option>
+                    <option value="more">more</option>
                 </select>
-                <input className={css.btn} value={"Поиск"} onClick={()=>{
-                    alert("Hey it's just a test")
-                }} type="button"/>
             </div>
-        </form>
+        </div>
     )
 }
 

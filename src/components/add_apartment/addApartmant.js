@@ -32,8 +32,9 @@ const AddApartment = props => {
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
     const [description, setDescription] = useState("");
+    const [price, setPrice] = useState("");
     const [image, setImage] = useState();
-    console.log(item)
+    // console.log(item)
     let address = {};
     // let item;
     let add;
@@ -60,10 +61,12 @@ const AddApartment = props => {
             axios.post("https://yourthomeneobis2.herokuapp.com/apartment/", {
                 "type": 1,
                 "room": rooms,
-                "square": 1,
+                "floor": Number(floor),
+                "square": Number(area),
+                "preview_image": null,
                 "date_of_arrival": "2020-02-22",
                 "date_of_departure": "2020-02-22",
-                "price": Number(floor),
+                "price": Number(price),
                 "description": description,
                 "status": false,
                 "images": [],
@@ -101,10 +104,10 @@ const AddApartment = props => {
                         style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
                     containerElement={<div
                         style={{
-                            height: `85vh`,
+                            height: `90vh`,
                             position: `sticky`,
                             zIndex: `99999990`,
-                            top: `15vh`,
+                            top: `10%`,
                             left: `0`
                         }}/>}
                     mapElement={<div
@@ -133,9 +136,9 @@ const AddApartment = props => {
                 </div>
                 <input value={description} onChange={e=>setDescription(e.target.value)} placeholder={"Описание"} type="text"/>
                 <input value={area} onChange={(e) => setArea(e.target.value)} placeholder={"Площадь"} type="text"/>
-                <input value={rooms} onChange={(e) => setRooms(e.target.value)} placeholder={"Количества комнат"}
-                       type="text"/>
-                <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Цена"} type="text"/>
+                <input value={rooms} onChange={(e) => setRooms(e.target.value)} placeholder={"Количества комнат"} type="text"/>
+                <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder={"Цена"} type="text"/>
+                <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Этаж"} type="text"/>
                 <input value={image} onChange={(e) => setImage(e.target.value)} type="file"/>
                 <button onClick={sendData} className={css.sendBtn}>Send</button>
             </div>

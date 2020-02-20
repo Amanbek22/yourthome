@@ -23,11 +23,6 @@ const Menu = props => {
                             </svg>
                         </Link>
                     </div>
-                    <div className={css.links}>
-                        {/*<Link to="/">Продажа</Link>*/}
-                        {/*<Link to="/">Аренда</Link>*/}
-                        {/*<Link to="/">Новостройка</Link>*/}
-                    </div>
                     <div className={css.addButtonWrapper}>
                         <Link to={"/add-apartment"} className={css.addButton}>
                             + Добавить объявление
