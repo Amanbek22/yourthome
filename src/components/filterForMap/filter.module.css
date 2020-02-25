@@ -16,15 +16,12 @@
 .impWrapper>input{
     width: 50px;
 }
-
 input:focus{
     outline: none;
 }
-
 select:focus{
     outline: none;
 }
-
 .wrapper>select,input{
     border: 1px solid #CDCDCD;
     border-radius: 2px;

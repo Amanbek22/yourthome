@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import css from "./addApartmant.module.css";
 import axios from "axios";
+import roomsImg from '../../img/room.png'
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let map = React.createRef()
@@ -22,21 +23,19 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 
 const AddApartment = props => {
-    const [rooms, setRooms] = useState("");
-    const [area, setArea] = useState("");
-    const [floor, setFloor] = useState("");
+    const [rooms, setRooms] = useState("2");
+    const [area, setArea] = useState("34");
+    const [floor, setFloor] = useState("3");
     const [item, setItem] = useState();
     const [latLng, setLatLng] = useState([])
     const [num, setNum] = useState();
     const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [image, setImage] = useState(null);
-    // console.log(item)
+    const [description, setDescription] = useState("sdcscsdcs");
+    const [price, setPrice] = useState("34");
+    const [images, setImages] = useState(null);
     let address = {};
-    // let item;
     let add;
     const pushLocation = async e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
@@ -55,18 +54,17 @@ const AddApartment = props => {
             })
         console.log(address)
     }
-    let fd = new FormData();
 
     const sendData = () => {
-        fd.append(image,floor);
-        console.log(fd)
         if (latLng.length > 0) {
-            axios.post("https://yourthomeneobis2.herokuapp.com/apartment/", {
+            let data = new FormData();
+            data.append('image', images)
+            let formData = {
                 "type": 1,
                 "room": rooms,
                 "floor": Number(floor),
                 "square": Number(area),
-                "preview_image": fd,
+                "preview_image": data,
                 "date_of_arrival": "2020-02-22",
                 "date_of_departure": "2020-02-22",
                 "price": Number(price),
@@ -83,7 +81,9 @@ const AddApartment = props => {
                     "postcode": "1",
                     "country": country,
                     "country_code": "1"
-                }
+                }}
+            axios.post("https://yourthomeneobis2.herokuapp.com/apartment/", formData ,{
+                headers: {}
             })
                 .then(
                     (response) => {
@@ -137,17 +137,22 @@ const AddApartment = props => {
                         <input value={country} placeholder={"Страна"} type="text"/>
                     </div>
                 </div>
-                <input value={description} onChange={e=>setDescription(e.target.value)} placeholder={"Описание"} type="text"/>
+                <input value={description} onChange={e => setDescription(e.target.value)} placeholder={"Описание"}
+                       type="text"/>
                 <input value={area} onChange={(e) => setArea(e.target.value)} placeholder={"Площадь"} type="text"/>
-                <input value={rooms} onChange={(e) => setRooms(e.target.value)} placeholder={"Количества комнат"} type="text"/>
+                <input value={rooms} onChange={(e) => setRooms(e.target.value)} placeholder={"Количества комнат"}
+                       type="text"/>
                 <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder={"Цена"} type="text"/>
                 <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Этаж"} type="text"/>
-                <input value={image} onChange={(e) => setImage(e.target.value)} type="file"/>
+                <input
+                    onChange={(e) => {
+                        console.log(e.target.files[0])
+                        setImages(e.target.files[0])
+                    }}
+                    type="file"/>
                 <button onClick={sendData} className={css.sendBtn}>Send</button>
             </div>
         </div>
     )
 }
-
-
 export default AddApartment;

@@ -2,9 +2,11 @@ import React from 'react';
 import css from './filter.module.css'
 
 const FilterForMap = props =>{
+
     const onCityChange = e =>{
         // sort by city
-
+        alert(e.target.value)
+        props.setItem(e.target.value , "a")
     }
     const onApartmentChange = e =>{
         // sort by property

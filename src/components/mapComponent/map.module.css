@@ -25,9 +25,9 @@
 }
 .filterWrapper{
     background: #ffffff;
-    padding: 2px;
     position: sticky;
     left: 0;
     top: 10%;
+    padding: 0 0 5px 0;
     z-index: 99999;
 }
