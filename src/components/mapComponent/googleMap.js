@@ -102,7 +102,7 @@ const WrapperMap = props => {
     const [selected, setSelected] = useState([])
 
     useEffect(() => {
-        axios.get("http://yourthomeneobis2.herokuapp.com/announcements")
+        axios.get("https://yourthomeneobis2.herokuapp.com/announcements")
             .then(res => {
                 console.log(res.data)
                 props.setPoint(res.data)
