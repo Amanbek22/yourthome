@@ -10,37 +10,36 @@ import Element from "../element/element";
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
 
-
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let map = React.createRef()
         let arr = [];
         let newarr = [];
+        const [val, setVal] = useState([])
         const onMarkerMounted = (element) => {
             arr.push(element)
         }
         const [selectedPark, setSelectedPark] = useState(null);
-        // alert(center)
-        // console.log(center)
-        // useEffect(()=>{
-        //     setCenter(props.cityCenter)
-        // },[])
-        // if (props.cityCenter === "all") {
-        //     setCenter({lat: 41.204380, lng: 74.766098});
-        // } else if (props.cityCenter === "bishkek") {
-        //     setCenter({lat: 42.874622, lng: 74.569763})
-        // }
         return (
             <div className={css.mainWrapper}>
                 <GoogleMap
-                    ref={map}
-                    defaultZoom={7}
-                    //zoom={zoom}
-                    defaultCenter={{lat: 41.204380, lng: 74.766098}}
-                    // onCenterChanged={()=>alert("hello")}
-                    //center={center === '' ? {lat: 41.204380, lng: 74.766098}: {lat: 42.874622, lng: 74.569763}}
-                    onBoundsChanged={() => {
+                    onTilesLoaded={() => {
                         newarr = [];
-                        arr.forEach((item => {
+                        arr.forEach(( item => {
+                            if (map.current.getBounds().contains(item.props.position)) {
+                                newarr.push(item.props.id)
+                            } else {
+                                console.log("failed")
+                            }
+                        }))
+                        props.setVisibleMarkers(newarr)
+                    }}
+                    ref={map}
+                    // defaultZoom={7}
+                    zoom={7}
+                    defaultCenter={{lat: 41.204380, lng: 74.766098}}
+                    onBoundsChanged={ () => {
+                        newarr = [];
+                         arr.forEach(( item => {
                             if (map.current.getBounds().contains(item.props.position)) {
                                 newarr.push(item.props.id)
                             } else {
@@ -53,6 +52,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     <MarkerClusterer>
                         {props.points.map((item) => (
                             <Marker
+                                onMouseOver={()=>alert(item.id)}
                                 ref={onMarkerMounted}
                                 onClick={() => setSelectedPark(item)}
                                 position={{
@@ -77,14 +77,15 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     {selectedPark && (
                         <InfoWindow position={{
                             lat: selectedPark.latitude,
-                            lng: selectedPark.longitude
+                            lng: selectedPark.longitude,
                         }}
                                     onCloseClick={() => setSelectedPark(null)}
                         >
                             <div>
                                 <img src={apartment} alt="dsvs"/>
                                 <div>
-                                    <Link to={"/more-info"}>
+                                    <Link onClick={() => props.chooseApartment(selectedPark.id)}
+                                          to={`/more-info/${selectedPark.id}`}>
                                         Подробнее
                                     </Link>
                                 </div>
@@ -99,7 +100,27 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 ))
 
 const WrapperMap = props => {
+    const [filteredCity, setFilteredCity] = useState("all")
     const [selected, setSelected] = useState([])
+    const [apartments, setApartments] = useState(props.points.points)
+    console.log(selected)
+    useEffect(() => {
+        setApartments(props.points.points)
+    });
+    useEffect(() => {
+        if (filteredCity === 'all') {
+            setApartments(props.points.points)
+        } else if (filteredCity === 'bishkek') {
+            let arr = [];
+            props.points.points.map(item => {
+                if (item.address.city === 'Бишкек') {
+                    arr.push(item)
+                    console.log(item)
+                }
+            })
+            props.setPoint(arr)
+        }
+    }, [filteredCity])
 
     useEffect(() => {
         axios.get("https://yourthomeneobis2.herokuapp.com/announcements")
@@ -108,56 +129,40 @@ const WrapperMap = props => {
                 props.setPoint(res.data)
             })
     }, []);
-    const selectedPark = item => {
-        setSelected(item)
-    };
     let arr = [];
-    if (selected.length > 0) {
-        selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
+    selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
+    let chooseApartment = item => {
+        props.setApartment(item)
     }
-
-    let items = arr.map(item => {
-        console.log(item)
-        return (
-            <div key={item.id}>
-                <Element
-                    img={item.preview_image}
-                    forSale={item.description}
-                    house_number={item.address.house_number}
-                    street={item.address.street}
-                    city={item.address.city}
-                    area={item.square}
-                    room={item.room}
-                    floor={item.floor}
-                    price={item.price}
-                    addetDate={"Вчера"}
-                    url={""}
-                />
-            </div>
-        )
-    })
-    const [filteredCity, setFilteredCity] = useState("all")
+    let items;
+    if (arr.length > 0) {
+        items = arr.map(item => {
+            return (
+                <div onMouseEnter={()=>{
+                    console.log(item.id)
+                }} key={item.id}>
+                    <Element
+                        id={item.id}
+                        chooseAp={chooseApartment}
+                        img={item.preview_image}
+                        forSale={item.description}
+                        house_number={item.address.house_number}
+                        street={item.address.street}
+                        city={item.address.city}
+                        area={item.square}
+                        room={item.room}
+                        floor={item.floor}
+                        price={item.price}
+                        addetDate={item.date_of_arrival}
+                    />
+                </div>
+            )
+        })
+    }
     const selectedItems = (item) => {
         setFilteredCity(item)
     }
-    const [apartments,setApartments] = useState(props.points.points)
-    useEffect(()=>{
-        setApartments(props.points.points)
-    });
-    useEffect(()=>{
-        if(filteredCity === 'all'){
-            setApartments(props.points.points)
-        }else if(filteredCity === 'bishkek'){
-            let arr = [];
-            props.points.points.map(item=>{
-                if(item.address.city === 'Бишкек'){
-                    arr.push(item)
-                    console.log(item)
-                }
-            })
-            props.setPoint(arr)
-        }
-    },[filteredCity])
+
     return (
         <div>
             <div className={css.filterWrapper}>
@@ -166,16 +171,19 @@ const WrapperMap = props => {
             <div className={css.wrapper}>
                 <div className={css.map}>
                     <MyMapComponent
+                        chooseApartment={props.setApartment}
                         cityCenter={filteredCity}
-                        setVisibleMarkers={selectedPark}
+                        setVisibleMarkers={setSelected}
                         googleMapURL="
                         https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM
                         "
-                        loadingElement={<div style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
-                        containerElement={<div style={{height: `84vh`,position: `sticky`, zIndex: `99999990`, top: `16vh`, left: `0`,}}/>}
-                        mapElement={<div style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
+                        loadingElement={<div
+                            style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
+                        containerElement={<div
+                            style={{height: `84vh`, position: `sticky`, zIndex: `99999990`, top: `16vh`, left: `0`,}}/>}
+                        mapElement={<div
+                            style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
                         points={apartments}
-                        //pushLocation={pushLocation}
                     />
                 </div>
                 <div className={css.elemetsWrapper}>

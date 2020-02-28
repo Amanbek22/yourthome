@@ -3,13 +3,10 @@ import css from './element.module.css'
 import {Link} from "react-router-dom";
 import roomsImg from '../../img/room.png'
 
-
 const Element = props => {
-    console.log(props.img)
-
     return (
         <div className={css.wrapper}>
-            <Link to={"/" + props.url}>
+            <Link onClick={()=>props.chooseAp(props.id)} to={`/more-info/${props.id}`}>
                 <div className={css.imgWrapper}>
                     <img src={props.img === null ? roomsImg : props.img} alt="Room img"/>
                 </div>
@@ -26,11 +23,11 @@ const Element = props => {
                     </div>
                 </div>
             </Link>
-            <div className={css.btnWrapper}>
-                <Link to={"/more-info"} className={css.moreBtnWrapper}>
-                    <button>Подробнее</button>
-                </Link>
-            </div>
+            {/*<div className={css.btnWrapper}>*/}
+                {/*<Link to={`/more-info/${props.id}`} className={css.moreBtnWrapper}>*/}
+                    {/*<button>Подробнее</button>*/}
+                {/*</Link>*/}
+            {/*</div>*/}
         </div>
     )
 }

@@ -1,9 +1,9 @@
-const setPoints = "SET_POINTS"
-const addPoint = "ADD_POINT"
-const selected = "SELECTED_ITEM"
+const setPoints = "SET_POINTS";
+const chooseApartmentAC = "CHOOSE_APARTMENT";
 
 let initialState = {
     points: [],
+    apartment: 0,
 }
 
 
@@ -19,13 +19,10 @@ export const googleMapReducer = (state = initialState, action) => {
                     points: [...action.points]
                 }
             }
-        case addPoint:
-            return {
-                points: [...state.points, ...action.item]
-            }
-        case selected:
-            return {
-                selectedPark: [...action.item]
+        case chooseApartmentAC:
+            return{
+                ...state,
+                apartment: [action.apartment]
             }
         default:
             return {
@@ -41,15 +38,9 @@ export const setPoint = (points) => {
         points: points
     }
 }
-export const addPoints = (point) => {
+export const setApartment = apartment => {
     return {
-        type: addPoint,
-        item: point
-    }
-}
-export const setSelected = item => {
-    return {
-        type: selected,
-        item
+        type: chooseApartmentAC,
+        apartment
     }
 }

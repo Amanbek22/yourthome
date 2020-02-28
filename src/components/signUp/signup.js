@@ -21,11 +21,11 @@ const SignUp = props => {
         })
             .then(
                 (response)=>{
-                    alert("You are Sexy, because you just signUp!")
+                    alert("You did it")
                     console.log(response)
                 },
                 (error)=>{
-                    alert("God daamn you couldn't sighUp")
+                    alert("God daamn you couldn't signUp")
                 }
 
             )

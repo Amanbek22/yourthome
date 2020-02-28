@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import css from "./addApartmant.module.css";
 import axios from "axios";
-import roomsImg from '../../img/room.png'
+// import roomsImg from '../../img/room.png'
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let map = React.createRef()
@@ -23,6 +23,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 
 const AddApartment = props => {
+
     const [rooms, setRooms] = useState("2");
     const [area, setArea] = useState("34");
     const [floor, setFloor] = useState("3");
@@ -34,9 +35,8 @@ const AddApartment = props => {
     const [country, setCountry] = useState("");
     const [description, setDescription] = useState("sdcscsdcs");
     const [price, setPrice] = useState("34");
-    const [images, setImages] = useState(null);
+    const [images, setImages] = useState();
     let address = {};
-    let add;
     const pushLocation = async e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
         setLatLng(latlng)
@@ -52,13 +52,15 @@ const AddApartment = props => {
                 setCity(address_1.city)
                 setCountry(address_1.country)
             })
-        console.log(address)
     }
-
     const sendData = () => {
         if (latLng.length > 0) {
             let data = new FormData();
-            data.append('image', images)
+            data.append('type', 1);
+            data.append('room', rooms);
+            data.append('floor', Number(floor));
+            data.append('square', 1);
+            console.log(data.get("image"))
             let formData = {
                 "type": 1,
                 "room": rooms,
@@ -81,8 +83,9 @@ const AddApartment = props => {
                     "postcode": "1",
                     "country": country,
                     "country_code": "1"
-                }}
-            axios.post("https://yourthomeneobis2.herokuapp.com/apartment/", formData ,{
+                }
+            }
+            axios.post("https://yourthomeneobis2.herokuapp.com/apartment/", formData, {
                 headers: {}
             })
                 .then(
@@ -118,7 +121,7 @@ const AddApartment = props => {
                     pushLocation={pushLocation}
                 />
             </div>
-            <div>
+            <div id={"formID"}>
                 <div>
                     <div>
                         <label>Number of house</label>
@@ -146,7 +149,6 @@ const AddApartment = props => {
                 <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Этаж"} type="text"/>
                 <input
                     onChange={(e) => {
-                        console.log(e.target.files[0])
                         setImages(e.target.files[0])
                     }}
                     type="file"/>

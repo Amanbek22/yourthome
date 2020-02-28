@@ -11,7 +11,7 @@ import SignUp from "./components/signUp/signup";
 import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
 // import ExampleMap from "./exampleMap";
 import MainPage from "./components/mainPage/mainPage";
-import DeteilsPage from "./components/deteilesPage/deteilsPage";
+import DeteilsPageContainer from "./components/deteilesPage/deteilsPage";
 import AddApartment from "./components/add_apartment/addApartmant";
 // import someData from './point.json'
 
@@ -27,14 +27,6 @@ function App() {
                 <Route exact path={"/"}>
                     <MainPage />
                 </Route>
-                {/*<Route exact path={"/"} >*/}
-                    {/*<Filter/>*/}
-                    {/*<Cards/>*/}
-                    {/*<Abaut/>*/}
-                    {/*<div className={"footer"}>*/}
-                        {/*<Footer />*/}
-                    {/*</div>*/}
-                {/*</Route>*/}
                 <Route path={"/add-apartment"}>
                     <AddApartment />
                 </Route>
@@ -53,10 +45,8 @@ function App() {
                         <Footer/>
                     </div>
                 </Route>
-                <Route exact path={"/more-info"}>
-                    <DeteilsPage
-
-                    />
+                <Route exact path={"/more-info/:id"}>
+                    <DeteilsPageContainer/>
                 </Route>
 
             </Switch>
