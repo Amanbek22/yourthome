@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const setPoints = "SET_POINTS";
 const chooseApartmentAC = "CHOOSE_APARTMENT";
 
@@ -43,4 +45,12 @@ export const setApartment = apartment => {
         type: chooseApartmentAC,
         apartment
     }
+}
+
+export let getApartment = () => (dispatch) =>{
+    axios.get("https://yourthomeneobis2.herokuapp.com/apartments")
+        .then(res => {
+            console.log(res)
+            dispatch(setPoint(res.data))
+        })
 }

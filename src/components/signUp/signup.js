@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 //import {Link} from "react-router-dom";
 import css from './signup.module.css'
 import axios from "axios";
+import api from "../../api/api";
 
 const SignUp = props => {
     const [username,setUserName] = useState("");
@@ -11,7 +12,8 @@ const SignUp = props => {
     const [name,setName] = useState("");
     const [surname,setSurname] = useState("");
     const signUp = () =>{
-        axios.post('https://yourthomeneobis2.herokuapp.com/registration',{
+
+        api.registration({
             'email': email,
             'username': username,
             'password': password,
@@ -23,6 +25,7 @@ const SignUp = props => {
                 (response)=>{
                     alert("You did it")
                     console.log(response)
+                    localStorage.setItem("userData", JSON.stringify(response.data));
                 },
                 (error)=>{
                     alert("God daamn you couldn't signUp")

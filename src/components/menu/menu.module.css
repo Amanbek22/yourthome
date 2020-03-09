@@ -30,7 +30,7 @@
 .navWrapper{
     margin: 12px 1%;
     display: grid;
-    grid-template-columns: 1fr  1fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     height: 35px;
 

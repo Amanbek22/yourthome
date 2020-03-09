@@ -1,3 +1,23 @@
 .wrapper{
-    color: red;
+    display: grid;
+    grid-template-columns: 6fr 5.3fr;
+    margin: 0 1%;
+}
+.slider_block{
+    position: sticky;
+    top: 10vh;
+    left: 0;
+    height: 80vh;
+}
+.moreInfoBlock{
+    height: 300vh;
+}
+.priceBlock{
+    position: sticky;
+    top: 10vh;
+    background: white;
+    border: 2px solid black;
+    border-top: none;
+    border-left:none;
+    border-right: none;
 }

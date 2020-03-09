@@ -8,7 +8,6 @@ const Cards = props =>{
         return(<Card price={item}/>)
     })
 
-
     return(
         <div className={css.cardsWrapper}>
             <div >

@@ -23,11 +23,28 @@ const Menu = props => {
                             </svg>
                         </Link>
                     </div>
-                    <div className={css.addButtonWrapper}>
-                        <Link to={"/add-apartment"} className={css.addButton}>
-                            + Добавить объявление
-                        </Link>
-                    </div>
+                    {
+                        !JSON.parse(localStorage.getItem('userData')) ?
+                            <div className={css.addButtonWrapper}>
+                                <Link to={"/sign-in"} className={css.addButton}>
+                                    Sign in
+                                </Link>
+                                <Link to={"/sign-up"} className={css.addButton}>
+                                    Sign up
+                                </Link>
+                            </div>
+                            :
+                            <div>
+                                <div>
+                                    <Link to={'./admin'}>{JSON.parse(localStorage.getItem('userData')).username}</Link>
+                                </div>
+                                < div className={css.addButtonWrapper}>
+                                    <Link to={"/add-apartment"} className={css.addButton}>
+                                        + Добавить объявление
+                                    </Link>
+                                </div>
+                            </div>
+                    }
                 </div>
             </div>
         </div>

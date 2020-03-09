@@ -1,15 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import css from './sign.module.css'
+import axios from "axios";
 
 const SignIn = props => {
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+
+    const signIn = () =>{
+        axios.post(`https://yourthomeneobis2.herokuapp.com/login/`,{
+            'username': email,
+            'password': password
+        })
+            .then(res=>{
+                    alert('Good')
+                    localStorage.setItem("userData", JSON.stringify(res.data));
+                },
+                error=>alert(error)
+            )
+    }
     return (
         <div className={css.mainWrapper}>
             <div className={css.wrapper}>
                 <h3>Вход</h3>
-                <form className={css.form} action="post">
-                    <input placeholder={"Email или телефон*"} type="text"/>
-                    <input placeholder={"Пароль*"} type="text"/>
+                <div className={css.form} >
+                    <input required value={email} onChange={(e)=>setEmail(e.target.value)} placeholder={"Логин"} type="text"/>
+                    <input value={password} onChange={(e)=>setPassword(e.target.value)} placeholder={"Пароль*"} type="password"/>
                     <div className={css.remember}>
                         <div>
                             <input  name={"check"} type="checkbox"/>
@@ -19,9 +35,9 @@ const SignIn = props => {
                     </div>
                     <div className={css.enter}>
                         <Link to={"/sign_up"}>Регистрация</Link>
-                        <button>Войти</button>
+                        <button onClick={signIn}>Войти</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     )

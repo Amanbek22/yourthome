@@ -27,14 +27,13 @@ const AddApartment = props => {
     const [rooms, setRooms] = useState("2");
     const [area, setArea] = useState("34");
     const [floor, setFloor] = useState("3");
-    const [item, setItem] = useState();
     const [latLng, setLatLng] = useState([])
-    const [num, setNum] = useState();
+    const [num, setNum] = useState(null);
     const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
     const [description, setDescription] = useState("sdcscsdcs");
-    const [price, setPrice] = useState("34");
+    const [price, setPrice] = useState(35);
     const [images, setImages] = useState();
     let address = {};
     const pushLocation = async e => {
@@ -49,48 +48,88 @@ const AddApartment = props => {
                 console.log(address_1)
                 setNum(address_1.house_number)
                 setStreet(address_1.road)
-                setCity(address_1.city)
+                setCity(address_1.city ? address_1.city : address_1.town)
                 setCountry(address_1.country)
             })
     }
     const sendData = () => {
+        // debugger;
         if (latLng.length > 0) {
             let data = new FormData();
-            data.append('type', 1);
-            data.append('room', rooms);
-            data.append('floor', Number(floor));
-            data.append('square', 1);
-            console.log(data.get("image"))
+            data.append('preview_image', images);
+            data.forEach((value, key) => {
+                data[key] = value;
+            });
+            console.log("data", data)
             let formData = {
+                "id": 1,
                 "type": 1,
                 "room": rooms,
-                "floor": Number(floor),
-                "square": Number(area),
-                "preview_image": data,
-                "date_of_arrival": "2020-02-22",
-                "date_of_departure": "2020-02-22",
-                "price": Number(price),
-                "description": description,
-                "status": false,
-                "images": [],
-                "owner": 1,
-                "latitude": latLng[0],
-                "longitude": latLng[1],
-                "address": {
-                    "house_number": Number(num),
+                "floor": floor,
+                "area": {
+                    "id": 1,
+                    "total_area": Number(area),
+                    "living_area": 35.0
+                },
+                "series": 1,
+                "construction_type": 1,
+                "state": 1,
+                "detail": {
+                    "id": 1,
+                    "furniture": false,
+                    "heat": false,
+                    "gas": false,
+                    "electricity": false,
+                    "internet": false,
+                    "phone": false,
+                    "elevator": false,
+                    "security": false,
+                    "parking": false
+                },
+                "location": {
+                    "id": 1,
+                    "country": 1,
+                    "region": 1,
+                    "city": 1,
+                    "district": 1,
                     "street": street,
-                    "city": city,
-                    "postcode": "1",
-                    "country": country,
-                    "country_code": "1"
-                }
+                    "house_number": 1,
+                    "latitude": latLng[0],
+                    "longitude": latLng[1]
+                },
+                "rental_period": 1,
+                "price": Number(price),
+                "currency": 1,
+                "preview_image": null,
+                "description": "Это квартира",
+                "pub_date": "2020-03-04T15:54:31.822777+06:00",
+                "images": [],
+                "contact": {
+                    "id": 1,
+                    "role": 1,
+                    "phone": "0554151520",
+                    "name": "A",
+                    "surname": "A"
+                },
+                "owner": 2,
+                "comments": [],
+                "orders": []
             }
-            axios.post("https://yourthomeneobis2.herokuapp.com/apartment/", formData, {
-                headers: {}
-            })
+            console.log(localStorage.getItem('token'))
+            // axios.defaults.headers = {
+            //     "Content-Type": "application/json",
+            //     Authorization: "Token " + localStorage.getItem('token')
+            // }
+            let token = JSON.parse(localStorage.getItem('userData')).token;
+            axios.post("https://yourthomeneobis2.herokuapp.com/add/", formData,{
+                withCredentials: true,
+                headers: {
+                    Authorization: "Bearer " + token
+                }})
                 .then(
                     (response) => {
                         alert('Daaamn you did it!')
+                        console.log(response)
                     },
                     (error) => {
                         alert("Wrong address")
@@ -148,9 +187,12 @@ const AddApartment = props => {
                 <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder={"Цена"} type="text"/>
                 <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Этаж"} type="text"/>
                 <input
+
                     onChange={(e) => {
-                        setImages(e.target.files[0])
+                        setImages(e.target.files[0]);
                     }}
+                    id="image"
+                    accept="image/png, image/jpeg, image/jpg"
                     type="file"/>
                 <button onClick={sendData} className={css.sendBtn}>Send</button>
             </div>

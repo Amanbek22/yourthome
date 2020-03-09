@@ -1,7 +1,7 @@
 import React from 'react';
 import WrapperMap from "./googleMap";
 import {connect} from "react-redux";
-import {setPoint, setApartment,} from '../../redux/googleMap_reducer'
+import {setPoint, setApartment, getApartment} from '../../redux/googleMap_reducer'
 
 const mapStateToProps = state => {
     return {
@@ -9,16 +9,5 @@ const mapStateToProps = state => {
     }
 }
 
-const  mapDispatchToProps = dispatch =>{
-    return {
-        setPoint: (points)=>{
-            dispatch(setPoint(points))
-        },
-        setApartment: (apartment) =>{
-            dispatch(setApartment(apartment))
-        }
-    }
-}
-
-const WrapperMapContainer = connect(mapStateToProps,mapDispatchToProps)(WrapperMap)
+const WrapperMapContainer = connect(mapStateToProps,{setPoint,setApartment,getApartment})(WrapperMap)
 export default WrapperMapContainer;

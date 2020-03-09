@@ -6,7 +6,7 @@ import roomsImg from '../../img/room.png'
 const Element = props => {
     return (
         <div className={css.wrapper}>
-            <Link onClick={()=>props.chooseAp(props.id)} to={`/more-info/${props.id}`}>
+            <Link  to={`/more-info/${props.id}`}>
                 <div className={css.imgWrapper}>
                     <img src={props.img === null ? roomsImg : props.img} alt="Room img"/>
                 </div>

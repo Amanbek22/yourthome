@@ -15,31 +15,27 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let arr = [];
         let newarr = [];
         const [val, setVal] = useState([])
+        const [zoom, setZoom] = useState(6)
         const onMarkerMounted = (element) => {
             arr.push(element)
         }
         const [selectedPark, setSelectedPark] = useState(null);
         return (
             <div className={css.mainWrapper}>
+                {props.points.length > 0 ?
                 <GoogleMap
                     onTilesLoaded={() => {
-                        newarr = [];
-                        arr.forEach(( item => {
-                            if (map.current.getBounds().contains(item.props.position)) {
-                                newarr.push(item.props.id)
-                            } else {
-                                console.log("failed")
-                            }
-                        }))
-                        props.setVisibleMarkers(newarr)
+                        setTimeout(() => {
+                            setZoom(7)
+                        }, 500)
                     }}
                     ref={map}
                     // defaultZoom={7}
-                    zoom={7}
+                    zoom={zoom}
                     defaultCenter={{lat: 41.204380, lng: 74.766098}}
-                    onBoundsChanged={ () => {
+                    onBoundsChanged={() => {
                         newarr = [];
-                         arr.forEach(( item => {
+                        arr.forEach((item => {
                             if (map.current.getBounds().contains(item.props.position)) {
                                 newarr.push(item.props.id)
                             } else {
@@ -52,12 +48,11 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     <MarkerClusterer>
                         {props.points.map((item) => (
                             <Marker
-                                onMouseOver={()=>alert(item.id)}
                                 ref={onMarkerMounted}
                                 onClick={() => setSelectedPark(item)}
                                 position={{
-                                    lat: item.latitude,
-                                    lng: item.longitude
+                                    lat: item.location.latitude,
+                                    lng: item.location.longitude
                                 }}
                                 title={item.description}
                                 text={item.price}
@@ -76,8 +71,8 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     </MarkerClusterer>
                     {selectedPark && (
                         <InfoWindow position={{
-                            lat: selectedPark.latitude,
-                            lng: selectedPark.longitude,
+                            lat: selectedPark.location.latitude,
+                            lng: selectedPark.location.longitude,
                         }}
                                     onCloseClick={() => setSelectedPark(null)}
                         >
@@ -93,7 +88,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                         </InfoWindow>
                     )}
 
-                </GoogleMap>
+                </GoogleMap> : console.log('error')}
             </div>
         )
     }
@@ -103,7 +98,6 @@ const WrapperMap = props => {
     const [filteredCity, setFilteredCity] = useState("all")
     const [selected, setSelected] = useState([])
     const [apartments, setApartments] = useState(props.points.points)
-    console.log(selected)
     useEffect(() => {
         setApartments(props.points.points)
     });
@@ -113,7 +107,7 @@ const WrapperMap = props => {
         } else if (filteredCity === 'bishkek') {
             let arr = [];
             props.points.points.map(item => {
-                if (item.address.city === 'Бишкек') {
+                if (item.location.city === 'Бишкек') {
                     arr.push(item)
                     console.log(item)
                 }
@@ -123,33 +117,27 @@ const WrapperMap = props => {
     }, [filteredCity])
 
     useEffect(() => {
-        axios.get("https://yourthomeneobis2.herokuapp.com/announcements")
-            .then(res => {
-                console.log(res.data)
-                props.setPoint(res.data)
-            })
+        props.getApartment()
     }, []);
     let arr = [];
     selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
     let chooseApartment = item => {
         props.setApartment(item)
-    }
+    };
     let items;
     if (arr.length > 0) {
         items = arr.map(item => {
             return (
-                <div onMouseEnter={()=>{
-                    console.log(item.id)
-                }} key={item.id}>
+                <div key={item.id}>
                     <Element
                         id={item.id}
                         chooseAp={chooseApartment}
                         img={item.preview_image}
                         forSale={item.description}
-                        house_number={item.address.house_number}
-                        street={item.address.street}
-                        city={item.address.city}
-                        area={item.square}
+                        house_number={item.location.house_number}
+                        street={item.location.street}
+                        city={item.location.city}
+                        area={item.area.total_area}
                         room={item.room}
                         floor={item.floor}
                         price={item.price}
