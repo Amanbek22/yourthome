@@ -1,11 +1,13 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import {googleMapReducer} from "./googleMap_reducer";
 import thunk  from 'redux-thunk'
+import {authReducer} from "./authReducer";
 
 
 let reducers = combineReducers({
     points: googleMapReducer,
-    apartment: googleMapReducer
+    apartment: googleMapReducer,
+    data: authReducer
 })
 
 let store  = createStore(reducers, applyMiddleware(thunk));

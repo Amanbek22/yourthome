@@ -2,34 +2,39 @@ import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import css from './sign.module.css'
 import axios from "axios";
+import api from "../../api/api";
 
 const SignIn = props => {
-    const [email,setEmail] = useState('');
-    const [password,setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-    const signIn = () =>{
-        axios.post(`https://yourthomeneobis2.herokuapp.com/login/`,{
+    const signIn = () => {
+        api.signIn({
             'username': email,
             'password': password
         })
-            .then(res=>{
+            .then(
+                res => {
                     alert('Good')
                     localStorage.setItem("userData", JSON.stringify(res.data));
+                    window.location.href="/add-apartment"
                 },
-                error=>alert(error)
+                error => alert(error)
             )
     }
     return (
         <div className={css.mainWrapper}>
             <div className={css.wrapper}>
                 <h3>Вход</h3>
-                <div className={css.form} >
-                    <input required value={email} onChange={(e)=>setEmail(e.target.value)} placeholder={"Логин"} type="text"/>
-                    <input value={password} onChange={(e)=>setPassword(e.target.value)} placeholder={"Пароль*"} type="password"/>
+                <div className={css.form}>
+                    <input required value={email} onChange={(e) => setEmail(e.target.value)} placeholder={"Логин"}
+                           type="text"/>
+                    <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder={"Пароль*"}
+                           type="password"/>
                     <div className={css.remember}>
                         <div>
-                            <input  name={"check"} type="checkbox"/>
-                            <span >Остатся на сайте</span>
+                            <input name={"check"} type="checkbox"/>
+                            <span>Остатся на сайте</span>
                         </div>
                         <Link to={"/"}>Забыли пароль?</Link>
                     </div>

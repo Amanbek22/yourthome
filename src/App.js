@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import Menu from "./components/menu/menu";
+import MenuContainer from "./components/menu/menu";
 import Filter from "./components/filterComponent/filter";
 import Cards from "./components/cards/cards";
 import About from "./components/abautCompony/abautCompony";
@@ -13,15 +13,13 @@ import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
 import MainPage from "./components/mainPage/mainPage";
 import WithRouterDeteilsPage from "./components/deteilesPage/deteilsPage";
 import AddApartment from "./components/add_apartment/addApartmant";
-import Card from "./components/card/card";
-// import someData from './point.json'
 
 function App() {
   return (
       <div className="wrapper">
         <Router>
             <div className={"menuWrapper"}>
-                <Menu />
+                <MenuContainer />
             </div>
             <div className={"content"}>
             <Switch>

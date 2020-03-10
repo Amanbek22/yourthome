@@ -7,12 +7,8 @@ const http = axios.create({
 
 export default {
     getApartmentApi: (id) => http.get(`/apartment/${id}`),
-    registration: data => http.post("/registration/",data,{
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        }
-    }),
+    registration: data => http.post("/registration/",data),
+    signIn: data => http.post("/login/",data),
     // getHits: () => http.get("/product/hits/"),
     // postData: (url, data) =>
     //     http.post(${url}, data, {

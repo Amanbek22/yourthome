@@ -1,9 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from "react-router-dom";
 import css from './menu.module.css'
+import {connect} from "react-redux";
+import {setData} from "../../redux/authReducer";
 
 const Menu = props => {
-
+    debugger;
+    let data;
+    useEffect(()=>{
+        data = JSON.parse(localStorage.getItem('userData'));
+        if (!data){
+            alert('error')
+        } else {
+            console.log(data)
+            props.setData(data)
+        }
+    },[])
     return (
         <div className={css.menuWrapper}>
             <div>
@@ -24,7 +36,7 @@ const Menu = props => {
                         </Link>
                     </div>
                     {
-                        !JSON.parse(localStorage.getItem('userData')) ?
+                        props.data.logged === true ?
                             <div className={css.addButtonWrapper}>
                                 <Link to={"/sign-in"} className={css.addButton}>
                                     Sign in
@@ -36,7 +48,7 @@ const Menu = props => {
                             :
                             <div>
                                 <div>
-                                    <Link to={'./admin'}>{JSON.parse(localStorage.getItem('userData')).username}</Link>
+                                    <Link to={'./admin'}>{props.data.username}</Link>
                                 </div>
                                 < div className={css.addButtonWrapper}>
                                     <Link to={"/add-apartment"} className={css.addButton}>
@@ -51,4 +63,11 @@ const Menu = props => {
     )
 }
 
-export default Menu;
+const mapStateToProps = state =>{
+    return {
+        data: state.data
+    }
+}
+
+const MenuContainer = connect(mapStateToProps,{setData})(Menu)
+export default MenuContainer;

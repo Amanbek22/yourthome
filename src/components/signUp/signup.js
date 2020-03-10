@@ -26,6 +26,7 @@ const SignUp = props => {
                     alert("You did it")
                     console.log(response)
                     localStorage.setItem("userData", JSON.stringify(response.data));
+                    window.location.href="/add-apartment"
                 },
                 (error)=>{
                     alert("God daamn you couldn't signUp")
