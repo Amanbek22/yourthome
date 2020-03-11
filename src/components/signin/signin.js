@@ -15,7 +15,6 @@ const SignIn = props => {
         })
             .then(
                 res => {
-                    alert('Good')
                     localStorage.setItem("userData", JSON.stringify(res.data));
                     window.location.href="/add-apartment"
                 },

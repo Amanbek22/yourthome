@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import css from "./addApartmant.module.css";
 import axios from "axios";
+import api from "../../api/api";
 // import roomsImg from '../../img/room.png'
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
@@ -115,25 +116,10 @@ const AddApartment = props => {
                 "comments": [],
                 "orders": []
             }
-            console.log(localStorage.getItem('token'))
-            // axios.defaults.headers = {
-            //     "Content-Type": "application/json",
-            //     Authorization: "Token " + localStorage.getItem('token')
-            // }
-            let token = JSON.parse(localStorage.getItem('userData')).token;
-            axios.post("https://yourthomeneobis2.herokuapp.com/add/", formData,{
-                withCredentials: true,
-                headers: {
-                    Authorization: "Bearer " + token
-                }})
+            api.add(formData)
                 .then(
-                    (response) => {
-                        alert('Daaamn you did it!')
-                        console.log(response)
-                    },
-                    (error) => {
-                        alert("Wrong address")
-                    }
+                    (response) => alert('Daaamn you did it!'),
+                    (error) => alert("Wrong address")
                 )
         }
     }

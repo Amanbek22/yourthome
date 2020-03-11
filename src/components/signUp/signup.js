@@ -23,7 +23,6 @@ const SignUp = props => {
         })
             .then(
                 (response)=>{
-                    alert("You did it")
                     console.log(response)
                     localStorage.setItem("userData", JSON.stringify(response.data));
                     window.location.href="/add-apartment"

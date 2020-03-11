@@ -5,17 +5,15 @@ import {connect} from "react-redux";
 import {setData} from "../../redux/authReducer";
 
 const Menu = props => {
-    debugger;
-    let data;
-    useEffect(()=>{
-        data = JSON.parse(localStorage.getItem('userData'));
-        if (!data){
-            alert('error')
+    useEffect(() => {
+        let data = JSON.parse(localStorage.getItem('userData'));
+        if (!data) {
+            return 0
         } else {
             console.log(data)
             props.setData(data)
         }
-    },[])
+    }, [])
     return (
         <div className={css.menuWrapper}>
             <div>
@@ -54,6 +52,12 @@ const Menu = props => {
                                     <Link to={"/add-apartment"} className={css.addButton}>
                                         + Добавить объявление
                                     </Link>
+                                    <span onClick={() => {
+                                        localStorage.removeItem("userData")
+                                        window.location.href = "/"
+                                    }} className={css.addButton}>
+                                        logout
+                                    </span>
                                 </div>
                             </div>
                     }
@@ -63,11 +67,11 @@ const Menu = props => {
     )
 }
 
-const mapStateToProps = state =>{
+const mapStateToProps = state => {
     return {
         data: state.data
     }
 }
 
-const MenuContainer = connect(mapStateToProps,{setData})(Menu)
+const MenuContainer = connect(mapStateToProps, {setData})(Menu)
 export default MenuContainer;
