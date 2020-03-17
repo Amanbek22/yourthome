@@ -10,9 +10,12 @@
     height: 80vh;
 }
 .moreInfoBlock{
-    height: 300vh;
+    height: 110vh;
 }
 .priceBlock{
+    display: grid;
+    font-size: 30px;
+    grid-template-columns: 4fr 2fr;
     position: sticky;
     top: 10vh;
     background: white;
@@ -20,4 +23,29 @@
     border-top: none;
     border-left:none;
     border-right: none;
+}
+.information{
+    margin-top: 5%;
+}
+.listInfo{
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-gap: 10px;
+    margin-top: 10px;
+}
+.listNear{
+    margin-top: 5%;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+}
+.listNear>div>ul>li{
+    margin: 5px 0;
+}
+.descriptionWrapper{
+    margin-top: 5%;
+}
+@media(max-width: 700px){
+    .wrapper{
+        display: block;
+    }
 }

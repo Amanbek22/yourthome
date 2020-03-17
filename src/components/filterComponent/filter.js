@@ -14,8 +14,8 @@ const Filter = props => {
                 <div className={css.inputsWrapper}>
                     <select name="find_by_city" >
                         <option value="Bishkek">Bishkek</option>
-                        <option value="Bishkek">Bishkek</option>
-                        <option value="Bishkek">Bishkek</option>
+                        <option value="Bishkek">Osh</option>
+                        <option value="Bishkek">Naryn</option>
 
                     </select>
                     <input type="text"/>

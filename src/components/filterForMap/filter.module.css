@@ -1,20 +1,31 @@
 .wrapper{
+    position: relative;
     background: #ffffff;
     display: grid;
-    grid-template-columns: 2fr 4fr 2fr 2fr 1fr;
     grid-gap: 1em;
     margin: 0 0.8%;
 }
+.filterWrapper{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+.filterWrapper>button{
+    color: #fff;
+    background: #05BA02;
+    height: 40px;
+    margin: auto;
+    font-size: 18px;
+    border-radius: 2px;
+    border: none;
+}
 .impWrapper{
-    position: sticky;
-    top: 14vh;
-    left: 0px;
+
     display: grid;
     grid-template-columns: 1fr 1fr ;
     grid-gap: 1em;
 }
 .impWrapper>input{
-    width: 50px;
+    width: 95%;
 }
 input:focus{
     outline: none;
@@ -31,17 +42,6 @@ select:focus{
     font-weight: normal;
     cursor: pointer !important;
 }
-.btn{
-    background: #05BA02;
-    color: #ffffff;
-    border-radius: 2px;
-    padding: 6px;
-    border: 1px solid #05BA02;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    cursor: pointer !important;
-}
 .wrapper>div>select,input{
     border: 1px solid #CDCDCD;
     border-radius: 2px;
@@ -51,4 +51,16 @@ select:focus{
     font-weight: normal;
 
     cursor: pointer !important;
+}
+.detailsWrapper>h4{
+    margin: 0;
+    padding: 0;
+}
+.details{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+}
+.details>div>input{
+    margin-right: 10px;
 }

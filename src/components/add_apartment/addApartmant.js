@@ -15,7 +15,6 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     defaultZoom={7}
                     defaultCenter={{lat: 41.204380, lng: 74.766098}}
                 >
-
                 </GoogleMap>
             </div>
         )
@@ -35,7 +34,7 @@ const AddApartment = props => {
     const [country, setCountry] = useState("");
     const [description, setDescription] = useState("sdcscsdcs");
     const [price, setPrice] = useState(35);
-    const [images, setImages] = useState();
+    const [images, setImages] = useState(null);
     let address = {};
     const pushLocation = async e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
@@ -54,14 +53,12 @@ const AddApartment = props => {
             })
     }
     const sendData = () => {
-        // debugger;
         if (latLng.length > 0) {
-            let data = new FormData();
-            data.append('preview_image', images);
-            data.forEach((value, key) => {
-                data[key] = value;
-            });
-            console.log("data", data)
+            let preview_image = new FormData();
+            preview_image.append('preview_image', null);
+            // data.forEach((value, key) => {
+            //     data[key] = value;
+            // });
             let formData = {
                 "id": 1,
                 "type": 1,
@@ -80,10 +77,10 @@ const AddApartment = props => {
                     "furniture": false,
                     "heat": false,
                     "gas": false,
-                    "electricity": false,
+                    "electricity": true,
                     "internet": false,
                     "phone": false,
-                    "elevator": false,
+                    "elevator": true,
                     "security": false,
                     "parking": false
                 },

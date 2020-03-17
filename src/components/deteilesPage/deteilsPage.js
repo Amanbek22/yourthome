@@ -18,6 +18,9 @@ const DeteilsPage = props => {
                 console.log(res.data)
             })
     }, [])
+    let area = {...apartment.area}
+    let phone = {...apartment.contact}
+    console.log(apartment)
     return (
         <div className={css.wrapper}>
             <div className={css.slider_block}>
@@ -44,13 +47,67 @@ const DeteilsPage = props => {
             </div>
             <div className={css.moreInfoBlock}>
                 <div className={css.priceBlock}>
-                    {apartment.price} Сом/
-                    <small>mo</small>
-                    <br/>
-
+                    <div>{apartment.description}</div> <div>{apartment.price}$</div>
                 </div>
-                <div>
-                    INFORMATION, FEEDBACK AND OTHER INFO
+                <div className={css.information}>
+                    <div>Информация</div>
+                    <div className={css.listInfo}>
+                        <div>Камнат: {apartment.room}</div>
+                        <div>Общая площадь: {area.total_area}m<sup>2</sup></div>
+                        <div>Этаж: {apartment.floor}</div>
+                        <div>Тип строение: {apartment.construction_type}</div>
+                        <div>Этажность дома: {apartment.floor}</div>
+                        <div>Планировка: {apartment.floor}</div>
+                        <div>Тип ремонта: {apartment.construction_type}</div> <div></div>
+                        <div>Меблирована: {apartment.construction_type}</div> <div></div>
+                    </div>
+                    <div className={css.listNear}>
+                        <div>
+                            <div>Рядом есть:</div>
+                            <ul>
+                                <li>Рестораны кафе</li>
+                                <li>Детский сад</li>
+                                <li>Стоянка</li>
+                                <li>Остановки</li>
+                                <li>Супермаркет</li>
+                                <li>магазины</li>
+                                <li>Парк</li>
+                                <li>Зелёная зона</li>
+                                <li>Больница</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div>В квартире есть:</div>
+                            <ul>
+                                <li>Рестораны кафе</li>
+                                <li>Детский сад</li>
+                                <li>Стоянка</li>
+                                <li>Остановки</li>
+                                <li>Супермаркет</li>
+                                <li>магазины</li>
+                                <li>Парк</li>
+                                <li>Зелёная зона</li>
+                                <li>Больница</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className={css.descriptionWrapper}>
+                        <div>Описание</div>
+                        <div>
+                            В Новом Роскошном Жилом Комплексе!!!
+                            Продается 2- комнатная квартира с общей площадью 70 м2.
+
+                            Преимущества Ж.К:
+                            - Качественная Российская входная - металлическая дверь;
+                            - Пластиковые рамы imzo premium;
+                            - Счётчики;
+                            - Видео наблюдение 24/7
+                            - Детские площадки во дворе Ж.К
+                            - Охраняемая территория.
+
+                            Сдача Объекта август 2020 Год!!!
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

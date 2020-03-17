@@ -10,7 +10,6 @@ let initialState = {
 
 
 export const authReducer = (state = initialState, action) => {
-    debugger
     switch (action.type) {
         case authData:
             return {
@@ -27,7 +26,6 @@ export const authReducer = (state = initialState, action) => {
 
 
 export const setData = (data) => {
-    debugger
     return {
         type: authData,
         data
