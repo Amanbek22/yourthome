@@ -13,6 +13,7 @@ import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
 import MainPage from "./components/mainPage/mainPage";
 import WithRouterDeteilsPage from "./components/deteilesPage/deteilsPage";
 import AddApartment from "./components/add_apartment/addApartmant";
+import Admin from "./components/admin/admin";
 
 function App() {
   return (
@@ -51,10 +52,11 @@ function App() {
                 <Route exact path={"/more-info/:id"}>
                     <WithRouterDeteilsPage/>
                 </Route>
-
+                <Route exact path={"/admin"}>
+                    <Admin />
+                </Route>
             </Switch>
             </div>
-
         </Router>
       </div>
   );

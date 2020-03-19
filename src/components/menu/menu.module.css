@@ -55,21 +55,37 @@
 }
 .addButtonWrapper{
     text-align: right;
+    float: right;
+    display: inline-block;
+    position: relative;
+}
+.addButtonWrapper>a{
+    margin: 0 10px;
 }
 .addButton{
-    background: none;
-    border: 1px solid #05BA02;
-    border-radius: 5px;
-    padding: 10px 20px;
-    transition: all 0.8s;
+    /*display: block;*/
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*margin:  7px 5px ;*/
 }
 .addButton:focus{
     outline:none;
 }
 .addButton:hover{
-    background: #05BA02;
-    color: white;
-    transition: all 0.35s;
+    border: 2px solid #05BA02;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    transition: all 0.3s;
+    padding: 0 0 5px 0;
+}
+.active{
+    border: 2px solid #57C325;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    transition: all 0.3s;
+    padding: 0 0 5px 0;
 }
 
 @media screen and (max-width: 1000px) {

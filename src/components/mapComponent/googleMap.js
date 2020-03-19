@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
-import GoogleMapReact from "google-map-react"
+// import GoogleMapReact from "google-map-react"
 import css from './map.module.css'
 import apartment from '../../img/room.png'
 import FilterForMap from "../filterForMap/filterForMap";
@@ -11,6 +11,7 @@ import marker from '../../img/marker6.png'
 import marker2 from '../../img/marker10.png'
 import api from "../../api/api";
 import {setApartment} from "../../redux/googleMap_reducer";
+import axios from "axios";
 
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
@@ -24,7 +25,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
             arr.push(element)
         }
         const [selectedPark, setSelectedPark] = useState(null);
-
+        let som = props.som / 10;
 
         return (
             <div className={css.mainWrapper}>
@@ -69,7 +70,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                     title={item.description}
                                     color={'#ffffff'}
                                     markerWithLabel={"Hello"}
-                                    label={{text:String(item.price) + '$',color: '#000',fontSize: 16 + 'px'}}
+                                    label={{text:String(Math.round(item.price * som  / props.usd)) + '$',color: '#000',fontSize: 16 + 'px'}}
                                     icon={
                                         // iconMarker
                                         {
@@ -94,7 +95,8 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                 <div>
                                     <img src={apartment} alt="dsvs"/>
                                     <div>
-                                        <Link to={`/more-info/${selectedPark.id}`}>
+                                        <Link
+                                            to={`/more-info/${selectedPark.id}`}>
                                             Подробнее
                                         </Link>
                                     </div>
@@ -109,85 +111,35 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 ))
 
 const WrapperMap = props => {
-    console.log(props)
     const [filteredCity, setFilteredCity] = useState("all")
     const [selected, setSelected] = useState([])
-    const [apartments, setApartments] = useState(props.points.points)
+    const [apartments, setApartments] = useState(props.points.points);
+    const [som,setSom] = useState();
+    const [rub,setRub] = useState()
+    const [usd,setUsd] = useState()
     useEffect(() => {
         setApartments(props.points.points)
     });
     useEffect(() => {
-        debugger
         if (filteredCity === 'all') {
             setApartments(props.points.points)
-        } else if (filteredCity === 'bishkek') {
-            let arr = [];
-            props.points.allPoints.map(item => {
-                if (item.location.city === 'Бишкек') {
-                    arr.push(item)
-                    console.log(item)
-                }
+        } else{
+            let newarr = props.points.allPoints.filter((item)=>{
+                return item.location.city === filteredCity
             })
-            props.setPoint(arr)
-        }else if (filteredCity === 'osh') {
-            let arr = [];
-            props.points.allPoints.map(item => {
-                if (item.location.city === 'Ош') {
-                    arr.push(item)
-                    console.log(item)
-                }
-            })
-            props.setPoint(arr)
-        }else if (filteredCity === 'talas') {
-            let arr = [];
-            props.points.allPoints.map(item => {
-                if (item.location.city === 'Талас') {
-                    arr.push(item)
-                    console.log(item)
-                }
-            })
-            props.setPoint(arr)
-        }else if (filteredCity === 'naryn') {
-            let arr = [];
-            props.points.allPoints.map(item => {
-                if (item.location.city === 'Нарын') {
-                    arr.push(item)
-                    console.log(item)
-                }
-            })
-            props.setPoint(arr)
-        }else if (filteredCity === 'issyk-kul') {
-            let arr = [];
-            props.points.allPoints.map(item => {
-                if (item.location.city === 'Иссык-Куль') {
-                    arr.push(item)
-                    console.log(item)
-                }
-            })
-            props.setPoint(arr)
-        }else if (filteredCity === 'djalal-abad') {
-            let arr = [];
-            props.points.allPoints.map(item => {
-                if (item.location.city === 'Джалал-Абад') {
-                    arr.push(item)
-                    console.log(item)
-                }
-            })
-            props.setPoint(arr)
-        }else if (filteredCity === 'batken') {
-            let arr = [];
-            props.points.allPoints.map(item => {
-                if (item.location.city === 'Баткен') {
-                    arr.push(item)
-                    console.log(item)
-                }
-            })
-            props.setPoint(arr)
+            props.setPoint(newarr)
         }
     }, [filteredCity])
 
     useEffect(() => {
-        api.getApartments()
+        axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
+            .then(res=>{
+                console.log(res.data.Valute)
+                setSom(res.data.Valute.KGS.Value)
+                // setRub(res.data.Valute.KGS.Value)
+                setUsd(res.data.Valute.USD.Value)
+            })
+       api.getApartments()
             .then(response=>{
                 props.setPoint(response.data)
                 props.setAllPointsAC(response.data)
@@ -243,6 +195,8 @@ const WrapperMap = props => {
                         mapElement={<div
                             style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
                         points={apartments}
+                        som={som}
+                        usd={usd}
                     />
                 </div>
                 <div className={css.elemetsWrapper}>

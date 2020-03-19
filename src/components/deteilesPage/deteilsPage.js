@@ -1,26 +1,44 @@
 import React, {useEffect, useState} from 'react';
 import css from './deteils.module.css'
 import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {Carousel} from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
- import api from "../../api/api";
+import api from "../../api/api";
+import axios from 'axios'
+import {DatePicker, DatePickerInput} from "rc-datepicker";
+import 'moment/locale/ru.js';
+import 'rc-datepicker/lib/style.css';
+import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 
 
 const DeteilsPage = props => {
     const [apartment, setApartment] = useState({});
     const [address, setAddress] = useState({});
+    const [date, setDate] = useState(new Date());
+    const [todate, setTodate] = useState(new Date());
+    const [som, setSom] = useState();
+    const [usd, setUsd] = useState();
     useEffect(() => {
+        axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
+            .then(res => {
+                console.log(res.data.Valute)
+                setSom(res.data.Valute.KGS.Value / 10)
+                // setRub(res.data.Valute.KGS.Value)
+                setUsd(res.data.Valute.USD.Value)
+            })
         api.getApartmentApi(props.match.params.id)
             .then(res => {
                 setApartment(res.data)
                 setAddress(res.data.address)
-                console.log(res.data)
+                // console.log(res.data)
             })
     }, [])
     let area = {...apartment.area}
     let phone = {...apartment.contact}
-    console.log(apartment)
+    const onDataChange = (jsDate, dateString) => {
+        console.log(jsDate, dateString)
+    }
     return (
         <div className={css.wrapper}>
             <div className={css.slider_block}>
@@ -47,7 +65,8 @@ const DeteilsPage = props => {
             </div>
             <div className={css.moreInfoBlock}>
                 <div className={css.priceBlock}>
-                    <div>{apartment.description}</div> <div>{apartment.price}$</div>
+                    <div>{apartment.description}</div>
+                    <div>{Math.round(apartment.price * som / usd)}$</div>
                 </div>
                 <div className={css.information}>
                     <div>Информация</div>
@@ -58,8 +77,10 @@ const DeteilsPage = props => {
                         <div>Тип строение: {apartment.construction_type}</div>
                         <div>Этажность дома: {apartment.floor}</div>
                         <div>Планировка: {apartment.floor}</div>
-                        <div>Тип ремонта: {apartment.construction_type}</div> <div></div>
-                        <div>Меблирована: {apartment.construction_type}</div> <div></div>
+                        <div>Тип ремонта: {apartment.construction_type}</div>
+                        <div></div>
+                        <div>Меблирована: {apartment.construction_type}</div>
+                        <div></div>
                     </div>
                     <div className={css.listNear}>
                         <div>
@@ -91,6 +112,31 @@ const DeteilsPage = props => {
                             </ul>
                         </div>
                     </div>
+                    <div className={css.dateWrapper}>
+                        <div>
+                            <label>От</label>
+                            <DatePickerInput
+                                disabled={true}
+                                placeholder={'От какого числа занято'}
+                                onChange={onDataChange}
+                                value={date}
+                                className='my-custom-datepicker-component'
+                                onHide={() => 0}
+                                showOnInputClick={true}
+                            />
+                        </div>
+                        <div>
+                            До
+                            <DatePickerInput
+                                disabled={true}
+                                placeholder={'От какого числа занято'}
+                                onChange={onDataChange}
+                                value={todate}
+                                className='my-custom-datepicker-component'
+                                onHide={() => 0}
+                            />
+                        </div>
+                    </div>
                     <div className={css.descriptionWrapper}>
                         <div>Описание</div>
                         <div>
@@ -108,11 +154,45 @@ const DeteilsPage = props => {
                             Сдача Объекта август 2020 Год!!!
                         </div>
                     </div>
+                    <div className={css.mapWrapper}>
+                        <MyMapComponent
+                            googleMapURL="
+                        https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM
+                        "
+                            loadingElement={<div
+                                style={{height: `100%`}}/>}
+                            containerElement={<div
+                                style={{height: `300px`}}/>}
+                            mapElement={<div
+                                style={{height: `100%`}}/>}
+                            location={apartment.location}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
+const MyMapComponent = withScriptjs(withGoogleMap((props) => {
+    return (
+        <div>
+            {props.location ?
+                <GoogleMap
+                    defaultZoom={12}
+                    defaultCenter={{lat: props.location.latitude, lng: props.location.longitude}}
+                >
+                    <Marker
+                        position={{
+                            lat: props.location.latitude,
+                            lng: props.location.longitude
+                        }}
+                        key={props.location.id}
+                    />
+
+                </GoogleMap> : console.log('error')}
+        </div>
+    )
+}))
 
 
 const mapStateToProps = state => {
@@ -127,3 +207,33 @@ let WithRouterDeteilsPage = withRouter(DeteilsPageContainer);
 
 
 export default WithRouterDeteilsPage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -29,6 +29,12 @@
     grid-template-columns: 2fr 6fr;
     grid-gap: 1em;
 }
+.inputsWrapper>select{
+    width: 100%;
+    border: none;
+    border-radius: 2px;
+    height: 38px;
+}
 .inputsWrapper>input{
     width: 100%;
     border: none;
@@ -66,6 +72,11 @@
     box-sizing: border-box;
     border-radius: 2px;
     padding: 8px 15px;
+}
+.dateWrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
 }
 @media screen and (max-width: 1000px) {
 

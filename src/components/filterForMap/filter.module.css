@@ -64,3 +64,8 @@ select:focus{
 .details>div>input{
     margin-right: 10px;
 }
+.dataWrapper{
+    display: grid;
+    grid-template-columns: 1fr ;
+    grid-gap: 1em;
+}

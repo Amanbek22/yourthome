@@ -1,7 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import css from './filter.module.css'
+import {DatePickerInput} from "rc-datepicker";
 
 const FilterForMap = props =>{
+    const [cities,setCities] = useState('all');
+    const [typeApartment, setTypeApartment] = useState('all')
+    const [rooms,setRooms] = useState('all')
+    const [floor,setFloor] = useState('all')
+    const [date,setDate] = useState(new Date());
+    const [todate,setTodate] = useState(new Date());
 
     const onCityChange = e =>{
         // sort by city
@@ -15,62 +22,87 @@ const FilterForMap = props =>{
         // sort by rooms
         alert(e.target.value)
     }
+    const clicked = () =>{
+
+    }
+    const onDataChange = (jsDate,dateString) => {
+        console.log(jsDate,dateString)
+    }
     return(
         <div className={css.wrapper}>
             <div className={css.filterWrapper}>
                 <h2>Фильтр данных</h2>
-                <button>Применить</button>
+                <button onClick={clicked}>Применить</button>
             </div>
-            <select onChange={onCityChange} name="cities" >
+            <select value={cities} onChange={(e)=>setCities(e.target.value)} name="cities" >
                 <option value="all">Все Города</option>
-                <option value="bishkek">Бишкек</option>
-                <option value="osh">Ош</option>
-                <option value="naryn">Нарын</option>
-                <option value="talas">Талас</option>
-                <option value="issyk-kul">Иссык-Куль</option>
-                <option value="djalal-abad">Джалал-Абад</option>
-                <option value="batken">Баткен</option>
+                <option value="Бишкек">Бишкек</option>
+                <option value="Ош">Ош</option>
+                <option value="Нарын">Нарын</option>
+                <option value="Талас">Талас</option>
+                <option value="Иссык-Куль">Иссык-Куль</option>
+                <option value="Джалал-Абад">Джалал-Абад</option>
+                <option value="Баткен">Баткен</option>
             </select>
-            <input placeholder={"Дата вьезда и выезда"} type="text"/>
+            {/*<input placeholder={"Дата вьезда и выезда"} type="text"/>*/}
+            <div className={css.dataWrapper}>
+                <DatePickerInput
+                    placeholder={'От какого числа занято'}
+                    onChange={onDataChange}
+                    value={date}
+                    className='my-custom-datepicker-component'
+                    onHide={()=>0}
+                    showOnInputClick={true}
+                />
+                <DatePickerInput
+                    placeholder={'От какого числа занято'}
+                    onChange={onDataChange}
+                    value={todate}
+                    className='my-custom-datepicker-component'
+                    onHide={()=>0}
+                    showOnInputClick={true}
+                    // style={{ margin: 50+'px' }}
+                />
+            </div>
             <div className={css.impWrapper}>
-                <select name="price" >
+                <select value={typeApartment} onChange={e=>setTypeApartment(e.target.value)} name="price" >
                     <option value="all">Тип жилья</option>
-                    <option value="1500">Квартира</option>
-                    <option value="2000">Дом</option>
+                    <option value="Квартира">Квартира</option>
+                    <option value="Дом">Дом</option>
                 </select>
-                <select name="more" >
-                    <option value="more">Кличество комнат</option>
-                    <option value="more">1</option>
-                    <option value="more">2</option>
-                    <option value="more">3</option>
-                    <option value="more">4</option>
-                    <option value="more">5</option>
-                    <option value="more">6</option>
+                <select value={rooms} onChange={e=>setRooms(e.target.value)} name="more" >
+                    <option value="all">Кличество комнат</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
                 </select>
             </div>
             <div className={css.impWrapper}>
-                <select name="price" >
+                <select value={floor} onChange={e=>setFloor(e.target.value)} name="floor" >
                     <option value="all">Этаж</option>
-                    <option value="1500">1</option>
-                    <option value="2000">2</option>
-                    <option value="2000">3</option>
-                    <option value="2000">4</option>
-                    <option value="2000">5</option>
-                    <option value="2000">6</option>
-                    <option value="2000">7</option>
-                    <option value="2000">8</option>
-                    <option value="2000">9</option>
-                    <option value="2000">10</option>
-                    <option value="2000">11</option>
-                    <option value="2000">12</option>
-                    <option value="2000">13</option>
-                    <option value="2000">14</option>
-                    <option value="2000">15</option>
-                    <option value="2000">16</option>
-                    <option value="2000">17</option>
-                    <option value="2000">18</option>
-                    <option value="2000">19</option>
-                    <option value="2000">20</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
                 </select>
                 <select name="more" >
                     <option value="all">Этажность дома</option>
@@ -98,13 +130,13 @@ const FilterForMap = props =>{
             </div>
             <div className={css.impWrapper}>
                 <select name="price" >
-                    <option value="all">Тип строения</option>
-                    <option value="1500">Квартира</option>
-                    <option value="2000">Дом</option>
+                    <option value="">Тип строения</option>
+                    <option value="Кирпичный">Кирпичный</option>
+                    <option value="Панельный">Панельный</option>
                     {/*<option value="2000">Комерчиская невижемость</option>*/}
                 </select>
                 <select name="more" >
-                    <option value="more">Мебелироан</option>
+                    <option value="more">Мебелирван</option>
                     <option value="more">Да</option>
                     <option value="more">Нет</option>
                 </select>

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import css from './menu.module.css'
 import {connect} from "react-redux";
 import {setData} from "../../redux/authReducer";
@@ -45,19 +45,20 @@ const Menu = props => {
                             </div>
                             :
                             <div>
-                                <div>
-                                    <Link to={'./admin'}>{props.data.username}</Link>
-                                </div>
+
                                 < div className={css.addButtonWrapper}>
-                                    <Link to={"/add-apartment"} className={css.addButton}>
+                                    <NavLink activeClassName={css.active} to={"/add-apartment"}>
                                         + Добавить объявление
-                                    </Link>
-                                    <span onClick={() => {
+                                    </NavLink>
+                                    {/*<NavLink activeClassName={css.active} to={'./admin'}>Дамашняя страница</NavLink>*/}
+                                    <NavLink activeClassName={css.active} to={'/admin'}>{props.data.username}</NavLink>
+                                    <Link onClick={() => {
                                         localStorage.removeItem("userData")
                                         window.location.href = "/"
                                     }} className={css.addButton}>
-                                        logout
-                                    </span>
+                                        Выход
+                                    </Link>
+
                                 </div>
                             </div>
                     }
