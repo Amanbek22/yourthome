@@ -1,18 +1,25 @@
 import React, {useState} from 'react';
 import css from './filter.module.css'
 import {DatePickerInput} from "rc-datepicker";
+import {connect} from "react-redux";
+import {setFilterData} from '../../redux/filterReducer'
 
-const FilterForMap = props =>{
-    const [cities,setCities] = useState('all');
+
+const FilterMap = props =>{
+    const [cities,setCities] = useState(props.filterData.city);
     const [typeApartment, setTypeApartment] = useState('all')
-    const [rooms,setRooms] = useState('all')
+    const [rooms,setRooms] = useState(props.filterData.rooms )
     const [floor,setFloor] = useState('all')
     const [date,setDate] = useState(new Date());
     const [todate,setTodate] = useState(new Date());
+    const [priceFrom,setPriceFrom] = useState(props.filterData.priceFrom)
+    const [priceTo,setPriceTo] = useState(props.filterData.priceTo)
+    
 
     const onCityChange = e =>{
         // sort by city
-        props.setItem(e.target.value , "a")
+        setCities(e.target.value)
+        props.setItem(e.target.value)
     }
     const onApartmentChange = e =>{
         // sort by property
@@ -22,9 +29,6 @@ const FilterForMap = props =>{
         // sort by rooms
         alert(e.target.value)
     }
-    const clicked = () =>{
-
-    }
     const onDataChange = (jsDate,dateString) => {
         console.log(jsDate,dateString)
     }
@@ -32,9 +36,9 @@ const FilterForMap = props =>{
         <div className={css.wrapper}>
             <div className={css.filterWrapper}>
                 <h2>Фильтр данных</h2>
-                <button onClick={clicked}>Применить</button>
+                <button >Применить</button>
             </div>
-            <select value={cities} onChange={(e)=>setCities(e.target.value)} name="cities" >
+            <select value={cities} name="cities" >
                 <option value="all">Все Города</option>
                 <option value="Бишкек">Бишкек</option>
                 <option value="Ош">Ош</option>
@@ -71,7 +75,7 @@ const FilterForMap = props =>{
                     <option value="Дом">Дом</option>
                 </select>
                 <select value={rooms} onChange={e=>setRooms(e.target.value)} name="more" >
-                    <option value="all">Кличество комнат</option>
+                    <option value="all">Количество комнат</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -143,8 +147,8 @@ const FilterForMap = props =>{
             </div>
 
             <div className={css.impWrapper}>
-                <input placeholder={"Цена от"} type="text"/>
-                <input placeholder={"Цена до"} type="text"/>
+                <input value={priceFrom} onChange={e=>setPriceFrom(e.target.valu)} placeholder={"Цена от"} type="text"/>
+                <input value={priceTo} onChange={e=>setPriceTo(e.target.valu)} placeholder={"Цена до"} type="text"/>
             </div>
             <div className={css.detailsWrapper}>
                 <h4>В квартире есть</h4>
@@ -215,6 +219,16 @@ const FilterForMap = props =>{
         </div>
     )
 }
+
+
+
+const mapStateToProps = state => {
+    return{
+        filterData: state.filterData
+    }
+}
+
+const FilterForMap = connect(mapStateToProps,{setFilterData})(FilterMap);
 
 
 export default FilterForMap;

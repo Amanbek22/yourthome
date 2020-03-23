@@ -4,9 +4,13 @@ import {Link} from "react-router-dom";
 import {DatePickerInput} from "rc-datepicker";
 
 const Filter = props => {
-    const [date,setDate] = useState(new Date());
-    const [todate,setTodate] = useState(new Date());
+    console.log(props)
+    const [date,setDate] = useState('');
+    const [todate,setTodate] = useState('');
     const [city,setCity] =useState('')
+    const [rooms,setRooms] =useState('0')
+    const [priceFrom,setPriceFrom] = useState(null)
+    const [priceTo,setPriceTo] = useState(null)
     const onDataChange = (jsDate,dateString) => {
         console.log(jsDate,dateString)
     }
@@ -44,11 +48,10 @@ const Filter = props => {
                             className='my-custom-datepicker-component'
                             onHide={()=>0}
                             showOnInputClick={true}
-                            // style={{ margin: 50+'px' }}
                         />
                     </div>
-                    <select >
-                        <option value="">Количество комнат</option>
+                    <select value={rooms} onChange={(e)=>setRooms(e.target.value)} >
+                        <option value="0">Количество комнат</option>
                         <option value="1">1 комнат</option>
                         <option value="2">2 комнат</option>
                         <option value="3">3 комнат</option>
@@ -57,8 +60,8 @@ const Filter = props => {
                         <option value="6">6 комнат</option>
                     </select>
                     <div className={css.dateWrapper}>
-                        <input type="text" placeholder={'Цена от'}/>
-                        <input type="text" placeholder={'Цена до'}/>
+                        <input value={priceFrom} onChange={e=>setPriceFrom(e.target.value)} type="text" placeholder={'Цена от'}/>
+                        <input value={priceTo} onChange={e=>setPriceTo(e.target.value)} type="text" placeholder={'Цена до'}/>
                     </div>
                 </div>
                 <div className={css.moreWrapper}>
@@ -71,7 +74,7 @@ const Filter = props => {
                             <Link to={"/map"}>Показать на карте</Link>
                         </div>
                         <div className={css.search}>
-                            <Link to="/map">Начать поиск</Link>
+                            <Link onClick={()=>props.setFilterData({city,rooms,priceFrom,priceTo})} to="/map">Начать поиск</Link>
                         </div>
                     </div>
                 </div>

@@ -1,12 +1,43 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import css from './cards.module.css'
 import Card from "../card/card";
+import api from "../../api/api";
 
 const Cards = props =>{
-    let arr= [1,2,3,4555,5]
-    let apartments = arr.map((item)=>{
-        return(<Card price={item}/>)
-    })
+    const [apartments,setApartments] = useState([]);
+    const [rev,setRev]  = useState([]);
+    useEffect(()=>{
+        api.getApartments().then(res=>{
+            setApartments(res.data);
+            setRev(res.data.reverse());
+        })
+    },[]);
+    let apartment;
+    let revApartment;
+    if (apartments.length > 0) {
+        let i = 0;
+        apartment = apartments.map((item) => {
+            i++;
+            if (i >= 6){
+                return null
+            }
+            return <Card id={item.id} key={i} city={item.location.city} street={item.location.street} price={item.price}/>
+        })
+        let a = 0;
+        revApartment = rev.map((item) => {
+            a++;
+            if (a >= 6){
+                return null
+            }
+            return <Card
+                key={item.id}
+                id={item.id}
+                city={item.location.city}
+                street={item.location.street}
+                price={item.price}
+            />
+        })
+    }
 
     return(
         <div className={css.cardsWrapper}>
@@ -15,7 +46,7 @@ const Cards = props =>{
                     <h3 className={css.whereBuy}>Приобрести квартиру на
                         вторичном рынке</h3>
                     <div className={css.cardWrapper}>
-                        {apartments}
+                        {apartment}
                     </div>
                     <div className={css.moreWrapper}>
                         <button className={css.more}>Просмотреть все</button>
@@ -25,7 +56,7 @@ const Cards = props =>{
             <div>
                 <h3 className={css.whereBuy}>Приобрести квартиру в новостройках</h3>
                 <div className={css.cardWrapper}>
-                    {apartments}
+                    {revApartment}
                 </div>
                 <div className={css.moreWrapper}>
                     <button className={css.more}>Просмотреть все</button>

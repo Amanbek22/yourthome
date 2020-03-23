@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {setData} from "../../redux/authReducer";
 
 const Menu = props => {
+    // setInterval(()=>{},7200000)
     useEffect(() => {
         let data = JSON.parse(localStorage.getItem('userData'));
         if (!data) {
@@ -51,9 +52,10 @@ const Menu = props => {
                                         + Добавить объявление
                                     </NavLink>
                                     {/*<NavLink activeClassName={css.active} to={'./admin'}>Дамашняя страница</NavLink>*/}
-                                    <NavLink activeClassName={css.active} to={'/admin'}>{props.data.username}</NavLink>
+                                    <NavLink activeClassName={css.active} to={'/admin'}>{props.data.username ? props.data.username : "Профиль"}</NavLink>
                                     <Link onClick={() => {
                                         localStorage.removeItem("userData")
+                                        localStorage.removeItem("newToken")
                                         window.location.href = "/"
                                     }} className={css.addButton}>
                                         Выход

@@ -88,7 +88,7 @@ const AddApartment = props => {
                     "id": 1,
                     "country": 1,
                     "region": 1,
-                    "city": 1,
+                    "city": 2,
                     "district": 1,
                     "street": street,
                     "house_number": 1,
@@ -115,7 +115,10 @@ const AddApartment = props => {
             }
             api.add(formData)
                 .then(
-                    (response) => alert('Daaamn you did it!'),
+                    (response) =>{
+                        alert('You add an apartment!')
+                        window.location.href = '/admin'
+                    },
                     (error) => alert("Wrong address")
                 )
         }

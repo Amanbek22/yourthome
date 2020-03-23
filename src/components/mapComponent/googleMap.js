@@ -12,6 +12,9 @@ import marker2 from '../../img/marker10.png'
 import api from "../../api/api";
 import {setApartment} from "../../redux/googleMap_reducer";
 import axios from "axios";
+import {Carousel} from "react-responsive-carousel";
+import { bounce, fadeInRight, fadeOutRight } from 'react-animations';
+import Radium, {StyleRoot} from 'radium';
 
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
@@ -92,8 +95,27 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                             }}
                                         onCloseClick={() => setSelectedPark(null)}
                             >
-                                <div>
-                                    <img src={apartment} alt="dsvs"/>
+                                <div className={css.btnWrapper}>
+                                    <Carousel
+                                        width={`250px`}
+                                        autoPlay={true}
+                                        swipeable={true}
+                                        infiniteLoop={true}
+                                        showThumbs={false}
+                                    >
+                                        <div>
+                                            <img
+                                                src="https://img.freepik.com/free-vector/vector-illustration-cartoon-interior-orange-home-room-living-room-with-two-soft-armchairs_1441-399.jpg?size=626&ext=jpg"/>
+                                        </div>
+                                        <div>
+                                            <img
+                                                src="https://media.gettyimages.com/photos/laptop-on-coffee-table-in-a-modern-living-room-of-an-old-country-picture-id900217718?s=612x612"/>
+                                        </div>
+                                        <div>
+                                            <img
+                                                src="https://yourthomeneobis2.herokuapp.com/media/photos/1a4da06bcdf207407ef4767711eeb20e.jpg"/>
+                                        </div>
+                                    </Carousel>
                                     <div>
                                         <Link
                                             to={`/more-info/${selectedPark.id}`}>
@@ -110,21 +132,25 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
     }
 ))
 
+
+
 const WrapperMap = props => {
     const [filteredCity, setFilteredCity] = useState("all")
     const [selected, setSelected] = useState([])
     const [apartments, setApartments] = useState(props.points.points);
     const [som,setSom] = useState();
-    const [rub,setRub] = useState()
-    const [usd,setUsd] = useState()
+    const [rub,setRub] = useState();
+    const [usd,setUsd] = useState();
+    const [filterStyle,setFilterStyle] = useState(false);
     useEffect(() => {
         setApartments(props.points.points)
     });
     useEffect(() => {
         if (filteredCity === 'all') {
-            setApartments(props.points.points)
+            props.setPoint(props.points.allPoints)
         } else{
             let newarr = props.points.allPoints.filter((item)=>{
+                debugger;
                 return item.location.city === filteredCity
             })
             props.setPoint(newarr)
@@ -173,10 +199,20 @@ const WrapperMap = props => {
             )
         })
     }
-    const selectedItems = (item) => {
-        setFilteredCity(item)
-    }
-
+    const styles = {
+        bounce: {
+          animation: 'y 1s',
+          animationName: Radium.keyframes(bounce, 'bounce')
+        },
+        fadeInLeft: {
+            animation: '0.5s',
+          animationName: Radium.keyframes(fadeInRight, 'fadeInRight')
+        },
+        fadeOutRight: {
+            animation: '0.5s',
+          animationName: Radium.keyframes(fadeOutRight, 'fadeOutRight')
+        }
+      }
     return (
         <div>
             <div className={css.wrapper}>
@@ -199,18 +235,40 @@ const WrapperMap = props => {
                         usd={usd}
                     />
                 </div>
+            <StyleRoot>
                 <div className={css.elemetsWrapper}>
-                    {/*<div className={css.filterBtnWrapper}>*/}
-                        {/*<button>Фильтер</button>*/}
-                    {/*</div>*/}
-                    {/*<div style={{display: 'none'}}>*/}
-                        <FilterForMap items={arr} setItem={selectedItems}/>
-                    {/*</div>*/}
-                    {/*<div style={{display: 'block'}}>*/}
-                        {/*{items}*/}
-                    {/*</div>*/}
+                    <div onClick={()=>{
+                        if (!filterStyle){
+                            setFilterStyle(true)
+                        }else{
+                            setFilterStyle(false)
+                        }
+                    }} className={css.filterBtnWrapper} >
+                        <div style={
+                            !filterStyle ? null : {width: 5+'%',
+                                marginLeft: 91+'%',}
+                        } className={css.filterBtn}>
+                            {
+                                !filterStyle ?
+                                    <img style={styles.fadeInLeft} src="https://image.flaticon.com/icons/svg/566/566011.svg" alt="left"/>:
+                                    <img style={styles.fadeInLeft} src="https://image.flaticon.com/icons/svg/271/271228.svg" alt="right"/>
+                            }
+                        </div>
+                    </div>
+                    <div style={styles.fadeInLeft}>
+                    <div style={
+                        filterStyle === false ? styles.fadeOutRight && {display: 'none'} : styles.fadeInLeft
+                    }>
+                        <FilterForMap items={arr} setItem={setFilteredCity}/>
+                    </div>
+                    <div  style={
+                        filterStyle === false ? styles.fadeInLeft : styles.fadeOutRight && {display: 'none'}} >
+                        {items}
+                    </div>
+                    </div>
                 </div>
-            </div>
+            </StyleRoot>
+        </div>
         </div>
     )
 }

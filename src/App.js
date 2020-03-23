@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import MenuContainer from "./components/menu/menu";
-import Filter from "./components/filterComponent/filter";
+import {FilterContainer} from "./components/filterComponent/filterContainer";
 import Cards from "./components/cards/cards";
 import About from "./components/abautCompony/abautCompony";
 import Footer from "./components/footer/footer";
@@ -14,6 +14,8 @@ import MainPage from "./components/mainPage/mainPage";
 import WithRouterDeteilsPage from "./components/deteilesPage/deteilsPage";
 import AddApartment from "./components/add_apartment/addApartmant";
 import Admin from "./components/admin/admin";
+import ChangeApartment from "./components/changeApartment/changeApartment";
+import api from "./api/api";
 
 function App() {
   return (
@@ -26,7 +28,7 @@ function App() {
             <Switch>
                 <Route exact path={"/"}>
                     {/*<MainPage />*/}
-                    <Filter />
+                    <FilterContainer />
                     <Cards />
                     <About />
                     <Footer/>
@@ -39,21 +41,24 @@ function App() {
                 </Route>
                 <Route exact path={"/sign-in"}>
                     <SignIn/>
-                    <div className={"footer"}>
+                    {/* <div className={"footer"}>
                         <Footer/>
-                    </div>
+                    </div> */}
                 </Route>
                 <Route exact path={"/sign-up"}>
                     <SignUp/>
-                    <div className={"footer"}>
+                    {/* <div className={"footer"}>
                         <Footer/>
-                    </div>
+                    </div> */}
                 </Route>
                 <Route exact path={"/more-info/:id"}>
                     <WithRouterDeteilsPage/>
                 </Route>
                 <Route exact path={"/admin"}>
                     <Admin />
+                </Route>
+                <Route exact path={"/change-apartment/:id"}>
+                    <ChangeApartment/>
                 </Route>
             </Switch>
             </div>

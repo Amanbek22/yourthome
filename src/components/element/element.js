@@ -12,7 +12,7 @@ const Element = props => {
                 </div>
                 <div className={css.optionsWrapper}>
                     <div className={css.forSale}>{props.forSale}</div>
-                    <div className={css.address}>{props.house_number} {props.street} {props.city}</div>
+                    <div className={css.address}>{props.house_number} {props.street}, город: {props.city}</div>
                     <div className={css.optionWrapper}>
                         <div>Площадь: {props.area}</div>
                         <div>Комнат: {props.room}</div>
@@ -23,11 +23,11 @@ const Element = props => {
                     </div>
                 </div>
             </Link>
-            {/*<div className={css.btnWrapper}>*/}
-                {/*<Link to={`/more-info/${props.id}`} className={css.moreBtnWrapper}>*/}
-                    {/*<button>Подробнее</button>*/}
-                {/*</Link>*/}
-            {/*</div>*/}
+            {props.changeBtn ? <div className={css.btnWrapper}>
+                <Link to={`/change-apartment/${props.id}`} className={css.moreBtnWrapper}>
+                    <button>Изменить</button>
+                </Link>
+            </div>: null}
         </div>
     )
 }

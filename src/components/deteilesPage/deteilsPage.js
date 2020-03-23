@@ -19,6 +19,7 @@ const DeteilsPage = props => {
     const [todate, setTodate] = useState(new Date());
     const [som, setSom] = useState();
     const [usd, setUsd] = useState();
+    console.log(apartment)
     useEffect(() => {
         axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
             .then(res => {
@@ -77,7 +78,7 @@ const DeteilsPage = props => {
                         <div>Тип строение: {apartment.construction_type}</div>
                         <div>Этажность дома: {apartment.floor}</div>
                         <div>Планировка: {apartment.floor}</div>
-                        <div>Тип ремонта: {apartment.construction_type}</div>
+                        <div>Тип ремонта: {apartment.state}</div>
                         <div></div>
                         <div>Меблирована: {apartment.construction_type}</div>
                         <div></div>
@@ -153,6 +154,18 @@ const DeteilsPage = props => {
 
                             Сдача Объекта август 2020 Год!!!
                         </div>
+                    </div>
+                    <div>
+                        <label>Дата публикации</label>
+                        <DatePickerInput
+                            disabled={true}
+                            placeholder={'От какого числа занято'}
+                            onChange={onDataChange}
+                            value={apartment.pub_date}
+                            className='my-custom-datepicker-component'
+                            onHide={() => 0}
+                            showOnInputClick={true}
+                        />
                     </div>
                     <div className={css.mapWrapper}>
                         <MyMapComponent

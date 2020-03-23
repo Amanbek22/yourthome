@@ -4,11 +4,12 @@ import img from '../../img/room.png'
 import css from './card.module.css'
 
 const Card = props =>{
+    let {city,street,price,id} = props
     return (
-        <Link to={props.src}>
+        <Link to={`more-info/${id}`}>
             <div className={css.imgWrapper}>
                 <img src={img} alt="apartment"/>
-                <span className={css.price}>{props.price}y.e</span>
+                <span className={css.price}>{price}y.e</span>
                 <div className={css.hoverEffect}>
                     <div className={css.options}>
                         <div>
@@ -25,7 +26,7 @@ const Card = props =>{
                         </div>
                     </div>
                     <div className={css.addres}>
-                        г. Ташкент, Мирзо-Улугбекский район, ул. Мевазар
+                        {city}, {street}
                     </div>
                 </div>
             </div>
