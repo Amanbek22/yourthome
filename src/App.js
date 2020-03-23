@@ -41,15 +41,9 @@ function App() {
                 </Route>
                 <Route exact path={"/sign-in"}>
                     <SignIn/>
-                    {/* <div className={"footer"}>
-                        <Footer/>
-                    </div> */}
                 </Route>
                 <Route exact path={"/sign-up"}>
                     <SignUp/>
-                    {/* <div className={"footer"}>
-                        <Footer/>
-                    </div> */}
                 </Route>
                 <Route exact path={"/more-info/:id"}>
                     <WithRouterDeteilsPage/>
