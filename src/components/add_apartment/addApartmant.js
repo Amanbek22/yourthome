@@ -24,16 +24,16 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 const AddApartment = props => {
 
-    const [rooms, setRooms] = useState("2");
-    const [area, setArea] = useState("34");
-    const [floor, setFloor] = useState("3");
+    const [rooms, setRooms] = useState();
+    const [area, setArea] = useState();
+    const [floor, setFloor] = useState();
     const [latLng, setLatLng] = useState([])
     const [num, setNum] = useState(null);
-    const [street, setStreet] = useState("");
-    const [city, setCity] = useState("");
-    const [country, setCountry] = useState("");
-    const [description, setDescription] = useState("sdcscsdcs");
-    const [price, setPrice] = useState(35);
+    const [street, setStreet] = useState();
+    const [city, setCity] = useState();
+    const [country, setCountry] = useState();
+    const [description, setDescription] = useState();
+    const [price, setPrice] = useState();
     const [images, setImages] = useState(null);
     let address = {};
     const pushLocation = async e => {
@@ -88,7 +88,7 @@ const AddApartment = props => {
                     "id": 1,
                     "country": 1,
                     "region": 1,
-                    "city": 2,
+                    "city": city === 'Бишкек' ? 1 : 2,
                     "district": 1,
                     "street": street,
                     "house_number": 1,
@@ -99,7 +99,7 @@ const AddApartment = props => {
                 "price": Number(price),
                 "currency": 1,
                 "preview_image": null,
-                "description": "Это квартира",
+                "description": description,
                 "pub_date": "2020-03-04T15:54:31.822777+06:00",
                 "images": [],
                 "contact": {

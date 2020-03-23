@@ -1,12 +1,41 @@
+.wrapper{
+    width: 400px;
+    margin: 0 auto;
+}
+.wrapper>div{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 5px 0;
+}
 .deleteBtn{
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*right: 0;*/
-    /*margin: 20px;*/
-    background: red;
+    background: rgb(19, 231, 47);
     border: none;
     color: white;
     padding: 10px;
     font-size: 18px;
     margin: 20px 0;
+    border-radius: 4px;
+}
+.modal{
+    text-align: center;
+    margin-top: 50px;
+}
+.modal>p{
+    font-size: 22px;
+    margin: 0 10px;
+}
+.yesBtn{
+    font-size: 23px;
+    font-weight: 700;
+    padding: 20px 10px;
+    margin: 0 20%;
+    border-radius: 5px;
+    background: #57C325;
+    color: white;
+}
+.btnWrapperDel{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 80px;
+    color: #fff;
 }

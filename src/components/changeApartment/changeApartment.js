@@ -3,6 +3,8 @@ import {withRouter} from "react-router-dom";
 import api from "../../api/api";
 import axios from "axios";
 import css from './change.module.css'
+import Modal from 'react-awesome-modal';
+
 
 
 const Change = props => {
@@ -10,6 +12,8 @@ const Change = props => {
     const [rooms, setRooms] = useState();
     const [floor, setFloor] = useState();
     const [price, setPrice] = useState();
+    const [visible,setVisible] = useState(false);
+
     useEffect(()=>{
         api.getApartmentApi(props.match.params.id)
             .then(res=>{
@@ -32,11 +36,14 @@ const Change = props => {
                 "Authorization": "Bearer " + token.access
             }
         })
-            .then(res=>{
-                console.log(res);
-                alert('you changed an apartment');
-                window.location.href = '/admin'
-            })
+            .then(
+                res=>{
+                    console.log(res);
+                    window.location.href = '/admin'
+                },
+                error=>alert(error)
+            )
+            
     }
     const deleteApartment = () =>{
         api.deleteApartment(props.match.params.id).then(res=>{
@@ -44,14 +51,14 @@ const Change = props => {
         })
     }
     return(
-        <div>
+        <div className={css.wrapper}>
             <div>
                 <label>Загаловок</label>
                 <input type="text" value={description} onChange={(e)=>setDescription(e.target.value)}/>
             </div>
             <div>
                 <label>Количество комнат</label>
-                <input type="text" placeholder={'rooms'} value={rooms} onChange={(e)=>setRooms(e.target.value)}/>
+                <input type="text"  value={rooms} onChange={(e)=>setRooms(e.target.value)}/>
             </div>
             {/*<input type="text" value={area} onChange={(e)=>setArea(e.target.value)}/>*/}
             <div>
@@ -63,12 +70,36 @@ const Change = props => {
                 <input type="text" value={floor} onChange={(e)=>setFloor(e.target.value)}/>
             </div>
             {/*<input type="text" value={data} />*/}
-            <div>
-                <button onClick={send}>
+                <button className={css.deleteBtn} onClick={()=>setVisible(true)}>
                     Change
                 </button>
-            </div>
-            <button onClick={deleteApartment} className={css.deleteBtn}>Удалить объявление</button>
+                <Modal
+                visible={visible}
+                width="400"
+                height="300"
+                effect="fadeInDown"
+                onClickAway={()=>setVisible(false)}
+            >
+                <div className={css.modal}>
+                    <a style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        width: 20,
+                        height: 20,
+                        marginRight: 5,
+                        marginTop: 5,
+                    }} href="javascript:void(0);" onClick={() => setVisible(false)}>
+                        <img style={{width: 100 + '%', height: 100 + '%'}} src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
+                    </a>
+                    <p>Вы действительно хотите изменить это объявление?</p>
+                    <div className={css.btnWrapperDel}>
+                        <div className={css.yesBtn} onClick={send}>Да</div>
+                        <div style={{background: 'red'}} className={css.yesBtn} onClick={()=>setVisible(false)}>Нет</div>
+                    </div>
+                </div>
+            </Modal>
+            {/* <button onClick={deleteApartment} className={css.deleteBtn}>Удалить объявление</button> */}
         </div>
     )
 }
