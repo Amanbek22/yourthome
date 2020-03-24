@@ -7,39 +7,30 @@ import {setFilterData} from '../../redux/filterReducer'
 
 const FilterMap = props =>{
     const [cities,setCities] = useState(props.filterData.city);
-    const [typeApartment, setTypeApartment] = useState('all')
-    const [rooms,setRooms] = useState(props.filterData.rooms )
-    const [floor,setFloor] = useState('all')
-    const [date,setDate] = useState(new Date());
+    const [typeApartment, setTypeApartment] = useState('')
+    const [rooms,setRooms] = useState(props.filterData.rooms)
+    const [floor,setFloor] = useState('')
+    const [date,setDate] = useState('Mar 25 2020');
     const [todate,setTodate] = useState(new Date());
     const [priceFrom,setPriceFrom] = useState(props.filterData.priceFrom)
     const [priceTo,setPriceTo] = useState(props.filterData.priceTo)
-    
-
-    const onCityChange = e =>{
-        // sort by city
-        setCities(e.target.value)
-        props.setItem(e.target.value)
-    }
-    const onApartmentChange = e =>{
-        // sort by property
-        alert(e.target.value)
-    }
-    const onRoomsChange = e =>{
-        // sort by rooms
-        alert(e.target.value)
-    }
+    const [internet, setInternet] = useState(props.filterData.internet)
+    const [furniture, setFurniture] = useState(props.filterData.furniture)
+    console.log(date)
     const onDataChange = (jsDate,dateString) => {
         console.log(jsDate,dateString)
+    }
+    const filter = () =>{
+        props.setFilterData({rooms,floor,date,todate,priceFrom,priceTo,internet,furniture})
     }
     return(
         <div className={css.wrapper}>
             <div className={css.filterWrapper}>
                 <h2>Фильтр данных</h2>
-                <button >Применить</button>
+                <button onClick={filter}>Применить</button>
             </div>
-            <select value={cities} name="cities" >
-                <option value="all">Все Города</option>
+            <select value={cities} onChange={e=>setCities(e.target.value)} name="cities" >
+                <option value="">Все Города</option>
                 <option value="Бишкек">Бишкек</option>
                 <option value="Ош">Ош</option>
                 <option value="Нарын">Нарын</option>
@@ -70,12 +61,12 @@ const FilterMap = props =>{
             </div>
             <div className={css.impWrapper}>
                 <select value={typeApartment} onChange={e=>setTypeApartment(e.target.value)} name="price" >
-                    <option value="all">Тип жилья</option>
+                    <option value="">Тип жилья</option>
                     <option value="Квартира">Квартира</option>
                     <option value="Дом">Дом</option>
                 </select>
                 <select value={rooms} onChange={e=>setRooms(e.target.value)} name="more" >
-                    <option value="all">Количество комнат</option>
+                    <option value="">Количество комнат</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -86,7 +77,7 @@ const FilterMap = props =>{
             </div>
             <div className={css.impWrapper}>
                 <select value={floor} onChange={e=>setFloor(e.target.value)} name="floor" >
-                    <option value="all">Этаж</option>
+                    <option value="">Этаж</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -147,10 +138,43 @@ const FilterMap = props =>{
             </div>
 
             <div className={css.impWrapper}>
-                <input value={priceFrom} onChange={e=>setPriceFrom(e.target.valu)} placeholder={"Цена от"} type="text"/>
-                <input value={priceTo} onChange={e=>setPriceTo(e.target.valu)} placeholder={"Цена до"} type="text"/>
+                <input value={priceFrom} onChange={e=>setPriceFrom(e.target.value)} placeholder={"Цена от"} type="text"/>
+                <input value={priceTo} onChange={e=>setPriceTo(e.target.value)} placeholder={"Цена до"} type="text"/>
             </div>
             <div className={css.detailsWrapper}>
+                <h4>В квартире есть</h4>
+                <div className={css.details}>
+                    <div>
+                        <input type="checkbox" checked={internet} onChange={e => setInternet(e.target.checked)} /><label>Интернет</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" checked={furniture} onChange={e=> setFurniture(e.target.checked)}/><label>Мебелирован</label>
+                    </div>
+                    <div>
+                        <input type="checkbox"/><label>Холодильник</label>
+                    </div>
+                    <div>
+                        <input type="checkbox"/><label>Телефон</label>
+                    </div>
+                    <div>
+                        <input type="checkbox"/><label>Балкон</label>
+                    </div>
+                    <div>
+                        <input type="checkbox"/><label>Телевизор</label>
+                    </div>
+                    <div>
+                        <input type="checkbox"/><label>Кондиционер</label>
+                    </div>
+                    <div>
+                        <input type="checkbox"/><label>Кухня</label>
+                    </div>
+                    <div>
+                        <input type="checkbox"/><label>Стиральная машина</label>
+                    </div>
+
+                </div>
+            </div>
+            {/* <div className={css.detailsWrapper}>
                 <h4>В квартире есть</h4>
                 <div className={css.details}>
                     <div>
@@ -182,40 +206,7 @@ const FilterMap = props =>{
                     </div>
 
                 </div>
-            </div>
-            <div className={css.detailsWrapper}>
-                <h4>В квартире есть</h4>
-                <div className={css.details}>
-                    <div>
-                        <input type="checkbox"/><label>Интернет</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Кабельное ТВ</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Холодильник</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Телефон</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Балкон</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Телевизор</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Кондиционер</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Кухня</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Стиральная машина</label>
-                    </div>
-
-                </div>
-            </div>
+            </div> */}
         </div>
     )
 }

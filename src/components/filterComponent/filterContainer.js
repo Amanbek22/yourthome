@@ -5,7 +5,6 @@ import {setFilterData} from '../../redux/filterReducer'
 
 
 const mapStateToProps = state =>{
-    debugger
     return {
         filterData: state.filterData
     }

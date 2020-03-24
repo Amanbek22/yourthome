@@ -5,7 +5,8 @@ import {setPoint, setApartment, setAllPointsAC} from '../../redux/googleMap_redu
 
 const mapStateToProps = state => {
     return {
-        points: state.points
+        points: state.points,
+        filterData: state.filterData
     }
 }
 

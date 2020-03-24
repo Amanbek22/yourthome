@@ -126,7 +126,13 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                             </InfoWindow>
                         )}
 
-                    </GoogleMap> : console.log('error')}
+                    </GoogleMap> : 
+                    <GoogleMap
+                        defaultZoom={6}
+                        defaultCenter={{lat: 41.204380, lng: 74.766098}}
+                    >
+                    </GoogleMap>
+                    }
             </div>
         )
     }
@@ -142,6 +148,7 @@ const WrapperMap = props => {
     const [rub,setRub] = useState();
     const [usd,setUsd] = useState();
     const [filterStyle,setFilterStyle] = useState(false);
+    const {city,dateFrom,dateTo,rooms,floor,priceFrom,priceTo,internet,furniture} = props.filterData;
     useEffect(() => {
         setApartments(props.points.points)
     });
@@ -156,7 +163,13 @@ const WrapperMap = props => {
             props.setPoint(newarr)
         }
     }, [filteredCity])
-
+    useEffect(()=>{
+        api.getApartments(rooms,floor,priceFrom,priceTo,internet,furniture)
+            .then(response=>{
+                props.setPoint(response.data)
+                props.setAllPointsAC(response.data)
+            }) 
+    },[city,dateFrom,dateTo,rooms,floor,priceFrom,priceTo,internet,furniture])
     useEffect(() => {
         axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
             .then(res=>{
@@ -165,7 +178,7 @@ const WrapperMap = props => {
                 // setRub(res.data.Valute.KGS.Value)
                 setUsd(res.data.Valute.USD.Value)
             })
-       api.getApartments()
+       api.getApartments(rooms,floor,priceFrom,priceTo)
             .then(response=>{
                 props.setPoint(response.data)
                 props.setAllPointsAC(response.data)

@@ -8,9 +8,9 @@ const Filter = props => {
     const [date,setDate] = useState('');
     const [todate,setTodate] = useState('');
     const [city,setCity] =useState('')
-    const [rooms,setRooms] =useState('0')
-    const [priceFrom,setPriceFrom] = useState(null)
-    const [priceTo,setPriceTo] = useState(null)
+    const [rooms,setRooms] =useState('')
+    const [priceFrom,setPriceFrom] = useState('')
+    const [priceTo,setPriceTo] = useState('')
     const onDataChange = (jsDate,dateString) => {
         console.log(jsDate,dateString)
     }
@@ -51,7 +51,7 @@ const Filter = props => {
                         />
                     </div>
                     <select value={rooms} onChange={(e)=>setRooms(e.target.value)} >
-                        <option value="0">Количество комнат</option>
+                        <option value="">Количество комнат</option>
                         <option value="1">1 комнат</option>
                         <option value="2">2 комнат</option>
                         <option value="3">3 комнат</option>

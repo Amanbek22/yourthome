@@ -10,4 +10,12 @@
     color: white;
     border: none;
     padding: 10px 25px;
+    width: 100%;
+    margin: 10px;
+    margin-bottom: 50px;
+}
+.formWrapper>div{
+    margin: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
 }

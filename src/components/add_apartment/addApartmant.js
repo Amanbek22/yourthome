@@ -35,6 +35,8 @@ const AddApartment = props => {
     const [description, setDescription] = useState();
     const [price, setPrice] = useState();
     const [images, setImages] = useState(null);
+    const [internet, setInternet] = useState(false);
+    const [furniture,setFurniture] = useState(false)
     let address = {};
     const pushLocation = async e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
@@ -74,11 +76,11 @@ const AddApartment = props => {
                 "state": 1,
                 "detail": {
                     "id": 1,
-                    "furniture": false,
+                    "furniture": furniture,
                     "heat": false,
                     "gas": false,
                     "electricity": true,
-                    "internet": false,
+                    "internet": internet,
                     "phone": false,
                     "elevator": true,
                     "security": false,
@@ -147,7 +149,7 @@ const AddApartment = props => {
                 />
             </div>
             <div id={"formID"}>
-                <div>
+                <div className={css.formWrapper}>
                     <div>
                         <label>Number of house</label>
                         <input value={num} placeholder={"Номер дома"} type="text"/>
@@ -164,22 +166,64 @@ const AddApartment = props => {
                         <label>Country</label>
                         <input value={country} placeholder={"Страна"} type="text"/>
                     </div>
-                </div>
-                <input value={description} onChange={e => setDescription(e.target.value)} placeholder={"Описание"}
-                       type="text"/>
-                <input value={area} onChange={(e) => setArea(e.target.value)} placeholder={"Площадь"} type="text"/>
-                <input value={rooms} onChange={(e) => setRooms(e.target.value)} placeholder={"Количества комнат"}
-                       type="text"/>
-                <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder={"Цена"} type="text"/>
-                <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Этаж"} type="text"/>
-                <input
+                    <div>
+                        <label>Описание</label>
+                        <input 
+                            value={description} 
+                            onChange={e => setDescription(e.target.value)} 
+                            placeholder={"Описание"}
+                            type="text"
+                        />
+                    </div>
+                    <div>
+                        <label>Площадь</label>
+                        <input value={area} onChange={(e) => setArea(e.target.value)} placeholder={"Площадь"} type="text"/>
+                    </div>
+                    <div>
+                        {/* <input value={rooms} onChange={(e) => setRooms(e.target.value)} placeholder={"Количества комнат"}
+                            type="text"
+                        /> */}
+                        <label>Количества комнат</label>
+                        <select value={rooms} onChange={(e) => setRooms(e.target.value)}>
+                            <option value={''}>Количества комнат</option>
+                            <option value={1}>1</option>
+                            <option value={2}>2</option>
+                            <option value={3}>3</option>
+                            <option value={4}>4</option>
+                            <option value={5}>5</option>
+                            <option value={6}>6</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Цена</label>
+                        <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder={"Цена"} type="text"/>
+                    </div>
+                    <div>
+                        <label>Этаж</label>
+                        <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Этаж"} type="text"/>
+                    </div>
+                    <div>
+                        <input
 
-                    onChange={(e) => {
-                        setImages(e.target.files[0]);
-                    }}
-                    id="image"
-                    accept="image/png, image/jpeg, image/jpg"
-                    type="file"/>
+                            onChange={(e) => {
+                                setImages(e.target.files[0]);
+                            }}
+                            id="image"
+                            accept="image/png, image/jpeg, image/jpg"
+                            type="file"
+                        />
+                    </div>
+                    <div>
+                    <div>
+                        <input checked={internet} onChange={e=>setInternet(e.target.checked)} type="checkbox"/>
+                        <label>Internet</label>
+                    </div>
+                    <div>
+                        <input checked={furniture} onChange={e=>setFurniture(e.target.checked)} type="checkbox"/>
+                        <label>furniture</label>
+                    </div>
+                    </div>
+                </div>
                 <button onClick={sendData} className={css.sendBtn}>Send</button>
             </div>
         </div>

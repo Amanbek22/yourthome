@@ -5,7 +5,7 @@ const http = axios.create({
     baseURL: "https://yourthomeneobis2.herokuapp.com"
 });
 export default {
-    getApartments: () => http.get(`/apartments/?location__region=1sh&location__city=2&type=1&room=3&floor=4&construction_type=2&state=2&detail__internet=2&detail__furniture=1`),
+    getApartments: (rooms,floor,priceFrom,priceTo,internet,furniture) => http.get(`/apartments/?location__region=1&location__city=&type=&room=${rooms}&floor=${floor}&construction_type=&state=&detail__internet=${internet}&detail__furniture=${furniture}&min_price=${!priceFrom?'':priceFrom}&max_price=${!priceTo?'':priceTo}&currency=&arrival_date=&departure_date=`),
     getApartmentApi: (id) => http.get(`/apartment/${id}`),
     registration: data => http.post("/registration/", data),
     signIn: data => http.post("/api/token/", data),

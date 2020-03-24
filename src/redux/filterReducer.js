@@ -6,22 +6,21 @@ const initialState = {
     city: '',
     dateFrom: '',
     dateTo: '',
-    rooms: 0,
+    rooms: '',
+    floor: '',
     priceFrom: '',
     priceTo: '',
+    internet: false,
+    furniture: false,
 }
 
 
 export const FilterReducer = (state = initialState,action) => {
-    debugger
     switch (action.type){
         case SET_FILTER_DATA:
             return {
                 ...state,
-                city: action.data.city,
-                rooms: action.data.rooms,
-                priceFrom: action.data.priceFrom,
-                priceTo: action.data.priceTo,
+                ...action.data
             }
         default:
             return {
