@@ -6,13 +6,13 @@ import {setData} from "../../redux/authReducer";
 
 const Menu = props => {
     // setInterval(()=>{},7200000)
+    let logged = false;
     useEffect(() => {
         let data = JSON.parse(localStorage.getItem('userData'));
         if (!data) {
             return 0
         } else {
-            console.log(data)
-            props.setData(data)
+            props.setData(data,logged)
         }
     }, [])
     return (
@@ -54,6 +54,8 @@ const Menu = props => {
                                     {/*<NavLink activeClassName={css.active} to={'./admin'}>Дамашняя страница</NavLink>*/}
                                     <NavLink activeClassName={css.active} to={'/admin'}>{props.data.username ? props.data.username : "Профиль"}</NavLink>
                                     <Link onClick={() => {
+                                        logged = true;
+                                        props.setData({},logged)
                                         localStorage.removeItem("userData")
                                         localStorage.removeItem("newToken")
                                         window.location.href = "/"

@@ -23,14 +23,14 @@ const Filter = props => {
                 </div>
                 <div className={css.inputsWrapper}>
                     <select value={city} onChange={(e)=>setCity(e.target.value)} name="find_by_city" >
-                        <option value="">Все города</option>
-                        <option value="Бишкек">Бишкек</option>
-                        <option value="Ош">Ош</option>
-                        <option value="Нарын">Нарын</option>
-                        <option value="Талас">Талас</option>
-                        <option value="Иссык-Куль">Иссык-Куль</option>
-                        <option value="Джалал-Абад">Джалал-Абад</option>
-                        <option value="Баткен">Баткен</option>
+                        <option value="">Все регионы</option>
+                        <option value="1">Чуй</option>
+                        <option value="2">Ош</option>
+                        <option value="3">Нарын</option>
+                        <option value="4">Талас</option>
+                        <option value="5">Иссык-Куль</option>
+                        <option value="6">Джалал-Абад</option>
+                        <option value="7">Баткен</option>
                     </select>
                     <div className={css.dateWrapper}>
                         <DatePickerInput

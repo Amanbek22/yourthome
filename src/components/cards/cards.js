@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import css from './cards.module.css'
 import Card from "../card/card";
 import api from "../../api/api";
+import { Link } from 'react-router-dom';
 
 const Cards = props =>{
     const [apartments,setApartments] = useState([]);
@@ -43,13 +44,12 @@ const Cards = props =>{
         <div className={css.cardsWrapper}>
             <div >
                 <div>
-                    <h3 className={css.whereBuy}>Приобрести квартиру на
-                        вторичном рынке</h3>
+                    <h3 className={css.whereBuy}>Новые объявления</h3>
                     <div className={css.cardWrapper}>
                         {apartment}
                     </div>
                     <div className={css.moreWrapper}>
-                        <button className={css.more}>Просмотреть все</button>
+                        <Link to="/map" className={css.more}>Просмотреть все</Link>
                     </div>
                 </div>
             </div>

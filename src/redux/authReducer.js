@@ -15,7 +15,7 @@ export const authReducer = (state = initialState, action) => {
             return {
                     username: action.data.username,
                     token: action.data.token,
-                    logged: false
+                    logged: action.logged
                 }
         default:
             return {
@@ -25,9 +25,10 @@ export const authReducer = (state = initialState, action) => {
 }
 
 
-export const setData = (data) => {
+export const setData = (data,logged) => {
     return {
         type: authData,
-        data
+        data,
+        logged
     }
 }

@@ -3,6 +3,7 @@ import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import css from "./addApartmant.module.css";
 import axios from "axios";
 import api from "../../api/api";
+import { setApartment } from '../../redux/googleMap_reducer';
 // import roomsImg from '../../img/room.png'
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
@@ -37,6 +38,8 @@ const AddApartment = props => {
     const [images, setImages] = useState(null);
     const [internet, setInternet] = useState(false);
     const [furniture,setFurniture] = useState(false)
+    const [apartmetType, setApartmentType] = useState()
+    const [regions, setRegions] = useState(0)
     let address = {};
     const pushLocation = async e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
@@ -72,7 +75,7 @@ const AddApartment = props => {
                     "living_area": 35.0
                 },
                 "series": 1,
-                "construction_type": 1,
+                "construction_type": apartmetType,
                 "state": 1,
                 "detail": {
                     "id": 1,
@@ -89,7 +92,7 @@ const AddApartment = props => {
                 "location": {
                     "id": 1,
                     "country": 1,
-                    "region": 1,
+                    "region": regions,
                     "city": city === 'Бишкек' ? 1 : 2,
                     "district": 1,
                     "street": street,
@@ -192,6 +195,30 @@ const AddApartment = props => {
                             <option value={4}>4</option>
                             <option value={5}>5</option>
                             <option value={6}>6</option>
+                        </select>
+                    </div>
+                    <div>
+                        {/* <input value={rooms} onChange={(e) => setRooms(e.target.value)} placeholder={"Количества комнат"}
+                            type="text"
+                        /> */}
+                        <label>Регион</label>
+                        <select value={regions} onChange={(e) => setRegions(e.target.value)}>
+                            <option value={0}>Регион</option>
+                            <option value={1}>Чуй</option>
+                            <option value={2}>Ош</option>
+                            <option value={3}>Нарын</option>
+                            <option value={4}>Талас</option>
+                            <option value={5}>Иссык-Куль</option>
+                            <option value={6}>Джалал-Абад</option>
+                            <option value={7}>Баткен</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Тип недвижемости</label>
+                        <select value={apartmetType} onChange={e=> setApartmentType(e.target.value)}>
+                            <option value={''}>Тип недвижемости</option>
+                            <option value={1}>Квартира</option>
+                            <option value={2}>Дом</option>
                         </select>
                     </div>
                     <div>

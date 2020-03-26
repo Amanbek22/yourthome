@@ -1,5 +1,5 @@
 
-const SET_FILTER_DATA = 'SET_DATA';
+const SET_FILTER_DATA = 'SET_DATA_FILTER';
 
 
 const initialState = {
@@ -10,6 +10,7 @@ const initialState = {
     floor: '',
     priceFrom: '',
     priceTo: '',
+    apartmentType: '',
     internet: false,
     furniture: false,
 }

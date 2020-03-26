@@ -6,8 +6,8 @@ import {setFilterData} from '../../redux/filterReducer'
 
 
 const FilterMap = props =>{
-    const [cities,setCities] = useState(props.filterData.city);
-    const [typeApartment, setTypeApartment] = useState('')
+    const [city,setCity] = useState(props.filterData.city);
+    const [apartmentType, setApartmentType] = useState(props.filterData.apartmentType)
     const [rooms,setRooms] = useState(props.filterData.rooms)
     const [floor,setFloor] = useState('')
     const [date,setDate] = useState('Mar 25 2020');
@@ -21,7 +21,8 @@ const FilterMap = props =>{
         console.log(jsDate,dateString)
     }
     const filter = () =>{
-        props.setFilterData({rooms,floor,date,todate,priceFrom,priceTo,internet,furniture})
+        props.setItem(city)
+        props.setFilterData({city,rooms,floor,date,todate,priceFrom,priceTo,apartmentType,internet,furniture})
     }
     return(
         <div className={css.wrapper}>
@@ -29,15 +30,18 @@ const FilterMap = props =>{
                 <h2>Фильтр данных</h2>
                 <button onClick={filter}>Применить</button>
             </div>
-            <select value={cities} onChange={e=>setCities(e.target.value)} name="cities" >
-                <option value="">Все Города</option>
-                <option value="Бишкек">Бишкек</option>
-                <option value="Ош">Ош</option>
-                <option value="Нарын">Нарын</option>
-                <option value="Талас">Талас</option>
-                <option value="Иссык-Куль">Иссык-Куль</option>
-                <option value="Джалал-Абад">Джалал-Абад</option>
-                <option value="Баткен">Баткен</option>
+            <select value={city} onChange={e=>{
+                // props.setItem(e.target.value,'')
+                setCity(e.target.value)
+            }} name="cities" >
+                <option value="">Все Регионы</option>
+                <option value="1">Чуй</option>
+                <option value="2">Ош</option>
+                <option value="3">Нарын</option>
+                <option value="4">Талас</option>
+                <option value="5">Иссык-Куль</option>
+                <option value="6">Джалал-Абад</option>
+                <option value="7">Баткен</option>
             </select>
             {/*<input placeholder={"Дата вьезда и выезда"} type="text"/>*/}
             <div className={css.dataWrapper}>
@@ -60,10 +64,10 @@ const FilterMap = props =>{
                 />
             </div>
             <div className={css.impWrapper}>
-                <select value={typeApartment} onChange={e=>setTypeApartment(e.target.value)} name="price" >
-                    <option value="">Тип жилья</option>
-                    <option value="Квартира">Квартира</option>
-                    <option value="Дом">Дом</option>
+                <select value={apartmentType} onChange={e=>setApartmentType(e.target.value)} name="price" >
+                    <option value="">Тип строения</option>
+                    <option value={1}>Панельный</option>
+                    <option value={2}>Кирпичный</option>
                 </select>
                 <select value={rooms} onChange={e=>setRooms(e.target.value)} name="more" >
                     <option value="">Количество комнат</option>
@@ -125,9 +129,9 @@ const FilterMap = props =>{
             </div>
             <div className={css.impWrapper}>
                 <select name="price" >
-                    <option value="">Тип строения</option>
-                    <option value="Кирпичный">Кирпичный</option>
-                    <option value="Панельный">Панельный</option>
+                    <option value="">Тип невижемость</option>
+                    <option value="Кирпичный">Квартира</option>
+                    <option value="Панельный">Дом</option>
                     {/*<option value="2000">Комерчиская невижемость</option>*/}
                 </select>
                 <select name="more" >

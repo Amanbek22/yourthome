@@ -13,13 +13,21 @@ import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-
 
 
 const DeteilsPage = props => {
+    const {id} = props.match.params;
     const [apartment, setApartment] = useState({});
+    const [comments, setComments] = useState([]) 
     const [address, setAddress] = useState({});
     const [date, setDate] = useState(new Date());
     const [todate, setTodate] = useState(new Date());
     const [som, setSom] = useState();
     const [usd, setUsd] = useState();
-    console.log(apartment)
+    const [commentInput, setCommentInput] = useState();
+    console.log(comments)
+    let comment = comments.map(item=>{
+        return(
+            <div key={item.id}>{item.text_of_publication}</div>
+        )
+    })
     useEffect(() => {
         axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
             .then(res => {
@@ -32,9 +40,14 @@ const DeteilsPage = props => {
             .then(res => {
                 setApartment(res.data)
                 setAddress(res.data.address)
+                setComments(res.data.comments)
                 // console.log(res.data)
             })
     }, [])
+    const sendComment = () => {
+        api.sendComment(id,commentInput)
+            .then(res=>res.status === 201 ? window.location.href = `/more-info/${id}` : console.log(res))
+    }
     let area = {...apartment.area}
     let phone = {...apartment.contact}
     const onDataChange = (jsDate, dateString) => {
@@ -180,6 +193,24 @@ const DeteilsPage = props => {
                                 style={{height: `100%`}}/>}
                             location={apartment.location}
                         />
+                    </div>
+                    <div className={css.commentWrapper}>
+                        <h2>Отзывы</h2>
+                        <div>
+                            {comment}
+                        </div>
+                        <div>
+                            <label>Коментарий</label>
+                            <input 
+                                type="text" 
+                                value={commentInput}
+                                onChange={e=> setCommentInput(e.target.value)}
+                                placeholder="Коментарий"
+                            />
+                        </div>
+                        <div>
+                            <button onClick={sendComment}>Отправить</button>
+                        </div>
                     </div>
                 </div>
             </div>

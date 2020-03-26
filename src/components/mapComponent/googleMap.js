@@ -36,12 +36,12 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     <GoogleMap
                         onTilesLoaded={() => {
                             setTimeout(() => {
-                                setZoom(7)
+                                setZoom(props.zoom)
                             }, 500)
                         }}
                         ref={map}
                         zoom={zoom}
-                        defaultCenter={{lat: 41.204380, lng: 74.766098}}
+                        center={props.cityCenter}
                         onBoundsChanged={() => {
                             newarr = [];
                             arr.forEach((item => {
@@ -128,7 +128,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
                     </GoogleMap> : 
                     <GoogleMap
-                        defaultZoom={6}
+                        defaultZoom={7}
                         defaultCenter={{lat: 41.204380, lng: 74.766098}}
                     >
                     </GoogleMap>
@@ -141,35 +141,43 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 
 const WrapperMap = props => {
-    const [filteredCity, setFilteredCity] = useState("all")
+    const [filteredCity, setFilteredCity] = useState('')
     const [selected, setSelected] = useState([])
     const [apartments, setApartments] = useState(props.points.points);
     const [som,setSom] = useState();
     const [rub,setRub] = useState();
     const [usd,setUsd] = useState();
     const [filterStyle,setFilterStyle] = useState(false);
-    const {city,dateFrom,dateTo,rooms,floor,priceFrom,priceTo,internet,furniture} = props.filterData;
+    const [latLng, setLatLng] = useState({lat: 41.204380, lng: 74.766098})
+    const [zoome, setZoome] = useState(7)
+    // alert(zoom)
+    const {city,dateFrom,dateTo,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture} = props.filterData;
     useEffect(() => {
         setApartments(props.points.points)
     });
     useEffect(() => {
-        if (filteredCity === 'all') {
-            props.setPoint(props.points.allPoints)
+
+        if (filteredCity === '') {
+            setLatLng({})
+            // setZoome(11)
         } else{
-            let newarr = props.points.allPoints.filter((item)=>{
-                debugger;
-                return item.location.city === filteredCity
-            })
-            props.setPoint(newarr)
+            setZoome(8.5);
+            filteredCity === '1' ? setLatLng({lat: 42.771211,lng: 74.545287}) :
+            filteredCity === '2' ? setLatLng({lat: 40.532589,lng: 72.771791}) :
+            filteredCity === '3' ? setLatLng({lat: 41.426350,lng: 75.991058}) :
+            filteredCity === '4' ? setLatLng({lat: 42.521700,lng: 72.244290}) :
+            filteredCity === '5' ? setLatLng({lat: 42.261049,lng: 77.808740}) :
+            filteredCity === '6' ? setLatLng({lat: 41.434490,lng: 72.602859}) :
+            filteredCity === '7' ? setLatLng({lat: 39.884450,lng: 71.294314}) : setLatLng({})
         }
     }, [filteredCity])
     useEffect(()=>{
-        api.getApartments(rooms,floor,priceFrom,priceTo,internet,furniture)
+        api.getApartments(city,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture)
             .then(response=>{
                 props.setPoint(response.data)
                 props.setAllPointsAC(response.data)
             }) 
-    },[city,dateFrom,dateTo,rooms,floor,priceFrom,priceTo,internet,furniture])
+    },[city,dateFrom,dateTo,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture])
     useEffect(() => {
         axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
             .then(res=>{
@@ -232,7 +240,8 @@ const WrapperMap = props => {
                 <div className={css.map}>
                     <MyMapComponent
                         chooseApartment={props.setApartment}
-                        cityCenter={filteredCity}
+                        cityCenter={latLng}
+                        zoom={zoome}
                         setVisibleMarkers={setSelected}
                         googleMapURL="
                         https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM
