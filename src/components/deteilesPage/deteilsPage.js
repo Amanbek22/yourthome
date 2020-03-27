@@ -15,44 +15,64 @@ import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-
 const DeteilsPage = props => {
     const {id} = props.match.params;
     const [apartment, setApartment] = useState({});
-    const [comments, setComments] = useState([]) 
+    const [comments, setComments] = useState([])
+    const [orders, setOrders] = useState([])
     const [address, setAddress] = useState({});
-    const [date, setDate] = useState(new Date());
-    const [todate, setTodate] = useState(new Date());
-    const [som, setSom] = useState();
-    const [usd, setUsd] = useState();
     const [commentInput, setCommentInput] = useState();
-    console.log(comments)
-    let comment = comments.map(item=>{
-        return(
+    let token = JSON.parse(localStorage.getItem('newToken'));
+    console.log(apartment)
+    let comment = comments.map(item => {
+        return (
             <div key={item.id}>{item.text_of_publication}</div>
         )
     })
     useEffect(() => {
-        axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
-            .then(res => {
-                console.log(res.data.Valute)
-                setSom(res.data.Valute.KGS.Value / 10)
-                // setRub(res.data.Valute.KGS.Value)
-                setUsd(res.data.Valute.USD.Value)
-            })
         api.getApartmentApi(props.match.params.id)
             .then(res => {
                 setApartment(res.data)
                 setAddress(res.data.address)
                 setComments(res.data.comments)
+                setOrders(res.data.orders)
                 // console.log(res.data)
             })
     }, [])
     const sendComment = () => {
-        api.sendComment(id,commentInput)
-            .then(res=>res.status === 201 ? window.location.href = `/more-info/${id}` : console.log(res))
+        api.sendComment(id, commentInput)
+            .then(res => res.status === 201 ? window.location.href = `/more-info/${id}` : console.log(res))
     }
     let area = {...apartment.area}
-    let phone = {...apartment.contact}
     const onDataChange = (jsDate, dateString) => {
         console.log(jsDate, dateString)
     }
+    let booking;
+    if (orders.length > 0) {
+        booking = orders.map(item => {
+            return <div className={css.dateWrapper} key={item.id}>
+                <div>
+                    <label>От</label>
+                    {/*<input type="text" value={item.arrival_date}/>*/}
+                    <DatePickerInput
+                        disabled={true}
+                        // placeholder={'От какого числа занято'}
+                        // onChange={onDataChange}
+                        value={item.arrival_date}
+                        className='my-custom-datepicker-component'
+                        onHide={() => 0}
+                        showOnInputClick={true}
+                    />
+                </div>
+                <div>
+                    <label>До</label>
+                    <DatePickerInput
+                        disabled={true}
+                        value={item.departure_date}
+                        className='my-custom-datepicker-component'
+                    />
+                </div>
+            </div>
+        })
+    }
+
     return (
         <div className={css.wrapper}>
             <div className={css.slider_block}>
@@ -80,7 +100,7 @@ const DeteilsPage = props => {
             <div className={css.moreInfoBlock}>
                 <div className={css.priceBlock}>
                     <div>{apartment.description}</div>
-                    <div>{Math.round(apartment.price * som / usd)}$</div>
+                    <div>{Math.round(apartment.another_price)}$</div>
                 </div>
                 <div className={css.information}>
                     <div>Информация</div>
@@ -126,31 +146,32 @@ const DeteilsPage = props => {
                             </ul>
                         </div>
                     </div>
-                    <div className={css.dateWrapper}>
-                        <div>
-                            <label>От</label>
-                            <DatePickerInput
-                                disabled={true}
-                                placeholder={'От какого числа занято'}
-                                onChange={onDataChange}
-                                value={date}
-                                className='my-custom-datepicker-component'
-                                onHide={() => 0}
-                                showOnInputClick={true}
-                            />
-                        </div>
-                        <div>
-                            До
-                            <DatePickerInput
-                                disabled={true}
-                                placeholder={'От какого числа занято'}
-                                onChange={onDataChange}
-                                value={todate}
-                                className='my-custom-datepicker-component'
-                                onHide={() => 0}
-                            />
-                        </div>
-                    </div>
+                    {/*<div className={css.dateWrapper}>*/}
+                    {/*<div>*/}
+                    {/*<label>От</label>*/}
+                    {/*<DatePickerInput*/}
+                    {/*disabled={true}*/}
+                    {/*placeholder={'От какого числа занято'}*/}
+                    {/*onChange={onDataChange}*/}
+                    {/*value={date}*/}
+                    {/*className='my-custom-datepicker-component'*/}
+                    {/*onHide={() => 0}*/}
+                    {/*showOnInputClick={true}*/}
+                    {/*/>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                    {/*До*/}
+                    {/*<DatePickerInput*/}
+                    {/*disabled={true}*/}
+                    {/*placeholder={'От какого числа занято'}*/}
+                    {/*onChange={onDataChange}*/}
+                    {/*value={todate}*/}
+                    {/*className='my-custom-datepicker-component'*/}
+                    {/*onHide={() => 0}*/}
+                    {/*/>*/}
+                    {/*</div>*/}
+                    {/*</div>*/}
+                    {booking}
                     <div className={css.descriptionWrapper}>
                         <div>Описание</div>
                         <div>
@@ -199,18 +220,22 @@ const DeteilsPage = props => {
                         <div>
                             {comment}
                         </div>
-                        <div>
-                            <label>Коментарий</label>
-                            <input 
-                                type="text" 
-                                value={commentInput}
-                                onChange={e=> setCommentInput(e.target.value)}
-                                placeholder="Коментарий"
-                            />
-                        </div>
-                        <div>
-                            <button onClick={sendComment}>Отправить</button>
-                        </div>
+                        {   token ?
+                            <div>
+                                <div>
+                                    <label>Коментарий</label>
+                                    <input
+                                        type="text"
+                                        value={commentInput}
+                                        onChange={e => setCommentInput(e.target.value)}
+                                        placeholder="Коментарий"
+                                    />
+                                </div>
+                                < div>
+                                    < button onClick={sendComment}>Отправить</button>
+                                </div>
+                            </div> : console.log('error')
+                        }
                     </div>
                 </div>
             </div>

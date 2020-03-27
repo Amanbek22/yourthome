@@ -6,23 +6,30 @@ import {setFilterData} from '../../redux/filterReducer'
 
 
 const FilterMap = props =>{
+    console.log(props)
     const [city,setCity] = useState(props.filterData.city);
     const [apartmentType, setApartmentType] = useState(props.filterData.apartmentType)
     const [rooms,setRooms] = useState(props.filterData.rooms)
     const [floor,setFloor] = useState('')
-    const [date,setDate] = useState('Mar 25 2020');
-    const [todate,setTodate] = useState(new Date());
+    const [dateFrom,setDateFrom] = useState(props.filterData.dateFrom);
+    const [dateTo,setDateTo] = useState(props.filterData.dateTo);
     const [priceFrom,setPriceFrom] = useState(props.filterData.priceFrom)
     const [priceTo,setPriceTo] = useState(props.filterData.priceTo)
     const [internet, setInternet] = useState(props.filterData.internet)
     const [furniture, setFurniture] = useState(props.filterData.furniture)
-    console.log(date)
-    const onDataChange = (jsDate,dateString) => {
-        console.log(jsDate,dateString)
-    }
+    const [gas, setGas] = useState(props.filterData.gas)
+    const [phone, setPhone] = useState(props.filterData.phone)
+    const [elevator, setElevator] = useState(props.filterData.elevator)
+    const [security, setSecurity] = useState(props.filterData.security)
+    const [parcking, setParcking ] = useState(props.filterData.parcking)
+    // console.log(date)
+    const onDataChange = (jsDate,dateString) => setDateFrom(jsDate)
+    const onDataToChange = (jsDate,dateString) => setDateTo(jsDate)
     const filter = () =>{
-        props.setItem(city)
-        props.setFilterData({city,rooms,floor,date,todate,priceFrom,priceTo,apartmentType,internet,furniture})
+        props.setItem(city,'')
+        props.setFilterData(
+            {city,rooms,floor,dateFrom,dateTo,priceFrom,priceTo,apartmentType,internet,furniture,gas,phone,elevator,security,parcking}
+            )
     }
     return(
         <div className={css.wrapper}>
@@ -36,30 +43,34 @@ const FilterMap = props =>{
             }} name="cities" >
                 <option value="">Все Регионы</option>
                 <option value="1">Чуй</option>
-                <option value="2">Ош</option>
-                <option value="3">Нарын</option>
-                <option value="4">Талас</option>
-                <option value="5">Иссык-Куль</option>
-                <option value="6">Джалал-Абад</option>
-                <option value="7">Баткен</option>
+                <option value="6">Ош</option>
+                <option value="7">Нарын</option>
+                <option value="8">Талас</option>
+                <option value="9">Иссык-Куль</option>
+                <option value="10">Джалал-Абад</option>
+                <option value="11">Баткен</option>
             </select>
             {/*<input placeholder={"Дата вьезда и выезда"} type="text"/>*/}
             <div className={css.dataWrapper}>
                 <DatePickerInput
                     placeholder={'От какого числа занято'}
                     onChange={onDataChange}
-                    value={date}
+                    value={dateFrom}
                     className='my-custom-datepicker-component'
                     onHide={()=>0}
                     showOnInputClick={true}
+                    onClear={()=>setDateFrom('')}
+                    minDate={new Date()}
                 />
                 <DatePickerInput
                     placeholder={'От какого числа занято'}
-                    onChange={onDataChange}
-                    value={todate}
+                    onChange={onDataToChange}
+                    value={dateTo}
                     className='my-custom-datepicker-component'
                     onHide={()=>0}
                     showOnInputClick={true}
+                    onClear={()=>setDateTo('')}
+                    minDate={new Date()}
                     // style={{ margin: 50+'px' }}
                 />
             </div>
@@ -129,7 +140,7 @@ const FilterMap = props =>{
             </div>
             <div className={css.impWrapper}>
                 <select name="price" >
-                    <option value="">Тип невижемость</option>
+                    <option value="">Тип недвижемость</option>
                     <option value="Кирпичный">Квартира</option>
                     <option value="Панельный">Дом</option>
                     {/*<option value="2000">Комерчиская невижемость</option>*/}
@@ -155,62 +166,64 @@ const FilterMap = props =>{
                         <input type="checkbox" checked={furniture} onChange={e=> setFurniture(e.target.checked)}/><label>Мебелирован</label>
                     </div>
                     <div>
-                        <input type="checkbox"/><label>Холодильник</label>
+                        <input type="checkbox" checked={gas} onChange={e=>setGas(e.target.checked)} /><label>Газ</label>
                     </div>
                     <div>
-                        <input type="checkbox"/><label>Телефон</label>
+                        <input type="checkbox" checked={phone} onChange={e=>setPhone(e.target.checked)} /><label>Телефон</label>
                     </div>
                     <div>
-                        <input type="checkbox"/><label>Балкон</label>
+                        <input type="checkbox" checked={elevator} onChange={e=>setElevator(e.target.checked)} /><label>Лифт</label>
                     </div>
-                    <div>
-                        <input type="checkbox"/><label>Телевизор</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Кондиционер</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Кухня</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Стиральная машина</label>
-                    </div>
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Телевизор</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Кондиционер</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Кухня</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Стиральная машина</label>*/}
+                    {/*</div>*/}
 
                 </div>
             </div>
-            {/* <div className={css.detailsWrapper}>
-                <h4>В квартире есть</h4>
+            <div className={css.detailsWrapper}>
+                <h4>Рядом есть</h4>
                 <div className={css.details}>
                     <div>
-                        <input type="checkbox"/><label>Интернет</label>
+                        <input type="checkbox" checked={security} onChange={e=>setSecurity(e.target.checked)}/>
+                        <label>Охрана</label>
                     </div>
                     <div>
-                        <input type="checkbox"/><label>Кабельное ТВ</label>
+                        <input type="checkbox" checked={parcking} onChange={e=>setParcking(e.target.checked)}/>
+                        <label>Парковка</label>
                     </div>
-                    <div>
-                        <input type="checkbox"/><label>Холодильник</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Телефон</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Балкон</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Телевизор</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Кондиционер</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Кухня</label>
-                    </div>
-                    <div>
-                        <input type="checkbox"/><label>Стиральная машина</label>
-                    </div>
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Холодильник</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Телефон</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Балкон</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Телевизор</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Кондиционер</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Кухня</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox"/><label>Стиральная машина</label>*/}
+                    {/*</div>*/}
 
                 </div>
-            </div> */}
+            </div>
         </div>
     )
 }

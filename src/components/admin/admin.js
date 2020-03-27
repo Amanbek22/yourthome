@@ -101,12 +101,18 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                 }}>
                                     Удалить
                                 </div>
-                            </div >
-                            <div className={css.more}>
                                 <Link style={{color: 'white'}}  to={`/more-info/${selectedPark.id}`}>
                                     Подробнее
                                 </Link>
-                            </div>
+                                <Link style={{color: 'white'}}  to={`/booking/${selectedPark.id}`}>
+                                    Настроить
+                                </Link>
+                            </div >
+                            {/*<div className={css.more}>*/}
+                                {/*<Link style={{color: 'white'}}  to={`/more-info/${selectedPark.id}`}>*/}
+                                    {/*Подробнее*/}
+                                {/*</Link>*/}
+                            {/*</div>*/}
                         </div>
                     </InfoWindow>
                 )}

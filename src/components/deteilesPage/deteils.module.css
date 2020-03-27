@@ -55,7 +55,7 @@
 .commentWrapper{
     margin-bottom: 50px;
 }
-.commentWrapper>div>button{
+.commentWrapper>div>div>button{
     height: 50px;
     margin-top: 10px;
     color: white;
@@ -64,7 +64,7 @@
     border-radius: 3px;
     background: rgb(0, 255, 13);
 }
-.commentWrapper>div{
+.commentWrapper>div>div{
     display: grid;
 }
 @media(max-width: 700px){

@@ -1,0 +1,43 @@
+.wrapper{
+    margin: 0 10%;
+}
+.listWrapper{
+    border: 2px solid black;
+    margin: 10px 0;
+}
+.btnWrapper{
+    text-align: right;
+    margin-top: 10px;
+}
+.addOrder{
+    font-size: 20px;
+    font-weight: 700;
+    padding: 15px 8px;
+    border: none;
+    border-radius: 5px;
+    background: #57C325;
+    color: white;
+}
+.modal{
+    text-align: center;
+    margin-top: 50px;
+}
+.modal>p{
+    font-size: 22px;
+    margin: 0 10px;
+}
+.yesBtn{
+    font-size: 23px;
+    font-weight: 700;
+    padding: 20px 10px;
+    margin: 0 20%;
+    border-radius: 5px;
+    background: #57C325;
+    color: white;
+}
+.btnWrapperDel{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 80px;
+    color: #fff;
+}

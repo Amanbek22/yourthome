@@ -16,6 +16,7 @@ import AddApartment from "./components/add_apartment/addApartmant";
 import Admin from "./components/admin/admin";
 import ChangeApartment from "./components/changeApartment/changeApartment";
 import api from "./api/api";
+import BookingSystem from "./components/BookingSystem/bookingSystem";
 
 function App() {
   return (
@@ -53,6 +54,9 @@ function App() {
                 </Route>
                 <Route exact path={"/change-apartment/:id"}>
                     <ChangeApartment/>
+                </Route>
+                <Route exact path={"/booking/:id"}>
+                    <BookingSystem />
                 </Route>
             </Switch>
             </div>

@@ -1,19 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import css from './filter.module.css'
 import {Link} from "react-router-dom";
 import {DatePickerInput} from "rc-datepicker";
 
 const Filter = props => {
     console.log(props)
-    const [date,setDate] = useState('');
-    const [todate,setTodate] = useState('');
-    const [city,setCity] =useState('')
-    const [rooms,setRooms] =useState('')
-    const [priceFrom,setPriceFrom] = useState('')
-    const [priceTo,setPriceTo] = useState('')
-    const onDataChange = (jsDate,dateString) => {
-        console.log(jsDate,dateString)
-    }
+    const [dateFrom,setDateFrom] = useState(props.filterData.dateFrom);
+    const [dateTo,setDateTo] = useState(props.filterData.dateTo);
+    const [city,setCity] =useState('');
+    const [rooms,setRooms] =useState('');
+    const [priceFrom,setPriceFrom] = useState('');
+    const [priceTo,setPriceTo] = useState('');
+    const onDataChange = (jsDate,dateString) => setDateFrom(jsDate);
+    const onDataToChange = (jsDate,dateString) => setDateTo(jsDate);
     return (
         <div className={css.filterWrapper}>
             <div className={css.filterWrapperSecond}>
@@ -25,29 +24,32 @@ const Filter = props => {
                     <select value={city} onChange={(e)=>setCity(e.target.value)} name="find_by_city" >
                         <option value="">Все регионы</option>
                         <option value="1">Чуй</option>
-                        <option value="2">Ош</option>
-                        <option value="3">Нарын</option>
-                        <option value="4">Талас</option>
-                        <option value="5">Иссык-Куль</option>
-                        <option value="6">Джалал-Абад</option>
-                        <option value="7">Баткен</option>
+                        <option value="6">Ош</option>
+                        <option value="7">Нарын</option>
+                        <option value="8">Талас</option>
+                        <option value="9">Иссык-Куль</option>
+                        <option value="10">Джалал-Абад</option>
+                        <option value="11">Баткен</option>
                     </select>
                     <div className={css.dateWrapper}>
                         <DatePickerInput
                             placeholder={'От какого числа занято'}
                             onChange={onDataChange}
-                            value={date}
+                            value={dateFrom}
                             className='my-custom-datepicker-component'
                             onHide={()=>0}
                             showOnInputClick={true}
+                            minDate={new Date()}
+                            onClear={()=> setDateFrom('')}
                         />
                         <DatePickerInput
                             placeholder={'От какого числа занято'}
-                            onChange={onDataChange}
-                            value={todate}
+                            onChange={onDataToChange}
+                            value={dateTo}
                             className='my-custom-datepicker-component'
                             onHide={()=>0}
                             showOnInputClick={true}
+                            onClear={()=>setDateTo('')}
                         />
                     </div>
                     <select value={rooms} onChange={(e)=>setRooms(e.target.value)} >
@@ -68,13 +70,14 @@ const Filter = props => {
                     <div className={css.moreSettings}>
                         {/*<img src="../../img/moreSettings.png" alt="settings"/>*/}
                         <p>Дополнительные параметры</p>
+
                     </div>
                     <div className={css.findButton}>
                         <div className={css.show}>
                             <Link to={"/map"}>Показать на карте</Link>
                         </div>
                         <div className={css.search}>
-                            <Link onClick={()=>props.setFilterData({city,rooms,priceFrom,priceTo})} to="/map">Начать поиск</Link>
+                            <Link onClick={()=>props.setFilterData({city,rooms,dateFrom,dateTo,priceFrom,priceTo})} to="/map">Начать поиск</Link>
                         </div>
                     </div>
                 </div>

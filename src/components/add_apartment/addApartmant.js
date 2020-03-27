@@ -3,7 +3,7 @@ import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import css from "./addApartmant.module.css";
 import axios from "axios";
 import api from "../../api/api";
-import { setApartment } from '../../redux/googleMap_reducer';
+import {setApartment} from '../../redux/googleMap_reducer';
 // import roomsImg from '../../img/room.png'
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
@@ -37,8 +37,13 @@ const AddApartment = props => {
     const [price, setPrice] = useState();
     const [images, setImages] = useState(null);
     const [internet, setInternet] = useState(false);
-    const [furniture,setFurniture] = useState(false)
-    const [apartmetType, setApartmentType] = useState()
+    const [furniture, setFurniture] = useState(false)
+    const [elevator, setElevator] = useState(false)
+    const [gas, setGas] = useState(false)
+    const [phone, setPhone] = useState(false)
+    const [security, setSecurity] = useState(false)
+    const [parcking, setParcking] = useState(false)
+    const [apartmentType, setApartmentType] = useState()
     const [regions, setRegions] = useState(0)
     let address = {};
     const pushLocation = async e => {
@@ -75,19 +80,19 @@ const AddApartment = props => {
                     "living_area": 35.0
                 },
                 "series": 1,
-                "construction_type": apartmetType,
+                "construction_type": apartmentType,
                 "state": 1,
                 "detail": {
                     "id": 1,
                     "furniture": furniture,
                     "heat": false,
-                    "gas": false,
+                    "gas": gas,
                     "electricity": true,
                     "internet": internet,
-                    "phone": false,
-                    "elevator": true,
-                    "security": false,
-                    "parking": false
+                    "phone": phone,
+                    "elevator": elevator,
+                    "security": security,
+                    "parking": parcking
                 },
                 "location": {
                     "id": 1,
@@ -120,7 +125,7 @@ const AddApartment = props => {
             }
             api.add(formData)
                 .then(
-                    (response) =>{
+                    (response) => {
                         alert('You add an apartment!')
                         window.location.href = '/admin'
                     },
@@ -170,22 +175,33 @@ const AddApartment = props => {
                         <input value={country} placeholder={"Страна"} type="text"/>
                     </div>
                     <div>
+                        <label>Регион</label>
+                        <select value={regions} onChange={(e) => setRegions(e.target.value)}>
+                            <option value={0}>Регион</option>
+                            <option value={1}>Чуй</option>
+                            <option value={6}>Ош</option>
+                            <option value={7}>Нарын</option>
+                            <option value={8}>Талас</option>
+                            <option value={9}>Иссык-Куль</option>
+                            <option value={10}>Джалал-Абад</option>
+                            <option value={11}>Баткен</option>
+                        </select>
+                    </div>
+                    <div>
                         <label>Описание</label>
-                        <input 
-                            value={description} 
-                            onChange={e => setDescription(e.target.value)} 
+                        <input
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
                             placeholder={"Описание"}
                             type="text"
                         />
                     </div>
                     <div>
                         <label>Площадь</label>
-                        <input value={area} onChange={(e) => setArea(e.target.value)} placeholder={"Площадь"} type="text"/>
+                        <input value={area} onChange={(e) => setArea(e.target.value)} placeholder={"Площадь"}
+                               type="text"/>
                     </div>
                     <div>
-                        {/* <input value={rooms} onChange={(e) => setRooms(e.target.value)} placeholder={"Количества комнат"}
-                            type="text"
-                        /> */}
                         <label>Количества комнат</label>
                         <select value={rooms} onChange={(e) => setRooms(e.target.value)}>
                             <option value={''}>Количества комнат</option>
@@ -197,25 +213,10 @@ const AddApartment = props => {
                             <option value={6}>6</option>
                         </select>
                     </div>
-                    <div>
-                        {/* <input value={rooms} onChange={(e) => setRooms(e.target.value)} placeholder={"Количества комнат"}
-                            type="text"
-                        /> */}
-                        <label>Регион</label>
-                        <select value={regions} onChange={(e) => setRegions(e.target.value)}>
-                            <option value={0}>Регион</option>
-                            <option value={1}>Чуй</option>
-                            <option value={2}>Ош</option>
-                            <option value={3}>Нарын</option>
-                            <option value={4}>Талас</option>
-                            <option value={5}>Иссык-Куль</option>
-                            <option value={6}>Джалал-Абад</option>
-                            <option value={7}>Баткен</option>
-                        </select>
-                    </div>
+
                     <div>
                         <label>Тип недвижемости</label>
-                        <select value={apartmetType} onChange={e=> setApartmentType(e.target.value)}>
+                        <select value={apartmentType} onChange={e => setApartmentType(e.target.value)}>
                             <option value={''}>Тип недвижемости</option>
                             <option value={1}>Квартира</option>
                             <option value={2}>Дом</option>
@@ -223,11 +224,13 @@ const AddApartment = props => {
                     </div>
                     <div>
                         <label>Цена</label>
-                        <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder={"Цена"} type="text"/>
+                        <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder={"Цена"}
+                               type="text"/>
                     </div>
                     <div>
                         <label>Этаж</label>
-                        <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Этаж"} type="text"/>
+                        <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Этаж"}
+                               type="text"/>
                     </div>
                     <div>
                         <input
@@ -241,14 +244,30 @@ const AddApartment = props => {
                         />
                     </div>
                     <div>
-                    <div>
-                        <input checked={internet} onChange={e=>setInternet(e.target.checked)} type="checkbox"/>
-                        <label>Internet</label>
-                    </div>
-                    <div>
-                        <input checked={furniture} onChange={e=>setFurniture(e.target.checked)} type="checkbox"/>
-                        <label>furniture</label>
-                    </div>
+                        <div>
+                            <input checked={internet} onChange={e => setInternet(e.target.checked)} type="checkbox"/>
+                            <label>Интернет</label>
+                        </div>
+                        <div>
+                            <input checked={furniture} onChange={e => setFurniture(e.target.checked)} type="checkbox"/>
+                            <label>Мебель</label>
+                        </div>
+                        <div>
+                            <input checked={elevator} onChange={e => setElevator(e.target.checked)} type="checkbox"/>
+                            <label>Лифт</label>
+                        </div>
+                        <div>
+                            <input checked={phone} onChange={e => setPhone(e.target.checked)} type="checkbox"/>
+                            <label>Телефон</label>
+                        </div>
+                        <div>
+                            <input checked={security} onChange={e => setSecurity(e.target.checked)} type="checkbox"/>
+                            <label>Охрана</label>
+                        </div>
+                        <div>
+                            <input checked={parcking} onChange={e => setParcking(e.target.checked)} type="checkbox"/>
+                            <label>Парковка</label>
+                        </div>
                     </div>
                 </div>
                 <button onClick={sendData} className={css.sendBtn}>Send</button>

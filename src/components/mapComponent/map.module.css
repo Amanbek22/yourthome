@@ -25,7 +25,9 @@
     background: #57C325;
     color: white;
     border-radius: 2px;
-    padding: 4px 0;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 6px 0;
 }
 
 .slider{
@@ -77,6 +79,19 @@
     transition: all 0.3s ease-in;
 }
 .filterBtnWrapper>div>img{
+    width: 100%;
+    height: 100%;
+}
+.loading{
+    position: absolute;
+    top: 0vh;
+    left: 0;
+    height: 90vh;
+    width: 100%;
+    z-index: 999999999;
+    background: #fff;
+}
+.loading>img{
     width: 100%;
     height: 100%;
 }

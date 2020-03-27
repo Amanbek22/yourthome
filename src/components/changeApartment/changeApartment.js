@@ -15,6 +15,7 @@ const Change = props => {
     const [visible,setVisible] = useState(false);
 
     useEffect(()=>{
+
         api.getApartmentApi(props.match.params.id)
             .then(res=>{
                 console.log(res)
@@ -25,6 +26,7 @@ const Change = props => {
             })
     },[]);
     const send = () =>{
+
         let token = JSON.parse(localStorage.getItem('newToken'));
         axios.patch(`https://yourthomeneobis2.herokuapp.com/apartment/${props.match.params.id}/`,{
             'description': description,
@@ -45,11 +47,11 @@ const Change = props => {
             )
             
     }
-    const deleteApartment = () =>{
-        api.deleteApartment(props.match.params.id).then(res=>{
-            window.location.href = '/admin'
-        })
-    }
+    // const deleteApartment = () =>{
+    //     api.deleteApartment(props.match.params.id).then(res=>{
+    //         window.location.href = '/admin'
+    //     })
+    // }
     return(
         <div className={css.wrapper}>
             <div>
@@ -69,7 +71,6 @@ const Change = props => {
                 <label>Этаж</label>
                 <input type="text" value={floor} onChange={(e)=>setFloor(e.target.value)}/>
             </div>
-            {/*<input type="text" value={data} />*/}
                 <button className={css.deleteBtn} onClick={()=>setVisible(true)}>
                     Change
                 </button>

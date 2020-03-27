@@ -4,8 +4,8 @@ const SET_FILTER_DATA = 'SET_DATA_FILTER';
 
 const initialState = {
     city: '',
-    dateFrom: '',
-    dateTo: '',
+    dateFrom: null,
+    dateTo: null,
     rooms: '',
     floor: '',
     priceFrom: '',
@@ -13,6 +13,11 @@ const initialState = {
     apartmentType: '',
     internet: false,
     furniture: false,
+    gas: false,
+    phone: false,
+    elevator: false,
+    security: false,
+    parcking: false
 }
 
 

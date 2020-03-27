@@ -13,7 +13,7 @@ import api from "../../api/api";
 import {setApartment} from "../../redux/googleMap_reducer";
 import axios from "axios";
 import {Carousel} from "react-responsive-carousel";
-import { bounce, fadeInRight, fadeOutRight } from 'react-animations';
+import {bounce, fadeInRight, fadeOutRight} from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
 
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
@@ -23,16 +23,16 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let map = React.createRef()
         let arr = [];
         let newarr = [];
-        const [zoom, setZoom] = useState(6)
+        const [zoom, setZoom] = useState(props.zoom)
+        const [center, setCenter] = useState(props.latLng)
         const onMarkerMounted = (element) => {
             arr.push(element)
         }
         const [selectedPark, setSelectedPark] = useState(null);
         let som = props.som / 10;
-
         return (
             <div className={css.mainWrapper}>
-                {props.points.length > 0 ?
+                {props.sended === true ?
                     <GoogleMap
                         onTilesLoaded={() => {
                             setTimeout(() => {
@@ -40,15 +40,18 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                             }, 500)
                         }}
                         ref={map}
-                        zoom={zoom}
-                        center={props.cityCenter}
+                        onZoomChanged={zoom}
+                        zoom={props.zoom}
+                        center={props.latLng}
                         onBoundsChanged={() => {
                             newarr = [];
                             arr.forEach((item => {
-                                if (map.current.getBounds().contains(item.props.position)) {
-                                    newarr.push(item.props.id)
-                                } else {
-                                    console.log("failed")
+                                if (map.current.getBounds() !== null) {
+                                    if (map.current.getBounds().contains(item.props.position)) {
+                                        newarr.push(item.props.id)
+                                    } else {
+                                        console.log("failed")
+                                    }
                                 }
                             }))
                             props.setVisibleMarkers(newarr)
@@ -65,7 +68,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                     ref={onMarkerMounted}
                                     onClick={() => {
                                         setSelectedPark(item)
-                                    } }
+                                    }}
                                     position={{
                                         lat: item.location.latitude,
                                         lng: item.location.longitude
@@ -73,13 +76,21 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                     title={item.description}
                                     color={'#ffffff'}
                                     markerWithLabel={"Hello"}
-                                    label={{text:String(Math.round(item.price * som  / props.usd)) + '$',color: '#000',fontSize: 16 + 'px'}}
+                                    label={{
+                                        text: Math.floor(item.another_price) + '$',
+                                        color: '#000',
+                                        fontSize: 16 + 'px',
+                                        textAlign: center,
+                                    }}
                                     icon={
                                         // iconMarker
                                         {
-                                            url: String(item.price).length > 3 ? marker: String(item.price).length >= 2 ? marker2 : marker,
-                                            scaledSize: {width: String(item.price).length > 3 ? 60: String(item.price).length >= 5 ? 70 : 40, height: 35},
-                                            labelOrigin: new window.google.maps.Point(String(item.price).length > 3 ? 30: String(item.price).length >= 5 ? 25 : 20, 12),
+                                            url: String(item.price).length > 6 ? marker : String(item.price).length > 3 ? marker : String(item.price).length >= 2 ? marker2 : marker,
+                                            scaledSize: {
+                                                width: String(item.price).length > 3 ? 60 : String(item.price).length >= 5 ? 70 : 40,
+                                                height: 35
+                                            },
+                                            labelOrigin: new window.google.maps.Point(String(item.price).length > 3 ? 30 : String(item.price).length >= 5 ? 25 : 20, 12),
                                         }
                                     }
                                     key={item.id}
@@ -126,72 +137,78 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                             </InfoWindow>
                         )}
 
-                    </GoogleMap> : 
-                    <GoogleMap
-                        defaultZoom={7}
-                        defaultCenter={{lat: 41.204380, lng: 74.766098}}
-                    >
                     </GoogleMap>
-                    }
+                    : <div className={css.loading}>
+                        <img src="https://flevix.com/wp-content/uploads/2019/07/Bubble-Loader-Icon.gif" alt="loading"/>
+                    </div>
+                }
             </div>
         )
     }
 ))
 
 
-
 const WrapperMap = props => {
     const [filteredCity, setFilteredCity] = useState('')
     const [selected, setSelected] = useState([])
     const [apartments, setApartments] = useState(props.points.points);
-    const [som,setSom] = useState();
-    const [rub,setRub] = useState();
-    const [usd,setUsd] = useState();
-    const [filterStyle,setFilterStyle] = useState(false);
-    const [latLng, setLatLng] = useState({lat: 41.204380, lng: 74.766098})
+    const [filterStyle, setFilterStyle] = useState(false);
+    const [latLng, setLatLng] = useState({})
     const [zoome, setZoome] = useState(7)
-    // alert(zoom)
-    const {city,dateFrom,dateTo,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture} = props.filterData;
+    const [sended, setSended] = useState(false)
+    const {
+        city, dateFrom, dateTo, rooms, floor,
+        priceFrom, priceTo, apartmentType, internet,
+        furniture, gas, phone, elevator, security,
+        parcking,
+    } = props.filterData;
     useEffect(() => {
         setApartments(props.points.points)
     });
     useEffect(() => {
-
         if (filteredCity === '') {
-            setLatLng({})
-            // setZoome(11)
-        } else{
-            setZoome(8.5);
-            filteredCity === '1' ? setLatLng({lat: 42.771211,lng: 74.545287}) :
-            filteredCity === '2' ? setLatLng({lat: 40.532589,lng: 72.771791}) :
-            filteredCity === '3' ? setLatLng({lat: 41.426350,lng: 75.991058}) :
-            filteredCity === '4' ? setLatLng({lat: 42.521700,lng: 72.244290}) :
-            filteredCity === '5' ? setLatLng({lat: 42.261049,lng: 77.808740}) :
-            filteredCity === '6' ? setLatLng({lat: 41.434490,lng: 72.602859}) :
-            filteredCity === '7' ? setLatLng({lat: 39.884450,lng: 71.294314}) : setLatLng({})
+            setLatLng({lat: 41.204380, lng: 74.766098})
+            setZoome(7)
+        } else {
+            setZoome(9);
+            return filteredCity === '1' ? setLatLng({lat: 42.771211, lng: 74.545287}) :
+                filteredCity === '6' ? setLatLng({lat: 40.532589, lng: 72.771791}) :
+                    filteredCity === '7' ? setLatLng({lat: 41.426350, lng: 75.991058}) :
+                        filteredCity === '8' ? setLatLng({lat: 42.521700, lng: 72.244290}) :
+                            filteredCity === '9' ? setLatLng({lat: 42.261049, lng: 77.808740}) :
+                                filteredCity === '10' ? setLatLng({lat: 41.434490, lng: 72.602859}) :
+                                    filteredCity === '11' ? setLatLng({
+                                        lat: 39.884450,
+                                        lng: 71.294314
+                                    }) : console.log(filteredCity)
         }
     }, [filteredCity])
-    useEffect(()=>{
-        api.getApartments(city,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture)
-            .then(response=>{
-                props.setPoint(response.data)
-                props.setAllPointsAC(response.data)
-            }) 
-    },[city,dateFrom,dateTo,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture])
     useEffect(() => {
-        axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
-            .then(res=>{
-                console.log(res.data.Valute)
-                setSom(res.data.Valute.KGS.Value)
-                // setRub(res.data.Valute.KGS.Value)
-                setUsd(res.data.Valute.USD.Value)
-            })
-       api.getApartments(rooms,floor,priceFrom,priceTo)
-            .then(response=>{
+        api.getApartments(
+            city, rooms, floor, priceFrom, priceTo,
+            apartmentType, internet, furniture, dateFrom, dateTo, gas,
+            phone, elevator, security,parcking
+        ).then(response => {
                 props.setPoint(response.data)
-                props.setAllPointsAC(response.data)
+                // props.setAllPointsAC(response.data)
+            })
+    }, [
+        city, dateFrom, dateTo, rooms, floor,
+        priceFrom, priceTo, apartmentType,
+        internet, furniture, gas, phone, elevator,
+        security, parcking
+    ]);
+    useEffect(() => {
+        api.getApartments(
+            city, rooms, floor, priceFrom, priceTo,
+            apartmentType, internet, furniture, dateFrom, dateTo
+        )
+            .then(response => {
+                props.setPoint(response.data)
+                setSended(true)
             })
     }, []);
+
     let arr = [];
     selected.map(id => arr.push(...props.points.points.filter(item => item.id === id)));
     let chooseApartment = item => {
@@ -213,7 +230,7 @@ const WrapperMap = props => {
                         area={item.area.total_area}
                         room={item.room}
                         floor={item.floor}
-                        price={item.price}
+                        price={item.another_price}
                         addetDate={item.date_of_arrival}
                     />
                 </div>
@@ -222,27 +239,28 @@ const WrapperMap = props => {
     }
     const styles = {
         bounce: {
-          animation: 'y 1s',
-          animationName: Radium.keyframes(bounce, 'bounce')
+            animation: 'y 1s',
+            animationName: Radium.keyframes(bounce, 'bounce')
         },
         fadeInLeft: {
             animation: '0.5s',
-          animationName: Radium.keyframes(fadeInRight, 'fadeInRight')
+            animationName: Radium.keyframes(fadeInRight, 'fadeInRight')
         },
         fadeOutRight: {
             animation: '0.5s',
-          animationName: Radium.keyframes(fadeOutRight, 'fadeOutRight')
+            animationName: Radium.keyframes(fadeOutRight, 'fadeOutRight')
         }
-      }
+    }
     return (
         <div>
             <div className={css.wrapper}>
                 <div className={css.map}>
                     <MyMapComponent
                         chooseApartment={props.setApartment}
-                        cityCenter={latLng}
+                        latLng={latLng}
                         zoom={zoome}
                         setVisibleMarkers={setSelected}
+                        sended={sended}
                         googleMapURL="
                         https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM
                         "
@@ -253,48 +271,49 @@ const WrapperMap = props => {
                         mapElement={<div
                             style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
                         points={apartments}
-                        som={som}
-                        usd={usd}
                     />
                 </div>
-            <StyleRoot>
-                <div className={css.elemetsWrapper}>
-                    <div onClick={()=>{
-                        if (!filterStyle){
-                            setFilterStyle(true)
-                        }else{
-                            setFilterStyle(false)
-                        }
-                    }} className={css.filterBtnWrapper} >
-                        <div style={
-                            !filterStyle ? null : {width: 5+'%',
-                                marginLeft: 91+'%',}
-                        } className={css.filterBtn}>
-                            {
-                                !filterStyle ?
-                                    <img style={styles.fadeInLeft} src="https://image.flaticon.com/icons/svg/566/566011.svg" alt="left"/>:
-                                    <img style={styles.fadeInLeft} src="https://image.flaticon.com/icons/svg/271/271228.svg" alt="right"/>
+                <StyleRoot>
+                    <div className={css.elemetsWrapper}>
+                        <div onClick={() => {
+                            if (!filterStyle) {
+                                setFilterStyle(true)
+                            } else {
+                                setFilterStyle(false)
                             }
+                        }} className={css.filterBtnWrapper}>
+                            <div style={
+                                !filterStyle ? null : {
+                                    width: 5 + '%',
+                                    marginLeft: 91 + '%',
+                                }
+                            } className={css.filterBtn}>
+                                {
+                                    !filterStyle ?
+                                        <img style={styles.fadeInLeft}
+                                             src="https://image.flaticon.com/icons/svg/566/566011.svg" alt="left"/> :
+                                        <img style={styles.fadeInLeft}
+                                             src="https://image.flaticon.com/icons/svg/271/271228.svg" alt="right"/>
+                                }
+                            </div>
+                        </div>
+                        <div style={styles.fadeInLeft}>
+                            <div style={
+                                filterStyle === false ? styles.fadeOutRight && {display: 'none'} : styles.fadeInLeft
+                            }>
+                                <FilterForMap setItem={setFilteredCity}/>
+                            </div>
+                            <div style={
+                                filterStyle === false ? styles.fadeInLeft : styles.fadeOutRight && {display: 'none'}}>
+                                {items}
+                            </div>
                         </div>
                     </div>
-                    <div style={styles.fadeInLeft}>
-                    <div style={
-                        filterStyle === false ? styles.fadeOutRight && {display: 'none'} : styles.fadeInLeft
-                    }>
-                        <FilterForMap items={arr} setItem={setFilteredCity}/>
-                    </div>
-                    <div  style={
-                        filterStyle === false ? styles.fadeInLeft : styles.fadeOutRight && {display: 'none'}} >
-                        {items}
-                    </div>
-                    </div>
-                </div>
-            </StyleRoot>
-        </div>
+                </StyleRoot>
+            </div>
         </div>
     )
 }
-
 
 
 export default WrapperMap;
