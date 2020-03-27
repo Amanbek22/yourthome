@@ -13,6 +13,7 @@
     width: 100%;
     margin: 10px;
     margin-bottom: 50px;
+    cursor: pointer;
 }
 .formWrapper>div{
     margin: 10px;

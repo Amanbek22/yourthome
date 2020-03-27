@@ -10,7 +10,6 @@ export default {
         let fromDate = '';
         let toDate = '';
         if(dateFrom !== undefined && dateFrom !== null && dateFrom !== 'Invalid date' && dateFrom !== ''){
-            debugger
             year = dateFrom.getFullYear();
             month = dateFrom.getMonth() + 1;
             day = dateFrom.getDate();

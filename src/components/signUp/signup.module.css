@@ -5,7 +5,7 @@
     padding: 25px;
     margin: 5px 35%;
 }
-.wrapper>div{
+.wrapper>form{
     text-align: left;
     display: grid;
     grid-template-columns: 1fr;

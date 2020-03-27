@@ -27,7 +27,7 @@ const Cards = props =>{
                 key={i}
                 city={item.location.city}
                 street={item.location.street}
-                price={item.price}
+                price={item.another_price}
                 rooms={item.room}
                 floor={item.floor}
                 area={item.area.total_area}

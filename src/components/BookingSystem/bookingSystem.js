@@ -30,7 +30,10 @@ const Booking = props => {
     },[])
     const change = () => {
         api.creatOrder(props.match.params.id,arivelDate,date)
-            .then(res=>console.log(res))
+            .then(res=>{
+                window.location.href = `/booking/${id}`
+                console.log(res)
+            })
     }
     const deleteOrder = () => {
         api.delOrder(id,delId).then(res => {
@@ -100,7 +103,7 @@ const Booking = props => {
                 onClear={()=>setDateTo('')}
             />
             <div className={css.btnWrapper}>
-                <button className={css.addOrder} onClick={()=> setVisible(true)}>
+                <button className={css.addOrder} onClick={change}>
                     Добавить
                 </button>
             </div>

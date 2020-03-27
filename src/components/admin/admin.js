@@ -42,7 +42,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                             color={'#ffffff'}
                             markerWithLabel={"Hello"}
                             label={{
-                                text: String(Math.round(item.price * som / props.usd)) + '$',
+                                text: Math.floor(item.another_price) + '$',
                                 color: '#000',
                                 fontSize: 16 + 'px'
                             }}
@@ -185,7 +185,7 @@ const Admin = props => {
                         area={item.area.total_area}
                         room={item.room}
                         floor={item.floor}
-                        price={item.price}
+                        price={item.another_price}
                         // addetDate={item.date_of_arrival}
                     />
                 </div>
