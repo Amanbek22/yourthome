@@ -19,6 +19,7 @@ const DeteilsPage = props => {
     const [orders, setOrders] = useState([])
     const [address, setAddress] = useState({});
     const [commentInput, setCommentInput] = useState();
+    const [img,setImg] = useState('')
     let token = JSON.parse(localStorage.getItem('newToken'));
     console.log(apartment)
     let comment = comments.map(item => {
@@ -33,6 +34,7 @@ const DeteilsPage = props => {
                 setAddress(res.data.address)
                 setComments(res.data.comments)
                 setOrders(res.data.orders)
+                setImg(res.data.preview_image)
                 // console.log(res.data)
             })
     }, [])
@@ -83,6 +85,10 @@ const DeteilsPage = props => {
                     width={`90%`}
                     swipeable={true}
                 >
+                    <div>
+                        <img
+                            src={img}/>
+                    </div>
                     <div>
                         <img
                             src="https://img.freepik.com/free-vector/vector-illustration-cartoon-interior-orange-home-room-living-room-with-two-soft-armchairs_1441-399.jpg?size=626&ext=jpg"/>

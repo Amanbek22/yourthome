@@ -25,6 +25,7 @@ const Cards = props =>{
             return <Card
                 id={item.id}
                 key={i}
+                img={item.preview_image}
                 city={item.location.city}
                 street={item.location.street}
                 price={item.another_price}

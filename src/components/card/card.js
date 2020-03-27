@@ -1,14 +1,14 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import img from '../../img/room.png'
+import imgg from '../../img/room.png'
 import css from './card.module.css'
 
 const Card = props =>{
-    let {city,street,price,id,rooms,area,floor} = props
+    let {city,street,price,id,rooms,area,floor,img} = props
     return (
         <Link to={`more-info/${id}`}>
             <div className={css.imgWrapper}>
-                <img src={img} alt="apartment"/>
+                <img src={!img ? imgg: img} alt="apartment"/>
                 <span className={css.price}>{price}$</span>
                 <div className={css.hoverEffect}>
                     <div className={css.options}>
