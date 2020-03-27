@@ -4,25 +4,22 @@ import img from '../../img/room.png'
 import css from './card.module.css'
 
 const Card = props =>{
-    let {city,street,price,id} = props
+    let {city,street,price,id,rooms,area,floor} = props
     return (
         <Link to={`more-info/${id}`}>
             <div className={css.imgWrapper}>
                 <img src={img} alt="apartment"/>
-                <span className={css.price}>{price}y.e</span>
+                <span className={css.price}>{price}$</span>
                 <div className={css.hoverEffect}>
                     <div className={css.options}>
                         <div>
-                            3
-                            <div>rooms</div>
+                            {rooms}
                         </div>
                         <div>
-                            120
-                            <div>m2</div>
+                            {area}m2
                         </div>
                         <div>
-                            2/5
-                            <div>floor</div>
+                            {floor}-Этаж
                         </div>
                     </div>
                     <div className={css.addres}>

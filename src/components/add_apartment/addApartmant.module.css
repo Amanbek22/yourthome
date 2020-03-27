@@ -19,3 +19,6 @@
     display: grid;
     grid-template-columns: 1fr;
 }
+.selects{
+    height: 30px;
+}

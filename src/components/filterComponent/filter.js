@@ -16,10 +16,6 @@ const Filter = props => {
     return (
         <div className={css.filterWrapper}>
             <div className={css.filterWrapperSecond}>
-                <div className={css.links}>
-                    <Link to="/">Аренда</Link>
-                    <Link to="/">Новостройка</Link>
-                </div>
                 <div className={css.inputsWrapper}>
                     <select value={city} onChange={(e)=>setCity(e.target.value)} name="find_by_city" >
                         <option value="">Все регионы</option>

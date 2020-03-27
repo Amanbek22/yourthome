@@ -100,7 +100,7 @@ const Booking = props => {
                 onClear={()=>setDateTo('')}
             />
             <div className={css.btnWrapper}>
-                <button className={css.addOrder} onClick={change}>
+                <button className={css.addOrder} onClick={()=> setVisible(true)}>
                     Добавить
                 </button>
             </div>

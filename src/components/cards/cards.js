@@ -22,10 +22,20 @@ const Cards = props =>{
             if (i >= 6){
                 return null
             }
-            return <Card id={item.id} key={i} city={item.location.city} street={item.location.street} price={item.price}/>
+            return <Card
+                id={item.id}
+                key={i}
+                city={item.location.city}
+                street={item.location.street}
+                price={item.price}
+                rooms={item.room}
+                floor={item.floor}
+                area={item.area.total_area}
+            />
         })
         let a = 0;
         revApartment = rev.map((item) => {
+            console.log(item)
             a++;
             if (a >= 6){
                 return null
@@ -36,6 +46,9 @@ const Cards = props =>{
                 city={item.location.city}
                 street={item.location.street}
                 price={item.price}
+                rooms={item.room}
+                floor={item.floor}
+                area={item.area.total_area}
             />
         })
     }
@@ -49,19 +62,27 @@ const Cards = props =>{
                         {apartment}
                     </div>
                     <div className={css.moreWrapper}>
-                        <Link to="/map" className={css.more}>Просмотреть все</Link>
+                        <button  className={css.more}>
+                            <Link to="/map">
+                                Просмотреть все
+                            </Link>
+                        </button>
                     </div>
                 </div>
             </div>
-            <div>
-                <h3 className={css.whereBuy}>Приобрести квартиру в новостройках</h3>
-                <div className={css.cardWrapper}>
-                    {revApartment}
-                </div>
-                <div className={css.moreWrapper}>
-                    <button className={css.more}>Просмотреть все</button>
-                </div>
-            </div>
+            {/*<div>*/}
+                {/*<h3 className={css.whereBuy}>Приобрести квартиру в новостройках</h3>*/}
+                {/*<div className={css.cardWrapper}>*/}
+                    {/*{revApartment}*/}
+                {/*</div>*/}
+                {/*<div className={css.moreWrapper}>*/}
+                    {/*<button className={css.more}>*/}
+                        {/*<Link to="/map">*/}
+                            {/*Просмотреть все*/}
+                        {/*</Link>*/}
+                    {/*</button>*/}
+                {/*</div>*/}
+            {/*</div>*/}
         </div>
     )
 }

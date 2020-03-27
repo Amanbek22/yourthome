@@ -1,12 +1,15 @@
 import React, {useState} from 'react';
-import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
+import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import css from "./addApartmant.module.css";
 import axios from "axios";
 import api from "../../api/api";
 import {setApartment} from '../../redux/googleMap_reducer';
+import marker from "../../img/marker6.png";
+import marker2 from "../../img/marker10.png";
 // import roomsImg from '../../img/room.png'
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
+        console.log(props)
         let map = React.createRef()
         return (
             <div>
@@ -16,6 +19,16 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     defaultZoom={7}
                     defaultCenter={{lat: 41.204380, lng: 74.766098}}
                 >
+                    {
+                        props.marker.length > 0 ? <Marker
+                            position={{
+                                lat: props.marker[0],
+                                lng: props.marker[1]
+                            }}
+                            color={'#ffffff'}
+                            cursor={"pointer"}
+                        /> : null
+                    }
                 </GoogleMap>
             </div>
         )
@@ -45,10 +58,13 @@ const AddApartment = props => {
     const [parcking, setParcking] = useState(false)
     const [apartmentType, setApartmentType] = useState()
     const [regions, setRegions] = useState(0)
+    const [mark, setMark] = useState([])
     let address = {};
     const pushLocation = async e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
         setLatLng(latlng)
+        setMark(latlng)
+        console.log(mark)
         let newurl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng[0]}&lon=${latlng[1]}&accept-language=ru`
         //let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM`
         await axios.get(newurl)
@@ -62,7 +78,8 @@ const AddApartment = props => {
                 setCountry(address_1.country)
             })
     }
-    const sendData = () => {
+    const sendData = (e) => {
+        e.preventDefault()
         if (latLng.length > 0) {
             let preview_image = new FormData();
             preview_image.append('preview_image', null);
@@ -127,9 +144,12 @@ const AddApartment = props => {
                 .then(
                     (response) => {
                         alert('You add an apartment!')
-                        window.location.href = '/admin'
+                        window.location.href = '/admin/'
                     },
-                    (error) => alert("Wrong address")
+                    (error) => {
+                        console.log(error)
+                        alert(error)
+                    }
                 )
         }
     }
@@ -138,6 +158,7 @@ const AddApartment = props => {
         <div className={css.wrapper}>
             <div>
                 <MyMapComponent
+                    marker={mark}
                     googleMapURL="
                         https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM
                         "
@@ -156,27 +177,27 @@ const AddApartment = props => {
                     pushLocation={pushLocation}
                 />
             </div>
-            <div id={"formID"}>
-                <div className={css.formWrapper}>
+            <div  id={"formID"}>
+                <form onSubmit={sendData} className={css.formWrapper}>
                     <div>
                         <label>Number of house</label>
-                        <input value={num} placeholder={"Номер дома"} type="text"/>
+                        <input required value={num} placeholder={"Номер дома"} type="text"/>
                     </div>
                     <div>
                         <label>Street</label>
-                        <input value={street} placeholder={"улица"} type="text"/>
+                        <input required value={street} placeholder={"улица"} type="text"/>
                     </div>
                     <div>
                         <label>City</label>
-                        <input value={city} placeholder={"город"} type="text"/>
+                        <input required value={city} placeholder={"город"} type="text"/>
                     </div>
                     <div>
                         <label>Country</label>
-                        <input value={country} placeholder={"Страна"} type="text"/>
+                        <input required value={country} placeholder={"Страна"} type="text"/>
                     </div>
                     <div>
                         <label>Регион</label>
-                        <select value={regions} onChange={(e) => setRegions(e.target.value)}>
+                        <select className={css.selects} required value={regions} onChange={(e) => setRegions(e.target.value)}>
                             <option value={0}>Регион</option>
                             <option value={1}>Чуй</option>
                             <option value={6}>Ош</option>
@@ -190,6 +211,7 @@ const AddApartment = props => {
                     <div>
                         <label>Описание</label>
                         <input
+                            required
                             value={description}
                             onChange={e => setDescription(e.target.value)}
                             placeholder={"Описание"}
@@ -198,12 +220,12 @@ const AddApartment = props => {
                     </div>
                     <div>
                         <label>Площадь</label>
-                        <input value={area} onChange={(e) => setArea(e.target.value)} placeholder={"Площадь"}
+                        <input required value={area} onChange={(e) => setArea(e.target.value)} placeholder={"Площадь"}
                                type="text"/>
                     </div>
                     <div>
                         <label>Количества комнат</label>
-                        <select value={rooms} onChange={(e) => setRooms(e.target.value)}>
+                        <select className={css.selects} required value={rooms} onChange={(e) => setRooms(e.target.value)}>
                             <option value={''}>Количества комнат</option>
                             <option value={1}>1</option>
                             <option value={2}>2</option>
@@ -216,7 +238,7 @@ const AddApartment = props => {
 
                     <div>
                         <label>Тип недвижемости</label>
-                        <select value={apartmentType} onChange={e => setApartmentType(e.target.value)}>
+                        <select className={css.selects} required value={apartmentType} onChange={e => setApartmentType(e.target.value)}>
                             <option value={''}>Тип недвижемости</option>
                             <option value={1}>Квартира</option>
                             <option value={2}>Дом</option>
@@ -224,13 +246,34 @@ const AddApartment = props => {
                     </div>
                     <div>
                         <label>Цена</label>
-                        <input value={price} onChange={(e) => setPrice(e.target.value)} placeholder={"Цена"}
+                        <input required value={price} onChange={(e) => setPrice(e.target.value)} placeholder={"Цена"}
                                type="text"/>
                     </div>
                     <div>
                         <label>Этаж</label>
-                        <input value={floor} onChange={(e) => setFloor(e.target.value)} placeholder={"Этаж"}
-                               type="text"/>
+                        <select className={css.selects} required value={floor} onChange={e=> setFloor(e.target.value)}>
+                            <option value={''}>Этаж</option>
+                            <option value={1}>1</option>
+                            <option value={2}>2</option>
+                            <option value={3}>3</option>
+                            <option value={4}>4</option>
+                            <option value={5}>5</option>
+                            <option value={6}>6</option>
+                            <option value={7}>7</option>
+                            <option value={8}>8</option>
+                            <option value={9}>9</option>
+                            <option value={10}>10</option>
+                            <option value={11}>11</option>
+                            <option value={12}>12</option>
+                            <option value={13}>13</option>
+                            <option value={14}>14</option>
+                            <option value={15}>15</option>
+                            <option value={16}>16</option>
+                            <option value={17}>17</option>
+                            <option value={18}>18</option>
+                            <option value={19}>19</option>
+                            <option value={20}>20</option>
+                        </select>
                     </div>
                     <div>
                         <input
@@ -269,8 +312,8 @@ const AddApartment = props => {
                             <label>Парковка</label>
                         </div>
                     </div>
-                </div>
-                <button onClick={sendData} className={css.sendBtn}>Send</button>
+                    <input type={'submit'}  className={css.sendBtn} value={'Send'}/>
+                </form>
             </div>
         </div>
     )

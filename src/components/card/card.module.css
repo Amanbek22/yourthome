@@ -37,7 +37,12 @@
 .options{
     margin: 20% 0;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
+
+}
+.options>div{
+    margin: 5px 0;
+    text-align: center;
 }
 .addres{
     font-size: 12px;

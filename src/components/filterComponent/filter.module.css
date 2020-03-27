@@ -28,6 +28,7 @@
     display: grid;
     grid-template-columns: 2fr 6fr;
     grid-gap: 1em;
+    padding-top: 10px;
 }
 .inputsWrapper>select{
     width: 100%;

@@ -28,7 +28,7 @@
 .enter>a{
     font-size: 12px;
 }
-.enter>button{
+.enter>input{
     float: right;
     padding: 10px;
     background: #57C325;
