@@ -43,18 +43,17 @@
     height: 30px;
 }
 .moreWrapper{
-    margin-top: 10px;
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
 }
 .moreSettings{
-    font-size: 16px;
+    font-size: 15px;
     font-weight: normal;
 }
 .findButton{
-    display: grid;
-    grid-template-columns: 4fr 2fr;
+    display: flex;
+    justify-content: space-between;
     text-align: right;
 
 }
@@ -73,6 +72,7 @@
     box-sizing: border-box;
     border-radius: 2px;
     padding: 8px 15px;
+    margin-left: 15px;
 }
 .dateWrapper{
     display: grid;

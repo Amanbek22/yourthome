@@ -6,8 +6,9 @@
     position: sticky;
     top: 0;
     left: 0;
-    z-index: 999999;
+    z-index: 999;
     background: rgba(255, 0, 0, 0);
+    border-bottom: 1px solid #57C325;
 }
 .signWrapper{
     margin: 0 7%;
@@ -22,11 +23,11 @@
     color: #000;
     text-decoration: none;
 }
-.line{
-    margin-top: 5px;
-    background: #C1C1C1;
-    border: 1px solid #C1C1C1;
-}
+/*.line{*/
+    /*!*margin-top: 5px;*!*/
+    /*background: #C1C1C1;*/
+    /*border: 1px solid #C1C1C1;*/
+/*}*/
 .navWrapper{
     margin: 12px 1%;
     display: grid;

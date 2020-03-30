@@ -3,7 +3,7 @@
     background: #ffffff;
     display: grid;
     grid-gap: 1em;
-    margin: 0 0.8%;
+    margin: 5px 0.8%;
 }
 .filterWrapper{
     display: grid;
@@ -14,6 +14,7 @@
     background: #05BA02;
     height: 40px;
     margin: auto;
+    padding: 0 5px;
     font-size: 18px;
     border-radius: 2px;
     border: none;

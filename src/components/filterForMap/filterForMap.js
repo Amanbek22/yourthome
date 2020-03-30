@@ -8,7 +8,8 @@ import {setFilterData} from '../../redux/filterReducer'
 const FilterMap = props =>{
     console.log(props)
     const [city,setCity] = useState(props.filterData.city);
-    const [apartmentType, setApartmentType] = useState(props.filterData.apartmentType)
+    const [apartmentType, setApartmentType] = useState(props.filterData.type)
+    const [construction_type, setConstruction_type] = useState(props.filterData.construction_type)
     const [rooms,setRooms] = useState(props.filterData.rooms)
     const [floor,setFloor] = useState('')
     const [dateFrom,setDateFrom] = useState(props.filterData.dateFrom);
@@ -28,7 +29,7 @@ const FilterMap = props =>{
     const filter = () =>{
         props.setItem(city,'')
         props.setFilterData(
-            {city,rooms,floor,dateFrom,dateTo,priceFrom,priceTo,apartmentType,internet,furniture,gas,phone,elevator,security,parcking}
+            {city,rooms,floor,dateFrom,dateTo,priceFrom,priceTo,apartmentType,internet,furniture,gas,phone,elevator,security,parcking,construction_type}
             )
     }
     return(
@@ -75,7 +76,7 @@ const FilterMap = props =>{
                 />
             </div>
             <div className={css.impWrapper}>
-                <select value={apartmentType} onChange={e=>setApartmentType(e.target.value)} name="price" >
+                <select value={construction_type} onChange={e=>setConstruction_type(e.target.value)} name="price" >
                     <option value="">Тип строения</option>
                     <option value={1}>Панельный</option>
                     <option value={2}>Кирпичный</option>
@@ -139,10 +140,10 @@ const FilterMap = props =>{
                 </select>
             </div>
             <div className={css.impWrapper}>
-                <select name="price" >
+                <select name="price" value={apartmentType} onChange={e => setApartmentType(e.target.value)} >
                     <option value="">Тип недвижемость</option>
-                    <option value="Кирпичный">Квартира</option>
-                    <option value="Панельный">Дом</option>
+                    <option value={1}>Квартира</option>
+                    <option value={2}>Дом</option>
                     {/*<option value="2000">Комерчиская невижемость</option>*/}
                 </select>
                 <select name="more" >
@@ -174,19 +175,6 @@ const FilterMap = props =>{
                     <div>
                         <input type="checkbox" checked={elevator} onChange={e=>setElevator(e.target.checked)} /><label>Лифт</label>
                     </div>
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Телевизор</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Кондиционер</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Кухня</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Стиральная машина</label>*/}
-                    {/*</div>*/}
-
                 </div>
             </div>
             <div className={css.detailsWrapper}>
@@ -200,28 +188,6 @@ const FilterMap = props =>{
                         <input type="checkbox" checked={parcking} onChange={e=>setParcking(e.target.checked)}/>
                         <label>Парковка</label>
                     </div>
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Холодильник</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Телефон</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Балкон</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Телевизор</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Кондиционер</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Кухня</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox"/><label>Стиральная машина</label>*/}
-                    {/*</div>*/}
-
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@ const http = axios.create({
     baseURL: "https://yourthomeneobis2.herokuapp.com"
 });
 export default {
-    getApartments: (city,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture,dateFrom, dateTo,gas,phone,elevator, security,parcking) => {
+    getApartments: (city,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture,dateFrom, dateTo,gas,phone,elevator, security,parcking,construction_type) => {
         let year,month,day,yearTo,monthTo,dayTo;
         let fromDate = '';
         let toDate = '';
@@ -33,7 +33,7 @@ export default {
             }
             toDate = yearTo + '-' + monthTo + '-' + dayTo;
         }
-        return http.get(`/apartments/?location__region=${!city?'':city}&location__city=${''}&location__district=${''}&type=${''}&room=${!rooms?'':rooms}&floor=${!floor?'': floor}&construction_type=${!apartmentType?'':apartmentType}&state=${''}&min_price=${!priceFrom?'':priceFrom}&max_price=${!priceTo?'':priceTo}&currency=${''}&arrival_date=${fromDate}&departure_date=${toDate}&min_area=${''}&max_area=${''}&rental_period=${''}&detail__internet=${!internet?'':internet}&detail__furniture=${!furniture?'':furniture}&detail__heat=${''}&detail__gas=${!gas?'':gas}&detail__phone=${!phone?'':phone}&detail__parking=${!parcking?'':parcking}&detail__elevator=${!elevator?'':elevator}&detail__security=${!security?'':security}`)
+        return http.get(`/apartments/?location__region=${!city?'':city}&location__city=${''}&location__district=${''}&type=${!apartmentType?'':apartmentType}&room=${!rooms?'':rooms}&floor=${!floor?'': floor}&construction_type=${!construction_type?'':construction_type}&state=${''}&min_price=${!priceFrom?'':priceFrom}&max_price=${!priceTo?'':priceTo}&currency=${''}&arrival_date=${fromDate}&departure_date=${toDate}&min_area=${''}&max_area=${''}&rental_period=${''}&detail__internet=${!internet?'':internet}&detail__furniture=${!furniture?'':furniture}&detail__heat=${''}&detail__gas=${!gas?'':gas}&detail__phone=${!phone?'':phone}&detail__parking=${!parcking?'':parcking}&detail__elevator=${!elevator?'':elevator}&detail__security=${!security?'':security}`)
     },
     getApartmentApi: (id) => http.get(`/apartment/${id}`),
     registration: data => http.post("/registration/", data),
@@ -122,6 +122,16 @@ export default {
     delOrder: (id,orderId) => {
         let token = JSON.parse(localStorage.getItem('newToken'));
         return http.delete(`/own-apartments/${id}/booking/${orderId}`,{
+            headers: {
+                "Authorization": "Bearer " + token.access
+            }
+        })
+    },
+    addPhoto: (id,preview_image) => {
+        let token = JSON.parse(localStorage.getItem('newToken'));
+        return http.post(`/own-apartments/${id}/photo/`,{
+            preview_image
+        },{
             headers: {
                 "Authorization": "Bearer " + token.access
             }

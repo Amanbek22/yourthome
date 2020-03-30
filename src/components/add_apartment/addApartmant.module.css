@@ -1,25 +1,69 @@
 .wrapper{
-    display: grid;
-    grid-template-columns: 6fr 2fr;
+    /*display: grid;*/
+    /*grid-template-columns: 6fr 2fr;*/
+
 }
-.wrapper>div>input{
-    width: 90%;
+.h2{
+    margin: 15px 0;
+    padding: 0 1%;
 }
 .sendBtn{
     background: #05BA02;
+    font-size: 22px;
     color: white;
     border: none;
     padding: 10px 25px;
-    width: 100%;
-    margin: 10px;
-    margin-bottom: 50px;
-    cursor: pointer;
+    width: 300px;
+    margin: 10px auto 30px auto;
+    cursor: pointer !important;
+    text-align: center;
+    display: block;
 }
-.formWrapper>div{
-    margin: 10px;
+.inputs, .selects{
+    height: 35px;
+    background: #FFFFFF;
+    border: 1px solid #57C325;
+    box-sizing: border-box;
+    border-radius: 5px;
+    /*width: 250px;*/
+}
+.main{
+    padding: 0 15% 15px 15%;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgb(172, 172, 172);
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 3fr 2fr;
+    grid-gap: 2em;
 }
-.selects{
-    height: 30px;
+.main>div{
+    display: grid;
+    /*margin: 5px 0;*/
+}
+.details{
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-row-gap: 1em;
+    font-size: 15px;
+}
+.details>div>label>input{
+    margin: 0 5px 0 0 ;
+}
+.modal{
+    display: grid;
+    grid-template-columns: 6fr 2fr;
+    grid-gap: 1em;
+    margin: 50px 10px;
+    overflow: hidden;
+}
+.addressWrapper>div{
+    display: grid;
+    margin: 1em 0;
+}
+.mainText{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: 5px;
+    margin-top: 5px;
 }

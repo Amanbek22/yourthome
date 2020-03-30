@@ -19,9 +19,11 @@ const DeteilsPage = props => {
     const [orders, setOrders] = useState([])
     const [address, setAddress] = useState({});
     const [commentInput, setCommentInput] = useState();
-    const [img,setImg] = useState('')
+    const [img, setImg] = useState('')
+    const [images, setImages] = useState([]);
+    const [details, setDetails] = useState({})
     let token = JSON.parse(localStorage.getItem('newToken'));
-    console.log(apartment)
+    console.log(details)
     let comment = comments.map(item => {
         return (
             <div key={item.id}>{item.text_of_publication}</div>
@@ -34,8 +36,9 @@ const DeteilsPage = props => {
                 setAddress(res.data.address)
                 setComments(res.data.comments)
                 setOrders(res.data.orders)
+                setDetails({...res.data.detail})
                 setImg(res.data.preview_image)
-                // console.log(res.data)
+                setImages(res.data.images)
             })
     }, [])
     const sendComment = () => {
@@ -55,8 +58,6 @@ const DeteilsPage = props => {
                     {/*<input type="text" value={item.arrival_date}/>*/}
                     <DatePickerInput
                         disabled={true}
-                        // placeholder={'От какого числа занято'}
-                        // onChange={onDataChange}
                         value={item.arrival_date}
                         className='my-custom-datepicker-component'
                         onHide={() => 0}
@@ -85,22 +86,22 @@ const DeteilsPage = props => {
                     width={`90%`}
                     swipeable={true}
                 >
-                    <div>
-                        <img
-                            src={img}/>
-                    </div>
-                    <div>
-                        <img
-                            src="https://img.freepik.com/free-vector/vector-illustration-cartoon-interior-orange-home-room-living-room-with-two-soft-armchairs_1441-399.jpg?size=626&ext=jpg"/>
-                    </div>
-                    <div>
-                        <img
-                            src="https://media.gettyimages.com/photos/laptop-on-coffee-table-in-a-modern-living-room-of-an-old-country-picture-id900217718?s=612x612"/>
-                    </div>
-                    <div>
-                        <img
-                            src="https://yourthomeneobis2.herokuapp.com/media/photos/1a4da06bcdf207407ef4767711eeb20e.jpg"/>
-                    </div>
+                    {/*<div>*/}
+                    {/*<img*/}
+                    {/*src={img}/>*/}
+                    {/*</div>*/}
+                    {images.length <= 0 ?
+                        <div>
+                            <img src="#"/>
+                        </div> : images.map(item => {
+                            return !item.image ?
+                                <div key={item.id}>
+                                    <img src={item.image}/>
+                                </div>
+                                : null
+                        })
+                    }
+
                 </Carousel>
             </div>
             <div className={css.moreInfoBlock}>
@@ -126,29 +127,19 @@ const DeteilsPage = props => {
                         <div>
                             <div>Рядом есть:</div>
                             <ul>
-                                <li>Рестораны кафе</li>
-                                <li>Детский сад</li>
-                                <li>Стоянка</li>
-                                <li>Остановки</li>
-                                <li>Супермаркет</li>
-                                <li>магазины</li>
-                                <li>Парк</li>
-                                <li>Зелёная зона</li>
-                                <li>Больница</li>
+                                { details.parking ? <li>Парковка</li>: null}
+                                { details.security ? <li>Озрана</li>: null}
                             </ul>
                         </div>
                         <div>
                             <div>В квартире есть:</div>
                             <ul>
-                                <li>Рестораны кафе</li>
-                                <li>Детский сад</li>
-                                <li>Стоянка</li>
-                                <li>Остановки</li>
-                                <li>Супермаркет</li>
-                                <li>магазины</li>
-                                <li>Парк</li>
-                                <li>Зелёная зона</li>
-                                <li>Больница</li>
+                                { details.furniture ? <li>Мебель</li>: null}
+                                { details.internet ? <li>Интернет</li>: null}
+                                { details.gas ? <li>Газ</li>: null}
+                                { details.electricity ? <li>Электричество</li>: null}
+                                { details.elevator ? <li>Лифт</li>: null}
+                                { details.phone ? <li>Телефон</li>: null}
                             </ul>
                         </div>
                     </div>
@@ -226,7 +217,7 @@ const DeteilsPage = props => {
                         <div>
                             {comment}
                         </div>
-                        {   token ?
+                        {token ?
                             <div>
                                 <div>
                                     <label>Коментарий</label>

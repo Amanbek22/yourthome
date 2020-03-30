@@ -160,7 +160,7 @@ const WrapperMap = props => {
         city, dateFrom, dateTo, rooms, floor,
         priceFrom, priceTo, apartmentType, internet,
         furniture, gas, phone, elevator, security,
-        parcking,
+        parcking,construction_type
     } = props.filterData;
     useEffect(() => {
         setApartments(props.points.points)
@@ -187,7 +187,7 @@ const WrapperMap = props => {
         api.getApartments(
             city, rooms, floor, priceFrom, priceTo,
             apartmentType, internet, furniture, dateFrom, dateTo, gas,
-            phone, elevator, security,parcking
+            phone, elevator, security,parcking,construction_type
         ).then(response => {
                 props.setPoint(response.data)
                 // props.setAllPointsAC(response.data)
@@ -196,12 +196,12 @@ const WrapperMap = props => {
         city, dateFrom, dateTo, rooms, floor,
         priceFrom, priceTo, apartmentType,
         internet, furniture, gas, phone, elevator,
-        security, parcking
+        security, parcking,construction_type
     ]);
     useEffect(() => {
         api.getApartments(
             city, rooms, floor, priceFrom, priceTo,
-            apartmentType, internet, furniture, dateFrom, dateTo
+            apartmentType, internet, furniture, dateFrom, dateTo,construction_type
         )
             .then(response => {
                 props.setPoint(response.data)

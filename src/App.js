@@ -17,6 +17,7 @@ import Admin from "./components/admin/admin";
 import ChangeApartment from "./components/changeApartment/changeApartment";
 import api from "./api/api";
 import BookingSystem from "./components/BookingSystem/bookingSystem";
+import AddPhoto from "./components/addPhoto/addPhoto";
 
 function App() {
   return (
@@ -34,7 +35,7 @@ function App() {
                     <About />
                     <Footer/>
                 </Route>
-                <Route path={"/add-apartment"}>
+                <Route exact path={"/add-apartment"}>
                     <AddApartment />
                 </Route>
                 <Route exact path={"/map"}>
@@ -57,6 +58,9 @@ function App() {
                 </Route>
                 <Route exact path={"/booking/:id"}>
                     <BookingSystem />
+                </Route>
+                <Route exact path={"/addPhoto/:id"}>
+                    <AddPhoto />
                 </Route>
             </Switch>
             </div>

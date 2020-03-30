@@ -24,7 +24,7 @@ const SignUp = props => {
             .then(
                 (response)=>{
                     console.log(response);
-                    if (response.status == 201) {
+                    if (response.status === 201) {
                         alert('Поздровляем вас, вы зарегистрировались и можете войти в систему!')
                     }
                     // localStorage.setItem("userData", JSON.stringify(response.data));
