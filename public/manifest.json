@@ -1,6 +1,6 @@
 {
   "short_name": "Yourt Home",
-  "name": "Yuort Home",
+  "name": "Yourt Home",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,7 +18,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "https://yourthome.herokuapp.com/",
+  "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"

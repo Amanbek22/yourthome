@@ -78,7 +78,7 @@ export const setApartment = apartment => {
         apartment
     }
 }
-const setSend = bool => {
+export const setSend = bool => {
     return {
         type: send,
         bool

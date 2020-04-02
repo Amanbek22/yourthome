@@ -158,9 +158,11 @@ const WrapperMap = props => {
         furniture, gas, phone, elevator, security,
         parcking,construction_type
     } = props.filterData;
+
     useEffect(() => {
         setApartments(props.points.points)
     });
+
     useEffect(() => {
         if (filteredCity === '') {
             setLatLng({lat: 41.204380, lng: 74.766098})
@@ -195,10 +197,17 @@ const WrapperMap = props => {
         security, parcking,construction_type
     ]);
     useEffect(() => {
-        props.getApartment(
+        // props.getApartment(
+        //     city, rooms, floor, priceFrom, priceTo,
+        //     apartmentType, internet, furniture, dateFrom, dateTo,construction_type
+        // )
+        api.getApartments(
             city, rooms, floor, priceFrom, priceTo,
             apartmentType, internet, furniture, dateFrom, dateTo,construction_type
-        )
+        ).then(res => {
+            props.setPoint(res.data);
+            props.setSend(true)
+        })
     }, []);
 
     let arr = [];

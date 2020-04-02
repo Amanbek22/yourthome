@@ -47,11 +47,12 @@ const Menu = props => {
                                 </div>
                                 :
                                     < div className={css.addButtonWrapper}>
-                                        <NavLink activeClassName={css.active} to={"/add-apartment"}>
+                                        <NavLink activeClassName={css.active} to={"/add-apartment"}
+                                                 onClick={()=>burger ? setBurger(false) : null}>
                                             + Добавить объявление
                                         </NavLink>
                                         {/*<NavLink activeClassName={css.active} to={'./admin'}>Дамашняя страница</NavLink>*/}
-                                        <NavLink activeClassName={css.active}
+                                        <NavLink activeClassName={css.active} onClick={()=>burger ? setBurger(false) : null}
                                                  to={'/admin'}>{props.data.username ? props.data.username : "Профиль"}</NavLink>
                                         <span onClick={() => {
                                             logged = true;

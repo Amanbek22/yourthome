@@ -12,6 +12,7 @@ const Filter = props => {
     const [rooms,setRooms] =useState('');
     const [priceFrom,setPriceFrom] = useState('');
     const [priceTo,setPriceTo] = useState('');
+
     const onDataChange = (jsDate,dateString) => setDateFrom(jsDate);
     const onDataToChange = (jsDate,dateString) => setDateTo(jsDate);
     return (

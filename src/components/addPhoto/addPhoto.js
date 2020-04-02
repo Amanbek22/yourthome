@@ -36,18 +36,19 @@ const Add = props => {
         e.preventDefault();
 
         const preview_image = new FormData();
+        preview_image.append('title', '123');
         preview_image.append('image1', img0);
         preview_image.append('image2', img, img.name);
         preview_image.append('image3', img2, img2.name);
         preview_image.append('image4', img1, img1.name);
-        preview_image.append('image5', img4);
-        preview_image.append('image6', img5);
-        preview_image.append('image7', img6);
+        // preview_image.append('image5', img4);
+        // preview_image.append('image6', img5);
+        // preview_image.append('image7', img6);
 
-        api.addPhoto(id,preview_image).then(res => {
-            console.log(res)
-            alert('Added')
-        })
+        // api.addPhoto(id,preview_image).then(res => {
+        //     console.log(res)
+        //     alert('Added')
+        // })
         preview_image.forEach((value, key) => {
             preview_image[key] = value;
         });
@@ -57,17 +58,17 @@ const Add = props => {
         // axios.post('https://yourthomeneobis2.herokuapp.com/hello/',preview_image)
         //     .then(res => console.log(res))
 
-        // let token = JSON.parse(localStorage.getItem('newToken'));
-        // axios.post(`https://yourthomeneobis2.herokuapp.com/own-apartments/${id}/photo/`,
-        //     preview_image,
-        //     {
-        //         headers: {
-        //             "Authorization": "Bearer " + token.access
-        //         }
-        //     }).then(res => {
-        //     console.log(res)
-        //     alert("Added!!!")
-        // })
+        let token = JSON.parse(localStorage.getItem('newToken'));
+        axios.post(`https://yourthomeneobis2.herokuapp.com/own-apartments/${id}/photo/`,
+            preview_image,
+            {
+                headers: {
+                    "Authorization": "Bearer " + token.access
+                }
+            }).then(res => {
+            console.log(res)
+            alert("Added!!!")
+        })
     }
     return (
         <div className={css.wrapper}>
