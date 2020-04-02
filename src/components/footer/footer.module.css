@@ -16,3 +16,10 @@
     font-size: 14px;
     text-align: left;
 }
+
+@media screen and (max-width: 768px){
+    .firstWrapper{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}

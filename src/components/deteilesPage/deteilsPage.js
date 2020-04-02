@@ -40,7 +40,7 @@ const DeteilsPage = props => {
                 setImg(res.data.preview_image)
                 setImages(res.data.images)
             })
-    }, [])
+    }, []);
     const sendComment = () => {
         api.sendComment(id, commentInput)
             .then(res => res.status === 201 ? window.location.href = `/more-info/${id}` : console.log(res))

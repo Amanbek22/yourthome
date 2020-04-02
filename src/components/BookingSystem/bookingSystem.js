@@ -28,8 +28,9 @@ function reducer(state, action) {
 
 const Booking = props => {
     const [state, dispatch] = useReducer(reducer, initialState);
+
     let id = props.match.params.id;
-    const [date, setDate] = useState()
+    const [date, setDate] = useState();
     const [arivelDate, setArivelDate] = useState()
     const [dateFrom, setDateFrom] = useState(null);
     const [dateTo, setDateTo] = useState(null);
@@ -40,6 +41,7 @@ const Booking = props => {
     const [orders, setOrders] = useState([])
     const [delId, setDelId] = useState(0)
     useEffect(() => {
+
         api.getOrders(id)
             .then(res => {
                 console.log(res.data)
@@ -61,10 +63,7 @@ const Booking = props => {
     }
     const listOrder = orders.map(item => {
         return (
-            <div className={css.listWrapper} key={item.id} onDoubleClick={() => {
-                setDelId(item.id)
-                setVisible(true)
-            }}>
+            <div className={css.listWrapper} key={item.id} >
                 <div>
                     <label>C</label>
                     <input
@@ -79,6 +78,12 @@ const Booking = props => {
                         value={item.departure_date}
                     />
                     <label>Занято</label>
+                </div>
+                <div onClick={()=>{
+                    setDelId(item.id)
+                    setVisible(true)
+                }} style={{width: "25px", height: '25px', cursor: 'pointer'}}>
+                    <img style={{width: "100%", height: "100%"}} src={'https://image.flaticon.com/icons/svg/1214/1214926.svg'} alt="del"/>
                 </div>
             </div>
         )

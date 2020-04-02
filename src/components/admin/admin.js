@@ -139,7 +139,6 @@ const Admin = props => {
         if (!token) {
             api.signInWithRefresh()
                 .then(res => {
-                    console.log(res)
                     localStorage.setItem("newToken", JSON.stringify(res.data));
                     axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
                         .then(res => {
@@ -163,7 +162,7 @@ const Admin = props => {
             api.getOwnApartments()
                 .then(res => {
                     setApartment(res.data)
-                    console.log(res.data)
+                    // console.log(res.data)
                 })
         }
 
@@ -229,7 +228,7 @@ const Admin = props => {
                 onClickAway={()=>setVisible(false)}
             >
                 <div className={css.modal}>
-                    <a style={{
+                    <span style={{
                         position: 'absolute',
                         top: 0,
                         right: 0,
@@ -237,9 +236,9 @@ const Admin = props => {
                         height: 20,
                         marginRight: 5,
                         marginTop: 5,
-                    }} href="javascript:void(0);" onClick={() => setVisible(false)}>
+                    }}  onClick={() => setVisible(false)}>
                         <img style={{width: 100 + '%', height: 100 + '%'}} src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
-                    </a>
+                    </span>
                     <p>Вы действительно хотите удолить это объявление?</p>
                     <div className={css.btnWrapperDel}>
                         <div className={css.yesBtn} onClick={DeleteAction}>Да</div>

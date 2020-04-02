@@ -1,20 +1,20 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, NavLink} from "react-router-dom";
 import css from './menu.module.css'
 import {connect} from "react-redux";
 import {setData} from "../../redux/authReducer";
 
 const Menu = props => {
-    // setInterval(()=>{},7200000)
     let logged = false;
     useEffect(() => {
         let data = JSON.parse(localStorage.getItem('userData'));
         if (!data) {
             return 0
         } else {
-            props.setData(data,logged)
+            props.setData(data, logged)
         }
     }, [])
+    const [burger, setBurger] = useState(false)
     return (
         <div className={css.menuWrapper}>
             <div>
@@ -34,38 +34,47 @@ const Menu = props => {
                             </svg>
                         </Link>
                     </div>
-                    {
-                        props.data.logged === true ?
-                            <div className={css.addButtonWrapper}>
-                                <Link to={"/sign-in"} className={css.addButton}>
-                                    Sign in
-                                </Link>
-                                <Link to={"/sign-up"} className={css.addButton}>
-                                    Sign up
-                                </Link>
-                            </div>
-                            :
-                            <div>
-
-                                < div className={css.addButtonWrapper}>
-                                    <NavLink activeClassName={css.active} to={"/add-apartment"}>
-                                        + Добавить объявление
-                                    </NavLink>
-                                    {/*<NavLink activeClassName={css.active} to={'./admin'}>Дамашняя страница</NavLink>*/}
-                                    <NavLink activeClassName={css.active} to={'/admin'}>{props.data.username ? props.data.username : "Профиль"}</NavLink>
-                                    <Link onClick={() => {
-                                        logged = true;
-                                        props.setData({},logged)
-                                        localStorage.removeItem("userData")
-                                        localStorage.removeItem("newToken")
-                                        window.location.href = "/"
-                                    }} className={css.addButton}>
-                                        Выход
+                    <div className={`${burger ? css.open : ''} ${css.lists}`}>
+                        {
+                            props.data.logged === true ?
+                                <div className={css.addButtonWrapper}>
+                                    <Link to={"/sign-in"} className={css.addButton}>
+                                        Sign in
                                     </Link>
-
+                                    <Link to={"/sign-up"} className={css.addButton}>
+                                        Sign up
+                                    </Link>
                                 </div>
-                            </div>
-                    }
+                                :
+                                    < div className={css.addButtonWrapper}>
+                                        <NavLink activeClassName={css.active} to={"/add-apartment"}>
+                                            + Добавить объявление
+                                        </NavLink>
+                                        {/*<NavLink activeClassName={css.active} to={'./admin'}>Дамашняя страница</NavLink>*/}
+                                        <NavLink activeClassName={css.active}
+                                                 to={'/admin'}>{props.data.username ? props.data.username : "Профиль"}</NavLink>
+                                        <span onClick={() => {
+                                            logged = true;
+                                            props.setData({}, logged)
+                                            localStorage.removeItem("userData")
+                                            localStorage.removeItem("newToken")
+                                            window.location.href = "/"
+                                        }} className={css.addButton}>
+                                        Выход
+                                    </span>
+
+                                    </div>
+                        }
+                    </div>
+                    <div onClick={()=> {
+                        burger
+                            ? setBurger(false)
+                            : setBurger(true)
+                    }} className={css.burger}>
+                        <span style={{marginBottom: burger ? '0px': "3px", transform: burger ? 'rotate( 45deg) translate(0px, 0px)' : ''}} />
+                        <span style={{display: burger ? 'none' : 'block', transition: 'all 0.5s ease-in'}} />
+                        <span style={{marginTop: burger ? '0px': "3px", transform: burger ? 'rotate( 135deg) translate(-3px, 3px)':''}} />
+                    </div>
                 </div>
             </div>
         </div>

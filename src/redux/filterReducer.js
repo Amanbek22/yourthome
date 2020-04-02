@@ -21,7 +21,6 @@ const initialState = {
     parcking: false
 }
 
-
 export const FilterReducer = (state = initialState,action) => {
     switch (action.type){
         case SET_FILTER_DATA:
@@ -36,10 +35,9 @@ export const FilterReducer = (state = initialState,action) => {
     }
 }
 
-
 export const setFilterData = (data) => {
     return {
         type: SET_FILTER_DATA,
         data
     }   
-} 
+}

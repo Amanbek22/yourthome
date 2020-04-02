@@ -13,3 +13,10 @@ a{
     margin: 0;
     padding: 0;
 }
+@media screen and (max-width: 768px) {
+    .open {
+        z-index: 99999999999999999999;
+        clip-path: circle(1000px at 90% -20%);
+        -webkit-clip-path: circle(1000px at 90% -20%);
+    }
+}

@@ -29,7 +29,6 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
             arr.push(element)
         }
         const [selectedPark, setSelectedPark] = useState(null);
-        let som = props.som / 10;
         return (
             <div className={css.mainWrapper}>
                 {props.sended === true ?
@@ -115,16 +114,13 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                         showThumbs={false}
                                     >
                                         <div>
-                                            <img
-                                                src="https://img.freepik.com/free-vector/vector-illustration-cartoon-interior-orange-home-room-living-room-with-two-soft-armchairs_1441-399.jpg?size=626&ext=jpg"/>
+                                            <img src="https://img.freepik.com/free-vector/vector-illustration-cartoon-interior-orange-home-room-living-room-with-two-soft-armchairs_1441-399.jpg?size=626&ext=jpg"/>
                                         </div>
                                         <div>
-                                            <img
-                                                src="https://media.gettyimages.com/photos/laptop-on-coffee-table-in-a-modern-living-room-of-an-old-country-picture-id900217718?s=612x612"/>
+                                            <img src="https://media.gettyimages.com/photos/laptop-on-coffee-table-in-a-modern-living-room-of-an-old-country-picture-id900217718?s=612x612"/>
                                         </div>
                                         <div>
-                                            <img
-                                                src="https://yourthomeneobis2.herokuapp.com/media/photos/1a4da06bcdf207407ef4767711eeb20e.jpg"/>
+                                            <img src="https://yourthomeneobis2.herokuapp.com/media/photos/1a4da06bcdf207407ef4767711eeb20e.jpg"/>
                                         </div>
                                     </Carousel>
                                     <div>
@@ -149,13 +145,13 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 
 const WrapperMap = props => {
+    console.log(props)
     const [filteredCity, setFilteredCity] = useState('')
     const [selected, setSelected] = useState([])
     const [apartments, setApartments] = useState(props.points.points);
     const [filterStyle, setFilterStyle] = useState(false);
     const [latLng, setLatLng] = useState({})
     const [zoome, setZoome] = useState(7)
-    const [sended, setSended] = useState(false)
     const {
         city, dateFrom, dateTo, rooms, floor,
         priceFrom, priceTo, apartmentType, internet,
@@ -199,14 +195,10 @@ const WrapperMap = props => {
         security, parcking,construction_type
     ]);
     useEffect(() => {
-        api.getApartments(
+        props.getApartment(
             city, rooms, floor, priceFrom, priceTo,
             apartmentType, internet, furniture, dateFrom, dateTo,construction_type
         )
-            .then(response => {
-                props.setPoint(response.data)
-                setSended(true)
-            })
     }, []);
 
     let arr = [];
@@ -260,7 +252,7 @@ const WrapperMap = props => {
                         latLng={latLng}
                         zoom={zoome}
                         setVisibleMarkers={setSelected}
-                        sended={sended}
+                        sended={props.points.send}
                         googleMapURL="
                         https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM
                         "

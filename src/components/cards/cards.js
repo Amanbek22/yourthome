@@ -35,23 +35,22 @@ const Cards = props =>{
             />
         })
         let a = 0;
-        revApartment = rev.map((item) => {
-            console.log(item)
-            a++;
-            if (a >= 6){
-                return null
-            }
-            return <Card
-                key={item.id}
-                id={item.id}
-                city={item.location.city}
-                street={item.location.street}
-                price={item.price}
-                rooms={item.room}
-                floor={item.floor}
-                area={item.area.total_area}
-            />
-        })
+        // revApartment = rev.map((item) => {
+        //     a++;
+        //     if (a >= 6){
+        //         return null
+        //     }
+        //     return <Card
+        //         key={item.id}
+        //         id={item.id}
+        //         city={item.location.city}
+        //         street={item.location.street}
+        //         price={item.price}
+        //         rooms={item.room}
+        //         floor={item.floor}
+        //         area={item.area.total_area}
+        //     />
+        // })
     }
 
     return(

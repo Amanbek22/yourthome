@@ -18,7 +18,8 @@ import ChangeApartment from "./components/changeApartment/changeApartment";
 import api from "./api/api";
 import BookingSystem from "./components/BookingSystem/bookingSystem";
 import AddPhoto from "./components/addPhoto/addPhoto";
-
+import points from './point.json';
+import axios from "axios";
 function App() {
   return (
       <div className="wrapper">

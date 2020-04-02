@@ -71,7 +71,6 @@ const AddApartment = props => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
         setLatLng(latlng)
         setMark(latlng)
-        console.log(mark)
         let newurl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng[0]}&lon=${latlng[1]}&accept-language=ru`
         //let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM`
         await axios.get(newurl)
@@ -85,7 +84,7 @@ const AddApartment = props => {
                 setCountry(address_1.country)
                 setQuestion(true)
             })
-    }
+    };
     const sendData = (e) => {
         e.preventDefault();
         if (latLng.length > 0) {
@@ -166,7 +165,6 @@ const AddApartment = props => {
 
     return (
         <div className={css.wrapper}>
-
             <div id={"formID"}>
                 <form onSubmit={sendData} className={css.formWrapper}>
                     <h2 className={css.h2}>Подать объявление </h2>
@@ -218,8 +216,6 @@ const AddApartment = props => {
                                    placeholder={"Площадь"}
                                    type="text" className={css.inputs}/>
                         </div>
-
-
                         <div>
                             <label>Этаж</label>
                             <select className={css.selects} required value={floor}
@@ -364,7 +360,7 @@ const AddApartment = props => {
                         {/*</select>*/}
                         {/*</div>*/}
                     </div>
-                    <input onClick={() => setVisible(true)} disabled={btnState} className={css.sendBtn}
+                    <input onClick={() => setVisible(true)}  className={css.sendBtn}
                            value={'Далее'}/>
                     <Modal
                         visible={visible}
@@ -468,7 +464,7 @@ const AddApartment = props => {
                                                 можете исправить в ручную.
                                             </div>
                                             <div style={{display: "flex"}}>
-                                                <input style={{width: "100px"}} type="submit" value={'Да'}
+                                                <input style={{width: "100px"}} disabled={btnState} type="submit" value={'Да'}
                                                        className={css.sendBtn}/>
                                                 {/*<input style={{width: "100px", background: 'red'}} type="submit"*/}
                                                        {/*value={'Нет'} className={css.sendBtn}/>*/}
@@ -485,6 +481,3 @@ const AddApartment = props => {
     )
 }
 export default AddApartment;
-
-
-

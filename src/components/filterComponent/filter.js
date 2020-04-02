@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import css from './filter.module.css'
 import {Link} from "react-router-dom";
 import {DatePickerInput} from "rc-datepicker";
+import settingsImg from '../../img/moreSettings.png'
 
 const Filter = props => {
     console.log(props)
@@ -64,8 +65,8 @@ const Filter = props => {
                 </div>
                 <div className={css.moreWrapper}>
                     <div className={css.moreSettings}>
-                        {/*<img src="../../img/moreSettings.png" alt="settings"/>*/}
-                        <p>Дополнительные параметры</p>
+                        {/*<img src={settingsImg} alt="settings"/>*/}
+                        {/*<p>Дополнительные параметры</p>*/}
 
                     </div>
                     <div className={css.findButton}>

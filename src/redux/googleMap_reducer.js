@@ -1,14 +1,17 @@
 import axios from "axios";
+import api from "../api/api";
 
 const setPoints = "SET_POINTS";
 const setAllPoints = "SET_ALL_POINTS";
 const chooseApartmentAC = "CHOOSE_APARTMENT";
+const send = "SET_SEND_REQUEST"
 
 
 let initialState = {
     points: [],
     allPoints: [],
     apartment: 0,
+    send: false
 }
 
 
@@ -44,6 +47,11 @@ export const googleMapReducer = (state = initialState, action) => {
                 ...state,
                 apartment: [action.apartment]
             }
+        case send :
+            return{
+                ...state,
+                send: action.bool
+            }
         default:
             return {
                 ...state
@@ -70,11 +78,17 @@ export const setApartment = apartment => {
         apartment
     }
 }
+const setSend = bool => {
+    return {
+        type: send,
+        bool
+    }
+}
 
-export let getApartment = () => (dispatch) => {
-    axios.get("https://yourthomeneobis2.herokuapp.com/apartments")
+export const getApartment = () => (dispatch) => {
+    api.getApartments()
         .then(res => {
-            console.log(res)
             dispatch(setPoint(res.data))
+            dispatch(setSend(true))
         })
 }
