@@ -16,21 +16,7 @@ const WrapperMapContainer = React.lazy(() => import("./components/mapComponent/g
 const  SignIn = React.lazy(() => import("./components/signin/signin"));
 const SignUp = React.lazy(() => import("./components/signUp/signup"));
 function App() {
-    function solution(str){
-        let arr1 = str.split('')
-        let newArr = arr1.map((item, index) => {
-            let a = arr1[index+1] === undefined ? '_' : arr1[index+1]
-            return item + a
-        })
-        let arrr = []
-        for(let i = 0; i < arr1.length; i+2){
-            let a = arr1[i+1] === undefined ? '_' : arr1[i+1]
-            arrr.push(arr1[i] + a)
-        }
-        return newArr
-    }
-    console.log(solution('hell'))
-  return (
+    return (
       <div className="wrapper">
         <Router>
             <div className={"menuWrapper"}>
