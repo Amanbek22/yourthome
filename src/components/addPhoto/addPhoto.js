@@ -3,6 +3,8 @@ import {withRouter} from "react-router-dom";
 import api from "../../api/api";
 import axios from "axios";
 import css from './addPhote.module.css'
+import {WithNotAuthRedirect} from "../../HOC/AuthRedirect";
+import {compose} from "redux";
 
 
 const Add = props => {
@@ -188,6 +190,4 @@ const Add = props => {
 }
 
 
-const AddPhoto = withRouter(Add);
-
-export default AddPhoto;
+export default compose(WithNotAuthRedirect, withRouter)(Add)

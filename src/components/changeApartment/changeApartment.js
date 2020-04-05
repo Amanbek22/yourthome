@@ -4,6 +4,8 @@ import api from "../../api/api";
 import axios from "axios";
 import css from './change.module.css'
 import Modal from 'react-awesome-modal';
+import {WithNotAuthRedirect} from "../../HOC/AuthRedirect";
+import {compose} from "redux";
 
 
 const Change = props => {
@@ -109,7 +111,5 @@ const Change = props => {
 }
 
 
-const ChangeApartment = withRouter
-(Change)
+export default compose(WithNotAuthRedirect, withRouter)(Change)
 
-export default ChangeApartment;

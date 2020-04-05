@@ -3,6 +3,8 @@ import {Link, Redirect} from "react-router-dom";
 import css from './sign.module.css'
 import axios from "axios";
 import api from "../../api/api";
+import {connect} from "react-redux";
+import {WithAuthRedirect} from "../../HOC/AuthRedirect";
 
 const SignIn = props => {
     const [email, setEmail] = useState('');
@@ -48,4 +50,6 @@ const SignIn = props => {
     )
 }
 
-export default SignIn;
+const AuthRedirectComponent = WithAuthRedirect(SignIn)
+
+export default AuthRedirectComponent;

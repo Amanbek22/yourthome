@@ -183,14 +183,6 @@ const WrapperMap = props => {
         }
     }, [filteredCity])
     useEffect(() => {
-        // api.getApartments(
-        //     city, rooms, floor, priceFrom, priceTo,
-        //     apartmentType, internet, furniture, dateFrom, dateTo, gas,
-        //     phone, elevator, security,parcking,construction_type
-        // ).then(response => {
-        //         props.setPoint(response.data)
-        //         // props.setAllPointsAC(response.data)
-        //     })
         props.getApartment(
             city, rooms, floor, priceFrom, priceTo,
             apartmentType, internet, furniture, dateFrom, dateTo, gas,
@@ -207,14 +199,6 @@ const WrapperMap = props => {
             city, rooms, floor, priceFrom, priceTo,
             apartmentType, internet, furniture, dateFrom, dateTo, construction_type
         )
-        // api.getApartments(
-        //     city, rooms, floor, priceFrom, priceTo,
-        //     apartmentType, internet, furniture, dateFrom, dateTo,construction_type
-        // ).then(res => {
-        //     console.log(res)
-        //     props.setPoint(res.data);
-        //     props.setSend(true)
-        // })
     }, []);
 
     let arr = [];
@@ -331,7 +315,7 @@ const WrapperMap = props => {
                     <div>
                         <button onClick={() => {
                             setFilterStyle(false)
-                            setOpenMap(openMap ? false : true)
+                            setOpenMap(!openMap)
                         }}> {
                             openMap ? 'Список' : 'Карта'
                         }</button>

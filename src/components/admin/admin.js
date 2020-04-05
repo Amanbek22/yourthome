@@ -10,6 +10,8 @@ import apartment from "../../img/room.png";
 import {Link} from "react-router-dom";
 import {Carousel} from "react-responsive-carousel";
 import Modal from 'react-awesome-modal';
+import {connect} from "react-redux";
+import {WithAuthRedirect, WithNotAuthRedirect} from "../../HOC/AuthRedirect";
 // import MarkerClusterer from "react-google-maps/src/components/addons/MarkerClusterer";
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
@@ -254,5 +256,6 @@ const Admin = props => {
     )
 }
 
+const AuthRedirectComponent = WithNotAuthRedirect(Admin)
 
-export default Admin;
+export default AuthRedirectComponent;

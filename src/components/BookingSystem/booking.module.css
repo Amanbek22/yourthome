@@ -57,3 +57,18 @@
     margin-top: 80px;
     color: #fff;
 }
+.dateRangeWrapper>div>div{
+    display: grid;
+    grid-template-columns: 1fr 39px 1fr;
+}
+.dateRangeWrapper>div>div>label{
+    border-radius: 4px;
+}
+.dateRangeWrapper>div>div>label>input{
+    background: none;
+}
+@media screen and  (max-width: 768px){
+    .listWrapper{
+        display: grid;
+    }
+}

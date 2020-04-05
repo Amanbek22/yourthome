@@ -10,6 +10,7 @@ import {DatePicker, DatePickerInput} from "rc-datepicker";
 import 'moment/locale/ru.js';
 import 'rc-datepicker/lib/style.css';
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
+import {compose} from "redux";
 
 
 const DeteilsPage = props => {
@@ -266,13 +267,8 @@ const mapStateToProps = state => {
         apartment: state.apartment
     }
 }
-const DeteilsPageContainer = connect(mapStateToProps, {})(DeteilsPage)
 
-
-let WithRouterDeteilsPage = withRouter(DeteilsPageContainer);
-
-
-export default WithRouterDeteilsPage;
+export default compose(withRouter, connect(mapStateToProps, {}))(DeteilsPage)
 
 
 

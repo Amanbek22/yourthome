@@ -66,6 +66,7 @@ select:focus{
     display: grid;
     grid-template-columns: 1fr ;
     grid-gap: 1em;
+    font-size: 15px;
 }
 @media screen and (max-width: 768px){
     .wrapper{

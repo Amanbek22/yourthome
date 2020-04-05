@@ -10,5 +10,7 @@ const mapStateToProps = state => {
     }
 }
 
-const WrapperMapContainer = connect(mapStateToProps,{setPoint, setSend,setApartment,setAllPointsAC,getApartment})(WrapperMap)
+const WrapperMapContainer = connect(mapStateToProps,{
+    setPoint, setSend,setApartment,setAllPointsAC,getApartment
+})(WrapperMap)
 export default WrapperMapContainer;

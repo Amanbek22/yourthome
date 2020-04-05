@@ -3,6 +3,9 @@ import React, {useState} from 'react';
 import css from './signup.module.css'
 import axios from "axios";
 import api from "../../api/api";
+import {Redirect} from "react-router-dom";
+import {connect} from "react-redux";
+import {WithAuthRedirect} from "../../HOC/AuthRedirect";
 
 const SignUp = props => {
     const [username,setUserName] = useState("");
@@ -62,4 +65,8 @@ const SignUp = props => {
     )
 }
 
-export default SignUp;
+
+
+const AuthRedirectComponent = WithAuthRedirect(SignUp)
+
+export default AuthRedirectComponent;

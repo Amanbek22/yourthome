@@ -7,6 +7,8 @@ import {setApartment} from '../../redux/googleMap_reducer';
 import marker from "../../img/marker6.png";
 import marker2 from "../../img/marker10.png";
 import Modal from 'react-awesome-modal'
+import {connect} from "react-redux";
+import {WithNotAuthRedirect} from "../../HOC/AuthRedirect";
 // import roomsImg from '../../img/room.png'
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
@@ -496,4 +498,7 @@ const AddApartment = props => {
         </div>
     )
 }
-export default AddApartment;
+
+const AddApartmentConnect = WithNotAuthRedirect(AddApartment);
+
+export default AddApartmentConnect;

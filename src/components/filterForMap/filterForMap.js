@@ -37,6 +37,7 @@ const FilterMap = props =>{
             props.setOpenMap( props.openMap ? false : true)
         }
     }
+    let a = 'avds'
     return(
         <div className={css.wrapper}>
             <div className={css.filterWrapper}>
@@ -61,18 +62,22 @@ const FilterMap = props =>{
             </select>
             {/*<input placeholder={"Дата вьезда и выезда"} type="text"/>*/}
             <div className={css.dataWrapper}>
+                <label>
+                    Дата заезда
                 <DatePickerInput
-                    placeholder={'От какого числа занято'}
                     onChange={onDataChange}
-                    value={dateFrom}
+                    value={ dateFrom}
                     className='my-custom-datepicker-component'
                     onHide={()=>0}
                     showOnInputClick={true}
                     onClear={()=>setDateFrom('')}
                     minDate={new Date()}
+                    placeholder={'placeholder'}
                 />
+                </label>
+                <label>
+                    Дата выезда
                 <DatePickerInput
-                    placeholder={'От какого числа занято'}
                     onChange={onDataToChange}
                     value={dateTo}
                     className='my-custom-datepicker-component'
@@ -80,8 +85,10 @@ const FilterMap = props =>{
                     showOnInputClick={true}
                     onClear={()=>setDateTo('')}
                     minDate={new Date()}
+                    placeholder={'От какого числа занято'}
                     // style={{ margin: 50+'px' }}
                 />
+                </label>
             </div>
             <div className={css.impWrapper}>
                 <select value={construction_type} onChange={e=>setConstruction_type(e.target.value)} name="price" >
@@ -162,8 +169,8 @@ const FilterMap = props =>{
             </div>
 
             <div className={`${css.impWrapper}  ${css.priceWrapper}`}>
-                <input value={priceFrom} onChange={e=>setPriceFrom(e.target.value)} placeholder={"Цена от"} type="text"/>
-                <input value={priceTo} onChange={e=>setPriceTo(e.target.value)} placeholder={"Цена до"} type="text"/>
+                <input value={priceFrom} onChange={e=>setPriceFrom(e.target.value)} placeholder={"Цена от"} type="number"/>
+                <input value={priceTo} onChange={e=>setPriceTo(e.target.value)} placeholder={"Цена до"} type="number"/>
             </div>
             <div className={css.detailsWrapper}>
                 <h4>В квартире есть</h4>

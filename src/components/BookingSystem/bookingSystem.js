@@ -6,6 +6,8 @@ import css from "./booking.module.css";
 import Modal from 'react-awesome-modal';
 import {DateRangeInput, START_DATE} from '@datepicker-react/styled'
 import {ThemeProvider} from "styled-components";
+import {WithNotAuthRedirect} from "../../HOC/AuthRedirect";
+import {compose} from "redux";
 
 
 const initialState = {
@@ -30,13 +32,7 @@ const Booking = props => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     let id = props.match.params.id;
-    const [date, setDate] = useState();
-    const [arivelDate, setArivelDate] = useState()
-    const [dateFrom, setDateFrom] = useState(null);
-    const [dateTo, setDateTo] = useState(null);
-    const [focusInput, setFocusInput] = useState(START_DATE)
-    const onDataChange = (jsDate, dateString) => setArivelDate(jsDate);
-    const onDataToChange = (jsDate, dateString) => setDate(jsDate);
+
     const [visible, setVisible] = useState(false)
     const [orders, setOrders] = useState([])
     const [delId, setDelId] = useState(0)
@@ -99,7 +95,7 @@ const Booking = props => {
             let dDate = new Date(item.departure_date);
             if (adate.getFullYear() < dDate.getFullYear()){
                 for(let i = adate.getFullYear(); i < dDate.getFullYear(); i++){
-                    if(adate.getMonth() > dDate.getMonth()){
+                    if(adate.getMonth() > dDate.getMonth    ()){
                         for(let i = adate.getMonth(); i < dDate.getMonth() + 12; i++) {
                             let days = daysInMonth(adate.getMonth(), adate.getFullYear())
                             arr.push(new Date(adate));
@@ -146,6 +142,7 @@ const Booking = props => {
             setBlocked(arr)
         })
     }, [orders])
+    let width = window.innerWidth;
     return (
         <div className={css.wrapper}>
             <ThemeProvider
@@ -163,6 +160,7 @@ const Booking = props => {
                     }
                 }}
             >
+                <div className={css.dateRangeWrapper}>
                 <DateRangeInput
                     onDatesChange={data => dispatch({type: "dateChange", payload: data})}
                     onFocusChange={focusedInput =>
@@ -172,17 +170,18 @@ const Booking = props => {
                     endDate={state.endDate} // Date or null
                     focusedInput={state.focusedInput}
                     minBookingDate={new Date()}
-                    // minBookingDays={}
-                    // maxBookingDate={new Date(2020,3,10)}
                     unavailableDates={blocked}
+                    vertical={width <= 768}
+                    phrases={{startDatePlaceholder: 'Дата заезда', endDatePlaceholder: 'Дата выезда'}}
                 />
+                </div>
             </ThemeProvider>
             <div className={css.btnWrapper}>
                 <button className={css.addOrder} onClick={change}>
                     Добавить
                 </button>
             </div>
-            <div>
+            <div >
                 {listOrder}
             </div>
             <Modal
@@ -216,8 +215,4 @@ const Booking = props => {
         </div>
     )
 }
-
-const BookingSystem = withRouter(Booking)
-
-
-export default BookingSystem;
+export default compose(WithNotAuthRedirect, withRouter)(Booking)
