@@ -38,9 +38,9 @@ const Add = props => {
         const preview_image = new FormData();
         preview_image.append('title', '123');
         preview_image.append('image1', img0);
-        preview_image.append('image2', img, img.name);
-        preview_image.append('image3', img2, img2.name);
-        preview_image.append('image4', img1, img1.name);
+        preview_image.append('image2', img);
+        preview_image.append('image3', img2);
+        preview_image.append('image4', img1);
         // preview_image.append('image5', img4);
         // preview_image.append('image6', img5);
         // preview_image.append('image7', img6);
@@ -102,7 +102,7 @@ const Add = props => {
                                 setBlock('none')
                                 setImg(e.target.files[0])
                             }}
-                                   accept="image/*" type="file" className={css.chooseFile} required
+                                   accept="image/*" type="file" className={css.chooseFile}
                             />
                             <img style={{display: block === 'block' ? 'none' : 'block'}}
                                  src="https://image.flaticon.com/icons/svg/190/190411.svg" alt="Done"/>
@@ -116,7 +116,7 @@ const Add = props => {
                                 setBlock1('none')
                                 setImg1(e.target.files[0])
                             }}
-                                   accept="image/*" type="file" className={css.chooseFile} required
+                                   accept="image/*" type="file" className={css.chooseFile}
                             />
                             <img style={{display: block1 === 'block' ? 'none' : 'block'}}
                                  src="https://image.flaticon.com/icons/svg/190/190411.svg" alt="Done"/>
@@ -130,7 +130,7 @@ const Add = props => {
                                 setBlock2('none')
                                 setImg2(e.target.files[0])
                             }}
-                                   accept="image/*" type="file" className={css.chooseFile} required
+                                   accept="image/*" type="file" className={css.chooseFile}
                             />
                             <img style={{display: block2 === 'block' ? 'none' : 'block'}}
                                  src="https://image.flaticon.com/icons/svg/190/190411.svg" alt="Done"/>

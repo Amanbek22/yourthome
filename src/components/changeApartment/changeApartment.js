@@ -54,39 +54,34 @@ const Change = props => {
     return (
         <div className={css.wrapper}>
             <div>
-                <div>
-
-                        </div>
-                        </div>
-                        <div>
-                        <label>Загаловок</label>
-                        <input type="text" value={description} onChange={(e) => setDescription(e.target.value)}/>
-                        </div>
-                        <div>
-                        <label>Количество комнат</label>
-                        <input type="text"  value={rooms} onChange={(e) => setRooms(e.target.value)}/>
-                        </div>
-                    {/*<input type="text" value={area} onChange={(e)=>setArea(e.target.value)}/>*/}
-                        <div>
-                        <label>Цена</label>
-                        <input type="text" value={price} onChange={(e) => setPrice(e.target.value)}/>
-                        </div>
-                        <div>
-                        <label>Этаж</label>
-                        <input type="text" value={floor} onChange={(e) => setFloor(e.target.value)}/>
-                        </div>
-                        <button className={css.deleteBtn} onClick={() => setVisible(true)}>
-                        Change
-                        </button>
-                        <Modal
-                        visible={visible}
-                        width="400"
-                        height="300"
-                        effect="fadeInDown"
-                        onClickAway={()=>setVisible(false)}
-                        >
-                        <div className={css.modal}>
-                        <a style={{
+                <label>Загаловок</label>
+                <input type="text" value={description} onChange={(e) => setDescription(e.target.value)}/>
+            </div>
+            <div>
+                <label>Количество комнат</label>
+                <input type="text" value={rooms} onChange={(e) => setRooms(e.target.value)}/>
+            </div>
+            {/*<input type="text" value={area} onChange={(e)=>setArea(e.target.value)}/>*/}
+            <div>
+                <label>Цена</label>
+                <input type="text" value={price} onChange={(e) => setPrice(e.target.value)}/>
+            </div>
+            <div>
+                <label>Этаж</label>
+                <input type="text" value={floor} onChange={(e) => setFloor(e.target.value)}/>
+            </div>
+            <button className={css.deleteBtn} onClick={() => setVisible(true)}>
+                Change
+            </button>
+            <Modal
+                visible={visible}
+                width="400"
+                height="300"
+                effect="fadeInDown"
+                onClickAway={() => setVisible(false)}
+            >
+                <div className={css.modal}>
+                    <a style={{
                         position: 'absolute',
                         top: 0,
                         right: 0,
@@ -95,22 +90,26 @@ const Change = props => {
                         marginRight: 5,
                         marginTop: 5,
                     }} href="javascript:void(0);" onClick={() => setVisible(false)}>
-                        <img style={{width: 100 + '%', height: 100 + '%'}} src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
-                        </a>
-                        <p>Вы действительно хотите изменить это объявление?</p>
-                        <div className={css.btnWrapperDel}>
-                        <div className={css.yesBtn} onClick={send}>Да</div>
-                        <div style={{background: 'red'}} className={css.yesBtn} onClick={() => setVisible(false)}>Нет</div>
+                        <img style={{width: 100 + '%', height: 100 + '%'}}
+                             src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
+                    </a>
+                    <p>Вы действительно хотите изменить это объявление?</p>
+                    <div className={css.btnWrapperDel}>
+                        <div className={css.yesBtn} onClick={send}>
+                            Да
                         </div>
+                        <div style={{background: 'red'}} className={css.yesBtn} onClick={() => setVisible(false)}>Нет
                         </div>
-                        </Modal>
-                    {/* <button onClick={deleteApartment} className={css.deleteBtn}>Удалить объявление</button> */}
-                        </div>
-                        )
-                    }
+                    </div>
+                </div>
+            </Modal>
+            {/* <button onClick={deleteApartment} className={css.deleteBtn}>Удалить объявление</button> */}
+        </div>
+    )
+}
 
 
-                         const ChangeApartment=withRouter
-                    (Change)
+const ChangeApartment = withRouter
+(Change)
 
-                    export default ChangeApartment;
+export default ChangeApartment;

@@ -71,3 +71,27 @@
     top: 0;
     bottom: 0;
 }
+@media screen and (max-width: 996px) {
+    .optionWrapper{
+        grid-template-columns: 1fr;
+    }
+    .optionWrapper>div:first-child{
+        display: none;
+    }
+    .optionWrapper>div:last-child{
+        display: none;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .optionWrapper{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .optionWrapper>div:first-child{
+        display: block;
+    }
+    .optionWrapper>div:last-child{
+        display: block;
+    }
+}

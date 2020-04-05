@@ -1,6 +1,5 @@
 .wrapper{
-    width: 400px;
-    margin: 0 auto;
+    margin: 0 20%;
 }
 .wrapper>div{
     display: grid;
@@ -38,4 +37,15 @@
     grid-template-columns: 1fr 1fr;
     margin-top: 80px;
     color: #fff;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .wrapper{
+        margin: 0 10%;
+    }
+    .wrapper>div{
+        grid-template-columns: 1fr;
+    }
 }

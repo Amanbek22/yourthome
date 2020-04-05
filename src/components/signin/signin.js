@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import css from './sign.module.css'
 import axios from "axios";
 import api from "../../api/api";

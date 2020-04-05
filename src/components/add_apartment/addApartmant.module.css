@@ -67,3 +67,25 @@
     margin-left: 5px;
     margin-top: 5px;
 }
+.rejectBtn{
+    display: none;
+}
+
+@media screen and (max-width: 768px){
+    .main{
+        grid-template-columns: 1fr;
+        grid-gap: 20px;
+        padding: 0 2% 15px 2%;
+    }
+    .h2{
+        padding: 0 2%;
+    }
+    .modal{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .rejectBtn{
+        display: block;
+    }
+
+}

@@ -7,8 +7,7 @@ const http = axios.create({
 export default {
     getApartments: (city,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture,dateFrom, dateTo,gas,phone,elevator, security,parcking,construction_type) => {
         let year,month,day,yearTo,monthTo,dayTo;
-        let fromDate = '';
-        let toDate = '';
+        let fromDate = '', toDate = '';
         if(dateFrom !== undefined && dateFrom !== null && dateFrom !== 'Invalid date' && dateFrom !== ''){
             year = dateFrom.getFullYear();
             month = dateFrom.getMonth() + 1;
@@ -45,12 +44,7 @@ export default {
         })
     },
     add: data => {
-        let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.post(`/add/`, data, {
-            headers: {
-                "Authorization": "Bearer " + token.access
-            }
-        })
+        return http.post(`/add/`, data)
     },
     deleteApartment: data => {
         let token = JSON.parse(localStorage.getItem('newToken'));

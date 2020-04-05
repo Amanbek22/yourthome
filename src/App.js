@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {Suspense, useEffect} from 'react';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import MenuContainer from "./components/menu/menu";
@@ -6,21 +6,30 @@ import {FilterContainer} from "./components/filterComponent/filterContainer";
 import Cards from "./components/cards/cards";
 import About from "./components/abautCompony/abautCompony";
 import Footer from "./components/footer/footer";
-import SignIn from "./components/signin/signin";
-import SignUp from "./components/signUp/signup";
-import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
-// import ExampleMap from "./exampleMap";
-import MainPage from "./components/mainPage/mainPage";
 import WithRouterDeteilsPage from "./components/deteilesPage/deteilsPage";
 import AddApartment from "./components/add_apartment/addApartmant";
 import Admin from "./components/admin/admin";
 import ChangeApartment from "./components/changeApartment/changeApartment";
-import api from "./api/api";
 import BookingSystem from "./components/BookingSystem/bookingSystem";
 import AddPhoto from "./components/addPhoto/addPhoto";
-import points from './point.json';
-import axios from "axios";
+const WrapperMapContainer = React.lazy(() => import("./components/mapComponent/googleMapContainer"));
+const  SignIn = React.lazy(() => import("./components/signin/signin"));
+const SignUp = React.lazy(() => import("./components/signUp/signup"));
 function App() {
+    function solution(str){
+        let arr1 = str.split('')
+        let newArr = arr1.map((item, index) => {
+            let a = arr1[index+1] === undefined ? '_' : arr1[index+1]
+            return item + a
+        })
+        let arrr = []
+        for(let i = 0; i < arr1.length; i+2){
+            let a = arr1[i+1] === undefined ? '_' : arr1[i+1]
+            arrr.push(arr1[i] + a)
+        }
+        return newArr
+    }
+    console.log(solution('hell'))
   return (
       <div className="wrapper">
         <Router>
@@ -28,7 +37,8 @@ function App() {
                 <MenuContainer />
             </div>
             <div className={"content"}>
-            <Switch>
+                <Suspense fallback={<div style={{textAlign: 'center'}}>Загрузка...</div>}>
+                <Switch>
                 <Route exact path={"/"}>
                     {/*<MainPage />*/}
                     <FilterContainer />
@@ -64,7 +74,8 @@ function App() {
                     <AddPhoto />
                 </Route>
             </Switch>
-            </div>
+                </Suspense>
+                </div>
         </Router>
       </div>
   );

@@ -38,11 +38,11 @@ const Menu = props => {
                         {
                             props.data.logged === true ?
                                 <div className={css.addButtonWrapper}>
-                                    <Link to={"/sign-in"} className={css.addButton}>
-                                        Sign in
+                                    <Link to={"/sign-in"} className={css.addButton}  onClick={()=>burger ? setBurger(false) : null}>
+                                        Войти
                                     </Link>
-                                    <Link to={"/sign-up"} className={css.addButton}>
-                                        Sign up
+                                    <Link to={"/sign-up"} className={css.addButton}  onClick={()=>burger ? setBurger(false) : null}>
+                                        Зарегистрироваться
                                     </Link>
                                 </div>
                                 :
@@ -63,7 +63,6 @@ const Menu = props => {
                                         }} className={css.addButton}>
                                         Выход
                                     </span>
-
                                     </div>
                         }
                     </div>

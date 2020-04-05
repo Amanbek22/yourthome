@@ -120,7 +120,7 @@
         width: 100%;
         clip-path: circle(10px at 90% -20%);
         -webkit-clip-path: circle(10px at 90% -20%);
-        transition: all 1s ease-in-out;
+        transition: all 0.7s ease-in-out;
         display: grid;
     }
     .addButtonWrapper{

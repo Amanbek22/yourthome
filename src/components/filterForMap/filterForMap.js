@@ -23,7 +23,6 @@ const FilterMap = props =>{
     const [elevator, setElevator] = useState(props.filterData.elevator)
     const [security, setSecurity] = useState(props.filterData.security)
     const [parcking, setParcking ] = useState(props.filterData.parcking)
-    // console.log(date)
     const onDataChange = (jsDate,dateString) => setDateFrom(jsDate)
     const onDataToChange = (jsDate,dateString) => setDateTo(jsDate)
     const filter = () =>{
@@ -32,11 +31,20 @@ const FilterMap = props =>{
             {city,rooms,floor,dateFrom,dateTo,priceFrom,priceTo,apartmentType,internet,furniture,gas,phone,elevator,security,parcking,construction_type}
             )
     }
+    let width = window.innerWidth;
+    const widthFilter = () => {
+        if (width < 768){
+            props.setOpenMap( props.openMap ? false : true)
+        }
+    }
     return(
         <div className={css.wrapper}>
             <div className={css.filterWrapper}>
                 <h2>Фильтр данных</h2>
-                <button onClick={filter}>Применить</button>
+                <button onClick={()=>{
+                    filter()
+                    widthFilter()
+                } }>Применить</button>
             </div>
             <select value={city} onChange={e=>{
                 // props.setItem(e.target.value,'')
@@ -153,7 +161,7 @@ const FilterMap = props =>{
                 </select>
             </div>
 
-            <div className={css.impWrapper}>
+            <div className={`${css.impWrapper}  ${css.priceWrapper}`}>
                 <input value={priceFrom} onChange={e=>setPriceFrom(e.target.value)} placeholder={"Цена от"} type="text"/>
                 <input value={priceTo} onChange={e=>setPriceTo(e.target.value)} placeholder={"Цена до"} type="text"/>
             </div>

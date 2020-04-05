@@ -9,9 +9,6 @@ import Element from "../element/element";
 // import Marker from "./marker";
 import marker from '../../img/marker6.png'
 import marker2 from '../../img/marker10.png'
-import api from "../../api/api";
-import {setApartment} from "../../redux/googleMap_reducer";
-import axios from "axios";
 import {Carousel} from "react-responsive-carousel";
 import {bounce, fadeInRight, fadeOutRight} from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
@@ -29,6 +26,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
             arr.push(element)
         }
         const [selectedPark, setSelectedPark] = useState(null);
+        let windowWidth = window.innerWidth;
         return (
             <div className={css.mainWrapper}>
                 {props.sended === true ?
@@ -99,28 +97,32 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                             ))}
                         </MarkerClusterer>
                         {selectedPark && (
-                            <InfoWindow position={{
-                                lat: selectedPark.location.latitude,
-                                lng: selectedPark.location.longitude,
-                            }}
-                                        onCloseClick={() => setSelectedPark(null)}
+                            <InfoWindow
+                                position={{
+                                    lat: selectedPark.location.latitude,
+                                    lng: selectedPark.location.longitude,
+                                }}
+                                onCloseClick={() => setSelectedPark(null)}
                             >
                                 <div className={css.btnWrapper}>
                                     <Carousel
-                                        width={`250px`}
+                                        width={windowWidth > 768 ? `250px` : `190px`}
                                         autoPlay={true}
                                         swipeable={true}
                                         infiniteLoop={true}
                                         showThumbs={false}
                                     >
                                         <div>
-                                            <img src="https://img.freepik.com/free-vector/vector-illustration-cartoon-interior-orange-home-room-living-room-with-two-soft-armchairs_1441-399.jpg?size=626&ext=jpg"/>
+                                            <img
+                                                src="https://img.freepik.com/free-vector/vector-illustration-cartoon-interior-orange-home-room-living-room-with-two-soft-armchairs_1441-399.jpg?size=626&ext=jpg"/>
                                         </div>
                                         <div>
-                                            <img src="https://media.gettyimages.com/photos/laptop-on-coffee-table-in-a-modern-living-room-of-an-old-country-picture-id900217718?s=612x612"/>
+                                            <img
+                                                src="https://media.gettyimages.com/photos/laptop-on-coffee-table-in-a-modern-living-room-of-an-old-country-picture-id900217718?s=612x612"/>
                                         </div>
                                         <div>
-                                            <img src="https://yourthomeneobis2.herokuapp.com/media/photos/1a4da06bcdf207407ef4767711eeb20e.jpg"/>
+                                            <img
+                                                src="https://yourthomeneobis2.herokuapp.com/media/photos/1a4da06bcdf207407ef4767711eeb20e.jpg"/>
                                         </div>
                                     </Carousel>
                                     <div>
@@ -145,20 +147,19 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 
 const WrapperMap = props => {
-    console.log(props)
     const [filteredCity, setFilteredCity] = useState('')
     const [selected, setSelected] = useState([])
     const [apartments, setApartments] = useState(props.points.points);
     const [filterStyle, setFilterStyle] = useState(false);
+    const [openMap, setOpenMap] = useState(true);
     const [latLng, setLatLng] = useState({})
     const [zoome, setZoome] = useState(7)
     const {
         city, dateFrom, dateTo, rooms, floor,
         priceFrom, priceTo, apartmentType, internet,
         furniture, gas, phone, elevator, security,
-        parcking,construction_type
+        parcking, construction_type
     } = props.filterData;
-
     useEffect(() => {
         setApartments(props.points.points)
     });
@@ -182,32 +183,38 @@ const WrapperMap = props => {
         }
     }, [filteredCity])
     useEffect(() => {
-        api.getApartments(
+        // api.getApartments(
+        //     city, rooms, floor, priceFrom, priceTo,
+        //     apartmentType, internet, furniture, dateFrom, dateTo, gas,
+        //     phone, elevator, security,parcking,construction_type
+        // ).then(response => {
+        //         props.setPoint(response.data)
+        //         // props.setAllPointsAC(response.data)
+        //     })
+        props.getApartment(
             city, rooms, floor, priceFrom, priceTo,
             apartmentType, internet, furniture, dateFrom, dateTo, gas,
-            phone, elevator, security,parcking,construction_type
-        ).then(response => {
-                props.setPoint(response.data)
-                // props.setAllPointsAC(response.data)
-            })
+            phone, elevator, security, parcking, construction_type
+        )
     }, [
         city, dateFrom, dateTo, rooms, floor,
         priceFrom, priceTo, apartmentType,
         internet, furniture, gas, phone, elevator,
-        security, parcking,construction_type
+        security, parcking, construction_type
     ]);
     useEffect(() => {
-        // props.getApartment(
+        props.getApartment(
+            city, rooms, floor, priceFrom, priceTo,
+            apartmentType, internet, furniture, dateFrom, dateTo, construction_type
+        )
+        // api.getApartments(
         //     city, rooms, floor, priceFrom, priceTo,
         //     apartmentType, internet, furniture, dateFrom, dateTo,construction_type
-        // )
-        api.getApartments(
-            city, rooms, floor, priceFrom, priceTo,
-            apartmentType, internet, furniture, dateFrom, dateTo,construction_type
-        ).then(res => {
-            props.setPoint(res.data);
-            props.setSend(true)
-        })
+        // ).then(res => {
+        //     console.log(res)
+        //     props.setPoint(res.data);
+        //     props.setSend(true)
+        // })
     }, []);
 
     let arr = [];
@@ -252,10 +259,13 @@ const WrapperMap = props => {
             animationName: Radium.keyframes(fadeOutRight, 'fadeOutRight')
         }
     }
+
     return (
         <div>
             <div className={css.wrapper}>
-                <div className={css.map}>
+                <div className={`${css.map} ${openMap === null ? css.hide : openMap ? '' : css.hide}`}
+                    // style={{display: openMap ? 'block' : 'none'}}
+                >
                     <MyMapComponent
                         chooseApartment={props.setApartment}
                         latLng={latLng}
@@ -275,7 +285,9 @@ const WrapperMap = props => {
                     />
                 </div>
                 <StyleRoot>
-                    <div className={css.elemetsWrapper}>
+                    <div className={`${css.elemetsWrapper} ${openMap ? css.hide : ''}`}
+                        // style={{display: openMap ? 'none' : 'block'}}
+                    >
                         <div onClick={() => {
                             if (!filterStyle) {
                                 setFilterStyle(true)
@@ -302,7 +314,11 @@ const WrapperMap = props => {
                             <div style={
                                 filterStyle === false ? styles.fadeOutRight && {display: 'none'} : styles.fadeInLeft
                             }>
-                                <FilterForMap setItem={setFilteredCity}/>
+                                <FilterForMap
+                                    setItem={setFilteredCity}
+                                    openMap={openMap}
+                                    setOpenMap={setOpenMap}
+                                />
                             </div>
                             <div style={
                                 filterStyle === false ? styles.fadeInLeft : styles.fadeOutRight && {display: 'none'}}>
@@ -311,6 +327,23 @@ const WrapperMap = props => {
                         </div>
                     </div>
                 </StyleRoot>
+                <div className={css.mobileBtns}>
+                    <div>
+                        <button onClick={() => {
+                            setFilterStyle(false)
+                            setOpenMap(openMap ? false : true)
+                        }}> {
+                            openMap ? 'Список' : 'Карта'
+                        }</button>
+                    </div>
+                    <div>
+                        <button onClick={() => {
+                            setFilterStyle(true)
+                            setOpenMap(openMap ? false : '')
+                        }}>Фильтер
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     )

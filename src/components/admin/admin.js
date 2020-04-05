@@ -17,8 +17,7 @@ const {MarkerClusterer} = require("react-google-maps/lib/components/addons/Marke
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
     let map = React.createRef();
     const [selectedPark, setSelectedPark] = useState(null);
-    let som = props.som / 10;
-
+    let width = window.innerWidth;
     return (
         <div>
             <GoogleMap
@@ -72,7 +71,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     >
                         <div>
                             <Carousel
-                                width={`250px`}
+                                width={width > 768 ? `250px` : `190px`}
                                 autoPlay={true}
                                 swipeable={true}
                                 infiniteLoop={true}
@@ -124,10 +123,11 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 
 const Admin = props => {
-    const [apartment, setApartment] = useState([]);
-    const [som, setSom] = useState();
-    const [usd, setUsd] = useState();
-    const [visible,setVisible] = useState(false);
+    const [apartment, setApartment] = useState([])
+    const [som, setSom] = useState()
+    const [usd, setUsd] = useState()
+    const [visible,setVisible] = useState(false)
+    const [show, setShow] = useState(false)
     const [delApartment,setDelApartment] = useState(0)
 
     const DeleteAction = () =>{
@@ -191,9 +191,10 @@ const Admin = props => {
             )
         })
     }
+    let width = window.innerWidth;
     return (
         <div className={css.wrapper}>
-            <div style={{zIndex: 1}}>
+            <div style={{display: width > 768 ? 'block' : show ? 'none' : 'block'}}>
                 <MyMapComponent
                     points={apartment}
                     som={som}
@@ -204,12 +205,12 @@ const Admin = props => {
                         https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM
                         "
                     loadingElement={<div
-                        style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
+                        style={{height: `100%`, position: `sticky`, zIndex: `9`, top: `0`, left: `0`}}/>}
                     containerElement={<div
                         style={{
                             height: `90vh`,
                             position: `sticky`,
-                            zIndex: `99999990`,
+                            zIndex: `9`,
                             top: `10%`,
                             left: `0`
                         }}/>}
@@ -217,8 +218,11 @@ const Admin = props => {
                         style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
                 />
             </div>
-            <div>
+            <div className={css.elementsWrapper} style={{display: width > 768 ? 'block' : show ? 'block' : 'none'}}>
                 {items}
+            </div>
+            <div className={css.hideShow}>
+                <button onClick={()=> show ? setShow(false) : setShow(true)}>{show ? 'На карте': 'Список' }</button>
             </div>
             <Modal
                 visible={visible}

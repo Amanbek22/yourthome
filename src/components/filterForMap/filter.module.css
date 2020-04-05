@@ -25,9 +25,6 @@
     grid-template-columns: 1fr 1fr ;
     grid-gap: 1em;
 }
-.impWrapper>input{
-    width: 95%;
-}
 input:focus{
     outline: none;
 }
@@ -69,4 +66,18 @@ select:focus{
     display: grid;
     grid-template-columns: 1fr ;
     grid-gap: 1em;
+}
+@media screen and (max-width: 768px){
+    .wrapper{
+        margin: 10px 5px 65px 5px;
+    }
+    .priceWrapper{
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .impWrapper{
+        grid-template-columns: 1fr;
+    }
 }

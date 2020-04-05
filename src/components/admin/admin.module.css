@@ -61,3 +61,30 @@
     margin-top: 80px;
     color: #fff;
 }
+.hideShow{
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999999;
+}
+.hideShow>button{
+    background: #fff;
+    border: 2px solid #000;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+@media screen and (max-width: 768px){
+    .wrapper{
+        grid-template-columns: 1fr;
+    }
+    .hideShow{
+        display: block;
+        /*grid-template-columns: 1fr 1fr;*/
+        /*grid-gap: 1em;*/
+    }
+    /*.elementsWrapper{*/
+        /*display: none;*/
+    /*}*/
+}

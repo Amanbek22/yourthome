@@ -31,8 +31,8 @@ export const googleMapReducer = (state = initialState, action) => {
                 }
             }
         case setAllPoints:
-            if (state.allPoints.length === 0){
-                return{
+            if (state.allPoints.length === 0) {
+                return {
                     ...state,
                     allPoints: [...state.allPoints, ...action.points]
                 }
@@ -48,7 +48,7 @@ export const googleMapReducer = (state = initialState, action) => {
                 apartment: [action.apartment]
             }
         case send :
-            return{
+            return {
                 ...state,
                 send: action.bool
             }
@@ -85,10 +85,17 @@ export const setSend = bool => {
     }
 }
 
-export const getApartment = () => (dispatch) => {
-    api.getApartments()
+export const getApartment = (
+    city, rooms, floor, priceFrom, priceTo,
+    apartmentType, internet, furniture, dateFrom, dateTo, gas,
+    phone, elevator, security, parcking, construction_type
+) => (dispatch) => {
+    api.getApartments(city, rooms, floor, priceFrom, priceTo,
+        apartmentType, internet, furniture, dateFrom, dateTo, gas,
+        phone, elevator, security, parcking, construction_type)
         .then(res => {
             dispatch(setPoint(res.data))
+            console.log(res)
             dispatch(setSend(true))
         })
 }

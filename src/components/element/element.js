@@ -15,7 +15,7 @@ const Element = props => {
                     <div className={css.address}>{props.house_number} {props.street}</div>
                     <div className={css.optionWrapper}>
                         <div>Площадь: {props.area}</div>
-                        <div>Комнат: {props.room}</div>
+                        <div> {props.room}</div>
                         <div>Этаж: {props.floor}</div>
                     </div>
                     <div>

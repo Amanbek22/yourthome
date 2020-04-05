@@ -66,14 +66,16 @@ const AddApartment = props => {
     const [btnState, setBtnState] = useState(false)
     const [visible, setVisible] = useState(false);
     const [question, setQuestion] = useState(false);
+    const [hide, setHide] = useState(false)
     let address = {};
-    const pushLocation = async e => {
+    let width = window.innerWidth;
+    const pushLocation = e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
         setLatLng(latlng)
         setMark(latlng)
         let newurl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng[0]}&lon=${latlng[1]}&accept-language=ru`
         //let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM`
-        await axios.get(newurl)
+        axios.get(newurl)
             .then(res => {
                 let address_1 = res.data.address;
                 address = address_1;
@@ -83,6 +85,9 @@ const AddApartment = props => {
                 setCity(address_1.city ? address_1.city : address_1.town)
                 setCountry(address_1.country)
                 setQuestion(true)
+                if (width <= 768) {
+                    setHide(true)
+                }
             })
     };
     const sendData = (e) => {
@@ -360,7 +365,7 @@ const AddApartment = props => {
                         {/*</select>*/}
                         {/*</div>*/}
                     </div>
-                    <input onClick={() => setVisible(true)}  className={css.sendBtn}
+                    <input onClick={() => setVisible(true)} type={'button'} className={css.sendBtn}
                            value={'Далее'}/>
                     <Modal
                         visible={visible}
@@ -378,12 +383,14 @@ const AddApartment = props => {
                                 height: 20,
                                 marginRight: 5,
                                 marginTop: 5,
+                                zIndex: 3
                             }} href="javascript:void(0);" onClick={() => setVisible(false)}>
                                 <img style={{width: 100 + '%', height: 100 + '%'}}
                                      src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
                             </a>
                             <h3 className={css.mainText}>Выберите место расположение вашего жилья.</h3>
-                            <div>
+
+                            <div style={{display: width <= 768 ? hide ? 'none' : 'block' : 'block'}}>
                                 <MyMapComponent
                                     marker={mark}
                                     googleMapURL="
@@ -416,6 +423,7 @@ const AddApartment = props => {
                                     pushLocation={pushLocation}
                                 />
                             </div>
+
                             <div className={css.addressWrapper}>
                                 <div style={{textAlign: 'center'}}>
                                     {question ? <div>
@@ -464,10 +472,18 @@ const AddApartment = props => {
                                                 можете исправить в ручную.
                                             </div>
                                             <div style={{display: "flex"}}>
-                                                <input style={{width: "100px"}} disabled={btnState} type="submit" value={'Да'}
+                                                <input style={{width: "100px"}} disabled={btnState} type="submit"
+                                                       value={'Да'}
                                                        className={css.sendBtn}/>
-                                                {/*<input style={{width: "100px", background: 'red'}} type="submit"*/}
-                                                       {/*value={'Нет'} className={css.sendBtn}/>*/}
+                                                <input
+                                                    style={{width: "100px", background: 'red'}} type="button"
+                                                    value={'Нет'} className={`${css.sendBtn} ${css.rejectBtn}`}
+                                                    onClick={() => {
+                                                        setHide(false)
+                                                        setLatLng('')
+                                                        setMark('')
+                                                    }}
+                                                />
                                             </div>
                                         </div>
                                         : null
