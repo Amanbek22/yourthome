@@ -12,9 +12,9 @@ import Admin from "./components/admin/admin";
 import ChangeApartment from "./components/changeApartment/changeApartment";
 import BookingSystem from "./components/BookingSystem/bookingSystem";
 import AddPhoto from "./components/addPhoto/addPhoto";
-const WrapperMapContainer = React.lazy(() => import("./components/mapComponent/googleMapContainer"));
-const  SignIn = React.lazy(() => import("./components/signin/signin"));
-const SignUp = React.lazy(() => import("./components/signUp/signup"));
+import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
+import SignIn from "./components/signin/signin";
+import SignUp from "./components/signUp/signup";
 function App() {
     return (
       <div className="wrapper">
