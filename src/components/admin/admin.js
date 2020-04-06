@@ -142,12 +142,6 @@ const Admin = props => {
             api.signInWithRefresh()
                 .then(res => {
                     localStorage.setItem("newToken", JSON.stringify(res.data));
-                    axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
-                        .then(res => {
-                            console.log(res.data.Valute)
-                            setSom(res.data.Valute.KGS.Value)
-                            setUsd(res.data.Valute.USD.Value)
-                        })
                     api.getOwnApartments()
                         .then(res => {
                             setApartment(res.data)
@@ -155,16 +149,9 @@ const Admin = props => {
                         })
                 })
         }else{
-            axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
-                .then(res => {
-                    // console.log(res.data.Valute)
-                    setSom(res.data.Valute.KGS.Value)
-                    setUsd(res.data.Valute.USD.Value)
-                })
             api.getOwnApartments()
                 .then(res => {
                     setApartment(res.data)
-                    // console.log(res.data)
                 })
         }
 

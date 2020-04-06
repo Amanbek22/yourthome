@@ -98,9 +98,6 @@ const AddApartment = props => {
             setBtnState(true)
             let preview_image = new FormData();
             preview_image.append("preview_image", images);
-            // data.forEach((value, key) => {
-            //     data[key] = value;
-            // });
             let formData = {
                 "id": 1,
                 "type": apartmentType,
@@ -130,14 +127,14 @@ const AddApartment = props => {
                     "id": 1,
                     "country": 1,
                     "region": regions,
-                    "city": city === 'Бишкек' ? 1 : 2,
+                    "city": 1,
                     "district": 1,
                     "street": street,
                     "house_number": num,
                     "latitude": latLng[0],
                     "longitude": latLng[1]
                 },
-                "rental_period": 1,
+                "rental_period": null,
                 "price": Number(price),
                 "currency": 1,
                 "preview_image": null,
@@ -173,8 +170,8 @@ const AddApartment = props => {
     return (
         <div className={css.wrapper}>
             <div id={"formID"}>
+                <h2 className={css.h2}>Подать объявление </h2>
                 <form onSubmit={sendData} className={css.formWrapper}>
-                    <h2 className={css.h2}>Подать объявление </h2>
                     <div className={css.main}>
                         <div>
                             <label>Заголовок*</label>

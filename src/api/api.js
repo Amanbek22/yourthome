@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const http = axios.create({
-    baseURL: "https://yourthomeneobis2.herokuapp.com"
+    baseURL: "https://yourthomemaster.herokuapp.com"
 });
 export default {
     getApartments: (city,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture,dateFrom, dateTo,gas,phone,elevator, security,parcking,construction_type) => {
@@ -44,7 +44,12 @@ export default {
         })
     },
     add: data => {
-        return http.post(`/add/`, data)
+        let token = JSON.parse(localStorage.getItem('newToken'));
+        return http.post(`/add/`, data,{
+            headers: {
+                "Authorization": "Bearer " + token.access
+            }
+        })
     },
     deleteApartment: data => {
         let token = JSON.parse(localStorage.getItem('newToken'));
@@ -123,7 +128,7 @@ export default {
     },
     addPhoto: (id,preview_image) => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.post(`/own-apartments/${id}/photo/`,{
+        return http.post(`/own-apartments/${id}/upload/`,{
             preview_image
         },{
             headers: {

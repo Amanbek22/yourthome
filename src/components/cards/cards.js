@@ -6,15 +6,14 @@ import { Link } from 'react-router-dom';
 
 const Cards = props =>{
     const [apartments,setApartments] = useState([]);
-    const [rev,setRev]  = useState([]);
+    // const [rev,setRev]  = useState([]);
     useEffect(()=>{
         api.getApartments().then(res=>{
             setApartments(res.data);
-            setRev(res.data.reverse());
+            // setRev(res.data.reverse());
         })
     },[]);
     let apartment;
-    let revApartment;
     if (apartments.length > 0) {
         let i = 0;
         apartment = apartments.map((item) => {
@@ -34,7 +33,7 @@ const Cards = props =>{
                 area={item.area.total_area}
             />
         })
-        let a = 0;
+        // let a = 0;
         // revApartment = rev.map((item) => {
         //     a++;
         //     if (a >= 6){

@@ -38,7 +38,6 @@ const Add = props => {
         e.preventDefault();
 
         const preview_image = new FormData();
-        preview_image.append('title', '123');
         preview_image.append('image1', img0);
         preview_image.append('image2', img);
         preview_image.append('image3', img2);
@@ -61,7 +60,7 @@ const Add = props => {
         //     .then(res => console.log(res))
 
         let token = JSON.parse(localStorage.getItem('newToken'));
-        axios.post(`https://yourthomeneobis2.herokuapp.com/own-apartments/${id}/photo/`,
+        axios.post(`https://yourthomemaster.herokuapp.com/own-apartments/${id}/upload/`,
             preview_image,
             {
                 headers: {
@@ -190,4 +189,4 @@ const Add = props => {
 }
 
 
-export default compose(WithNotAuthRedirect, withRouter)(Add)
+export default compose( withRouter)(Add)

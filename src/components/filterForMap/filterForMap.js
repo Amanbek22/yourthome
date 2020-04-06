@@ -6,7 +6,6 @@ import {setFilterData} from '../../redux/filterReducer'
 
 
 const FilterMap = props =>{
-    console.log(props)
     const [city,setCity] = useState(props.filterData.city);
     const [apartmentType, setApartmentType] = useState(props.filterData.type)
     const [construction_type, setConstruction_type] = useState(props.filterData.construction_type)
@@ -34,10 +33,9 @@ const FilterMap = props =>{
     let width = window.innerWidth;
     const widthFilter = () => {
         if (width < 768){
-            props.setOpenMap( props.openMap ? false : true)
+            props.setOpenMap(!props.openMap)
         }
     }
-    let a = 'avds'
     return(
         <div className={css.wrapper}>
             <div className={css.filterWrapper}>

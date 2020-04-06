@@ -11,6 +11,7 @@ import 'moment/locale/ru.js';
 import 'rc-datepicker/lib/style.css';
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import {compose} from "redux";
+import img from '../../img/mainImg.png'
 
 
 const DeteilsPage = props => {
@@ -24,7 +25,7 @@ const DeteilsPage = props => {
     const [images, setImages] = useState([]);
     const [details, setDetails] = useState({})
     let token = JSON.parse(localStorage.getItem('newToken'));
-    console.log(details)
+    console.log(images)
     let comment = comments.map(item => {
         return (
             <div key={item.id}>{item.text_of_publication}</div>
@@ -33,13 +34,14 @@ const DeteilsPage = props => {
     useEffect(() => {
         api.getApartmentApi(props.match.params.id)
             .then(res => {
+                console.log(res)
                 setApartment(res.data)
                 setAddress(res.data.address)
                 setComments(res.data.comments)
                 setOrders(res.data.orders)
                 setDetails({...res.data.detail})
                 setImg(res.data.preview_image)
-                setImages(res.data.images)
+                setImages(res.data.apartment_image)
             })
     }, []);
     const sendComment = () => {
@@ -84,20 +86,28 @@ const DeteilsPage = props => {
                     autoPlay
                     showIndicators={false}
                     infiniteLoop={true}
-                    width={`90%`}
+                    width={`100%`}
+                    // dynamicHeight={true}
                     swipeable={true}
                 >
                     {/*<div>*/}
                     {/*<img*/}
-                    {/*src={img}/>*/}
+                    {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<img*/}
+                            {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<img*/}
+                            {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
                     {/*</div>*/}
                     {images.length <= 0 ?
-                        <div>
-                            <img src="#"/>
-                        </div> : images.map(item => {
-                            return !item.image ?
+                         null : images.map(item => {
+                            console.log(item.image)
+                            return item.image ?
                                 <div key={item.id}>
-                                    <img src={item.image}/>
+                                    <img src={`${item.image}`}/>
                                 </div>
                                 : null
                         })

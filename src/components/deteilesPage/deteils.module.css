@@ -1,13 +1,15 @@
 .wrapper{
     display: grid;
     grid-template-columns: 6fr 5.3fr;
+    grid-gap: 1em;
     margin: 0 1%;
 }
 .slider_block{
     position: sticky;
     top: 10vh;
     left: 0;
-    height: 90vh;
+    /*height: 90vh;*/
+    max-height: 70vh;
 }
 /*.moreInfoBlock{*/
     /*height: 200vh;*/
