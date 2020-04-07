@@ -128,9 +128,7 @@ export default {
     },
     addPhoto: (id,preview_image) => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.post(`/own-apartments/${id}/upload/`,{
-            preview_image
-        },{
+        return http.post(`/own-apartments/${id}/upload/`,preview_image,{
             headers: {
                 "Authorization": "Bearer " + token.access
             }

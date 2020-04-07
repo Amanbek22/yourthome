@@ -38,39 +38,27 @@ const Add = props => {
         e.preventDefault();
 
         const preview_image = new FormData();
-        preview_image.append('image1', img0);
-        preview_image.append('image2', img);
-        preview_image.append('image3', img2);
-        preview_image.append('image4', img1);
-        // preview_image.append('image5', img4);
-        // preview_image.append('image6', img5);
-        // preview_image.append('image7', img6);
+        let i = 1;
+        img0.map(item => {
+            preview_image.append(`image` + i, item)
+            i++
+        })
+        preview_image.append('image101', img);
+        preview_image.append('image105', img2);
+        preview_image.append('image106', img1);
+        preview_image.append('image107', img4);
+        preview_image.append('image108', img5);
+        preview_image.append('image117', img6);
 
-        // api.addPhoto(id,preview_image).then(res => {
-        //     console.log(res)
-        //     alert('Added')
-        // })
+        api.addPhoto(id,preview_image).then(res => {
+            alert('Added')
+            window.location.href = '/admin'
+        })
         preview_image.forEach((value, key) => {
             preview_image[key] = value;
         });
-
-        console.log(preview_image)
-
-        // axios.post('https://yourthomeneobis2.herokuapp.com/hello/',preview_image)
-        //     .then(res => console.log(res))
-
-        let token = JSON.parse(localStorage.getItem('newToken'));
-        axios.post(`https://yourthomemaster.herokuapp.com/own-apartments/${id}/upload/`,
-            preview_image,
-            {
-                headers: {
-                    "Authorization": "Bearer " + token.access
-                }
-            }).then(res => {
-            console.log(res)
-            alert("Added!!!")
-        })
     }
+    let width = window.innerWidth;
     return (
         <div className={css.wrapper}>
             <h2>Добавьте фотографии вашего жилья!</h2>
@@ -80,15 +68,11 @@ const Add = props => {
                         <input onChange={(e) => {
                             setBlock0('none')
                             const arr = Array.from(e.target.files)
-                            const files = arr.map((file, index) => {
-                                const src = window.URL.createObjectURL(file)
-                                return { file, id: index }
-                            })
-                            setImg0(e.target.files[0])
-                            console.log(files)
+                            setImg0(arr)
+                            console.log(arr)
                         }}
                                accept="image/*" type="file" className={css.chooseFile} required
-                               // multiple={true}
+                               multiple={width <= 768}
                         />
                         <img style={{display: block0 === 'block' ? 'none' : 'block'}}
                              src="https://image.flaticon.com/icons/svg/190/190411.svg" alt="Done"/>

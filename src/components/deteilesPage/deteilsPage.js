@@ -89,29 +89,41 @@ const DeteilsPage = props => {
                     width={`100%`}
                     // dynamicHeight={true}
                     swipeable={true}
+                    // showThumbs={false}
+                    // centerMode={true}
+                    thumbWidth='50px'
+
                 >
                     {/*<div>*/}
                     {/*<img*/}
                     {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
                     {/*</div>*/}
                     {/*<div>*/}
-                        {/*<img*/}
-                            {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
+                    {/*<img*/}
+                    {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
                     {/*</div>*/}
                     {/*<div>*/}
-                        {/*<img*/}
-                            {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
+                    {/*<img*/}
+                    {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
                     {/*</div>*/}
                     {images.length <= 0 ?
-                         null : images.map(item => {
+                        null : images.map(item => {
                             console.log(item.image)
                             return item.image ?
-                                <div key={item.id}>
+                                <div className={css.imgWrapper} key={item.id}>
                                     <img src={`${item.image}`}/>
                                 </div>
                                 : null
                         })
                     }
+                    {/*{*/}
+                        {/*images.length <= 0 ?*/}
+                            {/*<div>*/}
+                                {/*<img*/}
+                                    {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
+                            {/*</div>*/}
+                            {/*: null*/}
+                    {/*}*/}
 
                 </Carousel>
             </div>
@@ -123,7 +135,7 @@ const DeteilsPage = props => {
                 <div className={css.information}>
                     <div>Информация</div>
                     <div className={css.listInfo}>
-                        <div>Камнат: {apartment.room}</div>
+                        <div>Комнат: {apartment.room}</div>
                         <div>Общая площадь: {area.total_area}m<sup>2</sup></div>
                         <div>Этаж: {apartment.floor}</div>
                         <div>Тип строение: {apartment.construction_type}</div>
@@ -138,19 +150,19 @@ const DeteilsPage = props => {
                         <div>
                             <div>Рядом есть:</div>
                             <ul>
-                                { details.parking ? <li>Парковка</li>: null}
-                                { details.security ? <li>Озрана</li>: null}
+                                {details.parking ? <li>Парковка</li> : null}
+                                {details.security ? <li>Озрана</li> : null}
                             </ul>
                         </div>
                         <div>
                             <div>В квартире есть:</div>
                             <ul>
-                                { details.furniture ? <li>Мебель</li>: null}
-                                { details.internet ? <li>Интернет</li>: null}
-                                { details.gas ? <li>Газ</li>: null}
-                                { details.electricity ? <li>Электричество</li>: null}
-                                { details.elevator ? <li>Лифт</li>: null}
-                                { details.phone ? <li>Телефон</li>: null}
+                                {details.furniture ? <li>Мебель</li> : null}
+                                {details.internet ? <li>Интернет</li> : null}
+                                {details.gas ? <li>Газ</li> : null}
+                                {details.electricity ? <li>Электричество</li> : null}
+                                {details.elevator ? <li>Лифт</li> : null}
+                                {details.phone ? <li>Телефон</li> : null}
                             </ul>
                         </div>
                     </div>
@@ -255,7 +267,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         <div>
             {props.location ?
                 <GoogleMap
-                    defaultZoom={12}
+                    defaultZoom={14}
                     defaultCenter={{lat: props.location.latitude, lng: props.location.longitude}}
                 >
                     <Marker
