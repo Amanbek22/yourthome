@@ -149,48 +149,23 @@ const DeteilsPage = props => {
                     <div className={css.listNear}>
                         <div>
                             <div>Рядом есть:</div>
-                            <ul>
-                                {details.parking ? <li>Парковка</li> : null}
-                                {details.security ? <li>Охрана</li> : null}
-                            </ul>
+                            <div>
+                                {details.parking ? <div>Парковка</div> : null}
+                                {details.security ? <div>Охрана</div> : null}
+                            </div>
                         </div>
                         <div>
                             <div>В квартире есть:</div>
-                            <ul>
-                                {details.furniture ? <li>Мебель</li> : null}
-                                {details.internet ? <li>Интернет</li> : null}
-                                {details.gas ? <li>Газ</li> : null}
-                                {details.electricity ? <li>Электричество</li> : null}
-                                {details.elevator ? <li>Лифт</li> : null}
-                                {details.phone ? <li>Телефон</li> : null}
-                            </ul>
+                            <div>
+                                {details.furniture ? <div>Мебель</div> : null}
+                                {details.internet ? <div>Интернет</div> : null}
+                                {details.gas ? <div>Газ</div> : null}
+                                {details.electricity ? <div>Электричество</div> : null}
+                                {details.elevator ? <div>Лифт</div> : null}
+                                {details.phone ? <div>Телефон</div> : null}
+                            </div>
                         </div>
                     </div>
-                    {/*<div className={css.dateWrapper}>*/}
-                    {/*<div>*/}
-                    {/*<label>От</label>*/}
-                    {/*<DatePickerInput*/}
-                    {/*disabled={true}*/}
-                    {/*placeholder={'От какого числа занято'}*/}
-                    {/*onChange={onDataChange}*/}
-                    {/*value={date}*/}
-                    {/*className='my-custom-datepicker-component'*/}
-                    {/*onHide={() => 0}*/}
-                    {/*showOnInputClick={true}*/}
-                    {/*/>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                    {/*До*/}
-                    {/*<DatePickerInput*/}
-                    {/*disabled={true}*/}
-                    {/*placeholder={'От какого числа занято'}*/}
-                    {/*onChange={onDataChange}*/}
-                    {/*value={todate}*/}
-                    {/*className='my-custom-datepicker-component'*/}
-                    {/*onHide={() => 0}*/}
-                    {/*/>*/}
-                    {/*</div>*/}
-                    {/*</div>*/}
                     {booking}
                     <div className={css.descriptionWrapper}>
                         <div>Описание</div>

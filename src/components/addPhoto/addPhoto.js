@@ -13,10 +13,10 @@ const Add = props => {
     const [img, setImg] = useState('');
     const [img1, setImg1] = useState('');
     const [img2, setImg2] = useState('');
-    const [img4, setImg4] = useState(null);
-    const [img5, setImg5] = useState(null);
-    const [img6, setImg6] = useState(null);
-
+    const [img4, setImg4] = useState('');
+    const [img5, setImg5] = useState('');
+    const [img6, setImg6] = useState('');
+    const [dis, setDis] = useState(false);
     const [block0, setBlock0] = useState('block')
     const [block, setBlock] = useState('block')
     const [block1, setBlock1] = useState('block')
@@ -36,7 +36,7 @@ const Add = props => {
 
     const addPhoto = (e) => {
         e.preventDefault();
-
+        setDis(true)
         const preview_image = new FormData();
         let i = 1;
         img0.map(item => {
@@ -166,7 +166,7 @@ const Add = props => {
                         </label>
                     </div>
                 </div>
-                <input  type="submit" value={"Отправить"}/>
+                <input disabled={dis} type="submit" value={"Отправить"}/>
             </form>
         </div>
     )

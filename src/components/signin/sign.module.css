@@ -41,7 +41,14 @@
     border-radius: 4px;
     color: white;
 }
-
+.someError{
+    border: 2px solid red;
+    color: red;
+    padding: 5px 15px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
 @media screen and (max-width: 596px){
     .wrapper{
         width: 250px;

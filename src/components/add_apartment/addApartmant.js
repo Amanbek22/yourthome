@@ -41,66 +41,76 @@ const validate = values => {
     const errors = {}
     if (!values.headline) {
         errors.headline = 'Обязательное поле'
-    }else if (values.headline.length > 0) {
+    } else if (values.headline.length > 0) {
         errors.headline = undefined
     }
     if (!values.price) {
         errors.price = 'Обязательное поле'
-    }else if (values.price.length > 0) {
+    } else if (values.price.length > 0) {
         errors.price = undefined
     }
     if (!values.area) {
         errors.area = 'Обязательное поле'
-    }else if (values.area.length > 0) {
+    } else if (values.area.length > 0) {
         errors.area = undefined
     }
     if (!values.liveArea) {
         errors.liveArea = 'Обязательное поле'
-    }else if (values.liveArea.length > 0) {
+    } else if (values.liveArea.length > 0) {
         errors.liveArea = undefined
     }
     if (!values.rooms) {
         errors.rooms = 'Обязательное поле'
-    }else if (values.rooms.length > 0) {
+    } else if (values.rooms.length > 0) {
         errors.rooms = undefined
     }
     if (!values.constractionType) {
         errors.constractionType = 'Обязательное поле'
-    }else if (values.constractionType.length > 0) {
+    } else if (values.constractionType.length > 0) {
         errors.constractionType = undefined
     }
     if (!values.floor) {
         errors.floor = 'Обязательное поле'
-    }else if (values.floor.length > 0) {
+    } else if (values.floor.length > 0) {
         errors.floor = undefined
     }
     if (!values.floors) {
         errors.floors = 'Обязательное поле'
-    }else if (values.floors.length > 0) {
+    } else if (values.floors.length > 0) {
         errors.floors = undefined
     }
     if (!values.apartmentType) {
         errors.apartmentType = 'Обязательное поле'
-    }else if (values.apartmentType.length > 0) {
+    } else if (values.apartmentType.length > 0) {
         errors.apartmentType = undefined
     }
-    if(!values.description){
+    if (!values.description) {
         errors.description = 'Обязательное поле'
-    }else if(values.description.length){
+    } else if (values.description.length) {
         errors.description = undefined
+    }
+    if (!values.number) {
+        errors.number = 'Обязательное поле'
+    } else if (values.number.length) {
+        errors.number = undefined
+    }
+    if (!values.name) {
+        errors.name = 'Обязательное поле'
+    } else if (values.name.length) {
+        errors.name = undefined
     }
     return errors
 }
 
 const Sel = props => {
     let {placeholder, options} = props
-    return(
+    return (
         <>
             <Select
                 placeholder={placeholder}
                 options={options}
                 {...props}
-                onChange={(data)=>{
+                onChange={(data) => {
                     let arr = []
                     data.map(item => {
                         arr.push(item.value)
@@ -127,21 +137,21 @@ const AddApartmentForm = props => {
         setMark(latlng)
         let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM&language=ru&region=RU"`
         axios.get(url)
-            .then( async res => {
+            .then(async res => {
                 console.log(res.data.results)
-                res.data.results.forEach(item=>{
-                    if(item.types.includes('administrative_area_level_1')){
-                        if(item.place_id === 'ChIJSYCimF4xmTgRu6zwHysIk4A') props.setRegion(1)
-                        if(item.place_id === 'ChIJZYZaKB-svTgRZsjuUjKmMCk') props.setRegion(2)
-                        if(item.place_id === 'ChIJLQAMhYOWkDgRKmo5Z1ts44M') props.setRegion(3)
-                        if(item.place_id === 'ChIJTVS47SPHozgRqyAdJHOnVQ4') props.setRegion(4)
-                        if(item.place_id === 'ChIJmSXShAk8hDgRmaJEQ04p-zo') props.setRegion(5)
-                        if(item.place_id === 'ChIJZ_Y3HKc3ozgRGVCldXSjb00') props.setRegion(6)
-                        if(item.place_id === 'ChIJVYNrr04RujgRvyIWQs1WzCk') props.setRegion(7)
+                res.data.results.forEach(item => {
+                    if (item.types.includes('administrative_area_level_1')) {
+                        if (item.place_id === 'ChIJSYCimF4xmTgRu6zwHysIk4A') props.setRegion(1)
+                        if (item.place_id === 'ChIJZYZaKB-svTgRZsjuUjKmMCk') props.setRegion(2)
+                        if (item.place_id === 'ChIJLQAMhYOWkDgRKmo5Z1ts44M') props.setRegion(3)
+                        if (item.place_id === 'ChIJTVS47SPHozgRqyAdJHOnVQ4') props.setRegion(4)
+                        if (item.place_id === 'ChIJmSXShAk8hDgRmaJEQ04p-zo') props.setRegion(5)
+                        if (item.place_id === 'ChIJZ_Y3HKc3ozgRGVCldXSjb00') props.setRegion(6)
+                        if (item.place_id === 'ChIJVYNrr04RujgRvyIWQs1WzCk') props.setRegion(7)
                     }
                 })
                 let arr = [...res.data.results[0].address_components];
-                await  arr.forEach(item => {
+                await arr.forEach(item => {
                     if (item.types.includes('street_number')) {
                         props.setHouse(item.short_name)
                     }
@@ -169,7 +179,7 @@ const AddApartmentForm = props => {
         {text: 2, value: 'Дом'},
     ]
     const rooms = [
-        {text: '', value:  'Количества комнат'},
+        {text: '', value: 'Количества комнат'},
         {text: 1, value: 1},
         {text: 2, value: 2},
         {text: 3, value: 3},
@@ -213,7 +223,8 @@ const AddApartmentForm = props => {
                 </div>
                 <div>
                     <label>Тип недвижемости</label>
-                    <Field name={'apartmentType'} component={SelectAdd} data={data} valueField={'value'} textField={'text'} />
+                    <Field name={'apartmentType'} component={SelectAdd} data={data} valueField={'value'}
+                           textField={'text'}/>
                 </div>
             </div>
             <div className={css.infos + ' ' + css.main}>
@@ -225,11 +236,11 @@ const AddApartmentForm = props => {
 
                 <div>
                     <label>Количество комнат</label>
-                    <Field component={SelectAdd} name={'rooms'} data={rooms} />
+                    <Field component={SelectAdd} name={'rooms'} data={rooms}/>
                 </div>
                 <div>
                     <label>Площадь</label>
-                    <Field name={'area'} placeholder={"Площадь"} type="number"  component={InputAdd}/>
+                    <Field name={'area'} placeholder={"Площадь"} type="number" component={InputAdd}/>
                 </div>
                 <div>
                     <label>Этаж</label>
@@ -249,20 +260,31 @@ const AddApartmentForm = props => {
                 </div>
             </div>
             <div className={css.main + ' ' + css.details}>
-                <Field setDetails={props.setDetails} name={'details'} component={Sel} options={options} isMulti placeholder={'Детали...'} />
+                <Field setDetails={props.setDetails} name={'details'} component={Sel} options={options} isMulti
+                       placeholder={'Детали...'}/>
             </div>
             <div className={css.main}>
                 <div>
                     <label>Описание</label>
-                    <Field component={TextareaAdd} name={'description'} placeholder={"Описание...."} />
+                    <Field component={TextareaAdd} name={'description'} placeholder={"Описание...."}/>
+                </div>
+            </div>
+            <div className={css.main}>
+                <div>
+                    <label>Номер телефона*</label>
+                    <Field component={InputAdd} name={'number'} type={'phone'} placeholder={'Номер телефона*'}/>
+                </div>
+                <div>
+                    <label>Имя</label>
+                    <Field component={InputAdd} name={'name'} type={'text'} placeholder={'Ваше имя*'}/>
                 </div>
             </div>
             <input onClick={() => setVisible(true)} type={'button'} className={css.sendBtn}
                    value={'Далее'}/>
-                   <div style={{display: 'none'}}>
-                    <Field name={'lat'} component={'input'}  />
-                    <Field name={'lng'} component={'input'}  />
-                   </div>
+            <div style={{display: 'none'}}>
+                <Field name={'lat'} component={'input'}/>
+                <Field name={'lng'} component={'input'}/>
+            </div>
             <Modal
                 visible={visible}
                 width="95%"
@@ -328,29 +350,29 @@ const AddApartmentForm = props => {
 
                         <div>
                             <label>Номер дома</label>
-                            <Field component={InputAdd} placeholder={"Номер дома"} name={'house_number'} type="text" />
+                            <Field component={InputAdd} placeholder={"Номер дома"} name={'house_number'} type="text"/>
                             {/*<input required value={num} placeholder={"Номер дома"} type="text"*/}
-                                   {/*className={css.inputs} onChange={e => setNum(e.target.value)}/>*/}
+                            {/*className={css.inputs} onChange={e => setNum(e.target.value)}/>*/}
                         </div>
                         <div>
                             <label>Улица</label>
-                            <Field component={InputAdd} name={'street'} placeholder={"улица"} type="text" />
+                            <Field component={InputAdd} name={'street'} placeholder={"улица"} type="text"/>
                             {/*<input required value={street} placeholder={"улица"} type="text"*/}
-                                   {/*className={css.inputs} onChange={e => setStreet(e.target.value)}/>*/}
+                            {/*className={css.inputs} onChange={e => setStreet(e.target.value)}/>*/}
                         </div>
                         <div>
                             <label>Город</label>
                             <Field component={InputAdd} name={'city'} placeholder={"город"} type="text"/>
                             {/*<input required value={city} placeholder={"город"} type="text"*/}
-                                   {/*className={css.inputs} onChange={e => setCity(e.target.value)}/>*/}
+                            {/*className={css.inputs} onChange={e => setCity(e.target.value)}/>*/}
                         </div>
                         <div>
                             <label>Регион</label>
-                            <Field component={SelectAdd} name={'region'} data={regions} />
+                            <Field component={SelectAdd} name={'region'} data={regions}/>
                         </div>
                         <div>
                             <label>Страна</label>
-                            <Field component={InputAdd} name={'country'} placeholder={"Страна"} type="text" />
+                            <Field component={InputAdd} name={'country'} placeholder={"Страна"} type="text"/>
                             {/*<input required value={country} placeholder={"Страна"} type="text"*/}
                             {/*className={css.inputs} onChange={e => setCountry(e.target.value)}/>*/}
                         </div>
@@ -361,7 +383,7 @@ const AddApartmentForm = props => {
                                         можете исправить вручную.
                                     </div>
                                     <div style={{display: "flex"}}>
-                                        <input style={{width: "100px"}}  type="submit"
+                                        <input style={{width: "100px"}} type="submit"
                                                value={'Да'}
                                                className={css.sendBtn}/>
                                         <input
@@ -388,108 +410,107 @@ const mapStateToProps = state => {
         form: state.form.addApartment.values
     }
 }
-function mapDispatchToProps(dispatch){
+
+function mapDispatchToProps(dispatch) {
     return {
-        setLat: function (lat){
-            dispatch(change('addApartment','lat', lat));
+        setLat: function (lat) {
+            dispatch(change('addApartment', 'lat', lat));
         },
-        setLng: function (lng){
-            dispatch(change('addApartment','lng', lng));
+        setLng: function (lng) {
+            dispatch(change('addApartment', 'lng', lng));
         },
-        setHouse: function  (num) {
-            dispatch(change('addApartment','house_number', num))
+        setHouse: function (num) {
+            dispatch(change('addApartment', 'house_number', num))
         },
         setStreet: (street) => {
-            dispatch(change('addApartment','street', street))
+            dispatch(change('addApartment', 'street', street))
         },
         setCity: (data) => {
-            dispatch(change('addApartment','city', data))
+            dispatch(change('addApartment', 'city', data))
         },
         setCountry: (data) => {
-            dispatch(change('addApartment','country', data))
+            dispatch(change('addApartment', 'country', data))
         },
         setRegion: (data) => {
-            dispatch(change('addApartment','region', data))
+            dispatch(change('addApartment', 'region', data))
         },
         setDetails: (data) => {
-            dispatch(change('addApartment','details', data))
+            dispatch(change('addApartment', 'details', data))
         }
     }
 }
 
-const AddApartmentConnectForm = connect(mapStateToProps,mapDispatchToProps)(AddApartmentForm)
+const AddApartmentConnectForm = connect(mapStateToProps, mapDispatchToProps)(AddApartmentForm)
 const AddApartmentReduxForm = reduxForm({form: 'addApartment', validate})(AddApartmentConnectForm)
 
 const AddApartment = props => {
     const sendData = (data) => {
-            console.log(data)
-            // let preview_image = new FormData();
-            // preview_image.append("preview_image", data.images);
-            let formData = {
+        console.log(data)
+        // let preview_image = new FormData();
+        // preview_image.append("preview_image", data.images);
+        let formData = {
+            "id": 1,
+            "type": data.apartmentType,
+            "room": data.rooms,
+            "floor": data.floor,
+            "area": {
                 "id": 1,
-                "type": data.apartmentType,
-                "room": data.rooms,
-                "floor": data.floor,
-                "area": {
-                    "id": 1,
-                    "total_area": Number(data.area),
-                    "living_area": Number(data.liveArea)
+                "total_area": Number(data.area),
+                "living_area": Number(data.liveArea)
+            },
+            "series": 1,
+            "construction_type": data.constractionType,
+            "state": 1,
+            "detail": {
+                "id": 1,
+                "furniture": data.details.includes('furniture'),
+                "heat": data.details.includes('heat'),
+                "gas": data.details.includes('gas'),
+                "electricity": data.details.includes('electricity'),
+                "internet": data.details.includes('internet'),
+                "phone": data.details.includes('phone'),
+                "elevator": data.details.includes('elevator'),
+                "security": data.details.includes('security'),
+                "parking": data.details.includes('parking')
+            },
+            "location": {
+                "id": 1,
+                "country": 1,
+                "region": data.region,
+                "city": 1,
+                "district": 1,
+                "street": data.street,
+                "house_number": data.house_number,
+                "latitude": data.lat,
+                "longitude": data.lng
+            },
+            "rental_period": null,
+            "price": Number(data.price),
+            "currency": 1,
+            "preview_image": null,
+            "description": data.description,
+            "images": [],
+            "contact": {
+                "id": 1,
+                "role": 1,
+                "phone": data.number,
+                "name": data.name,
+                "surname": data.name
+            },
+            "comments": [],
+            "orders": []
+        }
+        api.add(formData)
+            .then(
+                (response) => {
+                    console.log(response)
+                    window.location.href = `/addPhoto/${response.data.id}`
                 },
-                "series": 1,
-                "construction_type": data.constractionType,
-                "state": 1,
-                "detail": {
-                    "id": 1,
-                    "furniture": data.details.includes('furniture') ,
-                    "heat": data.details.includes('heat') ,
-                    "gas": data.details.includes('gas'),
-                    "electricity": data.details.includes('electricity'),
-                    "internet": data.details.includes('internet'),
-                    "phone": data.details.includes('phone'),
-                    "elevator": data.details.includes('elevator'),
-                    "security": data.details.includes('security'),
-                    "parking": data.details.includes('parking')
-                },
-                "location": {
-                    "id": 1,
-                    "country": 1,
-                    "region": data.region,
-                    "city": 1,
-                    "district": 1,
-                    "street": data.street,
-                    "house_number": data.house_number,
-                    "latitude": data.lat,
-                    "longitude": data.lng
-                },
-                "rental_period": null,
-                "price": Number(data.price),
-                "currency": 1,
-                "preview_image": null,
-                "description": data.description,
-                "pub_date": "2020-03-04T15:54:31.822777+06:00",
-                "images": [],
-                "contact": {
-                    "id": 1,
-                    "role": 1,
-                    "phone": "0554151520",
-                    "name": "A",
-                    "surname": "A"
-                },
-                "owner": 2,
-                "comments": [],
-                "orders": []
-            }
-            api.add(formData)
-                .then(
-                    (response) => {
-                        console.log(response)
-                        window.location.href = `/addPhoto/${response.data.id}`
-                    },
-                    (error) => {
-                        console.log(error)
-                        alert(error)
-                    }
-                )
+                (error) => {
+                    console.log(error)
+                    alert(error)
+                }
+            )
     }
     return (
         <div className={css.wrapper}>

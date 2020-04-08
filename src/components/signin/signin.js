@@ -3,8 +3,9 @@ import {Link, Redirect} from "react-router-dom";
 import css from './sign.module.css'
 import api from "../../api/api";
 import {WithAuthRedirect} from "../../HOC/AuthRedirect";
-import {reduxForm, Field} from "redux-form";
+import {reduxForm, Field, stopSubmit} from "redux-form";
 import {Input} from "../forForms/inputs";
+import {connect} from "react-redux";
 
 const validate = values => {
     const errors = {}
@@ -22,7 +23,6 @@ const validate = values => {
 }
 
 const LoginForm = props => {
-    console.log(props)
     return (
         <form onSubmit={props.handleSubmit} className={css.form}>
             <Field name={'login'} placeholder={"Логин*"} component={Input} type={'text'} />
@@ -40,6 +40,11 @@ const LoginForm = props => {
                 {/*<Field component={'input'} type={'submit'} value={'Войти'}/>*/}
                 <button disabled={props.submitting}>Войти</button>
             </div>
+            {
+                props.error &&  <div className={css.someError}>
+                    {props.error}
+                </div>
+            }
         </form>
     )
 }
@@ -55,10 +60,9 @@ const SignIn = props => {
             res => {
                 localStorage.setItem("userData", JSON.stringify(res.data));
                 window.location.href="/admin";
-                console.log(res)
             },
             error => {
-                alert(error)
+                props.stopSubmit('login', {_error: "Login or password was Not correct"})
             }
         )
     }
@@ -74,4 +78,4 @@ const SignIn = props => {
 
 const AuthRedirectComponent = WithAuthRedirect(SignIn)
 
-export default AuthRedirectComponent;
+export default connect(null , {stopSubmit})(AuthRedirectComponent);
