@@ -151,7 +151,7 @@ const DeteilsPage = props => {
                             <div>Рядом есть:</div>
                             <ul>
                                 {details.parking ? <li>Парковка</li> : null}
-                                {details.security ? <li>Озрана</li> : null}
+                                {details.security ? <li>Охрана</li> : null}
                             </ul>
                         </div>
                         <div>
@@ -267,7 +267,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         <div>
             {props.location ?
                 <GoogleMap
-                    defaultZoom={14}
+                    defaultZoom={15}
                     defaultCenter={{lat: props.location.latitude, lng: props.location.longitude}}
                 >
                     <Marker

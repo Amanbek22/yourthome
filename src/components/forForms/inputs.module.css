@@ -1,0 +1,24 @@
+.inp{
+    width: 100%;
+    padding: 10px 0 10px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.47);
+    border-radius: 4px;
+}
+.errorSpan{
+    color: red;
+    font-size: 14px;
+}
+.inputs, .selects{
+    height: 35px;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.47);
+    box-sizing: border-box;
+    border-radius: 5px;
+    /*width: 250px;*/
+}
+.error{
+    border: 2px solid red;
+}
+.inp2{
+    border: 1px solid #1fc30e;
+}

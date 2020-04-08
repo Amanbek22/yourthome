@@ -51,12 +51,12 @@ const FilterMap = props =>{
             }} name="cities" >
                 <option value="">Все Регионы</option>
                 <option value="1">Чуй</option>
-                <option value="6">Ош</option>
-                <option value="7">Нарын</option>
-                <option value="8">Талас</option>
-                <option value="9">Иссык-Куль</option>
-                <option value="10">Джалал-Абад</option>
-                <option value="11">Баткен</option>
+                <option value="2">Ош</option>
+                <option value="3">Нарын</option>
+                <option value="4">Талас</option>
+                <option value="5">Иссык-Куль</option>
+                <option value="6">Джалал-Абад</option>
+                <option value="7">Баткен</option>
             </select>
             {/*<input placeholder={"Дата вьезда и выезда"} type="text"/>*/}
             <div className={css.dataWrapper}>

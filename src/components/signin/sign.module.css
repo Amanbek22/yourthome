@@ -15,12 +15,6 @@
     grid-gap: 1em;
 }
 
-.form>input{
-    width: 100%;
-    padding: 10px 0 10px 10px;
-    border: 1px solid #B1B1B1;
-    border-radius: 4px;
-}
 .form>input:focus{
     outline: none;
 }
@@ -39,7 +33,7 @@
 .enter>a{
     font-size: 12px;
 }
-.enter>input{
+.enter>button{
     float: right;
     padding: 10px;
     background: #57C325;

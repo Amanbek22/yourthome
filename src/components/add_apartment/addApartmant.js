@@ -1,18 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import css from "./addApartmant.module.css";
 import axios from "axios";
 import api from "../../api/api";
-import {setApartment} from '../../redux/googleMap_reducer';
-import marker from "../../img/marker6.png";
-import marker2 from "../../img/marker10.png";
 import Modal from 'react-awesome-modal'
 import {connect} from "react-redux";
 import {WithNotAuthRedirect} from "../../HOC/AuthRedirect";
-// import roomsImg from '../../img/room.png'
+import {Field, reduxForm, initialize, change} from "redux-form";
+import {Input, InputAdd, SelectAdd, TextareaAdd} from "../forForms/inputs";
+import Select from "react-select";
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
-        console.log(props)
         let map = React.createRef()
         return (
             <div>
@@ -39,106 +37,435 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 ))
 
 
-const AddApartment = props => {
-    const [headline, setHeadline] = useState();
-    const [rooms, setRooms] = useState();
-    const [area, setArea] = useState();
-    const [livArea, setLivArea] = useState();
-    const [floor, setFloor] = useState();
-    const [floors, setFloors] = useState();
-    const [latLng, setLatLng] = useState([]);
-    const [constractionType, setConstractionType] = useState();
-    const [num, setNum] = useState(null);
-    const [street, setStreet] = useState();
-    const [city, setCity] = useState();
-    const [country, setCountry] = useState();
-    const [description, setDescription] = useState();
-    const [price, setPrice] = useState();
-    const [images, setImages] = useState(null);
-    const [internet, setInternet] = useState(false);
-    const [furniture, setFurniture] = useState(false)
-    const [elevator, setElevator] = useState(false)
-    const [gas, setGas] = useState(false)
-    const [phone, setPhone] = useState(false)
-    const [security, setSecurity] = useState(false)
-    const [parcking, setParcking] = useState(false)
-    const [apartmentType, setApartmentType] = useState()
-    const [regions, setRegions] = useState(0)
+const validate = values => {
+    const errors = {}
+    if (!values.headline) {
+        errors.headline = 'Обязательное поле'
+    }else if (values.headline.length > 0) {
+        errors.headline = undefined
+    }
+    if (!values.price) {
+        errors.price = 'Обязательное поле'
+    }else if (values.price.length > 0) {
+        errors.price = undefined
+    }
+    if (!values.area) {
+        errors.area = 'Обязательное поле'
+    }else if (values.area.length > 0) {
+        errors.area = undefined
+    }
+    if (!values.liveArea) {
+        errors.liveArea = 'Обязательное поле'
+    }else if (values.liveArea.length > 0) {
+        errors.liveArea = undefined
+    }
+    if (!values.rooms) {
+        errors.rooms = 'Обязательное поле'
+    }else if (values.rooms.length > 0) {
+        errors.rooms = undefined
+    }
+    if (!values.constractionType) {
+        errors.constractionType = 'Обязательное поле'
+    }else if (values.constractionType.length > 0) {
+        errors.constractionType = undefined
+    }
+    if (!values.floor) {
+        errors.floor = 'Обязательное поле'
+    }else if (values.floor.length > 0) {
+        errors.floor = undefined
+    }
+    if (!values.floors) {
+        errors.floors = 'Обязательное поле'
+    }else if (values.floors.length > 0) {
+        errors.floors = undefined
+    }
+    if (!values.apartmentType) {
+        errors.apartmentType = 'Обязательное поле'
+    }else if (values.apartmentType.length > 0) {
+        errors.apartmentType = undefined
+    }
+    if(!values.description){
+        errors.description = 'Обязательное поле'
+    }else if(values.description.length){
+        errors.description = undefined
+    }
+    return errors
+}
+
+const Sel = props => {
+    let {placeholder, options} = props
+    return(
+        <>
+            <Select
+                placeholder={placeholder}
+                options={options}
+                {...props}
+                onChange={(data)=>{
+                    let arr = []
+                    data.map(item => {
+                        arr.push(item.value)
+                    })
+                    props.setDetails(arr)
+                }}
+            />
+        </>
+    )
+}
+
+const AddApartmentForm = props => {
+    // useEffect(()=>{
+    //     api.getDetails().then(res=>console.log(res))
+    // },[])
     const [mark, setMark] = useState([])
-    const [btnState, setBtnState] = useState(false)
     const [visible, setVisible] = useState(false);
     const [question, setQuestion] = useState(false);
     const [hide, setHide] = useState(false)
-    let address = {};
-    let width = window.innerWidth;
     const pushLocation = e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
-        setLatLng(latlng)
+        props.setLat(latlng[0])
+        props.setLng(latlng[1])
         setMark(latlng)
-        let newurl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng[0]}&lon=${latlng[1]}&accept-language=ru`
-        //let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM`
-        axios.get(newurl)
-            .then(res => {
-                let address_1 = res.data.address;
-                address = address_1;
-                console.log(address_1)
-                setNum(address_1.house_number)
-                setStreet(address_1.road)
-                setCity(address_1.city ? address_1.city : address_1.town)
-                setCountry(address_1.country)
+        let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng[0]},${latlng[1]}&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM&language=ru&region=RU"`
+        axios.get(url)
+            .then( async res => {
+                console.log(res.data.results)
+                res.data.results.forEach(item=>{
+                    if(item.types.includes('administrative_area_level_1')){
+                        if(item.place_id === 'ChIJSYCimF4xmTgRu6zwHysIk4A') props.setRegion(1)
+                        if(item.place_id === 'ChIJZYZaKB-svTgRZsjuUjKmMCk') props.setRegion(2)
+                        if(item.place_id === 'ChIJLQAMhYOWkDgRKmo5Z1ts44M') props.setRegion(3)
+                        if(item.place_id === 'ChIJTVS47SPHozgRqyAdJHOnVQ4') props.setRegion(4)
+                        if(item.place_id === 'ChIJmSXShAk8hDgRmaJEQ04p-zo') props.setRegion(5)
+                        if(item.place_id === 'ChIJZ_Y3HKc3ozgRGVCldXSjb00') props.setRegion(6)
+                        if(item.place_id === 'ChIJVYNrr04RujgRvyIWQs1WzCk') props.setRegion(7)
+                    }
+                })
+                let arr = [...res.data.results[0].address_components];
+                await  arr.forEach(item => {
+                    if (item.types.includes('street_number')) {
+                        props.setHouse(item.short_name)
+                    }
+                    if (item.types.includes('route')) {
+                        props.setStreet(item.short_name)
+                    }
+                    if (item.types.includes("locality")) {
+                        props.setCity(item.short_name)
+                    }
+                    if (item.types.includes('country')) {
+                        props.setCountry(item.long_name)
+                    }
+                })
                 setQuestion(true)
                 if (width <= 768) {
                     setHide(true)
                 }
             })
+
     };
-    const sendData = (e) => {
-        e.preventDefault();
-        if (latLng.length > 0) {
-            setBtnState(true)
-            let preview_image = new FormData();
-            preview_image.append("preview_image", images);
+    let width = window.innerWidth;
+    const data = [
+        {text: '', value: 'Тип недвижемости'},
+        {text: 1, value: 'Квартира'},
+        {text: 2, value: 'Дом'},
+    ]
+    const rooms = [
+        {text: '', value:  'Количества комнат'},
+        {text: 1, value: 1},
+        {text: 2, value: 2},
+        {text: 3, value: 3},
+        {text: 4, value: 4},
+        {text: 5, value: 5},
+        {text: 6, value: 6},
+    ]
+    const constractionType = [
+        {text: '', value: 'Тип строения'},
+        {text: 1, value: 'Кирпичный'},
+        {text: 2, value: 'Панельный'},
+    ]
+    const regions = [
+        {text: '', value: 'Регион'},
+        {text: 1, value: 'Чуй'},
+        {text: 2, value: 'Ош'},
+        {text: 3, value: 'Нарын'},
+        {text: 4, value: 'Талас'},
+        {text: 5, value: 'Иссык-Куль'},
+        {text: 6, value: 'Джалал-Абад'},
+        {text: 7, value: 'Баткен'},
+    ]
+    const options = [
+        {value: 'internet', label: 'Интернет'},
+        {value: 'gas', label: 'Газ'},
+        {value: 'heat', label: 'Отопление'},
+        {value: 'phone', label: 'Телефон'},
+        {value: 'electricity', label: 'Электричество'},
+        {value: 'furniture', label: 'Мебель'},
+        {value: 'elevator', label: 'Лифт'},
+        {value: 'security', label: 'Охрана'},
+        {value: 'parking', label: 'Парковка'},
+    ]
+    return (
+        <form onSubmit={props.handleSubmit} className={css.formWrapper}>
+            <div className={css.main}>
+                <div>
+                    <label>Заголовок*</label>
+                    <Field name={'headline'} placeholder={"Заголовок*"}
+                           type="text" component={InputAdd}/>
+                </div>
+                <div>
+                    <label>Тип недвижемости</label>
+                    <Field name={'apartmentType'} component={SelectAdd} data={data} valueField={'value'} textField={'text'} />
+                </div>
+            </div>
+            <div className={css.infos + ' ' + css.main}>
+                <div>
+                    <label>Цена</label>
+                    <Field placeholder={"Цена"} type="number" name={'price'} component={InputAdd}
+                    />
+                </div>
+
+                <div>
+                    <label>Количество комнат</label>
+                    <Field component={SelectAdd} name={'rooms'} data={rooms} />
+                </div>
+                <div>
+                    <label>Площадь</label>
+                    <Field name={'area'} placeholder={"Площадь"} type="number"  component={InputAdd}/>
+                </div>
+                <div>
+                    <label>Этаж</label>
+                    <Field name={'floor'} component={InputAdd} placeholder={'Этаж'} type={'number'}/>
+                </div>
+                <div>
+                    <label>Жилая площадь</label>
+                    <Field name={'liveArea'} placeholder={"Площадь"} type="number" component={InputAdd}/>
+                </div>
+                <div>
+                    <label>Этажность дома</label>
+                    <Field name={'floors'} component={InputAdd} type={'number'} placeholder={'Этажность дома'}/>
+                </div>
+                <div>
+                    <label>Тип строения</label>
+                    <Field name={'constractionType'} component={SelectAdd} data={constractionType}/>
+                </div>
+            </div>
+            <div className={css.main + ' ' + css.details}>
+                <Field setDetails={props.setDetails} name={'details'} component={Sel} options={options} isMulti placeholder={'Детали...'} />
+            </div>
+            <div className={css.main}>
+                <div>
+                    <label>Описание</label>
+                    <Field component={TextareaAdd} name={'description'} placeholder={"Описание...."} />
+                </div>
+            </div>
+            <input onClick={() => setVisible(true)} type={'button'} className={css.sendBtn}
+                   value={'Далее'}/>
+                   <div style={{display: 'none'}}>
+                    <Field name={'lat'} component={'input'}  />
+                    <Field name={'lng'} component={'input'}  />
+                   </div>
+            <Modal
+                visible={visible}
+                width="95%"
+                height="95%"
+                effect="fadeInDown"
+                onClickAway={() => setVisible(false)}
+            >
+                <div className={css.modal}>
+                    <a style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        width: 20,
+                        height: 20,
+                        marginRight: 5,
+                        marginTop: 5,
+                        zIndex: 3
+                    }} onClick={() => setVisible(false)}>
+                        <img style={{width: 100 + '%', height: 100 + '%'}}
+                             src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
+                    </a>
+                    <h3 className={css.mainText}>Выберите место расположение вашего жилья.</h3>
+
+                    <div style={{display: width <= 768 ? hide ? 'none' : 'block' : 'block'}}>
+                        <MyMapComponent
+                            marker={mark}
+                            googleMapURL="
+                            https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM&language=ru&region=RU
+                            "
+                            loadingElement={<div
+                                style={{
+                                    height: `90%`,
+                                    position: `sticky`,
+                                    zIndex: `99999990`,
+                                    top: `0`,
+                                    left: `0`
+                                }}/>}
+                            containerElement={<div
+                                style={{
+                                    height: `85vh`,
+                                    position: `sticky`,
+                                    zIndex: `99999990`,
+                                    left: `0`
+                                }}/>}
+                            mapElement={<div
+                                style={{
+                                    height: `100%`,
+                                    position: `sticky`,
+                                    zIndex: `99999990`,
+                                    top: `0`,
+                                    left: `0`
+                                }}/>}
+                            pushLocation={pushLocation}
+                        />
+                    </div>
+
+                    <div className={css.addressWrapper}>
+                        <div style={{textAlign: 'center'}}>
+                            {question ? <div>
+                                Это адрес вашего жилья?
+                            </div> : null}
+                        </div>
+
+                        <div>
+                            <label>Номер дома</label>
+                            <Field component={InputAdd} placeholder={"Номер дома"} name={'house_number'} type="text" />
+                            {/*<input required value={num} placeholder={"Номер дома"} type="text"*/}
+                                   {/*className={css.inputs} onChange={e => setNum(e.target.value)}/>*/}
+                        </div>
+                        <div>
+                            <label>Улица</label>
+                            <Field component={InputAdd} name={'street'} placeholder={"улица"} type="text" />
+                            {/*<input required value={street} placeholder={"улица"} type="text"*/}
+                                   {/*className={css.inputs} onChange={e => setStreet(e.target.value)}/>*/}
+                        </div>
+                        <div>
+                            <label>Город</label>
+                            <Field component={InputAdd} name={'city'} placeholder={"город"} type="text"/>
+                            {/*<input required value={city} placeholder={"город"} type="text"*/}
+                                   {/*className={css.inputs} onChange={e => setCity(e.target.value)}/>*/}
+                        </div>
+                        <div>
+                            <label>Регион</label>
+                            <Field component={SelectAdd} name={'region'} data={regions} />
+                        </div>
+                        <div>
+                            <label>Страна</label>
+                            <Field component={InputAdd} name={'country'} placeholder={"Страна"} type="text" />
+                            {/*<input required value={country} placeholder={"Страна"} type="text"*/}
+                            {/*className={css.inputs} onChange={e => setCountry(e.target.value)}/>*/}
+                        </div>
+                        {
+                            question ?
+                                <div>
+                                    <div style={{fontSize: "14px"}}>Если ваш адресс указан не правильно вы
+                                        можете исправить вручную.
+                                    </div>
+                                    <div style={{display: "flex"}}>
+                                        <input style={{width: "100px"}}  type="submit"
+                                               value={'Да'}
+                                               className={css.sendBtn}/>
+                                        <input
+                                            style={{width: "100px", background: 'red'}} type="button"
+                                            value={'Нет'} className={`${css.sendBtn} ${css.rejectBtn}`}
+                                            onClick={() => {
+                                                setHide(false)
+                                                setMark('')
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                                : null
+                        }
+                    </div>
+                </div>
+            </Modal>
+        </form>
+    )
+}
+
+const mapStateToProps = state => {
+    return {
+        form: state.form.addApartment.values
+    }
+}
+function mapDispatchToProps(dispatch){
+    return {
+        setLat: function (lat){
+            dispatch(change('addApartment','lat', lat));
+        },
+        setLng: function (lng){
+            dispatch(change('addApartment','lng', lng));
+        },
+        setHouse: function  (num) {
+            dispatch(change('addApartment','house_number', num))
+        },
+        setStreet: (street) => {
+            dispatch(change('addApartment','street', street))
+        },
+        setCity: (data) => {
+            dispatch(change('addApartment','city', data))
+        },
+        setCountry: (data) => {
+            dispatch(change('addApartment','country', data))
+        },
+        setRegion: (data) => {
+            dispatch(change('addApartment','region', data))
+        },
+        setDetails: (data) => {
+            dispatch(change('addApartment','details', data))
+        }
+    }
+}
+
+const AddApartmentConnectForm = connect(mapStateToProps,mapDispatchToProps)(AddApartmentForm)
+const AddApartmentReduxForm = reduxForm({form: 'addApartment', validate})(AddApartmentConnectForm)
+
+const AddApartment = props => {
+    const sendData = (data) => {
+            console.log(data)
+            // let preview_image = new FormData();
+            // preview_image.append("preview_image", data.images);
             let formData = {
                 "id": 1,
-                "type": apartmentType,
-                "room": rooms,
-                "floor": floor,
+                "type": data.apartmentType,
+                "room": data.rooms,
+                "floor": data.floor,
                 "area": {
                     "id": 1,
-                    "total_area": Number(area),
-                    "living_area": Number(livArea)
+                    "total_area": Number(data.area),
+                    "living_area": Number(data.liveArea)
                 },
                 "series": 1,
-                "construction_type": constractionType,
+                "construction_type": data.constractionType,
                 "state": 1,
                 "detail": {
                     "id": 1,
-                    "furniture": furniture,
-                    "heat": false,
-                    "gas": gas,
-                    "electricity": true,
-                    "internet": internet,
-                    "phone": phone,
-                    "elevator": elevator,
-                    "security": security,
-                    "parking": parcking
+                    "furniture": data.details.includes('furniture') ,
+                    "heat": data.details.includes('heat') ,
+                    "gas": data.details.includes('gas'),
+                    "electricity": data.details.includes('electricity'),
+                    "internet": data.details.includes('internet'),
+                    "phone": data.details.includes('phone'),
+                    "elevator": data.details.includes('elevator'),
+                    "security": data.details.includes('security'),
+                    "parking": data.details.includes('parking')
                 },
                 "location": {
                     "id": 1,
                     "country": 1,
-                    "region": regions,
+                    "region": data.region,
                     "city": 1,
                     "district": 1,
-                    "street": street,
-                    "house_number": num,
-                    "latitude": latLng[0],
-                    "longitude": latLng[1]
+                    "street": data.street,
+                    "house_number": data.house_number,
+                    "latitude": data.lat,
+                    "longitude": data.lng
                 },
                 "rental_period": null,
-                "price": Number(price),
+                "price": Number(data.price),
                 "currency": 1,
                 "preview_image": null,
-                "description": description,
+                "description": data.description,
                 "pub_date": "2020-03-04T15:54:31.822777+06:00",
                 "images": [],
                 "contact": {
@@ -161,336 +488,14 @@ const AddApartment = props => {
                     (error) => {
                         console.log(error)
                         alert(error)
-                        setBtnState(false)
                     }
                 )
-        }
     }
-
     return (
         <div className={css.wrapper}>
             <div id={"formID"}>
                 <h2 className={css.h2}>Подать объявление </h2>
-                <form onSubmit={sendData} className={css.formWrapper}>
-                    <div className={css.main}>
-                        <div>
-                            <label>Заголовок*</label>
-                            <input
-                                required
-                                value={headline}
-                                onChange={e => setHeadline(e.target.value)}
-                                placeholder={"Заголовок*"}
-                                type="text" className={css.inputs}
-                            />
-                        </div>
-                        <div>
-                            <label>Тип недвижемости</label>
-                            <select className={css.selects} required value={apartmentType}
-                                    onChange={e => setApartmentType(e.target.value)}>
-                                <option value={''}>Тип недвижемости</option>
-                                <option value={1}>Квартира</option>
-                                <option value={2}>Дом</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className={css.infos + ' ' + css.main}>
-                        <div>
-                            <label>Цена</label>
-                            <input required value={price} onChange={(e) => setPrice(e.target.value)}
-                                   placeholder={"Цена"}
-                                   type="text" className={css.inputs}/>
-                        </div>
-
-                        <div>
-                            <label>Количества комнат</label>
-                            <select className={css.selects} required value={rooms}
-                                    onChange={(e) => setRooms(e.target.value)}>
-                                <option value={''}>Количества комнат</option>
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                                <option value={4}>4</option>
-                                <option value={5}>5</option>
-                                <option value={6}>6</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>Площадь</label>
-                            <input required value={area} onChange={(e) => setArea(e.target.value)}
-                                   placeholder={"Площадь"}
-                                   type="text" className={css.inputs}/>
-                        </div>
-                        <div>
-                            <label>Этаж</label>
-                            <select className={css.selects} required value={floor}
-                                    onChange={e => setFloor(e.target.value)}>
-                                <option value={''}>Этаж</option>
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                                <option value={4}>4</option>
-                                <option value={5}>5</option>
-                                <option value={6}>6</option>
-                                <option value={7}>7</option>
-                                <option value={8}>8</option>
-                                <option value={9}>9</option>
-                                <option value={10}>10</option>
-                                <option value={11}>11</option>
-                                <option value={12}>12</option>
-                                <option value={13}>13</option>
-                                <option value={14}>14</option>
-                                <option value={15}>15</option>
-                                <option value={16}>16</option>
-                                <option value={17}>17</option>
-                                <option value={18}>18</option>
-                                <option value={19}>19</option>
-                                <option value={20}>20</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>Жилая площадь</label>
-                            <input required value={livArea} onChange={(e) => setLivArea(e.target.value)}
-                                   placeholder={"Площадь"}
-                                   type="text" className={css.inputs}/>
-                        </div>
-                        <div>
-                            <label>Этажность дома</label>
-                            <select className={css.selects} required value={floors}
-                                    onChange={e => setFloors(e.target.value)}>
-                                <option value={''}>Этажность дома</option>
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                                <option value={4}>4</option>
-                                <option value={5}>5</option>
-                                <option value={6}>6</option>
-                                <option value={7}>7</option>
-                                <option value={8}>8</option>
-                                <option value={9}>9</option>
-                                <option value={10}>10</option>
-                                <option value={11}>11</option>
-                                <option value={12}>12</option>
-                                <option value={13}>13</option>
-                                <option value={14}>14</option>
-                                <option value={15}>15</option>
-                                <option value={16}>16</option>
-                                <option value={17}>17</option>
-                                <option value={18}>18</option>
-                                <option value={19}>19</option>
-                                <option value={20}>20</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label>Тип строения</label>
-                            <select className={css.selects} required value={constractionType}
-                                    onChange={(e) => setConstractionType(e.target.value)}>
-                                <option value={''}>Тип строения</option>
-                                <option value={1}>Кирпичный</option>
-                                <option value={2}>Панельный</option>
-                            </select>
-                        </div>
-                        {/*<div>*/}
-                        {/*<label>Тип ремонта</label>*/}
-                        {/*<select className={css.selects} required value={rooms}*/}
-                        {/*onChange={(e) => setRooms(e.target.value)}>*/}
-                        {/*<option value={''}>Тип ремонта</option>*/}
-                        {/*<option value={1}>Евро ремонт</option>*/}
-                        {/*<option value={2}>Панельный</option>*/}
-                        {/*</select>*/}
-                        {/*</div>*/}
-                    </div>
-                    <div className={css.main + ' ' + css.details}>
-                        <div>
-                            <label>
-                                <input checked={internet} onChange={e => setInternet(e.target.checked)}
-                                       type="checkbox"/>
-                                Интернет
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <input checked={furniture} onChange={e => setFurniture(e.target.checked)}
-                                       type="checkbox"/>
-                                Мебель
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <input checked={elevator} onChange={e => setElevator(e.target.checked)}
-                                       type="checkbox"/>
-                                Лифт
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <input checked={phone} onChange={e => setPhone(e.target.checked)} type="checkbox"/>
-                                Телефон
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <input checked={security} onChange={e => setSecurity(e.target.checked)}
-                                       type="checkbox"/>
-                                Охрана
-                            </label>
-                        </div>
-                        <div>
-                            <label>
-                                <input checked={parcking} onChange={e => setParcking(e.target.checked)}
-                                       type="checkbox"/>
-                                Парковка
-                            </label>
-                        </div>
-                    </div>
-                    <div className={css.main}>
-                        <div>
-                            <label>Описание</label>
-                            <textarea
-                                required
-                                value={description}
-                                onChange={e => setDescription(e.target.value)}
-                                placeholder={"Описание...."}
-                                className={css.inputs}
-                                style={{height: "150px", fontSize: "16px", padding: "0 5px"}}
-                            />
-                        </div>
-                        {/*<div>*/}
-                        {/*<label>Тип недвижемости</label>*/}
-                        {/*<select className={css.selects} required value={apartmentType}*/}
-                        {/*onChange={e => setApartmentType(e.target.value)}>*/}
-                        {/*<option value={''}>Тип недвижемости</option>*/}
-                        {/*<option value={1}>Квартира</option>*/}
-                        {/*<option value={2}>Дом</option>*/}
-                        {/*</select>*/}
-                        {/*</div>*/}
-                    </div>
-                    <input onClick={() => setVisible(true)} type={'button'} className={css.sendBtn}
-                           value={'Далее'}/>
-                    <Modal
-                        visible={visible}
-                        width="95%"
-                        height="95%"
-                        effect="fadeInDown"
-                        onClickAway={() => setVisible(false)}
-                    >
-                        <div className={css.modal}>
-                            <a style={{
-                                position: 'absolute',
-                                top: 0,
-                                right: 0,
-                                width: 20,
-                                height: 20,
-                                marginRight: 5,
-                                marginTop: 5,
-                                zIndex: 3
-                            }} href="javascript:void(0);" onClick={() => setVisible(false)}>
-                                <img style={{width: 100 + '%', height: 100 + '%'}}
-                                     src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
-                            </a>
-                            <h3 className={css.mainText}>Выберите место расположение вашего жилья.</h3>
-
-                            <div style={{display: width <= 768 ? hide ? 'none' : 'block' : 'block'}}>
-                                <MyMapComponent
-                                    marker={mark}
-                                    googleMapURL="
-                            https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM
-                            "
-                                    loadingElement={<div
-                                        style={{
-                                            height: `100%`,
-                                            position: `sticky`,
-                                            zIndex: `99999990`,
-                                            top: `0`,
-                                            left: `0`
-                                        }}/>}
-                                    containerElement={<div
-                                        style={{
-                                            height: `85vh`,
-                                            position: `sticky`,
-                                            zIndex: `99999990`,
-                                            top: `10%`,
-                                            left: `0`
-                                        }}/>}
-                                    mapElement={<div
-                                        style={{
-                                            height: `100%`,
-                                            position: `sticky`,
-                                            zIndex: `99999990`,
-                                            top: `0`,
-                                            left: `0`
-                                        }}/>}
-                                    pushLocation={pushLocation}
-                                />
-                            </div>
-
-                            <div className={css.addressWrapper}>
-                                <div style={{textAlign: 'center'}}>
-                                    {question ? <div>
-                                        Это адресс вашего жилья?
-                                    </div> : null}
-                                </div>
-
-                                <div>
-                                    <label>Number of house</label>
-                                    <input required value={num} placeholder={"Номер дома"} type="text"
-                                           className={css.inputs} onChange={e => setNum(e.target.value)}/>
-                                </div>
-                                <div>
-                                    <label>Street</label>
-                                    <input required value={street} placeholder={"улица"} type="text"
-                                           className={css.inputs} onChange={e => setStreet(e.target.value)}/>
-                                </div>
-                                <div>
-                                    <label>City</label>
-                                    <input required value={city} placeholder={"город"} type="text"
-                                           className={css.inputs} onChange={e => setCity(e.target.value)}/>
-                                </div>
-                                <div>
-                                    <label>Country</label>
-                                    <input required value={country} placeholder={"Страна"} type="text"
-                                           className={css.inputs} onChange={e => setCountry(e.target.value)}/>
-                                </div>
-                                <div>
-                                    <label>Регион</label>
-                                    <select required className={css.selects} value={regions}
-                                            onChange={(e) => setRegions(e.target.value)}>
-                                        <option value={''}>Регион</option>
-                                        <option value={1}>Чуй</option>
-                                        <option value={6}>Ош</option>
-                                        <option value={7}>Нарын</option>
-                                        <option value={8}>Талас</option>
-                                        <option value={9}>Иссык-Куль</option>
-                                        <option value={10}>Джалал-Абад</option>
-                                        <option value={11}>Баткен</option>
-                                    </select>
-                                </div>
-                                {
-                                    question ?
-                                        <div>
-                                            <div style={{fontSize: "13px"}}>Если ваш адресс указен не правильно вы
-                                                можете исправить в ручную.
-                                            </div>
-                                            <div style={{display: "flex"}}>
-                                                <input style={{width: "100px"}} disabled={btnState} type="submit"
-                                                       value={'Да'}
-                                                       className={css.sendBtn}/>
-                                                <input
-                                                    style={{width: "100px", background: 'red'}} type="button"
-                                                    value={'Нет'} className={`${css.sendBtn} ${css.rejectBtn}`}
-                                                    onClick={() => {
-                                                        setHide(false)
-                                                        setLatLng('')
-                                                        setMark('')
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-                                        : null
-                                }
-                            </div>
-                        </div>
-                    </Modal>
-                </form>
+                <AddApartmentReduxForm onSubmit={sendData}/>
             </div>
         </div>
     )

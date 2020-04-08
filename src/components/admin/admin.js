@@ -163,9 +163,9 @@ const Admin = props => {
                 <div key={item.id}>
                     <Element
                         id={item.id}
-                        changeBtn={true}
+                        // changeBtn={true}
                         // chooseAp={chooseApartment}
-                        img={item.preview_image}
+                        img={item.apartment_image[0].image}
                         forSale={item.description}
                         house_number={item.location.house_number}
                         street={item.location.street}

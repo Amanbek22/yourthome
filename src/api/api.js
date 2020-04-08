@@ -133,5 +133,6 @@ export default {
                 "Authorization": "Bearer " + token.access
             }
         })
-    }
+    },
+    getDetails: ()=> http.get('/details/'),
 };

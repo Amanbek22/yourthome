@@ -171,12 +171,12 @@ const WrapperMap = props => {
         } else {
             setZoome(9);
             return filteredCity === '1' ? setLatLng({lat: 42.771211, lng: 74.545287}) :
-                filteredCity === '6' ? setLatLng({lat: 40.532589, lng: 72.771791}) :
-                    filteredCity === '7' ? setLatLng({lat: 41.426350, lng: 75.991058}) :
-                        filteredCity === '8' ? setLatLng({lat: 42.521700, lng: 72.244290}) :
-                            filteredCity === '9' ? setLatLng({lat: 42.261049, lng: 77.808740}) :
-                                filteredCity === '10' ? setLatLng({lat: 41.434490, lng: 72.602859}) :
-                                    filteredCity === '11' ? setLatLng({
+                filteredCity === '2' ? setLatLng({lat: 40.532589, lng: 72.771791}) :
+                    filteredCity === '3' ? setLatLng({lat: 41.426350, lng: 75.991058}) :
+                        filteredCity === '4' ? setLatLng({lat: 42.521700, lng: 72.244290}) :
+                            filteredCity === '5' ? setLatLng({lat: 42.261049, lng: 77.808740}) :
+                                filteredCity === '6' ? setLatLng({lat: 41.434490, lng: 72.602859}) :
+                                    filteredCity === '7' ? setLatLng({
                                         lat: 39.884450,
                                         lng: 71.294314
                                     }) : console.log(filteredCity)
@@ -214,7 +214,7 @@ const WrapperMap = props => {
                     <Element
                         id={item.id}
                         chooseAp={chooseApartment}
-                        img={item.preview_image}
+                        img={item.apartment_image[0].image}
                         forSale={item.description}
                         house_number={item.location.house_number}
                         street={item.location.street}
