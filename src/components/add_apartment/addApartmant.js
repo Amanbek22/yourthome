@@ -213,8 +213,18 @@ const AddApartmentForm = props => {
         {value: 'security', label: 'Охрана'},
         {value: 'parking', label: 'Парковка'},
     ]
+    const onSubmit = data => {
+        alert('works')
+        console.log(data)
+        props.handleSubmit()
+    }
+    const sub = e => {
+        e.preventDefault()
+        console.log(e)
+        setVisible(true)
+    }
     return (
-        <form onSubmit={props.handleSubmit} className={css.formWrapper}>
+        <form onSubmit={sub} className={css.formWrapper}>
             <div className={css.main}>
                 <div>
                     <label>Заголовок*</label>
@@ -279,7 +289,7 @@ const AddApartmentForm = props => {
                     <Field component={InputAdd} name={'name'} type={'text'} placeholder={'Ваше имя*'}/>
                 </div>
             </div>
-            <input onClick={() => setVisible(true)} type={'button'} className={css.sendBtn}
+            <input  type={'submit'} className={css.sendBtn}
                    value={'Далее'}/>
             <div style={{display: 'none'}}>
                 <Field name={'lat'} component={'input'}/>
@@ -340,67 +350,87 @@ const AddApartmentForm = props => {
                             pushLocation={pushLocation}
                         />
                     </div>
-
-                    <div className={css.addressWrapper}>
-                        <div style={{textAlign: 'center'}}>
-                            {question ? <div>
-                                Это адрес вашего жилья?
-                            </div> : null}
-                        </div>
-
-                        <div>
-                            <label>Номер дома</label>
-                            <Field component={InputAdd} placeholder={"Номер дома"} name={'house_number'} type="text"/>
-                            {/*<input required value={num} placeholder={"Номер дома"} type="text"*/}
-                            {/*className={css.inputs} onChange={e => setNum(e.target.value)}/>*/}
-                        </div>
-                        <div>
-                            <label>Улица</label>
-                            <Field component={InputAdd} name={'street'} placeholder={"улица"} type="text"/>
-                            {/*<input required value={street} placeholder={"улица"} type="text"*/}
-                            {/*className={css.inputs} onChange={e => setStreet(e.target.value)}/>*/}
-                        </div>
-                        <div>
-                            <label>Город</label>
-                            <Field component={InputAdd} name={'city'} placeholder={"город"} type="text"/>
-                            {/*<input required value={city} placeholder={"город"} type="text"*/}
-                            {/*className={css.inputs} onChange={e => setCity(e.target.value)}/>*/}
-                        </div>
-                        <div>
-                            <label>Регион</label>
-                            <Field component={SelectAdd} name={'region'} data={regions}/>
-                        </div>
-                        <div>
-                            <label>Страна</label>
-                            <Field component={InputAdd} name={'country'} placeholder={"Страна"} type="text"/>
-                            {/*<input required value={country} placeholder={"Страна"} type="text"*/}
-                            {/*className={css.inputs} onChange={e => setCountry(e.target.value)}/>*/}
-                        </div>
-                        {
-                            question ?
-                                <div>
-                                    <div style={{fontSize: "14px"}}>Если ваш адресс указан не правильно вы
-                                        можете исправить вручную.
-                                    </div>
-                                    <div style={{display: "flex"}}>
-                                        <input style={{width: "100px"}} type="submit"
-                                               value={'Да'}
-                                               className={css.sendBtn}/>
-                                        <input
-                                            style={{width: "100px", background: 'red'}} type="button"
-                                            value={'Нет'} className={`${css.sendBtn} ${css.rejectBtn}`}
-                                            onClick={() => {
-                                                setHide(false)
-                                                setMark('')
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                                : null
-                        }
-                    </div>
+                    <MapForm onSubmit={onSubmit} />
                 </div>
             </Modal>
+        </form>
+    )
+}
+
+const MapForm = props => {
+    const [mark, setMark] = useState([])
+    const [visible, setVisible] = useState(false);
+    const [question, setQuestion] = useState(true);
+    const [hide, setHide] = useState(false)
+
+    const regions = [
+        {text: '', value: 'Регион'},
+        {text: 1, value: 'Чуй'},
+        {text: 2, value: 'Ош'},
+        {text: 3, value: 'Нарын'},
+        {text: 4, value: 'Талас'},
+        {text: 5, value: 'Иссык-Куль'},
+        {text: 6, value: 'Джалал-Абад'},
+        {text: 7, value: 'Баткен'},
+    ]
+    return (
+        <form onSubmit={props.onSubmit} className={css.addressWrapper}>
+            <div style={{textAlign: 'center'}}>
+                {question ? <div>
+                    Это адрес вашего жилья?
+                </div> : null}
+            </div>
+
+            <div>
+                <label>Номер дома</label>
+                <Field component={InputAdd} placeholder={"Номер дома"} name={'house_number'} type="text"/>
+                {/*<input required value={num} placeholder={"Номер дома"} type="text"*/}
+                {/*className={css.inputs} onChange={e => setNum(e.target.value)}/>*/}
+            </div>
+            <div>
+                <label>Улица</label>
+                <Field component={InputAdd} name={'street'} placeholder={"улица"} type="text"/>
+                {/*<input required value={street} placeholder={"улица"} type="text"*/}
+                {/*className={css.inputs} onChange={e => setStreet(e.target.value)}/>*/}
+            </div>
+            <div>
+                <label>Город</label>
+                <Field component={InputAdd} name={'city'} placeholder={"город"} type="text"/>
+                {/*<input required value={city} placeholder={"город"} type="text"*/}
+                {/*className={css.inputs} onChange={e => setCity(e.target.value)}/>*/}
+            </div>
+            <div>
+                <label>Регион</label>
+                <Field component={SelectAdd} name={'region'} data={regions}/>
+            </div>
+            <div>
+                <label>Страна</label>
+                <Field component={InputAdd} name={'country'} placeholder={"Страна"} type="text"/>
+                {/*<input required value={country} placeholder={"Страна"} type="text"*/}
+                {/*className={css.inputs} onChange={e => setCountry(e.target.value)}/>*/}
+            </div>
+            {
+                question ?
+                    <div>
+                        <div style={{fontSize: "14px"}}>Если ваш адресс указан не правильно вы
+                            можете исправить вручную.
+                        </div>
+                        <div style={{display: "flex"}}>
+                            <input style={{width: "100px"}} type="submit"
+                                   value={'Да'}
+                                   className={css.sendBtn}/>
+                            <input
+                                style={{width: "100px", background: 'red'}} type="button"
+                                value={'Нет'} className={`${css.sendBtn} ${css.rejectBtn}`}
+                                onClick={() => {
+                                    setHide(false)
+                                    setMark('')
+                                }}
+                            />
+                        </div>
+                    </div>
+                    : null
+            }
         </form>
     )
 }
@@ -440,6 +470,7 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
+// const MapAddApartmentConnectForm = connect(mapStateToProps, {})(MapForm)
 const AddApartmentConnectForm = connect(mapStateToProps, mapDispatchToProps)(AddApartmentForm)
 const AddApartmentReduxForm = reduxForm({form: 'addApartment', validate})(AddApartmentConnectForm)
 
@@ -463,15 +494,15 @@ const AddApartment = props => {
             "state": 1,
             "detail": {
                 "id": 1,
-                "furniture": data.details.includes('furniture'),
-                "heat": data.details.includes('heat'),
-                "gas": data.details.includes('gas'),
-                "electricity": data.details.includes('electricity'),
-                "internet": data.details.includes('internet'),
-                "phone": data.details.includes('phone'),
-                "elevator": data.details.includes('elevator'),
-                "security": data.details.includes('security'),
-                "parking": data.details.includes('parking')
+                "furniture": data.details ?  data.details.includes('furniture') : false,
+                "heat": data.details ? data.details.includes('heat') : false,
+                "gas": data.details ? data.details.includes('gas') : false,
+                "electricity": data.details ? data.details.includes('electricity') : false,
+                "internet": data.details ? data.details.includes('internet') : false,
+                "phone": data.details ? data.details.includes('phone') : false,
+                "elevator": data.details ? data.details.includes('elevator') : false,
+                "security": data.details ? data.details.includes('security') : false,
+                "parking": data.details ? data.details.includes('parking') : false
             },
             "location": {
                 "id": 1,

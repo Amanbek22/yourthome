@@ -3,7 +3,7 @@ import css from './filter.module.css'
 import {Link} from "react-router-dom";
 import {DatePickerInput} from "rc-datepicker";
 import settingsImg from '../../img/moreSettings.png'
-import {DateRangeInput,START_DATE} from "@datepicker-react/styled";
+import {DateRangeInput, START_DATE} from "@datepicker-react/styled";
 import {ThemeProvider} from "styled-components";
 
 
@@ -25,23 +25,32 @@ function reducer(state, action) {
 }
 
 
-
 const Filter = props => {
-    const [dateFrom,setDateFrom] = useState(props.filterData.dateFrom);
+    const [dateFrom, setDateFrom] = useState(props.filterData.dateFrom);
 
-    const [dateTo,setDateTo] = useState(props.filterData.dateTo);
-    const [city,setCity] =useState('');
-    const [rooms,setRooms] =useState('');
-    const [priceFrom,setPriceFrom] = useState('');
-    const [priceTo,setPriceTo] = useState('');
+    const [dateTo, setDateTo] = useState(props.filterData.dateTo);
+    const [city, setCity] = useState('');
+    const [rooms, setRooms] = useState('');
+    const [priceFrom, setPriceFrom] = useState('');
+    const [priceTo, setPriceTo] = useState('');
 
     const [state, dispatch] = useReducer(reducer, initialState);
     let width = window.innerWidth;
+
+    useEffect(() => {
+        dispatch({
+            type: "dateChange", payload: {
+                startDate: props.filterData.dateFrom,
+                endDate: props.filterData.dateTo,
+                focusedInput: null
+            }
+        })
+    }, [])
     return (
         <div className={css.filterWrapper}>
             <div className={css.filterWrapperSecond}>
                 <div className={css.inputsWrapper}>
-                    <select value={city} onChange={(e)=>setCity(e.target.value)} name="find_by_city" >
+                    <select value={city} onChange={(e) => setCity(e.target.value)} name="find_by_city">
                         <option value="">Все регионы</option>
                         <option value="1">Чуй</option>
                         <option value="2">Ош</option>
@@ -53,42 +62,42 @@ const Filter = props => {
                     </select>
                     <div>
                         {/*<DatePickerInput*/}
-                            {/*placeholder={'От какого числа занято'}*/}
-                            {/*onChange={onDataChange}*/}
-                            {/*value={dateFrom}*/}
-                            {/*className='my-custom-datepicker-component'*/}
-                            {/*onHide={()=>0}*/}
-                            {/*showOnInputClick={true}*/}
-                            {/*minDate={new Date()}*/}
-                            {/*onClear={()=> setDateFrom('')}*/}
+                        {/*placeholder={'От какого числа занято'}*/}
+                        {/*onChange={onDataChange}*/}
+                        {/*value={dateFrom}*/}
+                        {/*className='my-custom-datepicker-component'*/}
+                        {/*onHide={()=>0}*/}
+                        {/*showOnInputClick={true}*/}
+                        {/*minDate={new Date()}*/}
+                        {/*onClear={()=> setDateFrom('')}*/}
                         {/*/>*/}
                         {/*<DatePickerInput*/}
-                            {/*placeholder={'От какого числа занято'}*/}
-                            {/*onChange={onDataToChange}*/}
-                            {/*value={dateTo}*/}
-                            {/*className='my-custom-datepicker-component'*/}
-                            {/*onHide={()=>0}*/}
-                            {/*showOnInputClick={true}*/}
-                            {/*onClear={()=>setDateTo('')}*/}
+                        {/*placeholder={'От какого числа занято'}*/}
+                        {/*onChange={onDataToChange}*/}
+                        {/*value={dateTo}*/}
+                        {/*className='my-custom-datepicker-component'*/}
+                        {/*onHide={()=>0}*/}
+                        {/*showOnInputClick={true}*/}
+                        {/*onClear={()=>setDateTo('')}*/}
                         {/*/>*/}
 
-                            <div className={css.dateRangeWrapper}>
-                                <DateRangeInput
-                                    onDatesChange={data => dispatch({type: "dateChange", payload: data})}
-                                    onFocusChange={focusedInput =>
-                                        dispatch({type: "focusChange", payload: focusedInput})
-                                    }
-                                    startDate={state.startDate} // Date or null
-                                    endDate={state.endDate} // Date or null
-                                    focusedInput={state.focusedInput}
-                                    minBookingDate={new Date()}
-                                    unavailableDates={[]}
-                                    vertical={width <= 768}
-                                    phrases={{startDatePlaceholder: 'Дата заезда', endDatePlaceholder: 'Дата выезда'}}
-                                />
-                            </div>
+                        <div className={css.dateRangeWrapper}>
+                            <DateRangeInput
+                                onDatesChange={data => dispatch({type: "dateChange", payload: data})}
+                                onFocusChange={focusedInput =>
+                                    dispatch({type: "focusChange", payload: focusedInput})
+                                }
+                                startDate={state.startDate} // Date or null
+                                endDate={state.endDate} // Date or null
+                                focusedInput={state.focusedInput}
+                                minBookingDate={new Date()}
+                                unavailableDates={[]}
+                                vertical={width <= 768}
+                                phrases={{startDatePlaceholder: 'Дата заезда', endDatePlaceholder: 'Дата выезда'}}
+                            />
+                        </div>
                     </div>
-                    <select value={rooms} onChange={(e)=>setRooms(e.target.value)} >
+                    <select value={rooms} onChange={(e) => setRooms(e.target.value)}>
                         <option value="">Количество комнат</option>
                         <option value="1">1 комнат</option>
                         <option value="2">2 комнат</option>
@@ -98,8 +107,10 @@ const Filter = props => {
                         <option value="6">6 комнат</option>
                     </select>
                     <div className={css.dateWrapper}>
-                        <input value={priceFrom} onChange={e=>setPriceFrom(e.target.value)} type="number" placeholder={'Цена от'}/>
-                        <input value={priceTo} onChange={e=>setPriceTo(e.target.value)} type="number" placeholder={'Цена до'}/>
+                        <input value={priceFrom} onChange={e => setPriceFrom(e.target.value)} type="number"
+                               placeholder={'Цена от'}/>
+                        <input value={priceTo} onChange={e => setPriceTo(e.target.value)} type="number"
+                               placeholder={'Цена до'}/>
                     </div>
                 </div>
                 <div className={css.moreWrapper}>
@@ -113,7 +124,14 @@ const Filter = props => {
                             <Link to={"/map"}>Показать на карте</Link>
                         </div>
                         <div className={css.search}>
-                            <Link onClick={()=>props.setFilterData({city,rooms, dateFrom: state.startDate,dateTo: state.endDate,priceFrom,priceTo})} to="/map">Начать поиск</Link>
+                            <Link onClick={() => props.setFilterData({
+                                city,
+                                rooms,
+                                dateFrom: state.startDate,
+                                dateTo: state.endDate,
+                                priceFrom,
+                                priceTo
+                            })} to="/map">Начать поиск</Link>
                         </div>
                     </div>
                 </div>
@@ -124,39 +142,6 @@ const Filter = props => {
 
 
 export default Filter;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
