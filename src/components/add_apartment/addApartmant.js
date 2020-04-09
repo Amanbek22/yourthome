@@ -214,13 +214,10 @@ const AddApartmentForm = props => {
         {value: 'parking', label: 'Парковка'},
     ]
     const onSubmit = data => {
-        alert('works')
-        console.log(data)
         props.handleSubmit()
     }
     const sub = e => {
         e.preventDefault()
-        console.log(e)
         setVisible(true)
     }
     return (
@@ -289,7 +286,7 @@ const AddApartmentForm = props => {
                     <Field component={InputAdd} name={'name'} type={'text'} placeholder={'Ваше имя*'}/>
                 </div>
             </div>
-            <input  type={'submit'} className={css.sendBtn}
+            <input type={'submit'} className={css.sendBtn}
                    value={'Далее'}/>
             <div style={{display: 'none'}}>
                 <Field name={'lat'} component={'input'}/>
@@ -350,7 +347,7 @@ const AddApartmentForm = props => {
                             pushLocation={pushLocation}
                         />
                     </div>
-                    <MapForm onSubmit={onSubmit} />
+                    <MapForm onSubmit={onSubmit} setHide={setHide} setMark={setMark} question={question}/>
                 </div>
             </Modal>
         </form>
@@ -358,11 +355,6 @@ const AddApartmentForm = props => {
 }
 
 const MapForm = props => {
-    const [mark, setMark] = useState([])
-    const [visible, setVisible] = useState(false);
-    const [question, setQuestion] = useState(true);
-    const [hide, setHide] = useState(false)
-
     const regions = [
         {text: '', value: 'Регион'},
         {text: 1, value: 'Чуй'},
@@ -376,7 +368,7 @@ const MapForm = props => {
     return (
         <form onSubmit={props.onSubmit} className={css.addressWrapper}>
             <div style={{textAlign: 'center'}}>
-                {question ? <div>
+                {props.question ? <div>
                     Это адрес вашего жилья?
                 </div> : null}
             </div>
@@ -410,7 +402,7 @@ const MapForm = props => {
                 {/*className={css.inputs} onChange={e => setCountry(e.target.value)}/>*/}
             </div>
             {
-                question ?
+                props.question ?
                     <div>
                         <div style={{fontSize: "14px"}}>Если ваш адресс указан не правильно вы
                             можете исправить вручную.
@@ -423,8 +415,8 @@ const MapForm = props => {
                                 style={{width: "100px", background: 'red'}} type="button"
                                 value={'Нет'} className={`${css.sendBtn} ${css.rejectBtn}`}
                                 onClick={() => {
-                                    setHide(false)
-                                    setMark('')
+                                    props.setHide(false)
+                                    props.setMark('')
                                 }}
                             />
                         </div>
@@ -480,6 +472,9 @@ const AddApartment = props => {
         // let preview_image = new FormData();
         // preview_image.append("preview_image", data.images);
         let formData = {
+            "location ": 1,
+            "title": 1,
+            "status": 1,
             "id": 1,
             "type": data.apartmentType,
             "room": data.rooms,
@@ -494,7 +489,7 @@ const AddApartment = props => {
             "state": 1,
             "detail": {
                 "id": 1,
-                "furniture": data.details ?  data.details.includes('furniture') : false,
+                "furniture": data.details ? data.details.includes('furniture') : false,
                 "heat": data.details ? data.details.includes('heat') : false,
                 "gas": data.details ? data.details.includes('gas') : false,
                 "electricity": data.details ? data.details.includes('electricity') : false,

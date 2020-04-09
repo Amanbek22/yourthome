@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {Link, Redirect} from "react-router-dom";
+import React from 'react';
+import {Link} from "react-router-dom";
 import css from './sign.module.css'
 import api from "../../api/api";
 import {WithAuthRedirect} from "../../HOC/AuthRedirect";
 import {reduxForm, Field, stopSubmit} from "redux-form";
 import {Input} from "../forForms/inputs";
 import {connect} from "react-redux";
+import {setData} from "../../redux/authReducer";
 
 const validate = values => {
     const errors = {}
@@ -59,7 +60,9 @@ const SignIn = props => {
         }).then(
             res => {
                 localStorage.setItem("userData", JSON.stringify(res.data));
-                window.location.href="/admin";
+                let logged = true
+                props.setData({},logged)
+                // window.location.href="/admin";
             },
             error => {
                 props.stopSubmit('login', {_error: "Login or password was Not correct"})
@@ -78,4 +81,4 @@ const SignIn = props => {
 
 const AuthRedirectComponent = WithAuthRedirect(SignIn)
 
-export default connect(null , {stopSubmit})(AuthRedirectComponent);
+export default connect(null , {stopSubmit, setData})(AuthRedirectComponent);

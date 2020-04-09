@@ -1,20 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import {Link, NavLink} from "react-router-dom";
 import css from './menu.module.css'
 import {connect} from "react-redux";
 import {setData} from "../../redux/authReducer";
 
 const Menu = props => {
-    let logged = false;
-    useEffect(() => {
-        let data = JSON.parse(localStorage.getItem('userData'));
-        if (!data) {
-            return 0
-        } else {
-            props.setData(data, logged)
-        }
-    }, [])
     const [burger, setBurger] = useState(false)
+    let logged = false;
     return (
         <div className={css.menuWrapper}>
             <div>
@@ -36,7 +28,7 @@ const Menu = props => {
                     </div>
                     <div className={`${burger ? css.open : ''} ${css.lists}`}>
                         {
-                            props.data.logged === true ?
+                            props.data.logged === false ?
                                 <div className={css.addButtonWrapper}>
                                     <Link to={"/sign-in"} className={css.addButton}  onClick={()=>burger ? setBurger(false) : null}>
                                         Войти
@@ -52,14 +44,15 @@ const Menu = props => {
                                             + Добавить объявление
                                         </NavLink>
                                         {/*<NavLink activeClassName={css.active} to={'./admin'}>Дамашняя страница</NavLink>*/}
-                                        <NavLink activeClassName={css.active} onClick={()=>burger ? setBurger(false) : null}
-                                                 to={'/admin'}>{props.data.username ? props.data.username : "Профиль"}</NavLink>
+                                        <NavLink
+                                            activeClassName={css.active}
+                                            onClick={()=>burger ? setBurger(false) : null}
+                                                 to={'/admin'}
+                                        >{props.data.username ? props.data.username : "Профиль"}</NavLink>
                                         <span onClick={() => {
-                                            logged = true;
-                                            props.setData({}, logged)
+                                            props.setData({},logged)
                                             localStorage.removeItem("userData")
                                             localStorage.removeItem("newToken")
-                                            window.location.href = "/"
                                         }} className={css.addButton}>
                                         Выход
                                     </span>

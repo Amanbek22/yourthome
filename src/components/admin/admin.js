@@ -126,8 +126,6 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 const Admin = props => {
     const [apartment, setApartment] = useState([])
-    const [som, setSom] = useState()
-    const [usd, setUsd] = useState()
     const [visible,setVisible] = useState(false)
     const [show, setShow] = useState(false)
     const [delApartment,setDelApartment] = useState(0)
@@ -186,8 +184,6 @@ const Admin = props => {
             <div style={{display: width > 768 ? 'block' : show ? 'none' : 'block'}}>
                 <MyMapComponent
                     points={apartment}
-                    som={som}
-                    usd={usd}
                     setVisible={setVisible}
                     setDelApartment={setDelApartment}
                     googleMapURL="

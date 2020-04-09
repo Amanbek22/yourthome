@@ -16,7 +16,7 @@ const Cards = props =>{
         let i = 0;
         apartment = apartments.map((item) => {
             i++;
-            if (i >= 6){
+            if (i >= 5){
                 return null
             }
             return <Card

@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 
 export const WithAuthRedirect = Component => {
     const RedirectComponent = props => {
-        if(props.data.logged === false) return <Redirect to={'/admin'} />
+        if(props.data.logged === true) return <Redirect to={'/admin'} />
         return <Component {...props}/>
     }
     const mapStateToProps = state => {
@@ -14,7 +14,6 @@ export const WithAuthRedirect = Component => {
             data: state.data
         }
     }
-
     const RedirectComponentConnect = connect(mapStateToProps,{})(RedirectComponent);
     return RedirectComponentConnect
 }
@@ -23,7 +22,7 @@ export const WithAuthRedirect = Component => {
 
 export const WithNotAuthRedirect = Component => {
     const RedirectComponent = props => {
-        if(props.data.logged === true) return <Redirect to={'/sign-in'} />
+        if(props.data.logged === false) return <Redirect to={'/sign-in'} />
         return <Component {...props}/>
     }
     const mapStateToProps = state => {

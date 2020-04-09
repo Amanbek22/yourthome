@@ -1,11 +1,10 @@
-import axios from "axios";
 
 const authData = "SET_DATA";
 
 let initialState = {
         username: '',
         token: '',
-        logged: true
+        logged: false
 }
 
 

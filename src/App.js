@@ -1,6 +1,6 @@
 import React, {Suspense, useEffect} from 'react';
 import './App.css';
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, withRouter} from "react-router-dom";
 import MenuContainer from "./components/menu/menu";
 import {FilterContainer} from "./components/filterComponent/filterContainer";
 import Cards from "./components/cards/cards";
@@ -15,7 +15,19 @@ import AddPhoto from "./components/addPhoto/addPhoto";
 import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
 import SignIn from "./components/signin/signin";
 import SignUp from "./components/signUp/signup";
-function App() {
+import {connect} from "react-redux";
+import {setData} from "./redux/authReducer";
+import {compose} from "redux";
+function App(props) {
+    useEffect(() => {
+        let data = JSON.parse(localStorage.getItem('userData'));
+        if (!data) {
+            return 0
+        } else {
+            let logged = true
+            props.setData(data, logged)
+        }
+    }, [])
     return (
       <div className="wrapper">
         <Router>
@@ -67,4 +79,9 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        data: state.data
+    }
+}
+export default  compose(connect(mapStateToProps, {setData}))(App);
