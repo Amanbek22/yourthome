@@ -5,14 +5,11 @@ import api from "../../api/api";
 import Element from "../element/element";
 import marker from "../../img/marker6.png";
 import marker2 from "../../img/marker10.png";
-import axios from "axios";
-import apartment from "../../img/room.png";
 import {Link} from "react-router-dom";
 import {Carousel} from "react-responsive-carousel";
 import Modal from 'react-awesome-modal';
 import {connect} from "react-redux";
-import {WithAuthRedirect, WithNotAuthRedirect} from "../../HOC/AuthRedirect";
-// import MarkerClusterer from "react-google-maps/src/components/addons/MarkerClusterer";
+import { WithNotAuthRedirect} from "../../HOC/AuthRedirect";
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
 
@@ -34,7 +31,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                         <Marker
                             onClick={() => {
                                 setSelectedPark(item)
-                            } }
+                            }}
                             position={{
                                 lat: item.location.latitude,
                                 lng: item.location.longitude
@@ -96,23 +93,23 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                 <Link to={`/change-apartment/${selectedPark.id}`}>
                                     Изменить
                                 </Link>
-                                <div className={css.del} onClick={()=>{
+                                <div className={css.del} onClick={() => {
                                     props.setVisible(true)
                                     props.setDelApartment(selectedPark)
                                 }}>
                                     Удалить
                                 </div>
-                                <Link style={{color: 'white'}}  to={`/more-info/${selectedPark.id}`}>
+                                <Link style={{color: 'white'}} to={`/more-info/${selectedPark.id}`}>
                                     Подробнее
                                 </Link>
-                                <Link style={{color: 'white'}}  to={`/booking/${selectedPark.id}`}>
+                                <Link style={{color: 'white'}} to={`/booking/${selectedPark.id}`}>
                                     Настроить
                                 </Link>
-                            </div >
+                            </div>
                             {/*<div className={css.more}>*/}
-                                {/*<Link style={{color: 'white'}}  to={`/more-info/${selectedPark.id}`}>*/}
-                                    {/*Подробнее*/}
-                                {/*</Link>*/}
+                            {/*<Link style={{color: 'white'}}  to={`/more-info/${selectedPark.id}`}>*/}
+                            {/*Подробнее*/}
+                            {/*</Link>*/}
                             {/*</div>*/}
                         </div>
                     </InfoWindow>
@@ -126,33 +123,19 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 const Admin = props => {
     const [apartment, setApartment] = useState([])
-    const [visible,setVisible] = useState(false)
+    const [visible, setVisible] = useState(false)
     const [show, setShow] = useState(false)
-    const [delApartment,setDelApartment] = useState(0)
+    const [delApartment, setDelApartment] = useState(0)
 
-    const DeleteAction = () =>{
+    const DeleteAction = () => {
         api.deleteApartment(delApartment.id)
-            .then(res=> window.location.href="/admin")
+            .then(res => window.location.href = "/admin")
     }
     useEffect(() => {
-        let token = JSON.parse(localStorage.getItem('newToken'));
-        if (!token) {
-            api.signInWithRefresh()
-                .then(res => {
-                    localStorage.setItem("newToken", JSON.stringify(res.data));
-                    api.getOwnApartments()
-                        .then(res => {
-                            setApartment(res.data)
-                            // console.log(res.data)
-                        })
-                })
-        }else{
-            api.getOwnApartments()
-                .then(res => {
-                    setApartment(res.data)
-                })
-        }
-
+        api.getOwnApartments()
+            .then(res => {
+                setApartment(res.data)
+            })
     }, [])
     let items;
     if (apartment.length > 0) {
@@ -207,14 +190,14 @@ const Admin = props => {
                 {items}
             </div>
             <div className={css.hideShow}>
-                <button onClick={()=> show ? setShow(false) : setShow(true)}>{show ? 'На карте': 'Список' }</button>
+                <button onClick={() => show ? setShow(false) : setShow(true)}>{show ? 'На карте' : 'Список'}</button>
             </div>
             <Modal
                 visible={visible}
                 width="400"
                 height="300"
                 effect="fadeInDown"
-                onClickAway={()=>setVisible(false)}
+                onClickAway={() => setVisible(false)}
             >
                 <div className={css.modal}>
                     <span style={{
@@ -225,13 +208,15 @@ const Admin = props => {
                         height: 20,
                         marginRight: 5,
                         marginTop: 5,
-                    }}  onClick={() => setVisible(false)}>
-                        <img style={{width: 100 + '%', height: 100 + '%'}} src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
+                    }} onClick={() => setVisible(false)}>
+                        <img style={{width: 100 + '%', height: 100 + '%'}}
+                             src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
                     </span>
                     <p>Вы действительно хотите удолить это объявление?</p>
                     <div className={css.btnWrapperDel}>
                         <div className={css.yesBtn} onClick={DeleteAction}>Да</div>
-                        <div style={{background: 'red'}} className={css.yesBtn} onClick={()=>setVisible(false)}>Нет</div>
+                        <div style={{background: 'red'}} className={css.yesBtn} onClick={() => setVisible(false)}>Нет
+                        </div>
                     </div>
                 </div>
             </Modal>
@@ -240,5 +225,9 @@ const Admin = props => {
 }
 
 const AuthRedirectComponent = WithNotAuthRedirect(Admin)
-
-export default AuthRedirectComponent;
+const mapStateToProps = state => {
+    return {
+        data: state.data
+    }
+}
+export default connect(mapStateToProps, {})(AuthRedirectComponent);

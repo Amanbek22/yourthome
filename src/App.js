@@ -16,18 +16,21 @@ import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
 import SignIn from "./components/signin/signin";
 import SignUp from "./components/signUp/signup";
 import {connect} from "react-redux";
-import {setData} from "./redux/authReducer";
+import {initializeApp} from "./redux/appReducer";
 import {compose} from "redux";
 function App(props) {
     useEffect(() => {
-        let data = JSON.parse(localStorage.getItem('userData'));
-        if (!data) {
-            return 0
-        } else {
-            let logged = true
-            props.setData(data, logged)
-        }
+            props.initializeApp()
     }, [])
+    if(!props.initialized.initialise){
+        return <div>
+            <div className="App-header">
+                <h2>Yourt Home</h2>
+            </div>
+            <p className="App-intro">
+                Loading site...
+            </p></div>
+    }
     return (
       <div className="wrapper">
         <Router>
@@ -81,7 +84,7 @@ function App(props) {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.data
+        initialized: state.app
     }
 }
-export default  compose(connect(mapStateToProps, {setData}))(App);
+export default  compose(connect(mapStateToProps, {initializeApp}))(App);

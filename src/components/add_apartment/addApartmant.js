@@ -472,9 +472,6 @@ const AddApartment = props => {
         // let preview_image = new FormData();
         // preview_image.append("preview_image", data.images);
         let formData = {
-            "location ": 1,
-            "title": 1,
-            "status": 1,
             "id": 1,
             "type": data.apartmentType,
             "room": data.rooms,

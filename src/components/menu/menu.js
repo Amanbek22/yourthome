@@ -50,9 +50,9 @@ const Menu = props => {
                                                  to={'/admin'}
                                         >{props.data.username ? props.data.username : "Профиль"}</NavLink>
                                         <span onClick={() => {
-                                            props.setData({},logged)
                                             localStorage.removeItem("userData")
                                             localStorage.removeItem("newToken")
+                                            props.setData(logged)
                                         }} className={css.addButton}>
                                         Выход
                                     </span>

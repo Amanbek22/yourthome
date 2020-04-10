@@ -4,6 +4,7 @@ import thunk  from 'redux-thunk'
 import {authReducer} from "./authReducer";
 import {FilterReducer} from "./filterReducer"
 import { reducer as formReducer } from 'redux-form'
+import {appReducer} from "./appReducer";
 
 let reducers = combineReducers({
     points: googleMapReducer,
@@ -11,6 +12,7 @@ let reducers = combineReducers({
     data: authReducer,
     filterData: FilterReducer,
     form: formReducer,
+    app: appReducer,
 })
 
 let store  = createStore(reducers, applyMiddleware(thunk));

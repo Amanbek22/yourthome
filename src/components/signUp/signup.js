@@ -3,11 +3,12 @@ import React, {useState} from 'react';
 import css from './signup.module.css'
 import axios from "axios";
 import api from "../../api/api";
-import {Redirect} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {WithAuthRedirect} from "../../HOC/AuthRedirect";
 
 const SignUp = props => {
+    console.log(props)
     const [username,setUserName] = useState("");
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
@@ -29,9 +30,12 @@ const SignUp = props => {
                     console.log(response);
                     if (response.status === 201) {
                         alert('Поздровляем вас, вы зарегистрировались и можете войти в систему!')
+                        props.history.push('/sign-in')
+                    }else {
+                        return 0
                     }
                     // localStorage.setItem("userData", JSON.stringify(response.data));
-                    window.location.href="/sign-in"
+                    // window.location.href="/sign-in"
                 },
                 (error)=>{
                     console.log(error)
@@ -69,4 +73,4 @@ const SignUp = props => {
 
 const AuthRedirectComponent = WithAuthRedirect(SignUp)
 
-export default AuthRedirectComponent;
+export default withRouter(AuthRedirectComponent);
