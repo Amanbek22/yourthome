@@ -208,7 +208,7 @@ const WrapperMap = props => {
                     <Element
                         id={item.id}
                         chooseAp={chooseApartment}
-                        img={item.apartment_image[0].image}
+                        img={item.apartment_image[0] ? item.apartment_image[0].image : null}
                         forSale={item.description}
                         house_number={item.location.house_number}
                         street={item.location.street}
