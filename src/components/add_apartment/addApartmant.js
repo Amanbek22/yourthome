@@ -529,7 +529,7 @@ const AddApartment = props => {
             .then(
                 (response) => {
                     console.log(response)
-                    // window.location.href = `/addPhoto/${response.data.id}`
+                    window.location.href = `/addPhoto/${response.data.id}`
                 },
                 (error) => {
                     console.log(error)
