@@ -147,7 +147,7 @@ const Admin = props => {
                         // changeBtn={true}
                         // chooseAp={chooseApartment}
                         img={item.apartment_image[0].image}
-                        forSale={item.description}
+                        forSale={item.title}
                         house_number={item.location.house_number}
                         street={item.location.street}
                         city={item.location.city}

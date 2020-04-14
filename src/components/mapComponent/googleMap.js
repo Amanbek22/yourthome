@@ -12,6 +12,7 @@ import marker2 from '../../img/marker10.png'
 import {Carousel} from "react-responsive-carousel";
 import {bounce, fadeInRight, fadeOutRight} from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
+import api from "../../api/api";
 
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
@@ -156,14 +157,11 @@ const WrapperMap = props => {
     const [zoome, setZoome] = useState(7)
     const {
         city, dateFrom, dateTo, rooms, floor,
-        priceFrom, priceTo, apartmentType, internet,
-        furniture, gas, phone, elevator, security,
-        parcking, construction_type
+        priceFrom, priceTo, apartmentType,  construction_type,details
     } = props.filterData;
     useEffect(() => {
         setApartments(props.points.points)
     });
-
     useEffect(() => {
         if (filteredCity === '') {
             setLatLng({lat: 41.204380, lng: 74.766098})
@@ -184,20 +182,16 @@ const WrapperMap = props => {
     }, [filteredCity])
     useEffect(() => {
         props.getApartment(
-            city, rooms, floor, priceFrom, priceTo,
-            apartmentType, internet, furniture, dateFrom, dateTo, gas,
-            phone, elevator, security, parcking, construction_type
+            {...props.filterData}
         )
     }, [
         city, dateFrom, dateTo, rooms, floor,
         priceFrom, priceTo, apartmentType,
-        internet, furniture, gas, phone, elevator,
-        security, parcking, construction_type
+        details, construction_type
     ]);
     useEffect(() => {
         props.getApartment(
-            city, rooms, floor, priceFrom, priceTo,
-            apartmentType, internet, furniture, dateFrom, dateTo, construction_type
+            {...props.filterData}
         )
     }, []);
 

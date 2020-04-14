@@ -18,7 +18,8 @@ const initialState = {
     phone: false,
     elevator: false,
     security: false,
-    parcking: false
+    parcking: false,
+    details: null
 }
 
 export const FilterReducer = (state = initialState,action) => {

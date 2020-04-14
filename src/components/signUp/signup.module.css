@@ -1,10 +1,6 @@
-.mainWrapper{
-
-}
 .wrapper{
     padding: 10px 25px;
-    /*margin: 5px 35%;*/
-    width: 300px;
+    width: 320px;
     margin: 0 auto;
     justify-content: center;
 }
@@ -14,24 +10,24 @@
     grid-template-columns: 1fr;
     grid-gap: 1em;
 }
-
-.wrapper>div>input{
-    width: 100%;
-    padding: 10px 0 10px 10px;
-    border: 1px solid #B1B1B1;
+.phone>div{
+    height: 38px;
+}
+.phone>div>input{
+    border: 1px solid rgba(0, 0, 0, 0.47);
     border-radius: 4px;
 }
-.wrapper>div>input:focus{
-    outline: none;
+.phone>div>input,div>select{
+    height: 24px;
 }
 .remember{
     font-size: 12px;
-
+    display: flex;
 }
 .enter>a{
     font-size: 12px;
 }
-.enter>input{
+.enter>button{
     float: right;
     padding: 10px;
     background: #57C325;
@@ -39,7 +35,14 @@
     border-radius: 4px;
     color: white;
 }
-
+.someError{
+    border: 2px solid red;
+    color: red;
+    padding: 5px 15px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
 @media screen and (max-width: 768px){
     .remember>div{
         display: flex;

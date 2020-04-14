@@ -42,10 +42,10 @@ export const getUserData = (login,password) => (dispatch) => {
                     let logged = true
                     dispatch(setData(logged))
                 })
+        },
+        error => {
+            return 401
         }
-        // error => {
-        //     stopSubmit('login', {_error: "Login or password was Not correct"})
-        // }
     )
 }
 

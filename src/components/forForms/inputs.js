@@ -4,7 +4,7 @@ import css from './inputs.module.css'
 export const Input = ({input, type, placeholder, name, meta: {touched, error, warning}}) => {
     return (
         <div>
-            <input className={`${css.inp} ${touched && error ? css.error : touched && css.inp2}`} {...input} placeholder={placeholder}
+            <input required className={`${css.inp} ${touched && error ? css.error : touched && css.inp2}`} {...input} placeholder={placeholder}
                    type={type}/>
             {touched && ((error && <span className={css.errorSpan}>{error}</span>))}
         </div>
@@ -26,7 +26,7 @@ export const SelectAdd = ({input,data, type, placeholder, name, meta: {touched, 
         <>
             <select className={`${css.selects} ${touched && error ? css.error : touched && css.inp2}`} {...input} required>
                 {
-                    data.map(item => <option key={item.text} value={item.text} > {item.value} </option>)
+                    data.map(item => <option key={item.text} value={item.id} > {item.type ? item.type : item.name} </option>)
                 }
             </select>
             {/*{touched && ((error && <span className={css.errorSpan}>{error}</span>))}*/}

@@ -6,8 +6,8 @@ import api from "../../api/api";
 import Modal from 'react-awesome-modal'
 import {connect} from "react-redux";
 import {WithNotAuthRedirect} from "../../HOC/AuthRedirect";
-import {Field, reduxForm, initialize, change} from "redux-form";
-import {Input, InputAdd, SelectAdd, TextareaAdd} from "../forForms/inputs";
+import {Field, reduxForm,  change} from "redux-form";
+import { InputAdd, SelectAdd, TextareaAdd} from "../forForms/inputs";
 import Select from "react-select";
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
@@ -99,6 +99,11 @@ const validate = values => {
     } else if (values.name.length) {
         errors.name = undefined
     }
+    if (!values.state) {
+        errors.state = 'Обязательное поле'
+    } else if (values.state.length) {
+        errors.state = undefined
+    }
     return errors
 }
 
@@ -173,34 +178,23 @@ const AddApartmentForm = props => {
 
     };
     let width = window.innerWidth;
+    console.log(props.app)
     const data = [
-        {text: '', value: 'Тип недвижемости'},
-        {text: 1, value: 'Квартира'},
-        {text: 2, value: 'Дом'},
+        {id: '', type: 'Тип недвижемости'},
+        ...props.app.types
     ]
     const rooms = [
-        {text: '', value: 'Количества комнат'},
-        {text: 1, value: 1},
-        {text: 2, value: 2},
-        {text: 3, value: 3},
-        {text: 4, value: 4},
-        {text: 5, value: 5},
-        {text: 6, value: 6},
+        {id: '', type: 'Количества комнат'},
+        {id: 1, type: 1},
+        {id: 2, type: 2},
+        {id: 3, type: 3},
+        {id: 4, type: 4},
+        {id: 5, type: 5},
+        {id: 6, type: 6},
     ]
     const constractionType = [
-        {text: '', value: 'Тип строения'},
-        {text: 1, value: 'Кирпичный'},
-        {text: 2, value: 'Панельный'},
-    ]
-    const regions = [
-        {text: '', value: 'Регион'},
-        {text: 1, value: 'Чуй'},
-        {text: 2, value: 'Ош'},
-        {text: 3, value: 'Нарын'},
-        {text: 4, value: 'Талас'},
-        {text: 5, value: 'Иссык-Куль'},
-        {text: 6, value: 'Джалал-Абад'},
-        {text: 7, value: 'Баткен'},
+        {id: '', type: 'Тип строения'},
+        ...props.app.constructionType
     ]
     const options = [
         {value: 'internet', label: 'Интернет'},
@@ -212,6 +206,10 @@ const AddApartmentForm = props => {
         {value: 'elevator', label: 'Лифт'},
         {value: 'security', label: 'Охрана'},
         {value: 'parking', label: 'Парковка'},
+    ]
+    const state = [
+        {id: '', type: 'Тип ремонта'},
+        {id: '1', type: 'Отличное'},
     ]
     const onSubmit = data => {
         props.handleSubmit()
@@ -264,6 +262,10 @@ const AddApartmentForm = props => {
                 <div>
                     <label>Тип строения</label>
                     <Field name={'constractionType'} component={SelectAdd} data={constractionType}/>
+                </div>
+                <div>
+                    <label>Тип ремонта</label>
+                    <Field name={'state'} component={SelectAdd} data={state}/>
                 </div>
             </div>
             <div className={css.main + ' ' + css.details}>
@@ -347,7 +349,7 @@ const AddApartmentForm = props => {
                             pushLocation={pushLocation}
                         />
                     </div>
-                    <MapForm onSubmit={onSubmit} setHide={setHide} setMark={setMark} question={question}/>
+                    <MapForm onSubmit={onSubmit} regions={props.app.regions} setHide={setHide} setMark={setMark} question={question}/>
                 </div>
             </Modal>
         </form>
@@ -356,14 +358,15 @@ const AddApartmentForm = props => {
 
 const MapForm = props => {
     const regions = [
-        {text: '', value: 'Регион'},
-        {text: 1, value: 'Чуй'},
-        {text: 2, value: 'Ош'},
-        {text: 3, value: 'Нарын'},
-        {text: 4, value: 'Талас'},
-        {text: 5, value: 'Иссык-Куль'},
-        {text: 6, value: 'Джалал-Абад'},
-        {text: 7, value: 'Баткен'},
+        {id: '', name: 'Регион'},
+        ...props.regions
+        // {text: 1, value: 'Чуй'},
+        // {text: 2, value: 'Ош'},
+        // {text: 3, value: 'Нарын'},
+        // {text: 4, value: 'Талас'},
+        // {text: 5, value: 'Иссык-Куль'},
+        // {text: 6, value: 'Джалал-Абад'},
+        // {text: 7, value: 'Баткен'},
     ]
     return (
         <form onSubmit={props.onSubmit} className={css.addressWrapper}>
@@ -429,7 +432,8 @@ const MapForm = props => {
 
 const mapStateToProps = state => {
     return {
-        form: state.form.addApartment.values
+        form: state.form.addApartment.values,
+        app: state.app
     }
 }
 
@@ -462,7 +466,6 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-// const MapAddApartmentConnectForm = connect(mapStateToProps, {})(MapForm)
 const AddApartmentConnectForm = connect(mapStateToProps, mapDispatchToProps)(AddApartmentForm)
 const AddApartmentReduxForm = reduxForm({form: 'addApartment', validate})(AddApartmentConnectForm)
 
@@ -472,8 +475,8 @@ const AddApartment = props => {
         // let preview_image = new FormData();
         // preview_image.append("preview_image", data.images);
         let formData = {
-            "id": 1,
-            "type": data.apartmentType,
+            "title": data.headline,
+            "type": Number(data.apartmentType),
             "room": data.rooms,
             "floor": data.floor,
             "area": {
@@ -482,10 +485,9 @@ const AddApartment = props => {
                 "living_area": Number(data.liveArea)
             },
             "series": 1,
-            "construction_type": data.constractionType,
-            "state": 1,
+            "construction_type": Number(data.constractionType),
+            "state": Number(data.state),
             "detail": {
-                "id": 1,
                 "furniture": data.details ? data.details.includes('furniture') : false,
                 "heat": data.details ? data.details.includes('heat') : false,
                 "gas": data.details ? data.details.includes('gas') : false,
@@ -499,8 +501,8 @@ const AddApartment = props => {
             "location": {
                 "id": 1,
                 "country": 1,
-                "region": data.region,
-                "city": 1,
+                "region": Number(data.region),
+                "city": data.city,
                 "district": 1,
                 "street": data.street,
                 "house_number": data.house_number,
@@ -527,7 +529,7 @@ const AddApartment = props => {
             .then(
                 (response) => {
                     console.log(response)
-                    window.location.href = `/addPhoto/${response.data.id}`
+                    // window.location.href = `/addPhoto/${response.data.id}`
                 },
                 (error) => {
                     console.log(error)
@@ -535,6 +537,12 @@ const AddApartment = props => {
                 }
             )
     }
+    useEffect(()=>{
+       api.getDetails()
+           .then(res=>{
+               console.log(res)
+           })
+    },[])
     return (
         <div className={css.wrapper}>
             <div id={"formID"}>

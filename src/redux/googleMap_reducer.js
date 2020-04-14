@@ -85,17 +85,11 @@ export const setSend = bool => {
     }
 }
 
-export const getApartment = (
-    city, rooms, floor, priceFrom, priceTo,
-    apartmentType, internet, furniture, dateFrom, dateTo, gas,
-    phone, elevator, security, parcking, construction_type
+export const getApartment = (data
 ) => (dispatch) => {
-    api.getApartments(city, rooms, floor, priceFrom, priceTo,
-        apartmentType, internet, furniture, dateFrom, dateTo, gas,
-        phone, elevator, security, parcking, construction_type)
+    api.getApartments({...data})
         .then(res => {
             dispatch(setPoint(res.data))
-            console.log(res)
             dispatch(setSend(true))
         })
 }

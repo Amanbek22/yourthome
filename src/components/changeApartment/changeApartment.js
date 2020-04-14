@@ -10,35 +10,93 @@ import {compose} from "redux";
 
 const Change = props => {
     const [description, setDescription] = useState();
+    const [title, setTitle] = useState();
     const [rooms, setRooms] = useState();
     const [floor, setFloor] = useState();
     const [price, setPrice] = useState();
     const [visible, setVisible] = useState(false);
-
+    const [data, setData] = useState()
     useEffect(() => {
 
         api.getApartmentApi(props.match.params.id)
             .then(res => {
-                console.log(res)
+                console.log(res.data)
+                setData(res.data)
                 setDescription(res.data.description)
+                setTitle(res.data.title)
                 setRooms(res.data.room)
                 setPrice(res.data.price)
                 setFloor(res.data.floor)
             })
     }, []);
     const send = () => {
-
+        let formData = {
+            "id": 1,
+            "type": data.apartmentType,
+            "room": data.rooms,
+            "floor": data.floor,
+            "area": {
+                "id": 1,
+                "total_area": Number(data.area),
+                "living_area": Number(data.liveArea)
+            },
+            "series": 1,
+            "construction_type": data.constractionType,
+            "state": 1,
+            "detail": {
+                "id": 1,
+                "furniture": data.details ? data.details.includes('furniture') : false,
+                "heat": data.details ? data.details.includes('heat') : false,
+                "gas": data.details ? data.details.includes('gas') : false,
+                "electricity": data.details ? data.details.includes('electricity') : false,
+                "internet": data.details ? data.details.includes('internet') : false,
+                "phone": data.details ? data.details.includes('phone') : false,
+                "elevator": data.details ? data.details.includes('elevator') : false,
+                "security": data.details ? data.details.includes('security') : false,
+                "parking": data.details ? data.details.includes('parking') : false
+            },
+            "location": {
+                "id": 1,
+                "country": 1,
+                "region": data.region,
+                "city": 1,
+                "district": 1,
+                "street": data.street,
+                "house_number": data.house_number,
+                "latitude": data.lat,
+                "longitude": data.lng
+            },
+            "rental_period": null,
+            "price": Number(data.price),
+            "currency": 1,
+            "preview_image": null,
+            "description": data.description,
+            "images": [],
+            "contact": {
+                "id": 1,
+                "role": 1,
+                "phone": data.number,
+                "name": data.name,
+                "surname": data.name
+            },
+            "comments": [],
+            "orders": []
+        }
         let token = JSON.parse(localStorage.getItem('newToken'));
-        axios.patch(`https://yourthomeneobis2.herokuapp.com/apartment/${props.match.params.id}/`, {
-            'description': description,
-            'price': price,
-            'room': rooms,
-            'floor': floor
-        }, {
-            headers: {
-                "Authorization": "Bearer " + token.access
+        axios.patch(`https://yourthomemaster.herokuapp.com/apartment/${props.match.params.id}/`,
+            {
+                "title": title,
+                'description': description,
+                'price': price,
+                'room': rooms,
+                'floor': floor,
             }
-        })
+            // formData
+            , {
+                headers: {
+                    "Authorization": "Bearer " + token.access
+                }
+            })
             .then(
                 res => {
                     console.log(res);
@@ -57,6 +115,10 @@ const Change = props => {
         <div className={css.wrapper}>
             <div>
                 <label>Загаловок</label>
+                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
+            </div>
+            <div>
+                <label>Описание</label>
                 <input type="text" value={description} onChange={(e) => setDescription(e.target.value)}/>
             </div>
             <div>

@@ -1,45 +1,120 @@
 import React, {useState} from 'react';
-//import {Link} from "react-router-dom";
 import css from './signup.module.css'
-import axios from "axios";
 import api from "../../api/api";
-import {Redirect, withRouter} from "react-router-dom";
-import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 import {WithAuthRedirect} from "../../HOC/AuthRedirect";
+import {Field, reduxForm, stopSubmit} from "redux-form";
+import {Input} from "../forForms/inputs";
+import {connect} from "react-redux";
+import PhoneInput from "react-phone-number-input";
+import 'react-phone-number-input/style.css'
+
+const validate = values => {
+    const errors = {}
+    if (!values.username) {
+        errors.username = 'Введите логин'
+    } else if (values.username.length > 0) {
+        errors.username = undefined
+    }
+    if (!values.password) {
+        errors.password = 'Введите пароль'
+    } else if (values.password.length < 8) {
+        errors.password = 'Пароль должен состоять минимум из 8 символов'
+    } else if (values.password.length > 0) {
+        errors.password = undefined
+    }
+    if (!values.name) {
+        errors.name = 'Введите имя'
+    } else if (values.name.length > 0) {
+        errors.name = undefined
+    }
+    if (!values.surname) {
+        errors.surname = 'Введите фамилию'
+    } else if (values.surname.length > 0) {
+        errors.surname = undefined
+    }
+    if (!values.phone) {
+        errors.phone = 'Введите номер'
+    } else if (values.phone.length < 6) {
+        errors.phone = 'Введите номер полностью'
+    } else if (values.phone.length > 0) {
+        errors.phone = undefined
+    }
+    if (!values.email) {
+        errors.email = 'Введите почту'
+    } else if (values.email.length > 0) {
+        errors.email = undefined
+    }
+    return errors
+}
+
+const Phone = ({input: {value, onChange}}) => {
+    return (
+        <PhoneInput
+            international
+            placeholder="Enter phone number"
+            defaultCountry="KG"
+            value={value}
+            onChange={onChange}/>
+    )
+}
+
+const SignForm = props => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+            <Field name={'username'} component={Input} placeholder={"Логин"} type="text"/>
+            <Field name={'name'} component={Input} placeholder={"Имя*"} type="text"/>
+            <Field name={'surname'} component={Input} placeholder={"Фамилия*"} type="text"/>
+            {/*<Field name={'phone'} component={Input} placeholder={"Телефон*"} type="text"/>*/}
+            <div className={css.phone}>
+                <Field name={'phone'} component={Phone}/>
+            </div>
+            <Field name={'email'} component={Input} placeholder={"Email"} type="email"/>
+            <Field name={'password'} component={Input} placeholder={"Пароль*"} type="password"/>
+
+            <div className={css.remember}>
+                <Field component={'input'} name={"check"} type="checkbox"/>
+                <span>Принимаю политику и Условия пользования сайтом</span>
+            </div>
+            <div className={css.enter}>
+                <button>Регистрация</button>
+            </div>
+            {
+                props.error && <div className={css.someError}>
+                    {props.error}
+                </div>
+            }
+        </form>
+    )
+}
+
+
+const SignUpForm = reduxForm({form: 'signUp', validate})(SignForm)
 
 const SignUp = props => {
-    console.log(props)
-    const [username,setUserName] = useState("");
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("");
-    const [phone,setPhone] = useState("");
-    const [name,setName] = useState("");
-    const [surname,setSurname] = useState("");
-    const signUp = (e) =>{
-        e.preventDefault()
+    const signUp = (data) => {
         api.registration({
-            'email': email,
-            'username': username,
-            'password': password,
-            'phone': phone,
-            'name': name,
-            'surname': surname
+            'email': data.email,
+            'username': data.username,
+            'password': data.password,
+            'phone': data.phone,
+            'name': data.name,
+            'surname': data.surname
         })
             .then(
-                (response)=>{
-                    console.log(response);
+                (response) => {
+                    console.log(response.data);
                     if (response.status === 201) {
                         alert('Поздровляем вас, вы зарегистрировались и можете войти в систему!')
                         props.history.push('/sign-in')
-                    }else {
+                    } else {
                         return 0
                     }
                     // localStorage.setItem("userData", JSON.stringify(response.data));
                     // window.location.href="/sign-in"
                 },
-                (error)=>{
-                    console.log(error)
-                    alert("Попробуйте заново зарегитрироватся! C другим логином")
+                (error) => {
+                    props.stopSubmit('signUp', {_error: "Пользователь с таким login'ом уже существует"})
                 }
             )
     }
@@ -47,30 +122,13 @@ const SignUp = props => {
         <div className={css.mainWrapper}>
             <div className={css.wrapper}>
                 <h3>Регистрация</h3>
-                <form onSubmit={signUp}>
-                    <input required value={username} onChange={e=>setUserName(e.target.value)} placeholder={"Логин"} type="text"/>
-                    <input required value={name} onChange={e=>setName(e.target.value)} placeholder={"Имя*"} type="text"/>
-                    <input required value={surname} onChange={e=>setSurname(e.target.value)} placeholder={"Фамилия*"} type="text"/>
-                    <input required value={phone} onChange={e=>setPhone(e.target.value)} placeholder={"Телефон*"} type="text"/>
-                    <input required value={email} onChange={e=>setEmail(e.target.value)} placeholder={"Email"} type="email"/>
-                    <input required value={password} onChange={e=>setPassword(e.target.value)} placeholder={"Пароль*"} type="password"/>
-                    <div className={css.remember}>
-                        <div>
-                            <input   name={"check"} type="checkbox"/>
-                            <span >Принимаю политику и Условия пользования сайтом</span>
-                        </div>
-                    </div>
-                    <div className={css.enter}>
-                        <input type={'submit'} value={'Регистрация'}/>
-                    </div>
-                </form>
+                <SignUpForm onSubmit={signUp}/>
             </div>
         </div>
     )
 }
 
 
-
 const AuthRedirectComponent = WithAuthRedirect(SignUp)
 
-export default withRouter(AuthRedirectComponent);
+export default connect(null, {stopSubmit})(withRouter(AuthRedirectComponent));

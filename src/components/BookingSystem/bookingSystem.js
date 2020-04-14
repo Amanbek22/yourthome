@@ -61,24 +61,22 @@ const Booking = props => {
         return (
             <div className={css.listWrapper} key={item.id} >
                 <div>
-                    <label>C</label>
+
                     <input
                         disabled={true}
                         value={item.arrival_date}
                     />
                 </div>
                 <div>
-                    <label>До</label>
                     <input
                         disabled={true}
                         value={item.departure_date}
                     />
-                    <label>Занято</label>
                 </div>
                 <div onClick={()=>{
                     setDelId(item.id)
                     setVisible(true)
-                }} style={{width: "25px", height: '25px', cursor: 'pointer'}}>
+                }} style={{width: "25px", height: '25px', cursor: 'pointer', margin: 'auto 1% auto 0',}}>
                     <img style={{width: "100%", height: "100%"}} src={'https://image.flaticon.com/icons/svg/1214/1214926.svg'} alt="del"/>
                 </div>
             </div>
@@ -182,6 +180,24 @@ const Booking = props => {
                 </button>
             </div>
             <div >
+                <div className={css.listWrapper} >
+                    <div>
+
+                        <input
+                            disabled={true}
+                            value={'От'}
+                        />
+                    </div>
+                    <div>
+                        <input
+                            disabled={true}
+                            value={'До'}
+                        />
+                    </div>
+                    <div style={{width: "25px", height: '25px', cursor: 'pointer', margin: 'auto 1% auto 0',}}>
+                        {/*<img style={{width: "100%", height: "100%"}} src={'https://image.flaticon.com/icons/svg/1214/1214926.svg'} alt="del"/>*/}
+                    </div>
+                </div>
                 {listOrder}
             </div>
             <Modal

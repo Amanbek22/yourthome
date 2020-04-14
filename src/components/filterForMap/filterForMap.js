@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import css from './filter.module.css'
 import {DatePickerInput} from "rc-datepicker";
 import {connect} from "react-redux";
 import {setFilterData} from '../../redux/filterReducer'
+import Select from "react-select";
 
 
 const FilterMap = props =>{
@@ -11,6 +12,7 @@ const FilterMap = props =>{
     const [construction_type, setConstruction_type] = useState(props.filterData.construction_type)
     const [rooms,setRooms] = useState(props.filterData.rooms)
     const [floor,setFloor] = useState('')
+    const [floors,setFloors] = useState('')
     const [dateFrom,setDateFrom] = useState(props.filterData.dateFrom);
     const [dateTo,setDateTo] = useState(props.filterData.dateTo);
     const [priceFrom,setPriceFrom] = useState(props.filterData.priceFrom)
@@ -24,10 +26,11 @@ const FilterMap = props =>{
     const [parcking, setParcking ] = useState(props.filterData.parcking)
     const onDataChange = (jsDate,dateString) => setDateFrom(jsDate)
     const onDataToChange = (jsDate,dateString) => setDateTo(jsDate)
+    const [details, setDetails] = useState([])
     const filter = () =>{
         props.setItem(city,'')
         props.setFilterData(
-            {city,rooms,floor,dateFrom,dateTo,priceFrom,priceTo,apartmentType,internet,furniture,gas,phone,elevator,security,parcking,construction_type}
+            {city,rooms,floor,dateFrom,dateTo,priceFrom,priceTo,apartmentType,internet,furniture,gas,phone,elevator,security,parcking,construction_type, details}
             )
     }
     let width = window.innerWidth;
@@ -36,6 +39,17 @@ const FilterMap = props =>{
             props.setOpenMap(!props.openMap)
         }
     }
+    const options = [
+        {value: 'internet', label: 'Интернет'},
+        {value: 'gas', label: 'Газ'},
+        {value: 'heat', label: 'Отопление'},
+        {value: 'phone', label: 'Телефон'},
+        {value: 'electricity', label: 'Электричество'},
+        {value: 'furniture', label: 'Мебель'},
+        {value: 'elevator', label: 'Лифт'},
+        {value: 'security', label: 'Охрана'},
+        {value: 'parking', label: 'Парковка'},
+    ]
     return(
         <div className={css.wrapper}>
             <div className={css.filterWrapper}>
@@ -105,52 +119,8 @@ const FilterMap = props =>{
                 </select>
             </div>
             <div className={css.impWrapper}>
-                <select value={floor} onChange={e=>setFloor(e.target.value)} name="floor" >
-                    <option value="">Этаж</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                    <option value="13">13</option>
-                    <option value="14">14</option>
-                    <option value="15">15</option>
-                    <option value="16">16</option>
-                    <option value="17">17</option>
-                    <option value="18">18</option>
-                    <option value="19">19</option>
-                    <option value="20">20</option>
-                </select>
-                <select name="more" >
-                    <option value="all">Этажность дома</option>
-                    <option value="1500">1</option>
-                    <option value="2000">2</option>
-                    <option value="2000">3</option>
-                    <option value="2000">4</option>
-                    <option value="2000">5</option>
-                    <option value="2000">6</option>
-                    <option value="2000">7</option>
-                    <option value="2000">8</option>
-                    <option value="2000">9</option>
-                    <option value="2000">10</option>
-                    <option value="2000">11</option>
-                    <option value="2000">12</option>
-                    <option value="2000">13</option>
-                    <option value="2000">14</option>
-                    <option value="2000">15</option>
-                    <option value="2000">16</option>
-                    <option value="2000">17</option>
-                    <option value="2000">18</option>
-                    <option value="2000">19</option>
-                    <option value="2000">20</option>
-                </select>
+                <input value={floor} onChange={e=>setFloor(e.target.value)} name="floor" placeholder={'Этаж'} />
+                <input value={floors} onChange={e=>setFloors(e.target.value)} name="floor" placeholder={'Этажность домв'} />
             </div>
             <div className={css.impWrapper}>
                 <select name="price" value={apartmentType} onChange={e => setApartmentType(e.target.value)} >
@@ -171,38 +141,48 @@ const FilterMap = props =>{
                 <input value={priceTo} onChange={e=>setPriceTo(e.target.value)} placeholder={"Цена до"} type="number"/>
             </div>
             <div className={css.detailsWrapper}>
-                <h4>В квартире есть</h4>
-                <div className={css.details}>
-                    <div>
-                        <input type="checkbox" checked={internet} onChange={e => setInternet(e.target.checked)} /><label>Интернет</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked={furniture} onChange={e=> setFurniture(e.target.checked)}/><label>Мебелирован</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked={gas} onChange={e=>setGas(e.target.checked)} /><label>Газ</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked={phone} onChange={e=>setPhone(e.target.checked)} /><label>Телефон</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked={elevator} onChange={e=>setElevator(e.target.checked)} /><label>Лифт</label>
-                    </div>
-                </div>
+                <h4>Детали</h4>
+                <Select placeholder={'Детальная фильтрация...'} onChange={(data) => {
+                    let arr = []
+                    data.map(item => {
+                        arr.push(item.value)
+                    })
+                    setDetails(arr)
+                }} options={options} isMulti  />
             </div>
-            <div className={css.detailsWrapper}>
-                <h4>Рядом есть</h4>
-                <div className={css.details}>
-                    <div>
-                        <input type="checkbox" checked={security} onChange={e=>setSecurity(e.target.checked)}/>
-                        <label>Охрана</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" checked={parcking} onChange={e=>setParcking(e.target.checked)}/>
-                        <label>Парковка</label>
-                    </div>
-                </div>
-            </div>
+            {/*<div className={css.detailsWrapper}>*/}
+                {/*<h4>В квартире есть</h4>*/}
+                {/*<div className={css.details}>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox" checked={internet} onChange={e => setInternet(e.target.checked)} /><label>Интернет</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox" checked={furniture} onChange={e=> setFurniture(e.target.checked)}/><label>Мебелирован</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox" checked={gas} onChange={e=>setGas(e.target.checked)} /><label>Газ</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox" checked={phone} onChange={e=>setPhone(e.target.checked)} /><label>Телефон</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox" checked={elevator} onChange={e=>setElevator(e.target.checked)} /><label>Лифт</label>*/}
+                    {/*</div>*/}
+                {/*</div>*/}
+            {/*</div>*/}
+            {/*<div className={css.detailsWrapper}>*/}
+                {/*<h4>Рядом есть</h4>*/}
+                {/*<div className={css.details}>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox" checked={security} onChange={e=>setSecurity(e.target.checked)}/>*/}
+                        {/*<label>Охрана</label>*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="checkbox" checked={parcking} onChange={e=>setParcking(e.target.checked)}/>*/}
+                        {/*<label>Парковка</label>*/}
+                    {/*</div>*/}
+                {/*</div>*/}
+            {/*</div>*/}
         </div>
     )
 }

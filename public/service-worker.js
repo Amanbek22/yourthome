@@ -1,12 +1,16 @@
+
+
+
 // Set this to true for production
 const doCache = true;
 
 // Name our cache
-const CACHE_NAME = 'index.html';
+const CACHE_NAME = 'index.js';
 
 // Delete old caches that are not our current one!
 self.addEventListener("activate", event => {
     const cacheWhitelist = [CACHE_NAME];
+    debugger
     event.waitUntil(
         caches.keys()
             .then(keyList =>
@@ -40,8 +44,8 @@ self.addEventListener('install', function(event) {
                                 "/",
                                 assets["main.js"]
                             ]
-                            cache.addAll(urlsToCache)
-                            console.log('cached');
+                            cache.addAll(['/','/map','sign-in'])
+                            alert('cached');
                         })
                 })
         );
@@ -59,3 +63,4 @@ self.addEventListener('fetch', function(event) {
         );
     }
 });
+

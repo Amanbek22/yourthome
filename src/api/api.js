@@ -4,48 +4,45 @@ import axios from "axios";
 const http = axios.create({
     baseURL: "https://yourthomemaster.herokuapp.com"
 });
+
+const dateFounder = data => {
+    let year, month, day;
+    year = data.getFullYear();
+    month = data.getMonth() + 1;
+    day = data.getDate();
+    if (month <= 9) {
+        month = '0' + month
+    }
+    if (day <= 9) {
+        day = '0' + day
+    }
+    return year + '-' + month + '-' + day;
+}
+
 export default {
-    getApartments: (city,rooms,floor,priceFrom,priceTo,apartmentType,internet,furniture,dateFrom, dateTo,gas,phone,elevator, security,parcking,construction_type) => {
-        let year,month,day,yearTo,monthTo,dayTo;
+    getApartments: (data) => {
+        let {city, dateFrom, dateTo, rooms, floor,priceFrom, priceTo, apartmentType, details, construction_type} = data;
         let fromDate = '', toDate = '';
-        if(dateFrom !== undefined && dateFrom !== null && dateFrom !== 'Invalid date' && dateFrom !== ''){
-            year = dateFrom.getFullYear();
-            month = dateFrom.getMonth() + 1;
-            day = dateFrom.getDate();
-            if(month <= 9) {
-                month = '0' + month
-            }
-            if(day <= 9) {
-                day = '0' + day
-            }
-            fromDate = year + '-' + month + '-' + day;
+        if (dateFrom !== undefined && dateFrom !== null && dateFrom !== 'Invalid date' && dateFrom !== '') {
+            fromDate = dateFounder(dateFrom);
         }
-        if(dateTo !== undefined && dateTo!== null && dateTo !== 'Invalid date' && dateTo !== '' ){
-            yearTo = dateTo.getFullYear();
-            monthTo = dateTo.getMonth() + 1;
-            dayTo = dateTo.getDate();
-            if(monthTo <= 9) {
-                monthTo = '0' + monthTo
-            }
-            if(dayTo <= 9) {
-                dayTo = '0' + dayTo
-            }
-            toDate = yearTo + '-' + monthTo + '-' + dayTo;
+        if (dateTo !== undefined && dateTo !== null && dateTo !== 'Invalid date' && dateTo !== '') {
+            toDate = dateFounder(dateTo)
         }
-        return http.get(`/apartments/?location__region=${!city?'':city}&location__city=${''}&location__district=${''}&type=${!apartmentType?'':apartmentType}&room=${!rooms?'':rooms}&floor=${!floor?'': floor}&construction_type=${!construction_type?'':construction_type}&state=${''}&min_price=${!priceFrom?'':priceFrom}&max_price=${!priceTo?'':priceTo}&currency=${''}&arrival_date=${fromDate}&departure_date=${toDate}&min_area=${''}&max_area=${''}&rental_period=${''}&detail__internet=${!internet?'':internet}&detail__furniture=${!furniture?'':furniture}&detail__heat=${''}&detail__gas=${!gas?'':gas}&detail__phone=${!phone?'':phone}&detail__parking=${!parcking?'':parcking}&detail__elevator=${!elevator?'':elevator}&detail__security=${!security?'':security}`)
+        return http.get(`/apartments/?location__region=${!city ? '' : city}&location__city=${''}&location__district=${''}&type=${!apartmentType ? '' : apartmentType}&room=${!rooms ? '' : rooms}&floor=${!floor ? '' : floor}&construction_type=${!construction_type ? '' : construction_type}&state=${''}&min_price=${!priceFrom ? '' : priceFrom}&max_price=${!priceTo ? '' : priceTo}&currency=${''}&arrival_date=${fromDate}&departure_date=${toDate}&min_area=${''}&max_area=${''}&rental_period=${''}&detail__internet=${details ? details.includes('internet') ? true : '' : ''}&detail__furniture=${details ? details.includes('furniture') ? true : '' : ''}&detail__heat=${details ? details.includes('heat') ? true : '' : ''}&detail__gas=${details ? details.includes('gas') ? true : '' : ''}&detail__phone=${details ? details.includes('phone') ? true : '' : ''}&detail__parking=${details ? details.includes('parking') ? true : '' : ''}&detail__elevator=${details ? details.includes('elevator') ? true : '' : ''}&detail__security=${details ? details.includes('security') ? true : '' : ''}`)
     },
     getApartmentApi: (id) => http.get(`/apartment/${id}`),
     registration: data => http.post("/registration/", data),
     signIn: data => http.post("/api/token/", data),
     signInWithRefresh: () => {
         let token = JSON.parse(localStorage.getItem('userData'));
-        return http.post('/api/token/refresh/',{
+        return http.post('/api/token/refresh/', {
             "refresh": token.refresh
         })
     },
     add: data => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.post(`/add/`, data,{
+        return http.post(`/add/`, data, {
             headers: {
                 "Authorization": "Bearer " + token.access
             }
@@ -53,7 +50,7 @@ export default {
     },
     deleteApartment: data => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.delete(`/apartment/${data}`,{
+        return http.delete(`/apartment/${data}`, {
             headers: {
                 "Authorization": "Bearer " + token.access
             }
@@ -67,72 +64,63 @@ export default {
             }
         })
     },
-    sendComment: (id,data) => {
+    sendComment: (id, data) => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.post(`/apartment/${id}/comments/`,{'name_of_publication': data,'text_of_publication': data},{
+        return http.post(`/apartment/${id}/comments/`, {'name_of_publication': data, 'text_of_publication': data}, {
             headers: {
                 "Authorization": "Bearer " + token.access
             }
         })
     },
-    getOrders: (id)=> {
+    getOrders: (id) => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.get(`/own-apartments/${id}/booking/`,{
+        return http.get(`/own-apartments/${id}/booking/`, {
             headers: {
                 "Authorization": "Bearer " + token.access
             }
         })
     },
-    creatOrder: (id,arrival_date,departure_date) => {
+    creatOrder: (id, arrival_date, departure_date) => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        let year,month,day,yearTo,monthTo,dayTo;
-        let fromDate = '';
-        let toDate = '';
-        if(arrival_date !== undefined && arrival_date !== null && arrival_date !== 'Invalid date' && arrival_date !== ''){
-            year = arrival_date.getFullYear();
-            month = arrival_date.getMonth() + 1;
-            day = arrival_date.getDate();
-            if(month <= 9) {
-                month = '0' + month
-            }
-            if(day <= 9) {
-                day = '0' + day
-            }
-            fromDate = year + '-' + month + '-' + day;
+        let fromDate = '', toDate = '';
+        if (arrival_date !== undefined && arrival_date !== null && arrival_date !== 'Invalid date' && arrival_date !== '') {
+            fromDate = dateFounder(arrival_date)
         }
-        if(departure_date !== undefined && departure_date!== null && departure_date !== 'Invalid date' && departure_date !== '' ){
-            yearTo = departure_date.getFullYear();
-            monthTo = departure_date.getMonth() + 1;
-            dayTo = departure_date.getDate();
-            if(monthTo <= 9) {
-                monthTo = '0' + monthTo
-            }
-            if(dayTo <= 9) {
-                dayTo = '0' + dayTo
-            }
-            toDate = yearTo + '-' + monthTo + '-' + dayTo;
+        if (departure_date !== undefined && departure_date !== null && departure_date !== 'Invalid date' && departure_date !== '') {
+            toDate = dateFounder(departure_date)
         }
-        return http.post(`/own-apartments/${id}/booking/`,{'arrival_date': fromDate,'departure_date': toDate},{
+        return http.post(`/own-apartments/${id}/booking/`, {'arrival_date': fromDate, 'departure_date': toDate}, {
             headers: {
                 "Authorization": "Bearer " + token.access
             }
         })
     },
-    delOrder: (id,orderId) => {
+    delOrder: (id, orderId) => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.delete(`/own-apartments/${id}/booking/${orderId}`,{
+        return http.delete(`/own-apartments/${id}/booking/${orderId}`, {
             headers: {
                 "Authorization": "Bearer " + token.access
             }
         })
     },
-    addPhoto: (id,preview_image) => {
+    addPhoto: (id, preview_image) => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.post(`/own-apartments/${id}/upload/`,preview_image,{
+        return http.post(`/own-apartments/${id}/upload/`, preview_image, {
             headers: {
                 "Authorization": "Bearer " + token.access
             }
         })
     },
-    getDetails: ()=> http.get('/details/'),
+    getDetails: () => {
+        let token = JSON.parse(localStorage.getItem('newToken'));
+        return http.get('/details', {
+            headers: {
+                "Authorization": "Bearer " + token.access
+            }
+        })
+    },
+    getConstructionType: () => http.get(`/front-constructions/`),
+    getTypes: () => http.get(`/front-types/`),
+    getRegions: () => http.get(`/front-regions/`),
+    getSeries: () => http.get(`/front-series/`)
 };

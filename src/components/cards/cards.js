@@ -7,22 +7,23 @@ import { Link } from 'react-router-dom';
 const Cards = props =>{
     const [apartments,setApartments] = useState([]);
     useEffect(()=>{
-        api.getApartments().then(res=>{
+        api.getApartments({}).then(res=>{
             setApartments(res.data);
         })
     },[]);
     let apartment;
     if (apartments.length > 0) {
         let i = 0;
-        apartment = apartments.map((item) => {
+        apartment = apartments.reverse().map((item) => {
             i++;
             if (i >= 5){
                 return null
             }
+            console.log(item)
             return <Card
                 id={item.id}
                 key={i}
-                img={item.apartment_image[0].image}
+                img={item.apartment_image[0] ? item.apartment_image[0].image : null}
                 city={item.location.city}
                 street={item.location.street}
                 price={item.another_price}

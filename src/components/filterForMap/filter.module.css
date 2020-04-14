@@ -47,8 +47,10 @@ select:focus{
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
-
     cursor: pointer !important;
+}
+.detailsWrapper{
+    margin-bottom: 320px;
 }
 .detailsWrapper>h4{
     margin: 0;

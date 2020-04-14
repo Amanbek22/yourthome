@@ -16,13 +16,15 @@ import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
 import SignIn from "./components/signin/signin";
 import SignUp from "./components/signUp/signup";
 import {connect} from "react-redux";
-import {initializeApp} from "./redux/appReducer";
+import {initializeApp, initializeAppData} from "./redux/appReducer";
 import {compose} from "redux";
+
 function App(props) {
     useEffect(() => {
-            props.initializeApp()
+        props.initializeApp()
+        props.initializeAppData()
     }, [])
-    if(!props.initialized.initialise){
+    if (!props.initialized.initialise) {
         return <div>
             <div className="App-header">
                 <h2>Yourt Home</h2>
@@ -32,54 +34,54 @@ function App(props) {
             </p></div>
     }
     return (
-      <div className="wrapper">
-        <Router>
-            <div className={"menuWrapper"}>
-                <MenuContainer />
-            </div>
-            <div className={"content"}>
-                <Suspense fallback={<div style={{textAlign: 'center'}}>Загрузка...</div>}>
-                <Switch>
-                <Route exact path={"/"}>
-                    {/*<MainPage />*/}
-                    <FilterContainer />
-                    <Cards />
-                    <About />
-                    <Footer/>
-                </Route>
-                <Route exact path={"/add-apartment"}>
-                    <AddApartment />
-                </Route>
-                <Route exact path={"/map"}>
-                    <WrapperMapContainer/>
-                </Route>
-                <Route exact path={"/sign-in"}>
-                    <SignIn/>
-                </Route>
-                <Route exact path={"/sign-up"}>
-                    <SignUp/>
-                </Route>
-                <Route exact path={"/more-info/:id"}>
-                    <WithRouterDeteilsPage/>
-                </Route>
-                <Route exact path={"/admin"}>
-                    <Admin />
-                </Route>
-                <Route exact path={"/change-apartment/:id"}>
-                    <ChangeApartment/>
-                </Route>
-                <Route exact path={"/booking/:id"}>
-                    <BookingSystem />
-                </Route>
-                <Route exact path={"/addPhoto/:id"}>
-                    <AddPhoto />
-                </Route>
-            </Switch>
-                </Suspense>
+        <div className="wrapper">
+            <Router>
+                <div className={"menuWrapper"}>
+                    <MenuContainer/>
                 </div>
-        </Router>
-      </div>
-  );
+                <div className={"content"}>
+                    <Suspense fallback={<div style={{textAlign: 'center'}}>Загрузка...</div>}>
+                        <Switch>
+                            <Route exact path={"/"}>
+                                {/*<MainPage />*/}
+                                <FilterContainer/>
+                                <Cards/>
+                                <About/>
+                                <Footer/>
+                            </Route>
+                            <Route exact path={"/add-apartment"}>
+                                <AddApartment/>
+                            </Route>
+                            <Route exact path={"/map"}>
+                                <WrapperMapContainer/>
+                            </Route>
+                            <Route exact path={"/sign-in"}>
+                                <SignIn/>
+                            </Route>
+                            <Route exact path={"/sign-up"}>
+                                <SignUp/>
+                            </Route>
+                            <Route exact path={"/more-info/:id"}>
+                                <WithRouterDeteilsPage/>
+                            </Route>
+                            <Route exact path={"/admin"}>
+                                <Admin/>
+                            </Route>
+                            <Route exact path={"/change-apartment/:id"}>
+                                <ChangeApartment/>
+                            </Route>
+                            <Route exact path={"/booking/:id"}>
+                                <BookingSystem/>
+                            </Route>
+                            <Route exact path={"/addPhoto/:id"}>
+                                <AddPhoto/>
+                            </Route>
+                        </Switch>
+                    </Suspense>
+                </div>
+            </Router>
+        </div>
+    );
 }
 
 const mapStateToProps = (state) => {
@@ -87,4 +89,4 @@ const mapStateToProps = (state) => {
         initialized: state.app
     }
 }
-export default  compose(connect(mapStateToProps, {initializeApp}))(App);
+export default compose(connect(mapStateToProps, {initializeApp,initializeAppData}))(App);

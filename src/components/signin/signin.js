@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import css from './sign.module.css'
 import {WithAuthRedirect} from "../../HOC/AuthRedirect";
-import {reduxForm, Field} from "redux-form";
+import {reduxForm, Field, stopSubmit} from "redux-form";
 import {Input} from "../forForms/inputs";
 import {connect} from "react-redux";
 import {getUserData} from "../../redux/authReducer";
@@ -53,6 +53,11 @@ const Login = reduxForm({form: 'login',validate })(LoginForm)
 const SignIn = props => {
     const signIn = data => {
         props.getUserData(data.login,data.password)
+            .then(res => {
+                if(res === 401){
+                    props.stopSubmit('login', {_error: "Login or password was Not correct"})
+                }
+            })
     }
     return (
         <div className={css.mainWrapper}>
@@ -66,4 +71,4 @@ const SignIn = props => {
 
 const AuthRedirectComponent = WithAuthRedirect(SignIn)
 
-export default connect(null , {getUserData})(AuthRedirectComponent);
+export default connect(null , {stopSubmit,getUserData})(AuthRedirectComponent);

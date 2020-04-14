@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import css from './deteils.module.css'
 import {connect} from "react-redux";
-import {Link, withRouter} from "react-router-dom";
+import { withRouter} from "react-router-dom";
 import {Carousel} from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import api from "../../api/api";
-import axios from 'axios'
-import {DatePicker, DatePickerInput} from "rc-datepicker";
+import {DatePickerInput} from "rc-datepicker";
 import 'moment/locale/ru.js';
 import 'rc-datepicker/lib/style.css';
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
@@ -25,10 +24,12 @@ const DeteilsPage = props => {
     const [images, setImages] = useState([]);
     const [details, setDetails] = useState({})
     let token = JSON.parse(localStorage.getItem('newToken'));
-    console.log(images)
     let comment = comments.map(item => {
         return (
-            <div key={item.id}>{item.text_of_publication}</div>
+            <div className={css.comment} key={item.id}>
+                <h4>{item.owner}</h4>
+                {item.text_of_publication}
+            </div>
         )
     })
     useEffect(() => {
@@ -94,18 +95,6 @@ const DeteilsPage = props => {
                     thumbWidth='50px'
 
                 >
-                    {/*<div>*/}
-                    {/*<img*/}
-                    {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                    {/*<img*/}
-                    {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                    {/*<img*/}
-                    {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
-                    {/*</div>*/}
                     {images.length <= 0 ?
                         null : images.map(item => {
                             console.log(item.image)
@@ -116,20 +105,11 @@ const DeteilsPage = props => {
                                 : null
                         })
                     }
-                    {/*{*/}
-                        {/*images.length <= 0 ?*/}
-                            {/*<div>*/}
-                                {/*<img*/}
-                                    {/*src={'https://s3.eu-west-3.amazonaws.com/images.bratislava.com.ua/uploadimage/b79173e5512547d1bd36185175b80384.jpg'}/>*/}
-                            {/*</div>*/}
-                            {/*: null*/}
-                    {/*}*/}
-
                 </Carousel>
             </div>
             <div className={css.moreInfoBlock}>
                 <div className={css.priceBlock}>
-                    <div>{apartment.description}</div>
+                    <div>{apartment.title}</div>
                     <div>{Math.round(apartment.another_price)}$</div>
                 </div>
                 <div className={css.information}>
@@ -140,10 +120,10 @@ const DeteilsPage = props => {
                         <div>Этаж: {apartment.floor}</div>
                         <div>Тип строение: {apartment.construction_type}</div>
                         <div>Этажность дома: {apartment.floor}</div>
-                        <div>Планировка: {apartment.floor}</div>
+                        {/*<div>Планировка: {apartment.floor}</div>*/}
                         <div>Тип ремонта: {apartment.state}</div>
                         <div></div>
-                        <div>Меблирована: {apartment.construction_type}</div>
+                        {/*<div>Меблирована: {apartment.construction_type}</div>*/}
                         <div></div>
                     </div>
                     <div className={css.listNear}>
@@ -160,6 +140,7 @@ const DeteilsPage = props => {
                                 {details.furniture ? <div>Мебель</div> : null}
                                 {details.internet ? <div>Интернет</div> : null}
                                 {details.gas ? <div>Газ</div> : null}
+                                {details.heat ? <div>Отопление</div> : null}
                                 {details.electricity ? <div>Электричество</div> : null}
                                 {details.elevator ? <div>Лифт</div> : null}
                                 {details.phone ? <div>Телефон</div> : null}
@@ -168,20 +149,9 @@ const DeteilsPage = props => {
                     </div>
                     {booking}
                     <div className={css.descriptionWrapper}>
-                        <div>Описание</div>
+                        <div>Описание:</div>
                         <div>
-                            В Новом Роскошном Жилом Комплексе!!!
-                            Продается 2- комнатная квартира с общей площадью 70 м2.
-
-                            Преимущества Ж.К:
-                            - Качественная Российская входная - металлическая дверь;
-                            - Пластиковые рамы imzo premium;
-                            - Счётчики;
-                            - Видео наблюдение 24/7
-                            - Детские площадки во дворе Ж.К
-                            - Охраняемая территория.
-
-                            Сдача Объекта август 2020 Год!!!
+                            {apartment.description}
                         </div>
                     </div>
                     <div>
@@ -196,6 +166,7 @@ const DeteilsPage = props => {
                             showOnInputClick={true}
                         />
                     </div>
+                    <h4 style={{marginTop: '10px'}}>Место положение на карте:</h4>
                     <div className={css.mapWrapper}>
                         <MyMapComponent
                             googleMapURL="
@@ -212,18 +183,17 @@ const DeteilsPage = props => {
                     </div>
                     <div className={css.commentWrapper}>
                         <h2>Отзывы</h2>
-                        <div>
+                        <div className={css.comments}>
                             {comment}
                         </div>
                         {token ?
                             <div>
-                                <div>
-                                    <label>Коментарий</label>
-                                    <input
-                                        type="text"
+                                <div className={css.commentInput}>
+                                    <textarea
+                                        maxLength={100}
                                         value={commentInput}
                                         onChange={e => setCommentInput(e.target.value)}
-                                        placeholder="Коментарий"
+                                        placeholder="Введите текст..."
                                     />
                                 </div>
                                 < div>
@@ -252,7 +222,6 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                         }}
                         key={props.location.id}
                     />
-
                 </GoogleMap> : console.log('error')}
         </div>
     )

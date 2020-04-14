@@ -13,6 +13,28 @@ a{
     margin: 0;
     padding: 0;
 }
+
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #57C325;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #57C325;
+}
+
+
 @media screen and (max-width: 768px) {
     .open {
         z-index: 99999999999999999999;

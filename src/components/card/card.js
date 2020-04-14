@@ -13,7 +13,7 @@ const Card = props =>{
                 <div className={css.hoverEffect}>
                     <div className={css.options}>
                         <div>
-                            {rooms}
+                            {rooms}-Комнат
                         </div>
                         <div>
                             {area}m2

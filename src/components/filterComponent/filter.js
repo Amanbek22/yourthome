@@ -105,6 +105,8 @@ const Filter = props => {
                         <option value="4">4 комнат</option>
                         <option value="5">5 комнат</option>
                         <option value="6">6 комнат</option>
+                        <option value="7">7 комнат</option>
+                        <option value="8">8 комнат</option>
                     </select>
                     <div className={css.dateWrapper}>
                         <input value={priceFrom} onChange={e => setPriceFrom(e.target.value)} type="number"
