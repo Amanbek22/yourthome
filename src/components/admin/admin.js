@@ -40,7 +40,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                             color={'#ffffff'}
                             markerWithLabel={"Hello"}
                             label={{
-                                text: Math.floor(item.another_price) + '$',
+                                text: Math.floor(item.price) + '$',
                                 color: '#000',
                                 fontSize: 16 + 'px'
                             }}
@@ -154,7 +154,7 @@ const Admin = props => {
                         area={item.area.total_area}
                         room={item.room}
                         floor={item.floor}
-                        price={item.another_price}
+                        price={item.price}
                         // addetDate={item.date_of_arrival}
                     />
                 </div>
@@ -187,7 +187,11 @@ const Admin = props => {
                 />
             </div>
             <div className={css.elementsWrapper} style={{display: width > 768 ? 'block' : show ? 'block' : 'none'}}>
-                {items}
+                {items ? items : <div className={css.noData}>
+                    <div>
+                        НЕТ ОБЪВЛЕНИЙ
+                    </div>
+                </div>}
             </div>
             <div className={css.hideShow}>
                 <button onClick={() => show ? setShow(false) : setShow(true)}>{show ? 'На карте' : 'Список'}</button>

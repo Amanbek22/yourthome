@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import css from './signup.module.css'
 import api from "../../api/api";
 import {withRouter} from "react-router-dom";
@@ -6,9 +6,8 @@ import {WithAuthRedirect} from "../../HOC/AuthRedirect";
 import {Field, reduxForm, stopSubmit} from "redux-form";
 import {Input} from "../forForms/inputs";
 import {connect} from "react-redux";
-import PhoneInput from "react-phone-number-input";
-import 'react-phone-number-input/style.css'
-
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 const validate = values => {
     const errors = {}
     if (!values.username) {
@@ -47,15 +46,14 @@ const validate = values => {
     }
     return errors
 }
-
 const Phone = ({input: {value, onChange}}) => {
     return (
         <PhoneInput
-            international
+            country={'kg'}
             placeholder="Enter phone number"
-            defaultCountry="KG"
             value={value}
-            onChange={onChange}/>
+            onChange={phone => onChange(phone)}
+        />
     )
 }
 
@@ -65,7 +63,6 @@ const SignForm = props => {
             <Field name={'username'} component={Input} placeholder={"Логин"} type="text"/>
             <Field name={'name'} component={Input} placeholder={"Имя*"} type="text"/>
             <Field name={'surname'} component={Input} placeholder={"Фамилия*"} type="text"/>
-            {/*<Field name={'phone'} component={Input} placeholder={"Телефон*"} type="text"/>*/}
             <div className={css.phone}>
                 <Field name={'phone'} component={Phone}/>
             </div>
@@ -88,7 +85,6 @@ const SignForm = props => {
     )
 }
 
-
 const SignUpForm = reduxForm({form: 'signUp', validate})(SignForm)
 
 const SignUp = props => {
@@ -110,8 +106,6 @@ const SignUp = props => {
                     } else {
                         return 0
                     }
-                    // localStorage.setItem("userData", JSON.stringify(response.data));
-                    // window.location.href="/sign-in"
                 },
                 (error) => {
                     props.stopSubmit('signUp', {_error: "Пользователь с таким login'ом уже существует"})
@@ -127,7 +121,6 @@ const SignUp = props => {
         </div>
     )
 }
-
 
 const AuthRedirectComponent = WithAuthRedirect(SignUp)
 

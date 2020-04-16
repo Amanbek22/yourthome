@@ -16,7 +16,7 @@ const Cards = props =>{
         let i = 0;
         apartment = apartments.reverse().map((item) => {
             i++;
-            if (i >= 5){
+            if (i >= 16){
                 return null
             }
             console.log(item)
@@ -26,7 +26,7 @@ const Cards = props =>{
                 img={item.apartment_image[0] ? item.apartment_image[0].image : null}
                 city={item.location.city}
                 street={item.location.street}
-                price={item.another_price}
+                price={item.price}
                 rooms={item.room}
                 floor={item.floor}
                 area={item.area.total_area}

@@ -11,11 +11,11 @@ export const Input = ({input, type, placeholder, name, meta: {touched, error, wa
     )
 }
 
-export const InputAdd = ({input, type, placeholder, name, meta: {touched, error, warning}}) => {
+export const InputAdd = ({autoFocus,input, type, placeholder, name, meta: {touched, error, warning}}) => {
     return (
         <>
-            <input className={`${css.inputs} ${touched && error ? css.error : touched && css.inp2}`} {...input} placeholder={placeholder}
-                   type={type} required/>
+            <input autoFocus={autoFocus} className={`${css.inputs} ${touched && error ? css.error : touched && css.inp2}`} {...input} placeholder={placeholder}
+                   type={type} min={'0'} required/>
             {/*{touched && ((error && <span className={css.errorSpan}>{error}</span>))}*/}
         </>
     )
@@ -26,7 +26,7 @@ export const SelectAdd = ({input,data, type, placeholder, name, meta: {touched, 
         <>
             <select className={`${css.selects} ${touched && error ? css.error : touched && css.inp2}`} {...input} required>
                 {
-                    data.map(item => <option key={item.text} value={item.id} > {item.type ? item.type : item.name} </option>)
+                    data.map(item => <option key={item.id} value={item.id} > {item.type ? item.type : item.name} </option>)
                 }
             </select>
             {/*{touched && ((error && <span className={css.errorSpan}>{error}</span>))}*/}

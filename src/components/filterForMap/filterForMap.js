@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import css from './filter.module.css'
 import {DatePickerInput} from "rc-datepicker";
 import {connect} from "react-redux";
@@ -17,20 +17,13 @@ const FilterMap = props =>{
     const [dateTo,setDateTo] = useState(props.filterData.dateTo);
     const [priceFrom,setPriceFrom] = useState(props.filterData.priceFrom)
     const [priceTo,setPriceTo] = useState(props.filterData.priceTo)
-    const [internet, setInternet] = useState(props.filterData.internet)
-    const [furniture, setFurniture] = useState(props.filterData.furniture)
-    const [gas, setGas] = useState(props.filterData.gas)
-    const [phone, setPhone] = useState(props.filterData.phone)
-    const [elevator, setElevator] = useState(props.filterData.elevator)
-    const [security, setSecurity] = useState(props.filterData.security)
-    const [parcking, setParcking ] = useState(props.filterData.parcking)
     const onDataChange = (jsDate,dateString) => setDateFrom(jsDate)
     const onDataToChange = (jsDate,dateString) => setDateTo(jsDate)
     const [details, setDetails] = useState([])
     const filter = () =>{
         props.setItem(city,'')
         props.setFilterData(
-            {city,rooms,floor,dateFrom,dateTo,priceFrom,priceTo,apartmentType,internet,furniture,gas,phone,elevator,security,parcking,construction_type, details}
+            {city,rooms,floor,dateFrom,dateTo,priceFrom,priceTo,apartmentType,construction_type, details}
             )
     }
     let width = window.innerWidth;
@@ -135,14 +128,13 @@ const FilterMap = props =>{
                     <option value="more">Нет</option>
                 </select>
             </div>
-
             <div className={`${css.impWrapper}  ${css.priceWrapper}`}>
                 <input value={priceFrom} onChange={e=>setPriceFrom(e.target.value)} placeholder={"Цена от"} type="number"/>
                 <input value={priceTo} onChange={e=>setPriceTo(e.target.value)} placeholder={"Цена до"} type="number"/>
             </div>
             <div className={css.detailsWrapper}>
                 <h4>Детали</h4>
-                <Select placeholder={'Детальная фильтрация...'} onChange={(data) => {
+                <Select placeholder={'Детальная фильтрация...'} autoFocus onChange={(data) => {
                     let arr = []
                     data.map(item => {
                         arr.push(item.value)
@@ -150,44 +142,9 @@ const FilterMap = props =>{
                     setDetails(arr)
                 }} options={options} isMulti  />
             </div>
-            {/*<div className={css.detailsWrapper}>*/}
-                {/*<h4>В квартире есть</h4>*/}
-                {/*<div className={css.details}>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox" checked={internet} onChange={e => setInternet(e.target.checked)} /><label>Интернет</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox" checked={furniture} onChange={e=> setFurniture(e.target.checked)}/><label>Мебелирован</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox" checked={gas} onChange={e=>setGas(e.target.checked)} /><label>Газ</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox" checked={phone} onChange={e=>setPhone(e.target.checked)} /><label>Телефон</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox" checked={elevator} onChange={e=>setElevator(e.target.checked)} /><label>Лифт</label>*/}
-                    {/*</div>*/}
-                {/*</div>*/}
-            {/*</div>*/}
-            {/*<div className={css.detailsWrapper}>*/}
-                {/*<h4>Рядом есть</h4>*/}
-                {/*<div className={css.details}>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox" checked={security} onChange={e=>setSecurity(e.target.checked)}/>*/}
-                        {/*<label>Охрана</label>*/}
-                    {/*</div>*/}
-                    {/*<div>*/}
-                        {/*<input type="checkbox" checked={parcking} onChange={e=>setParcking(e.target.checked)}/>*/}
-                        {/*<label>Парковка</label>*/}
-                    {/*</div>*/}
-                {/*</div>*/}
-            {/*</div>*/}
         </div>
     )
 }
-
-
 
 const mapStateToProps = state => {
     return{

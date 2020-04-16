@@ -1,18 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
-// import GoogleMapReact from "google-map-react"
 import css from './map.module.css'
-import apartment from '../../img/room.png'
 import FilterForMap from "../filterForMap/filterForMap";
 import {Link} from "react-router-dom";
 import Element from "../element/element";
-// import Marker from "./marker";
 import marker from '../../img/marker6.png'
 import marker2 from '../../img/marker10.png'
 import {Carousel} from "react-responsive-carousel";
 import {bounce, fadeInRight, fadeOutRight} from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
-import api from "../../api/api";
 
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
@@ -75,7 +71,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                     color={'#ffffff'}
                                     markerWithLabel={"Hello"}
                                     label={{
-                                        text: Math.floor(item.another_price) + '$',
+                                        text: Math.floor(item.price) + '$',
                                         color: '#000',
                                         fontSize: 16 + 'px',
                                         textAlign: center,
@@ -209,14 +205,14 @@ const WrapperMap = props => {
                         id={item.id}
                         chooseAp={chooseApartment}
                         img={item.apartment_image[0] ? item.apartment_image[0].image : null}
-                        forSale={item.description}
+                        forSale={item.title}
                         house_number={item.location.house_number}
                         street={item.location.street}
                         city={item.location.city}
                         area={item.area.total_area}
                         room={item.room}
                         floor={item.floor}
-                        price={item.another_price}
+                        price={item.price}
                         addetDate={item.date_of_arrival}
                     />
                 </div>
@@ -300,7 +296,7 @@ const WrapperMap = props => {
                             </div>
                             <div style={
                                 filterStyle === false ? styles.fadeInLeft : styles.fadeOutRight && {display: 'none'}}>
-                                {items}
+                                {items ? items : <div className={css.noData}>НЕТ ОБЪЯВЛЕНИЙ</div>}
                             </div>
                         </div>
                     </div>

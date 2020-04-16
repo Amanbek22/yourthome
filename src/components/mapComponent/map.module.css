@@ -9,11 +9,9 @@
     margin: 0 1%;
 }
 .map{
-    height: 100vh;
     position: sticky;
     top: 10vh;
     left: 0;
-
 }
 .btnWrapper>div{
     display: grid;
@@ -97,6 +95,12 @@
 }
 .mobileBtns{
     display: none;
+}
+.noData{
+    margin-top: 10px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.57);
+    font-size: 18px;
 }
 .mobileBtns>div>button{
     padding: 8px 25px;

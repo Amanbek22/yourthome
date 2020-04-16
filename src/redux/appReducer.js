@@ -4,7 +4,8 @@ import api from "../api/api";
 const INITIALIZE_SUCCEED = "INITIALIZE_SUCCEED";
 const INITIALIZE_REGIONS = "INITIALIZE_REGIONS";
 const INITIALIZE_TYPES = "INITIALIZE_TYPES";
-const INITIALIZE_SERIES = "INITIALIZE_TYPES";
+const INITIALIZE_SERIES = "INITIALIZE_SERIES";
+const INITIALIZE_STATE = "INITIALIZE_STATE";
 const INITIALIZE_CTYPES = "INITIALIZE_CTYPES";
 
 let initialState = {
@@ -12,7 +13,8 @@ let initialState = {
     regions: [],
     types: [],
     constructionType: [],
-    series: []
+    series: [],
+    state: [],
 }
 
 
@@ -43,6 +45,11 @@ export const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 series: [...action.data]
+            }
+        case INITIALIZE_STATE:
+            return {
+                ...state,
+                state: [...action.data]
             }
         default:
             return {
@@ -76,7 +83,12 @@ export const initializeSeries = (data) => {
         data
     }
 }
-
+export const initializeState = (data) => {
+    return {
+        type: INITIALIZE_STATE,
+        data
+    }
+}
 export const initializeCTypes = (data) => {
     return {
         type: INITIALIZE_CTYPES,
@@ -86,7 +98,8 @@ export const initializeCTypes = (data) => {
 
 export const initializeAppData = () => (dispatch) => {
     api.getTypes().then(res => dispatch(initializeTypes(res.data)))
-    // api.getSeries().then(res => dispatch(initializeSeries(res.data)))
+    api.getSeries().then(res => dispatch(initializeSeries(res.data)))
+    api.getState().then(res => dispatch(initializeState(res.data)))
     api.getRegions().then(res => dispatch(initializeRegions(res.data)))
     api.getConstructionType().then(res => dispatch(initializeCTypes(res.data)))
 }

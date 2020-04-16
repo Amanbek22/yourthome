@@ -122,5 +122,6 @@ export default {
     getConstructionType: () => http.get(`/front-constructions/`),
     getTypes: () => http.get(`/front-types/`),
     getRegions: () => http.get(`/front-regions/`),
-    getSeries: () => http.get(`/front-series/`)
+    getSeries: () => http.get(`/front-series/`),
+    getState: () => http.get(`/front-states/`),
 };

@@ -2,7 +2,7 @@
 .menuWrapper{
     font-family: 'Roboto', sans-serif;
     font-style: normal;
-    font-weight: normal;
+    font-weight: 400;
     position: sticky;
     top: 0;
     left: 0;
@@ -114,7 +114,7 @@
     .lists{
         background: #fff;
         position: fixed;
-        top:9.2vh;
+        top:7.2vh;
         left: 0;
         height: 100vh;
         width: 100%;

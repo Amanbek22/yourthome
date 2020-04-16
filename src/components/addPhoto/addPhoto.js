@@ -51,8 +51,7 @@ const Add = props => {
         preview_image.append('image117', img6);
 
         api.addPhoto(id,preview_image).then(res => {
-            alert('Added')
-            window.location.href = '/admin'
+            props.history.push('./admin')
         })
         preview_image.forEach((value, key) => {
             preview_image[key] = value;

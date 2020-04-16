@@ -49,9 +49,6 @@ select:focus{
     font-weight: normal;
     cursor: pointer !important;
 }
-.detailsWrapper{
-    margin-bottom: 320px;
-}
 .detailsWrapper>h4{
     margin: 0;
     padding: 0;

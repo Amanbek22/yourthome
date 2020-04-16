@@ -16,7 +16,7 @@
 /*}*/
 .priceBlock{
     display: grid;
-    font-size: 30px;
+    font-size: 25px;
     grid-template-columns: 4fr 2fr;
     position: sticky;
     top: 9.5%;
@@ -27,6 +27,12 @@
     border-right: none;
     z-index: 99999;
 }
+.price{
+    margin-top: 15px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+}
 .information{
     margin-top: 5%;
 }
@@ -34,7 +40,12 @@
     display: grid;
     grid-template-columns: 2fr 3fr;
     grid-gap: 10px;
-    margin-top: 10px;
+    margin: 10px 0 0 10px;
+    font-weight: 300;
+}
+.details{
+    margin: 5px 0 0 10px;
+    font-weight: 300;
 }
 .listNear{
     margin-top: 5%;
@@ -46,6 +57,17 @@
 }
 .descriptionWrapper{
     margin: 5% 0;
+}
+.description{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+}
+.descriptionWrapper>span{
+    font-size: 15px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
 }
 .dateWrapper{
     display: grid;
@@ -68,14 +90,14 @@
     padding: 5px;
 }
 .comment{
-    border-bottom: 1px solid rgba(1, 1, 1, 0.7);
-    padding: 10px 10px 20px 10px;
+    border-bottom: 1px solid #C1C1C1;
+    margin: 10px 10px 20px 10px;
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
 }
-.comment>h4{
-    margin-bottom: 10px;
+.comment>div{
+    margin: 5px 0 15px 10px;
 }
 .commentWrapper>div>div>button{
     height: 50px;

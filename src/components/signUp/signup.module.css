@@ -10,14 +10,12 @@
     grid-template-columns: 1fr;
     grid-gap: 1em;
 }
-.phone>div{
-    height: 38px;
-}
+
 .phone>div>input{
     border: 1px solid rgba(0, 0, 0, 0.47);
     border-radius: 4px;
 }
-.phone>div>input,div>select{
+.phone>div>input{
     height: 24px;
 }
 .remember{
@@ -42,6 +40,10 @@
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+.phone>div>input{
+    height: 38px !important;
+    width: 100% !important;
 }
 @media screen and (max-width: 768px){
     .remember>div{

@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import css from './deteils.module.css'
 import {connect} from "react-redux";
-import { withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import {Carousel} from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import api from "../../api/api";
 import {DatePickerInput} from "rc-datepicker";
 import 'moment/locale/ru.js';
 import 'rc-datepicker/lib/style.css';
-import {GoogleMap, InfoWindow, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
+import {GoogleMap,  Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import {compose} from "redux";
 import img from '../../img/mainImg.png'
 
@@ -18,30 +18,30 @@ const DeteilsPage = props => {
     const [apartment, setApartment] = useState({});
     const [comments, setComments] = useState([])
     const [orders, setOrders] = useState([])
-    const [address, setAddress] = useState({});
     const [commentInput, setCommentInput] = useState();
-    const [img, setImg] = useState('')
     const [images, setImages] = useState([]);
     const [details, setDetails] = useState({})
+    const [description, setDescription] = useState([])
     let token = JSON.parse(localStorage.getItem('newToken'));
     let comment = comments.map(item => {
         return (
             <div className={css.comment} key={item.id}>
                 <h4>{item.owner}</h4>
-                {item.text_of_publication}
+                <div>
+                    {item.text_of_publication}
+                </div>
             </div>
         )
     })
     useEffect(() => {
         api.getApartmentApi(props.match.params.id)
             .then(res => {
-                console.log(res)
+                console.log(res.data)
+                setDescription(res.data.description.split('\n'))
                 setApartment(res.data)
-                setAddress(res.data.address)
                 setComments(res.data.comments)
                 setOrders(res.data.orders)
                 setDetails({...res.data.detail})
-                setImg(res.data.preview_image)
                 setImages(res.data.apartment_image)
             })
     }, []);
@@ -88,18 +88,13 @@ const DeteilsPage = props => {
                     showIndicators={false}
                     infiniteLoop={true}
                     width={`100%`}
-                    // dynamicHeight={true}
                     swipeable={true}
-                    // showThumbs={false}
-                    // centerMode={true}
-                    thumbWidth='50px'
 
                 >
                     {images.length <= 0 ?
                         null : images.map(item => {
-                            console.log(item.image)
                             return item.image ?
-                                <div className={css.imgWrapper} key={item.id}>
+                                <div className={css.imgWrapper} key={item}>
                                     <img src={`${item.image}`}/>
                                 </div>
                                 : null
@@ -110,7 +105,14 @@ const DeteilsPage = props => {
             <div className={css.moreInfoBlock}>
                 <div className={css.priceBlock}>
                     <div>{apartment.title}</div>
-                    <div>{Math.round(apartment.another_price)}$</div>
+                </div>
+                <div className={css.price}>
+                    <div>
+                        Цена:
+                    </div>
+                    <div style={{marginLeft: '15px'}}>
+                        {Math.round(apartment.price)}$
+                    </div>
                 </div>
                 <div className={css.information}>
                     <div>Информация</div>
@@ -129,14 +131,14 @@ const DeteilsPage = props => {
                     <div className={css.listNear}>
                         <div>
                             <div>Рядом есть:</div>
-                            <div>
+                            <div className={css.details}>
                                 {details.parking ? <div>Парковка</div> : null}
                                 {details.security ? <div>Охрана</div> : null}
                             </div>
                         </div>
                         <div>
                             <div>В квартире есть:</div>
-                            <div>
+                            <div className={css.details}>
                                 {details.furniture ? <div>Мебель</div> : null}
                                 {details.internet ? <div>Интернет</div> : null}
                                 {details.gas ? <div>Газ</div> : null}
@@ -147,24 +149,35 @@ const DeteilsPage = props => {
                             </div>
                         </div>
                     </div>
-                    {booking}
+                    <div>
+                        <div className={css.description} style={{marginTop: "20px"}}>Даты арендования:</div>
+                        <div style={{margin: '10px 0 0 10px'}}>
+                            {booking}
+                        </div>
+                    </div>
                     <div className={css.descriptionWrapper}>
-                        <div>Описание:</div>
                         <div>
-                            {apartment.description}
+                            <span className={css.description}>Описание:</span>
+                            <span className={css.description}
+                                  style={{marginLeft: "20%"}}>тел.: +998 (90) 955-09-50</span>
+                        </div>
+                        <div style={{margin: '10px 0 0 10px'}}>
+                            {description.map((item,index) => <span key={index}>{item} <br/></span>)}
                         </div>
                     </div>
                     <div>
-                        <label>Дата публикации</label>
-                        <DatePickerInput
-                            disabled={true}
-                            placeholder={'От какого числа занято'}
-                            onChange={onDataChange}
-                            value={apartment.pub_date}
-                            className='my-custom-datepicker-component'
-                            onHide={() => 0}
-                            showOnInputClick={true}
-                        />
+                        <label className={css.description}>Дата публикации</label>
+                        <div style={{margin: '10px'}}>
+                            <DatePickerInput
+                                disabled={true}
+                                placeholder={'От какого числа занято'}
+                                onChange={onDataChange}
+                                value={apartment.pub_date}
+                                className='my-custom-datepicker-component'
+                                onHide={() => 0}
+                                showOnInputClick={true}
+                            />
+                        </div>
                     </div>
                     <h4 style={{marginTop: '10px'}}>Место положение на карте:</h4>
                     <div className={css.mapWrapper}>
