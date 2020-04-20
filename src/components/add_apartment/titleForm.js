@@ -7,24 +7,25 @@ import {validate} from './validate';
 
 const TitleForm = props => {
     return(
-        <form onSubmit={props.onSubmit} className={css.main}>
+        <form onSubmit={props.onSubmit} className={css.wrapper}>
             <div>
                 <label>Заголовок*</label>
-                <Field autoFocus={'autoFocus'} name={'headline'} placeholder={"Заголовок*"}
-                       type="text"  component={InputAdd}/>
+                <Field autoFocus={'autoFocus'}  name={'headline'} placeholder={"Заголовок*"}
+                       type="text" component={InputAdd}/>
             </div>
             <div>
                 <label>Тип недвижемости</label>
                 <Field name={'apartmentType'} component={SelectAdd} data={props.data} valueField={'value'}
                        textField={'text'}/>
             </div>
-            <button className={css.sendBtn}>Далее</button>
+            <div></div>
+            <button className={css.sendBtn} type={"submit"}>Далее</button>
         </form>
     )
 }
 
 export default reduxForm({
-    form: 'addApartment',  //Form name is same
+    form: 'addApartment',
     destroyOnUnmount: false,
     validate
 })(TitleForm);

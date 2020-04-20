@@ -5,13 +5,19 @@ import {TextareaAdd} from "../forForms/inputs";
 import {validate} from './validate';
 
 const FormPage4 = props => {
-    return(
-        <form onSubmit={props.onSubmit} className={css.main}>
+    return (
+        <form onSubmit={props.onSubmit} className={css.wrapper}>
             <div>
                 <label>Описание</label>
-                <Field autoFocus={'autoFocus'} component={TextareaAdd} name={'description'} placeholder={"Описание...."}/>
+                <Field autoFocus={'autoFocus'} component={TextareaAdd} name={'description'}
+                       placeholder={"Описание...."}/>
             </div>
-            <button className={css.sendBtn}>Далее</button>
+            <div className={css.description}>Напишете краткое описание</div>
+            <div></div>
+            <div className={css.nextPrevBtn}>
+                <button onClick={() => props.previousPage()} className={css.sendBtn}>Назад</button>
+                <button className={css.sendBtn}>Далее</button>
+            </div>
         </form>
     )
 }

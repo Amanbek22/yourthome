@@ -4,7 +4,6 @@ import {BrowserRouter as Router, Switch, Route, withRouter} from "react-router-d
 import MenuContainer from "./components/menu/menu";
 import {FilterContainer} from "./components/filterComponent/filterContainer";
 import Cards from "./components/cards/cards";
-import About from "./components/abautCompony/abautCompony";
 import Footer from "./components/footer/footer";
 import WithRouterDeteilsPage from "./components/deteilesPage/deteilsPage";
 import AddApartment from "./components/add_apartment/addApartmant";
@@ -20,9 +19,9 @@ import {initializeApp, initializeAppData} from "./redux/appReducer";
 import {compose} from "redux";
 
 function App(props) {
-    useEffect(() => {
+    useEffect(async () => {
+        await props.initializeAppData()
         props.initializeApp()
-        props.initializeAppData()
     }, [])
     if (!props.initialized.initialise) {
         return <div>
@@ -43,11 +42,12 @@ function App(props) {
                     <Suspense fallback={<div style={{textAlign: 'center'}}>Загрузка...</div>}>
                         <Switch>
                             <Route exact path={"/"}>
+                                <div className={'filterPage'}>
                                 {/*<MainPage />*/}
                                 <FilterContainer/>
-                                <Cards/>
-                                <About/>
+                                {/*<Cards/>*/}
                                 <Footer/>
+                                </div>
                             </Route>
                             <Route exact path={"/add-apartment"}>
                                 <AddApartment/>

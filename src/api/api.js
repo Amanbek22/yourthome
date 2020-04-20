@@ -21,7 +21,7 @@ const dateFounder = data => {
 
 export default {
     getApartments: (data) => {
-        let {city, dateFrom, dateTo, rooms, floor,priceFrom, priceTo, apartmentType, details, construction_type} = data;
+        let {region, city, dateFrom, dateTo, rooms, floor,priceFrom, priceTo, apartmentType, details, construction_type} = data;
         let fromDate = '', toDate = '';
         if (dateFrom !== undefined && dateFrom !== null && dateFrom !== 'Invalid date' && dateFrom !== '') {
             fromDate = dateFounder(dateFrom);
@@ -29,7 +29,7 @@ export default {
         if (dateTo !== undefined && dateTo !== null && dateTo !== 'Invalid date' && dateTo !== '') {
             toDate = dateFounder(dateTo)
         }
-        return http.get(`/apartments/?location__region=${!city ? '' : city}&location__city=${''}&location__district=${''}&type=${!apartmentType ? '' : apartmentType}&room=${!rooms ? '' : rooms}&floor=${!floor ? '' : floor}&construction_type=${!construction_type ? '' : construction_type}&state=${''}&min_price=${!priceFrom ? '' : priceFrom}&max_price=${!priceTo ? '' : priceTo}&currency=${''}&arrival_date=${fromDate}&departure_date=${toDate}&min_area=${''}&max_area=${''}&rental_period=${''}&detail__internet=${details ? details.includes('internet') ? true : '' : ''}&detail__furniture=${details ? details.includes('furniture') ? true : '' : ''}&detail__heat=${details ? details.includes('heat') ? true : '' : ''}&detail__gas=${details ? details.includes('gas') ? true : '' : ''}&detail__phone=${details ? details.includes('phone') ? true : '' : ''}&detail__parking=${details ? details.includes('parking') ? true : '' : ''}&detail__elevator=${details ? details.includes('elevator') ? true : '' : ''}&detail__security=${details ? details.includes('security') ? true : '' : ''}`)
+        return http.get(`/apartments/?location__region=${!region ? '' : region}&location__city=${!city ? '' : city}&location__district=${''}&type=${!apartmentType ? '' : apartmentType}&room=${!rooms ? '' : rooms}&floor=${!floor ? '' : floor}&construction_type=${!construction_type ? '' : construction_type}&state=${''}&min_price=${!priceFrom ? '' : priceFrom}&max_price=${!priceTo ? '' : priceTo}&currency=${''}&arrival_date=${fromDate}&departure_date=${toDate}&min_area=${''}&max_area=${''}&rental_period=${''}&detail__internet=${details ? details.includes('internet') ? true : '' : ''}&detail__furniture=${details ? details.includes('furniture') ? true : '' : ''}&detail__heat=${details ? details.includes('heat') ? true : '' : ''}&detail__gas=${details ? details.includes('gas') ? true : '' : ''}&detail__phone=${details ? details.includes('phone') ? true : '' : ''}&detail__parking=${details ? details.includes('parking') ? true : '' : ''}&detail__elevator=${details ? details.includes('elevator') ? true : '' : ''}&detail__security=${details ? details.includes('security') ? true : '' : ''}`)
     },
     getApartmentApi: (id) => http.get(`/apartment/${id}`),
     registration: data => http.post("/registration/", data),
@@ -124,4 +124,5 @@ export default {
     getRegions: () => http.get(`/front-regions/`),
     getSeries: () => http.get(`/front-series/`),
     getState: () => http.get(`/front-states/`),
+    getCurrency: () => http.get(`/front-currency/`),
 };

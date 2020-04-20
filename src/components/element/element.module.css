@@ -11,13 +11,19 @@
 }
 .optionsWrapper{
     overflow: hidden;
+    margin: 0px 0 5px 0;
 }
 .optionWrapper>div{
     margin: 5px 0;
 }
+.imgWrapper{
+    margin: auto;
+}
 .imgWrapper>img{
     width: 100%;
-    height: 100%;
+    height: auto;
+    display: flex;
+
 }
 
 .forSale{
@@ -44,35 +50,49 @@
 .btnWrapper{
     position: absolute;
     right: 0;
-    bottom: 0;
+    top: 0;
+    padding: 5px 11px 3px 3px;
+    width: 15px;
+    text-align: right;
+    height: 21px;
+    background: white;
+    cursor: pointer;
 }
-.moreBtnWrapper>button{
-    background: #4BA620;
-    border: none;
-    padding: 8px 15px;
-    color: #ffffff;
+.btnWrapper>span{
+    margin: 3px 3px;
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #000;
+}
+.showedClickable {
+    position:absolute;
+    /*display:none;*/
+    width:auto;
+    height:auto;
+    top: 0;
+    right: 0;
+    background: #ffffff;
+    padding: 5px 10px;
+    margin: 2px;
+    border: 0.5px solid #E6E4E4;
+    box-shadow: -1px 1px 4px rgba(0, 0, 0, 0.16);
+}
+.showedClickable>div{
     font-family: Roboto;
     font-style: normal;
     font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    margin: 5px 0;
 }
-.saved{
-    background: #D9D9D9;
-    position: relative;
-    width: 33%;
-    margin-left: 70%;
-
+#showedClickable:target{
+    display: block;
 }
-
-.saved>img{
-    position: absolute;
-    width: 80%;
-    height: 80%;
-    margin: auto;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-}
+/*.btnWrapper:focus + .showedClickable {*/
+    /*display:block;*/
+/*}*/
 @media screen and (max-width: 996px) {
     .optionWrapper{
         grid-template-columns: 1fr;

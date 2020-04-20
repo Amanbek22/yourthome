@@ -16,16 +16,19 @@
 /*}*/
 .priceBlock{
     display: grid;
-    font-size: 25px;
-    grid-template-columns: 4fr 2fr;
-    position: sticky;
-    top: 9.5%;
+    font-size: 22px;
+    /*position: sticky;*/
+    /*top: 9.5%;*/
     background: white;
     border: 2px solid black;
     border-top: none;
     border-left:none;
     border-right: none;
-    z-index: 99999;
+    /*z-index: 99999;*/
+
+    /*text-overflow: ellipsis;*/
+    /*overflow: hidden;*/
+    /*white-space: nowrap;*/
 }
 .price{
     margin-top: 15px;

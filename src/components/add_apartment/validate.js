@@ -8,6 +8,14 @@ export const validate = values => {
     } else if (values.headline.length > 0) {
         errors.headline = undefined
     }
+
+    if (!values.price) {
+        errors.price = 'Обязательное поле'
+    }else if (values.price < 0) {
+        errors.price = 'min 1'
+    } else if (values.price.length > 0) {
+        errors.price = undefined
+    }
     if (!values.price) {
         errors.price = 'Обязательное поле'
     } else if (values.price.length > 0) {
@@ -67,6 +75,31 @@ export const validate = values => {
         errors.state = 'Обязательное поле'
     } else if (values.state.length) {
         errors.state = undefined
+    }
+    if (!values.title) {
+        errors.title = 'Обязательное поле'
+    } else if (values.title.length > 0) {
+        errors.title = undefined
+    }
+    if (!values.type) {
+        errors.type = 'Обязательное поле'
+    } else if (values.type.length > 0) {
+        errors.type = undefined
+    }
+    if (!values.room) {
+        errors.room = 'Обязательное поле'
+    } else if (values.room.length > 0) {
+        errors.room = undefined
+    }
+    if (!values.total_area) {
+        errors.total_area = 'Обязательное поле'
+    } else if (values.total_area.length > 0) {
+        errors.total_area = undefined
+    }
+    if (!values.living_area) {
+        errors.living_area = 'Обязательное поле'
+    } else if (values.living_area.length > 0) {
+        errors.living_area = undefined
     }
     return errors
 }

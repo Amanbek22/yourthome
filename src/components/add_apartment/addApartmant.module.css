@@ -1,7 +1,9 @@
 .wrapper{
-    /*display: grid;*/
-    /*grid-template-columns: 6fr 2fr;*/
-
+    padding: 0 15% 15px 15%;
+    margin-bottom: 15px;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    grid-gap: 2em;
 }
 .h2{
     margin: 15px 0;
@@ -9,15 +11,20 @@
 }
 .sendBtn{
     background: #05BA02;
-    font-size: 22px;
+    font-size: 17px;
     color: white;
     border: none;
-    padding: 10px 25px;
-    width: 300px;
-    margin: 10px auto 30px auto;
+    padding: 10px 20px;
+    width: 120px;
     cursor: pointer !important;
     text-align: center;
     display: block;
+    border-radius: 6px;
+    margin: 0 0 0 auto;
+}
+.nextPrevBtn{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 .inputs, .selects{
     height: 35px;
@@ -35,15 +42,10 @@
     grid-template-columns: 3fr 2fr;
     grid-gap: 2em;
 }
-.main>div{
+.main>div, .wrapper>div{
     display: grid;
-    /*margin: 5px 0;*/
 }
 .details{
-    /*display: flex;*/
-    /*justify-content: space-between;*/
-    /*grid-template-columns: 1fr 1fr 1fr;*/
-    /*grid-row-gap: 1em;*/
     font-size: 15px;
 }
 .details>div>label>input{
@@ -70,9 +72,17 @@
 .rejectBtn{
     display: none;
 }
-
+.priceCur{
+    display: grid;
+}
+.description{
+    text-align: right;
+    font-size: 16px;
+    margin-top: 14px;
+    font-weight: 400;
+}
 @media screen and (max-width: 768px){
-    .main{
+    .main, .wrapper{
         grid-template-columns: 1fr;
         grid-gap: 20px;
         padding: 0 2% 15px 2%;

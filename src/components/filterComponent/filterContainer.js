@@ -6,7 +6,8 @@ import {setFilterData} from '../../redux/filterReducer'
 
 const mapStateToProps = state =>{
     return {
-        filterData: state.filterData
+        filterData: state.filterData,
+        app: state.app
     }
 }
 

@@ -1,13 +1,13 @@
 import {setDataRefresh} from "./authReducer";
 import api from "../api/api";
 
-const INITIALIZE_SUCCEED = "INITIALIZE_SUCCEED";
-const INITIALIZE_REGIONS = "INITIALIZE_REGIONS";
-const INITIALIZE_TYPES = "INITIALIZE_TYPES";
-const INITIALIZE_SERIES = "INITIALIZE_SERIES";
-const INITIALIZE_STATE = "INITIALIZE_STATE";
-const INITIALIZE_CTYPES = "INITIALIZE_CTYPES";
-
+const INITIALIZE_SUCCEED = "app/INITIALIZE_SUCCEED";
+const INITIALIZE_REGIONS = "app/INITIALIZE_REGIONS";
+const INITIALIZE_TYPES = "app/INITIALIZE_TYPES";
+const INITIALIZE_SERIES = "app/INITIALIZE_SERIES";
+const INITIALIZE_STATE = "app/INITIALIZE_STATE";
+const INITIALIZE_CTYPES = "app/INITIALIZE_CTYPES";
+const INITIALIZE_CURRENCY = "app/INITIALIZE_CURRENCY"
 let initialState = {
     initialise: false,
     regions: [],
@@ -15,6 +15,7 @@ let initialState = {
     constructionType: [],
     series: [],
     state: [],
+    currency: 1,
 }
 
 
@@ -50,6 +51,11 @@ export const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 state: [...action.data]
+            }
+        case INITIALIZE_CURRENCY:
+            return {
+                ...state,
+                currency: [...action.data]
             }
         default:
             return {
@@ -95,14 +101,22 @@ export const initializeCTypes = (data) => {
         data
     }
 }
+export const initializeCurrency = (data) => {
+    return {
+        type: INITIALIZE_CURRENCY,
+        data
+    }
+}
 
 export const initializeAppData = () => (dispatch) => {
     api.getTypes().then(res => dispatch(initializeTypes(res.data)))
     api.getSeries().then(res => dispatch(initializeSeries(res.data)))
     api.getState().then(res => dispatch(initializeState(res.data)))
+    api.getCurrency().then(res => dispatch(initializeCurrency(res.data)))
     api.getRegions().then(res => dispatch(initializeRegions(res.data)))
     api.getConstructionType().then(res => dispatch(initializeCTypes(res.data)))
 }
+
 export const initializeApp = () => (dispatch) => {
     let data = JSON.parse(localStorage.getItem('userData'));
     if (!data) {

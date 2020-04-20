@@ -114,7 +114,7 @@
     .lists{
         background: #fff;
         position: fixed;
-        top:7.2vh;
+        top: 0;
         left: 0;
         height: 100vh;
         width: 100%;
@@ -129,7 +129,7 @@
         justify-content: center;
         grid-template-rows: repeat(3,25px);
         grid-gap: 2em;
-        padding: 10px 0;
+        padding: 30px 0;
         color: #000;
     }
     .open{

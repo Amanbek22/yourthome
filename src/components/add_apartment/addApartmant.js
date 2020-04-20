@@ -12,8 +12,7 @@ import FormPage4 from "./FormPage4";
 import FormPage5 from "./FormPage5";
 import {validate} from './validate';
 import {withRouter} from "react-router-dom";
-
-
+import Add from "../addPhoto/addPhoto";
 
 
 const AddApartmentForm = props => {
@@ -104,11 +103,19 @@ const AddApartmentForm = props => {
     }
     return (
         <div className={css.formWrapper}>
-            {page === 1 && <TitleForm onSubmit={nextPage} data={data} />}
-            {page === 2 && <FormPage2 previousPage={prevPage} onSubmit={nextPage} rooms={rooms} state={state} constractionType={constractionType} />}
-            {page === 3 && <FormPage3 previousPage={prevPage} onSubmit={nextPage} setDetails={props.setDetails} options={options} />}
-            {page === 4 && <FormPage4 previousPage={prevPage} onSubmit={nextPage}  />}
-            {page === 5 && <FormPage5 previousPage={prevPage} onSubmit={props.handleSubmit}
+            {page === 1 && <TitleForm onSubmit={nextPage} data={data}/>}
+            {page === 2 && <FormPage2 previousPage={prevPage} onSubmit={nextPage} rooms={rooms} state={state}
+                                      constractionType={constractionType}/>}
+            {page === 3 && <FormPage3
+                previousPage={prevPage}
+                onSubmit={nextPage}
+                setNearHome={props.setNearHome}
+                setAtHome={props.setAtHome}
+                options={options}
+            />}
+            {page === 4 && <FormPage4 previousPage={prevPage} onSubmit={nextPage}/>}
+            {page === 5 && <Add previousPage={prevPage} onSubmit={nextPage} setPictures={props.setPictures}/>}
+            {page === 6 && <FormPage5 previousPage={prevPage} onSubmit={props.handleSubmit}
                                       regions={props.app.regions}
                                       setHide={setHide}
                                       hide={hide}
@@ -152,8 +159,11 @@ function mapDispatchToProps(dispatch) {
         setRegion: (data) => {
             dispatch(change('addApartment', 'region', data))
         },
-        setDetails: (data) => {
-            dispatch(change('addApartment', 'details', data))
+        setAtHome: (data) => {
+            dispatch(change('addApartment', 'atHome', data))
+        },
+        setNearHome: (data) => {
+            dispatch(change('addApartment', 'nearHome', data))
         }
     }
 }
@@ -162,6 +172,7 @@ const AddApartmentConnectForm = connect(mapStateToProps, mapDispatchToProps)(Add
 const AddApartmentReduxForm = reduxForm({form: 'addApartment', validate})(AddApartmentConnectForm)
 
 const AddApartment = props => {
+    const [pictures, setPictures] = useState(null)
     const sendData = (data) => {
         let formData = {
             "title": data.headline,
@@ -187,7 +198,9 @@ const AddApartment = props => {
                 "security": data.details ? data.details.includes('security') : false,
                 "parking": data.details ? data.details.includes('parking') : false
             },
-            "tags": data.details,
+            "objects_in_apartment": data.atHome,
+            "nearby_objects": data.nearHome,
+            "tags": [],
             "location": {
                 "id": 1,
                 "country": 1,
@@ -201,7 +214,7 @@ const AddApartment = props => {
             },
             "rental_period": null,
             "price": Number(data.price),
-            "currency": 1,
+            "currency": data.currency,
             "preview_image": null,
             "description": data.description,
             "images": [],
@@ -215,11 +228,14 @@ const AddApartment = props => {
             "comments": [],
             "orders": []
         }
+        console.log(data)
         api.add(formData)
             .then(
                 (response) => {
-                    console.log(response)
-                    props.history.push(`/addPhoto/${response.data.id}`)
+                    api.addPhoto(response.data.id,pictures).then(res => {
+                        props.history.push('/admin')
+                    })
+                    // props.history.push(`/addPhoto/${response.data.id}`)
                 },
                 (error) => {
                     console.log(error)
@@ -228,10 +244,10 @@ const AddApartment = props => {
             )
     }
     return (
-        <div className={css.wrapper}>
+        <div>
             <div id={"formID"}>
                 <h2 className={css.h2}>Подать объявление </h2>
-                <AddApartmentReduxForm onSubmit={sendData}/>
+                <AddApartmentReduxForm onSubmit={sendData} setPictures={setPictures}/>
             </div>
         </div>
     )

@@ -5,7 +5,7 @@ import api from "../../api/api";
 import Element from "../element/element";
 import marker from "../../img/marker6.png";
 import marker2 from "../../img/marker10.png";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {Carousel} from "react-responsive-carousel";
 import Modal from 'react-awesome-modal';
 import {connect} from "react-redux";
@@ -95,7 +95,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                 </Link>
                                 <div className={css.del} onClick={() => {
                                     props.setVisible(true)
-                                    props.setDelApartment(selectedPark)
+                                    props.setDelApartment(selectedPark.id)
                                 }}>
                                     Удалить
                                 </div>
@@ -126,9 +126,8 @@ const Admin = props => {
     const [visible, setVisible] = useState(false)
     const [show, setShow] = useState(false)
     const [delApartment, setDelApartment] = useState(0)
-
     const DeleteAction = () => {
-        api.deleteApartment(delApartment.id)
+        api.deleteApartment(delApartment)
             .then(res => window.location.href = "/admin")
     }
     useEffect(() => {
@@ -144,8 +143,9 @@ const Admin = props => {
                 <div key={item.id}>
                     <Element
                         id={item.id}
-                        // changeBtn={true}
-                        // chooseAp={chooseApartment}
+                        changeBtn={true}
+                        setVisible={setVisible}
+                        setDelApartment={setDelApartment}
                         img={item.apartment_image[0] ? item.apartment_image[0].image : null}
                         forSale={item.title}
                         house_number={item.location.house_number}
@@ -234,4 +234,4 @@ const mapStateToProps = state => {
         data: state.data
     }
 }
-export default connect(mapStateToProps, {})(AuthRedirectComponent);
+export default withRouter(connect(mapStateToProps, {})(AuthRedirectComponent));

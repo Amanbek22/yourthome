@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "../api/api";
 
 const setPoints = "SET_POINTS";
@@ -50,7 +49,7 @@ export const googleMapReducer = (state = initialState, action) => {
         case send :
             return {
                 ...state,
-                send: action.bool
+                send: true
             }
         default:
             return {
@@ -78,18 +77,14 @@ export const setApartment = apartment => {
         apartment
     }
 }
-export const setSend = bool => {
+export const setSend = () => {
     return {
-        type: send,
-        bool
+        type: send
     }
 }
 
-export const getApartment = (data
-) => (dispatch) => {
-    api.getApartments({...data})
-        .then(res => {
-            dispatch(setPoint(res.data))
-            dispatch(setSend(true))
-        })
+export const getApartment = (data) => async (dispatch) => {
+    let res = await api.getApartments({...data})
+    dispatch(setPoint(res.data))
+    dispatch(setSend())
 }

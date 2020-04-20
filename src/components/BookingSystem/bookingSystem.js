@@ -150,10 +150,10 @@ const Booking = props => {
                         daySize: [36, 40],
                         fontFamily: "system-ui, -apple-system",
                         colors: {
-                            accessibility: "#D80249",
-                            selectedDay: "#f7518b",
-                            selectedDayHover: "#F75D95",
-                            primaryColor: "#d8366f",
+                            accessibility: "#57C325",
+                            selectedDay: "#4dc33c",
+                            selectedDayHover: "#7fc314",
+                            primaryColor: "#57C325",
                         }
                     }
                 }}

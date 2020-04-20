@@ -1,11 +1,10 @@
 import React, {useEffect, useReducer, useState} from 'react';
 import css from './filter.module.css'
 import {Link} from "react-router-dom";
-import {DatePickerInput} from "rc-datepicker";
-import settingsImg from '../../img/moreSettings.png'
-import {DateRangeInput, START_DATE} from "@datepicker-react/styled";
-import {ThemeProvider} from "styled-components";
-
+import {DateRangeInput} from "@datepicker-react/styled";
+import Cards from "../cards/cards";
+import {Creatable} from "react-select";
+import dropDown from  '../../img/dropDown.png'
 
 const initialState = {
     startDate: null,
@@ -24,19 +23,29 @@ function reducer(state, action) {
     }
 }
 
+const customStyles = {
+    option: (provided, state) => ({
+        ...provided,
+        borderBottom: '1px dotted pink',
+        color: '#000',
+        padding: 20,
+    }),
+
+}
+
 
 const Filter = props => {
-    const [dateFrom, setDateFrom] = useState(props.filterData.dateFrom);
-
-    const [dateTo, setDateTo] = useState(props.filterData.dateTo);
     const [city, setCity] = useState('');
+    const [region, setRegion] = useState('');
     const [rooms, setRooms] = useState('');
     const [priceFrom, setPriceFrom] = useState('');
     const [priceTo, setPriceTo] = useState('');
-
+    const [floor, setFloor] = useState('')
+    const [construction_type, setConstruction_type] = useState(props.filterData.construction_type)
+    const [nearby_objects, setNearby_objects] = useState([])
+    const [atHome, setAtHome] = useState([])
+    const [moreVisible, setMoreVisible] = useState(false)
     const [state, dispatch] = useReducer(reducer, initialState);
-    let width = window.innerWidth;
-
     useEffect(() => {
         dispatch({
             type: "dateChange", payload: {
@@ -46,41 +55,26 @@ const Filter = props => {
             }
         })
     }, [])
+    const options = [
+        {value: 'internet', label: 'Интернет'},
+        {value: 'gas', label: 'Газ'},
+        {value: 'heat', label: 'Отопление'},
+        {value: 'phone', label: 'Телефон'},
+        {value: 'electricity', label: 'Электричество'},
+        {value: 'furniture', label: 'Мебель'},
+        {value: 'elevator', label: 'Лифт'},
+        {value: 'security', label: 'Охрана'},
+        {value: 'parking', label: 'Парковка'},
+    ]
     return (
         <div className={css.filterWrapper}>
+            <div>
+                <Cards/>
+            </div>
             <div className={css.filterWrapperSecond}>
                 <div className={css.inputsWrapper}>
-                    <select value={city} onChange={(e) => setCity(e.target.value)} name="find_by_city">
-                        <option value="">Все регионы</option>
-                        <option value="1">Чуй</option>
-                        <option value="2">Ош</option>
-                        <option value="3">Нарын</option>
-                        <option value="4">Талас</option>
-                        <option value="5">Иссык-Куль</option>
-                        <option value="6">Джалал-Абад</option>
-                        <option value="7">Баткен</option>
-                    </select>
+                    <p className={css.bookingDate}>Укажите дату бранирования</p>
                     <div>
-                        {/*<DatePickerInput*/}
-                        {/*placeholder={'От какого числа занято'}*/}
-                        {/*onChange={onDataChange}*/}
-                        {/*value={dateFrom}*/}
-                        {/*className='my-custom-datepicker-component'*/}
-                        {/*onHide={()=>0}*/}
-                        {/*showOnInputClick={true}*/}
-                        {/*minDate={new Date()}*/}
-                        {/*onClear={()=> setDateFrom('')}*/}
-                        {/*/>*/}
-                        {/*<DatePickerInput*/}
-                        {/*placeholder={'От какого числа занято'}*/}
-                        {/*onChange={onDataToChange}*/}
-                        {/*value={dateTo}*/}
-                        {/*className='my-custom-datepicker-component'*/}
-                        {/*onHide={()=>0}*/}
-                        {/*showOnInputClick={true}*/}
-                        {/*onClear={()=>setDateTo('')}*/}
-                        {/*/>*/}
-
                         <div className={css.dateRangeWrapper}>
                             <DateRangeInput
                                 onDatesChange={data => dispatch({type: "dateChange", payload: data})}
@@ -92,35 +86,87 @@ const Filter = props => {
                                 focusedInput={state.focusedInput}
                                 minBookingDate={new Date()}
                                 unavailableDates={[]}
-                                vertical={width <= 768}
+                                vertical={true}
                                 phrases={{startDatePlaceholder: 'Дата заезда', endDatePlaceholder: 'Дата выезда'}}
                             />
                         </div>
                     </div>
-                    <select value={rooms} onChange={(e) => setRooms(e.target.value)}>
-                        <option value="">Количество комнат</option>
-                        <option value="1">1 комнат</option>
-                        <option value="2">2 комнат</option>
-                        <option value="3">3 комнат</option>
-                        <option value="4">4 комнат</option>
-                        <option value="5">5 комнат</option>
-                        <option value="6">6 комнат</option>
-                        <option value="7">7 комнат</option>
-                        <option value="8">8 комнат</option>
+                    <div className={css.inputs}>
+                        <input className={css.inputFilter} placeholder={'Город'} type="text" value={city}
+                               onChange={(e) => setCity(e.target.value)}/>
+                        <select className={css.inputFilter} value={construction_type}
+                                onChange={e => setConstruction_type(e.target.value)} name="price">
+                            <option value="">Тип строения</option>
+                            {props.app.types
+                                ? props.app.types.map(item => <option value={item.id}>{item.type}</option>)
+                                : <option value="">Загрузка...</option>
+                            }
+                        </select>
+                    </div>
+
+                    <select value={region} onChange={(e) => setRegion(e.target.value)} name="find_by_region">
+                        <option value="">Все регионы</option>
+                        <option value="1">Чуй</option>
+                        <option value="2">Ош</option>
+                        <option value="3">Нарын</option>
+                        <option value="4">Талас</option>
+                        <option value="5">Иссык-Куль</option>
+                        <option value="6">Джалал-Абад</option>
+                        <option value="7">Баткен</option>
                     </select>
+
+                    <div className={css.inputs}>
+                        <select className={css.inputFilter} value={rooms} onChange={(e) => setRooms(e.target.value)}>
+                            <option value="">Количество комнат</option>
+                            <option value="1">1 комнат</option>
+                            <option value="2">2 комнат</option>
+                            <option value="3">3 комнат</option>
+                            <option value="4">4 комнат</option>
+                            <option value="5">5 комнат</option>
+                            <option value="6">6 комнат</option>
+                        </select>
+                        <input value={floor} onChange={e => setFloor(e.target.value)} name="floor"
+                               placeholder={'Этаж'}/>
+                    </div>
                     <div className={css.dateWrapper}>
                         <input value={priceFrom} onChange={e => setPriceFrom(e.target.value)} type="number"
                                placeholder={'Цена от'}/>
                         <input value={priceTo} onChange={e => setPriceTo(e.target.value)} type="number"
                                placeholder={'Цена до'}/>
                     </div>
+                    <div className={css.moreDetails} onClick={()=>setMoreVisible(!moreVisible)} >
+                        Дополнительно
+                        {
+                            moreVisible
+                                ? <img style={{cursor: 'pointer',marginLeft: '5px', transform: 'rotate(180deg)'}} src={dropDown} alt={' '} />
+                                : <img style={{cursor: 'pointer',marginLeft: '5px'}} src={dropDown} alt={' '} />
+                        }
+                    </div>
+                    <div style={{display: moreVisible ? 'block' : 'none'}} >
+                        <Creatable
+                            placeholder={'Рядом есть'}
+                            options={options}
+                            value={atHome}
+                            onChange={(data) => {
+                                setAtHome(data)
+                            }}
+                            isMulti
+                            styles={customStyles}
+                        />
+                        <br/>
+                        <Creatable
+                            placeholder={'В доме есть'}
+                            options={options}
+                            value={nearby_objects}
+                            onChange={(data) => {
+                                setNearby_objects(data)
+                            }}
+                            isMulti
+                            styles={customStyles}
+                        />
+                    </div>
                 </div>
                 <div className={css.moreWrapper}>
-                    <div className={css.moreSettings}>
-                        {/*<img src={settingsImg} alt="settings"/>*/}
-                        {/*<p>Дополнительные параметры</p>*/}
-
-                    </div>
                     <div className={css.findButton}>
                         <div className={css.show}>
                             <Link to={"/map"}>Показать на карте</Link>
@@ -128,11 +174,15 @@ const Filter = props => {
                         <div className={css.search}>
                             <Link onClick={() => props.setFilterData({
                                 city,
+                                region,
                                 rooms,
+                                atHome,
+                                nearby_objects,
                                 dateFrom: state.startDate,
                                 dateTo: state.endDate,
                                 priceFrom,
-                                priceTo
+                                priceTo,
+                                floor
                             })} to="/map">Начать поиск</Link>
                         </div>
                     </div>

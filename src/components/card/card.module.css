@@ -1,64 +1,75 @@
 .wrapper{
     border: 1px solid #E6E4E4;
-    border-radius: 2px;
-    width: 220px;
-    height: 350px;
+    border-radius: 4px;
+    width: 230px;
+    height: 300px;
+    margin: 0 15px 30px 15px;
+    overflow: hidden;
+    background: #fff;
 }
 .imgWrapper{
-    /*width: 200px;*/
-    /*height: 200px;*/
-    position: relative;
-    margin: auto;
+    height: 200px;
+    background: #C4C4C4;
+    overflow: hidden;
 }
 .imgWrapper>img{
-    height: 100%;
+    min-height: 100%;
     width: 100%;
 }
-.price{
-    display: block;
-    background: rgba(0, 0, 0, 0.5);
-    color: rgba(255, 255, 255, 0.91);
+.description{
+    text-align: left;
+    margin: 10px 12px;
+    font-family: Roboto;
+    font-style: normal;
+    font-size: 16px;
+}
+.userName{
+    text-align: left;
+    margin: 5px 12px 0 12px;
+    color: #A1A1A1;
+    font-size: 16px;
+}
+.title{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.hovered{
+    height: 100%;
+    background: #F2F2F2;
+    position: relative;
+    text-align: left;
+    color: #000;
+}
+.hovered>div{
+    padding: 10px 12px;
+}
+.hoveredTitle{
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 27px;
+}
+.address{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 20px;
+}
+.moreBtn{
     position: absolute;
-    left: 0;
     bottom: 0;
-    margin: 0 0 10px 10px;
-    padding: 0 40px;
-    border-radius: 3px;
-    font-size: 14px;
-    max-width: 80px;
+    right: 0;
+    margin-bottom: 15px;
+    /*text-align: right;*/
 }
-
-.hoverEffect{
-    display: none;
-    position: absolute;
-    color: #ffffff;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    top: 0;
-    left: 0;
-
-}
-
-.options{
-    margin: 20% 0;
-    display: grid;
-    grid-template-columns: 1fr;
-
-}
-.options>div{
-    margin: 5px 0;
-    text-align: center;
-}
-.addres{
-    font-size: 12px;
-    margin-top: 10%;
-}
-.imgWrapper:hover  .hoverEffect{
-    transition: all, 1s,ease-in;
-    display: block;
-}
-.imgWrapper:hover .price{
-    display: none;
-    transition: all 1s;
+.moreBtn>a{
+    border-radius: 6px;
+    padding: 4px 10px;
+    background: #57C325;
+    color: #fff;
+    font-size: 17px;
+    line-height: 20px;
+    font-weight: 300;
 }

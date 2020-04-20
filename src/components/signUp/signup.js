@@ -34,7 +34,7 @@ const validate = values => {
     }
     if (!values.phone) {
         errors.phone = 'Введите номер'
-    } else if (values.phone.length < 6) {
+    } else if (values.phone.length < 10) {
         errors.phone = 'Введите номер полностью'
     } else if (values.phone.length > 0) {
         errors.phone = undefined

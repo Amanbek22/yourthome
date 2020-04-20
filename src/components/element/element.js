@@ -1,12 +1,66 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import css from './element.module.css'
 import {Link} from "react-router-dom";
 import roomsImg from '../../img/room.png'
 
+
+
+
+function useOuterClick(callback) {
+    const innerRef = useRef();
+    const callbackRef = useRef();
+
+    // set current callback in ref, before second useEffect uses it
+    useEffect(() => { // useEffect wrapper to be safe for concurrent mode
+        callbackRef.current = callback;
+    });
+
+    useEffect(() => {
+        document.addEventListener("click", handleClick);
+        return () => document.removeEventListener("click", handleClick);
+
+        // read most recent callback and innerRef dom node from refs
+        function handleClick(e) {
+            if (
+                innerRef.current &&
+                callbackRef.current &&
+                !innerRef.current.contains(e.target)
+            ) {
+                callbackRef.current(e);
+            }
+        }
+    }, []); // no need for callback + innerRef dep
+
+    return innerRef; // return ref; client can omit `useRef`
+}
+
+
 const Element = props => {
+    const [visible, setVisible] = useState(false)
+    let dropDown;
+    if (visible) {
+        dropDown = <div onClick={()=> setVisible(true)} className={css.showedClickable}>
+            <div>
+                <Link to={`/change-apartment/${props.id}`}>Изменить контент</Link>
+            </div>
+            <div>
+                <Link to={`/booking/${props.id}`}>Изменить дату бранирования</Link>
+            </div>
+            <div style={{cursor: 'pointer'}} onClick={()=> {
+                    props.setVisible(true)
+                    props.setDelApartment(props.id)
+                }}
+            >Удолить</div>
+        </div>
+    } else {
+        dropDown = undefined
+    }
+    const innerRef = useOuterClick(e => {
+        setVisible(false)
+    });
     return (
-        <div className={css.wrapper}>
-            <Link  to={`/more-info/${props.id}`}>
+        <div className={css.wrapper} >
+            <Link to={`/more-info/${props.id}`}>
                 <div className={css.imgWrapper}>
                     <img src={props.img === null ? roomsImg : props.img} alt="Room img"/>
                 </div>
@@ -23,14 +77,19 @@ const Element = props => {
                     </div>
                 </div>
             </Link>
-            {props.changeBtn ? <div className={css.btnWrapper}>
-                <Link to={`/change-apartment/${props.id}`} className={css.moreBtnWrapper}>
-                    <button>Изменить</button>
-                </Link>
-            </div>: null}
+            {props.changeBtn ?
+                <div ref={innerRef}>
+                    <div onBlur={()=>alert('hello')} onClick={() => setVisible(true)} className={css.btnWrapper}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    {dropDown}
+                </div>
+                : null}
         </div>
     )
 }
-
+// style={{display: visible ? 'block' : 'none'}}
 
 export default Element;

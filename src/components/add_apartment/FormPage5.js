@@ -7,7 +7,7 @@ import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps"
 
 
 
-const MyMapComponent = withScriptjs(withGoogleMap((props) => {
+export const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let map = React.createRef()
         return (
             <div>
@@ -78,7 +78,7 @@ const FormPage5 = props => {
 }
 
 
-const MapForm = props => {
+export const MapForm = props => {
     const regions = [
         {id: '', name: 'Регион'},
         ...props.regions

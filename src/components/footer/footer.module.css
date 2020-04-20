@@ -1,25 +1,31 @@
 .wrapper{
-    background: url("../../img/footerbg.png") center center no-repeat;
-    -webkit-background-size: cover;
-    background-size: cover;
-    padding: 2% 12%;
-    margin-top: 5px;
+    background: #57C325;
+    padding: 5px 7%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 .firstWrapper{
-    text-align: left;
-    display: grid;
-    grid-template-columns: 2fr 3fr 3fr 3fr;
-    grid-gap: 1em;
-    color: white;
+    display: flex;
+    align-items: center;
 }
-.options{
-    font-size: 14px;
-    text-align: left;
+.firstWrapper>div{
+    width: 50px;
+    height: 50px;
 }
-
+.firstWrapper>div>img{
+    width: 100%;
+    height: 100%;
+}
+.firstWrapper>h2{
+    font-size: 30px;
+    margin-left: 10px;
+}
+.links>a{
+    margin: 0 10px;
+    color: #fff;
+}
 @media screen and (max-width: 768px){
-    .firstWrapper{
-        display: grid;
-        grid-template-columns: 1fr;
-    }
+
 }

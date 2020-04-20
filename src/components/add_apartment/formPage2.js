@@ -3,15 +3,24 @@ import css from "./addApartmant.module.css";
 import {Field, reduxForm} from "redux-form";
 import {InputAdd, SelectAdd} from "../forForms/inputs";
 import {validate} from './validate';
+import {connect} from "react-redux";
 
 
 const FormPage2 = props => {
+    const greaterThan = otherField => (value) => value > otherField ? value : '';
     return(
-        <form onSubmit={props.onSubmit} className={css.infos + ' ' + css.main}>
-            <div>
-                <label>Цена</label>
-                <Field autoFocus={'autoFocus'} placeholder={"Цена"} type="number" name={'price'} component={InputAdd}
-                />
+        <form onSubmit={props.onSubmit} className={css.infos + ' ' + css.wrapper}>
+            <div style={{display: 'grid',gridTemplateColumns: '1fr 1fr', gridGap: '1em'}}>
+                <div className={css.priceCur}>
+                    <label>Цена</label>
+                    <Field autoFocus={'autoFocus'} normalize={greaterThan(0)} placeholder={"Цена"} type="number" name={'price'} component={InputAdd}
+                    />
+                </div>
+                <div className={css.priceCur}>
+                    <label>Валюта</label>
+                    <Field normalize={greaterThan(0)} placeholder={"Валюта*"} type="number" name={'currency'} component={SelectAdd} data={props.currency}
+                    />
+                </div>
             </div>
 
             <div>
@@ -20,19 +29,19 @@ const FormPage2 = props => {
             </div>
             <div>
                 <label>Площадь</label>
-                <Field name={'area'} placeholder={"Площадь"} type="number" component={InputAdd}/>
+                <Field name={'area'}  normalize={greaterThan(0)} placeholder={"Площадь"} type="number" component={InputAdd}/>
             </div>
             <div>
                 <label>Этаж</label>
-                <Field name={'floor'} component={InputAdd} placeholder={'Этаж'} type={'number'}/>
+                <Field name={'floor'}  normalize={greaterThan(0)} component={InputAdd} placeholder={'Этаж'} type={'number'}/>
             </div>
             <div>
                 <label>Жилая площадь</label>
-                <Field name={'liveArea'} placeholder={"Площадь"} type="number" component={InputAdd}/>
+                <Field name={'liveArea'}  normalize={greaterThan(0)} placeholder={"Площадь"} type="number" component={InputAdd}/>
             </div>
             <div>
                 <label>Этажность дома</label>
-                <Field name={'floors'} component={InputAdd} type={'number'} placeholder={'Этажность дома'}/>
+                <Field name={'floors'}  normalize={greaterThan(0)} component={InputAdd} type={'number'} placeholder={'Этажность дома'}/>
             </div>
             <div>
                 <label>Тип строения</label>
@@ -42,13 +51,23 @@ const FormPage2 = props => {
                 <label>Тип ремонта</label>
                 <Field name={'state'} component={SelectAdd} data={props.state}/>
             </div>
-            <button className={css.sendBtn}>Далее</button>
+            <div></div>
+            <div className={css.nextPrevBtn}>
+                <span onClick={()=>props.previousPage()} className={css.sendBtn}>Назад</span>
+                <button type={"submit"} className={css.sendBtn}>Далее</button>
+            </div>
         </form>
     )
 }
 
-export default reduxForm({
+const mapStateToProps = state => {
+    return {
+        currency: state.app.currency
+    }
+}
+
+export default connect(mapStateToProps)(reduxForm({
     form: 'addApartment',  //Form name is same
     destroyOnUnmount: false,
     validate
-})(FormPage2);
+})(FormPage2));

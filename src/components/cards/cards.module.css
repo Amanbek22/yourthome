@@ -1,6 +1,7 @@
 .cardsWrapper{
     text-align: center;
-    margin: 60px 2%;
+    margin: 60px 0%;
+
 }
 .whereBuy{
     font-style: normal;
@@ -16,8 +17,9 @@
     margin: 20px 0;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-content: space-between;
+    justify-content: center;
+
+    /*align-content: space-between;*/
     /*flex-direction: column;*/
     /*grid-template-columns: auto;*/
     /*grid-gap: 1em;*/
@@ -36,20 +38,20 @@
 .more:focus{
     outline: none;
 }
-@media screen and (max-width: 996px) {
-    .cardWrapper{
-        grid-template-columns: repeat(3,1fr);
-        grid-gap: 1em;
-    }
-}
-@media screen and (max-width: 768px) {
-    .cardWrapper{
-        grid-template-columns: repeat(2,1fr);
-        grid-gap: 1em;
-    }
-}
-@media screen and (max-width: 530px) {
-    .cardWrapper{
-        grid-template-columns: repeat(1,1fr);
-    }
-}
+/*@media screen and (max-width: 996px) {*/
+    /*.cardWrapper{*/
+        /*grid-template-columns: repeat(3,1fr);*/
+        /*grid-gap: 1em;*/
+    /*}*/
+/*}*/
+/*@media screen and (max-width: 768px) {*/
+    /*.cardWrapper{*/
+        /*grid-template-columns: repeat(2,1fr);*/
+        /*grid-gap: 1em;*/
+    /*}*/
+/*}*/
+/*@media screen and (max-width: 530px) {*/
+    /*.cardWrapper{*/
+        /*grid-template-columns: repeat(1,1fr);*/
+    /*}*/
+/*}*/

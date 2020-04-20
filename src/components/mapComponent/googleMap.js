@@ -17,11 +17,14 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let map = React.createRef()
         let arr = [];
         let newarr = [];
-        const [zoom, setZoom] = useState(props.zoom)
+        const [zoom, setZoom] = useState(6.5)
         const [center, setCenter] = useState(props.latLng)
         const onMarkerMounted = (element) => {
             arr.push(element)
         }
+        useEffect(()=>{
+            setZoom(props.zoom)
+        },[props.zoom])
         const [selectedPark, setSelectedPark] = useState(null);
         let windowWidth = window.innerWidth;
         return (
@@ -35,7 +38,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                         }}
                         ref={map}
                         onZoomChanged={zoom}
-                        zoom={props.zoom}
+                        zoom={zoom}
                         center={props.latLng}
                         onBoundsChanged={() => {
                             newarr = [];
@@ -144,17 +147,19 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 
 const WrapperMap = props => {
+    const {
+        city, dateFrom, dateTo, rooms, floor,
+        priceFrom, priceTo, apartmentType,  construction_type,details
+    } = props.filterData;
+
     const [filteredCity, setFilteredCity] = useState('')
     const [selected, setSelected] = useState([])
     const [apartments, setApartments] = useState(props.points.points);
     const [filterStyle, setFilterStyle] = useState(false);
     const [openMap, setOpenMap] = useState(true);
     const [latLng, setLatLng] = useState({})
-    const [zoome, setZoome] = useState(7)
-    const {
-        city, dateFrom, dateTo, rooms, floor,
-        priceFrom, priceTo, apartmentType,  construction_type,details
-    } = props.filterData;
+    const [zoome, setZoome] = useState(6)
+
     useEffect(() => {
         setApartments(props.points.points)
     });
@@ -177,9 +182,7 @@ const WrapperMap = props => {
         }
     }, [filteredCity])
     useEffect(() => {
-        props.getApartment(
-            {...props.filterData}
-        )
+        props.getApartment({...props.filterData})
     }, [
         city, dateFrom, dateTo, rooms, floor,
         priceFrom, priceTo, apartmentType,
@@ -237,9 +240,7 @@ const WrapperMap = props => {
     return (
         <div>
             <div className={css.wrapper}>
-                <div className={`${css.map} ${openMap === null ? css.hide : openMap ? '' : css.hide}`}
-                    // style={{display: openMap ? 'block' : 'none'}}
-                >
+                <div className={`${css.map} ${openMap === null ? css.hide : openMap ? '' : css.hide}`}>
                     <MyMapComponent
                         chooseApartment={props.setApartment}
                         latLng={latLng}
@@ -259,16 +260,9 @@ const WrapperMap = props => {
                     />
                 </div>
                 <StyleRoot>
-                    <div className={`${css.elemetsWrapper} ${openMap ? css.hide : ''}`}
-                        // style={{display: openMap ? 'none' : 'block'}}
-                    >
-                        <div onClick={() => {
-                            if (!filterStyle) {
-                                setFilterStyle(true)
-                            } else {
-                                setFilterStyle(false)
-                            }
-                        }} className={css.filterBtnWrapper}>
+                    <div className={`${css.elemetsWrapper} ${openMap ? css.hide : ''}`}>
+                        <div onClick={() => !filterStyle ? setFilterStyle(true) : setFilterStyle(false)}
+                             className={css.filterBtnWrapper}>
                             <div style={
                                 !filterStyle ? null : {
                                     width: 5 + '%',

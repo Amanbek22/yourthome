@@ -22,6 +22,9 @@ const DeteilsPage = props => {
     const [images, setImages] = useState([]);
     const [details, setDetails] = useState({})
     const [description, setDescription] = useState([])
+    const [nearby_objects, setNearby_objects] = useState([])
+    const [objects_in_apartment, setObjects_in_apartment] = useState([])
+    const [phone, setPhone] = useState('')
     let token = JSON.parse(localStorage.getItem('newToken'));
     let comment = comments.map(item => {
         return (
@@ -39,10 +42,13 @@ const DeteilsPage = props => {
                 console.log(res.data)
                 setDescription(res.data.description.split('\n'))
                 setApartment(res.data)
+                setPhone(res.data.contact.phone)
                 setComments(res.data.comments)
                 setOrders(res.data.orders)
                 setDetails({...res.data.detail})
                 setImages(res.data.apartment_image)
+                setNearby_objects(res.data.nearby_objects)
+                setObjects_in_apartment(res.data.objects_in_apartment)
             })
     }, []);
     const sendComment = () => {
@@ -122,11 +128,7 @@ const DeteilsPage = props => {
                         <div>Этаж: {apartment.floor}</div>
                         <div>Тип строение: {apartment.construction_type}</div>
                         <div>Этажность дома: {apartment.floor}</div>
-                        {/*<div>Планировка: {apartment.floor}</div>*/}
                         <div>Тип ремонта: {apartment.state}</div>
-                        <div></div>
-                        {/*<div>Меблирована: {apartment.construction_type}</div>*/}
-                        <div></div>
                     </div>
                     <div className={css.listNear}>
                         <div>
@@ -134,6 +136,7 @@ const DeteilsPage = props => {
                             <div className={css.details}>
                                 {details.parking ? <div>Парковка</div> : null}
                                 {details.security ? <div>Охрана</div> : null}
+                                {nearby_objects.map(item=> <div key={item}>{item}</div>)}
                             </div>
                         </div>
                         <div>
@@ -146,6 +149,7 @@ const DeteilsPage = props => {
                                 {details.electricity ? <div>Электричество</div> : null}
                                 {details.elevator ? <div>Лифт</div> : null}
                                 {details.phone ? <div>Телефон</div> : null}
+                                {objects_in_apartment.map(item=> <div key={item}>{item}</div>)}
                             </div>
                         </div>
                     </div>
@@ -159,7 +163,7 @@ const DeteilsPage = props => {
                         <div>
                             <span className={css.description}>Описание:</span>
                             <span className={css.description}
-                                  style={{marginLeft: "20%"}}>тел.: +998 (90) 955-09-50</span>
+                                  style={{marginLeft: "20%"}}>тел.: {phone}</span>
                         </div>
                         <div style={{margin: '10px 0 0 10px'}}>
                             {description.map((item,index) => <span key={index}>{item} <br/></span>)}

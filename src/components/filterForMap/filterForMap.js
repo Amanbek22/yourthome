@@ -52,10 +52,7 @@ const FilterMap = props =>{
                     widthFilter()
                 } }>Применить</button>
             </div>
-            <select value={city} onChange={e=>{
-                // props.setItem(e.target.value,'')
-                setCity(e.target.value)
-            }} name="cities" >
+            <select value={city} onChange={e=>{setCity(e.target.value)}} name="cities" >
                 <option value="">Все Регионы</option>
                 <option value="1">Чуй</option>
                 <option value="2">Ош</option>
@@ -65,7 +62,6 @@ const FilterMap = props =>{
                 <option value="6">Джалал-Абад</option>
                 <option value="7">Баткен</option>
             </select>
-            {/*<input placeholder={"Дата вьезда и выезда"} type="text"/>*/}
             <div className={css.dataWrapper}>
                 <label>
                     Дата заезда
@@ -98,8 +94,10 @@ const FilterMap = props =>{
             <div className={css.impWrapper}>
                 <select value={construction_type} onChange={e=>setConstruction_type(e.target.value)} name="price" >
                     <option value="">Тип строения</option>
-                    <option value={1}>Панельный</option>
-                    <option value={2}>Кирпичный</option>
+                    {props.app.types
+                        ? props.app.types.map(item => <option value={item.id}>{item.type}</option> )
+                        : <option value="">Загрузка...</option>
+                    }
                 </select>
                 <select value={rooms} onChange={e=>setRooms(e.target.value)} name="more" >
                     <option value="">Количество комнат</option>
@@ -120,7 +118,6 @@ const FilterMap = props =>{
                     <option value="">Тип недвижемость</option>
                     <option value={1}>Квартира</option>
                     <option value={2}>Дом</option>
-                    {/*<option value="2000">Комерчиская невижемость</option>*/}
                 </select>
                 <select name="more" >
                     <option value="more">Мебелирван</option>
@@ -148,7 +145,8 @@ const FilterMap = props =>{
 
 const mapStateToProps = state => {
     return{
-        filterData: state.filterData
+        filterData: state.filterData,
+        app: state.app
     }
 }
 

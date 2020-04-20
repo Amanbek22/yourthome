@@ -1,34 +1,36 @@
 .filterWrapper{
-    background: url("../../img/Rectangle2.png") center center no-repeat;
-    background-size: cover;
-    display: block;
+    background: url("../../img/mainBackground.png") center center no-repeat fixed;
+    /*background-attachment: fixed;*/
+    display: grid;
+    grid-template-columns: 4fr 2fr;
     position: relative;
     color: white;
-    padding: 25px 0;
+    min-height: 100vh;
 }
 .filterWrapperSecond{
-    display: block;
+    /*display: block;*/
     background: rgba(0, 0, 0, 0.8);
-    border-radius: 3px;
-    padding: 22px 20px;
-    margin: 5px 20%;
+    height: 92vh;
+    position: sticky;
+    top: 9.7vh;
+    right: 0;
 }
 .links{
     text-align: left;
 }
 .links>a{
-    
     font-size: 14px;
     font-weight: bold;
     color: #ffffff;
     margin: 0 8px;
 }
 .inputsWrapper{
-    margin-top: 15px;
+    margin: 25px 20px;
     display: grid;
-    grid-template-columns: 2fr 6fr;
+    grid-template-columns: 1fr;
     grid-gap: 1em;
     padding-top: 10px;
+
 }
 .inputsWrapper>select{
     width: 100%;
@@ -42,9 +44,20 @@
     border-radius: 2px;
     height: 30px;
 }
+.inputFilter{
+    border: none;
+    border-radius: 2px;
+    height: 38px;
+    padding: 0 5px;
+}
+.inputs{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+}
 .moreWrapper{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 25px;
 }
 .moreSettings{
@@ -88,6 +101,13 @@
     height: 38px;
     padding: 0 5px;
 }
+.moreDetails{
+    color: #57C325;
+}
+.bookingDate{
+    font-weight: 300;
+}
+
 
 
 @media (max-width: 1200px) {
@@ -96,9 +116,9 @@
 
 
 @media (max-width: 992px) {
-    .filterWrapperSecond{
-        margin: 5px 15%;
-    }
+    /*.filterWrapperSecond{*/
+        /*margin: 5px 15%;*/
+    /*}*/
 }
 
 
@@ -123,6 +143,14 @@
     }
     .search, .show{
         font-size: 13px;
+    }
+    .filterWrapper{
+        display:flex;
+        flex-direction: column-reverse;
+    }
+    .filterWrapperSecond{
+        position: relative;
+        margin: 0 25px 25px 25px;
     }
 }
 .dateRangeWrapper>div>div{

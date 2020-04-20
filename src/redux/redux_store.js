@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore, compose} from "redux";
 import {googleMapReducer} from "./googleMap_reducer";
 import thunk  from 'redux-thunk'
 import {authReducer} from "./authReducer";
@@ -15,7 +15,10 @@ let reducers = combineReducers({
     app: appReducer,
 })
 
-let store  = createStore(reducers, applyMiddleware(thunk));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
+
+// let store  = createStore(reducers, applyMiddleware(thunk));
 
 window.store = store;
 

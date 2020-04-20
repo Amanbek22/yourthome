@@ -5,6 +5,7 @@ import axios from "axios";
 import css from './addPhote.module.css'
 import {WithNotAuthRedirect} from "../../HOC/AuthRedirect";
 import {compose} from "redux";
+import FormPage3 from "../add_apartment/addApartmant";
 
 
 const Add = props => {
@@ -26,9 +27,6 @@ const Add = props => {
     const [block6, setBlock6] = useState('block')
     const [btn, setBtn] = useState(true)
     useEffect(() => {
-        api.getApartmentApi(id).then(res => {
-            console.log(res)
-        })
         if(block0 === 'none' && block === 'none' && block1 === 'none' && block2 === 'none'){
             setBtn(false)
         }
@@ -49,13 +47,14 @@ const Add = props => {
         preview_image.append('image107', img4);
         preview_image.append('image108', img5);
         preview_image.append('image117', img6);
-
-        api.addPhoto(id,preview_image).then(res => {
-            props.history.push('./admin')
-        })
-        preview_image.forEach((value, key) => {
-            preview_image[key] = value;
-        });
+        // api.addPhoto(id,preview_image).then(res => {
+        //     props.history.push('/admin')
+        // })
+        // preview_image.forEach((value, key) => {
+        //     preview_image[key] = value;
+        // });
+        props.setPictures(preview_image)
+        props.onSubmit()
     }
     let width = window.innerWidth;
     return (

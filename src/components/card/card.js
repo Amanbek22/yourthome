@@ -1,54 +1,44 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import imgg from '../../img/room.png'
 import css from './card.module.css'
 
-const Card = props =>{
-    let {city,street,price,id,rooms,area,floor,img} = props
+const Card = props => {
+    let {city, street, houseNumber, price, id, rooms, area, floor, img, title, userName} = props
+    const [hover, setHover] = useState(false)
     return (
-        <div className={css.wrapper}>
-        <Link to={`more-info/${id}`}>
-            <div className={css.imgWrapper}>
-                <img src={!img ? imgg: img}  alt="apartment"/>
+        <div className={css.wrapper} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+            <div style={{display: hover ? 'none' : 'block'}}>
+                <Link to={`more-info/${id}`}>
+                    <div className={css.imgWrapper}>
+                        <img src={!img ? imgg : img}  alt=" "/>
+                    </div>
+                    <div className={css.description}>
+                        <div style={{marginBottom: '8px'}}>Цена: {price}$</div>
+                        <div className={css.title}>{title}</div>
+                    </div>
+                    <div></div>
+                    <div className={css.userName}>{userName}</div>
+                </Link>
             </div>
-            <div>
-                <div>{price}$</div>
-                <div>Продаю квартиру1/3/5 ...</div>
+            <div style={{display: hover ? 'block' : 'none'}} className={css.hovered}>
+                <div className={css.hoveredTitle}>
+                    {title}
+                </div>
+                <div className={css.hoveredTitle}>
+                    {price} $
+                </div>
+                <div className={css.address}>
+                    <div>Город: {city}</div>
+                    <div>Улица: {street}</div>
+                    <div>Дом: {houseNumber}</div>
+                </div>
+                <div className={css.moreBtn}>
+                    <Link to={`more-info/${id}`}>Подробнее</Link>
+                </div>
             </div>
-            <div>UserName</div>
-        </Link>
         </div>
     )
 }
 export default Card;
 
-
-
-{/*<div className={css.imgWrapper}>*/}
-    {/*<img src={!img ? imgg: img} alt="apartment"/>*/}
-    {/*<span className={css.price}>{price}$</span>*/}
-    {/*<div className={css.hoverEffect}>*/}
-        {/*<div className={css.options}>*/}
-            {/*<div>*/}
-                {/*{rooms}-Комнат*/}
-            {/*</div>*/}
-            {/*<div>*/}
-                {/*{area}m2*/}
-            {/*</div>*/}
-            {/*<div>*/}
-                {/*{floor}-Этаж*/}
-            {/*</div>*/}
-        {/*</div>*/}
-        {/*<div className={css.addres}>*/}
-            {/*{city}, {street}*/}
-        {/*</div>*/}
-    {/*</div>*/}
-{/*</div>*/}
-{/*<div>*/}
-{/*<div>*/}
-{/*500*/}
-{/*</div>*/}
-{/*<div>*/}
-    {/*Продаю квартиру1/3/5 ...*/}
-{/*</div>*/}
-{/*</div>*/}
