@@ -6,9 +6,11 @@ import { Link } from 'react-router-dom';
 
 const Cards = props =>{
     const [apartments,setApartments] = useState([]);
+    const [pending, setPending] = useState(false)
     useEffect(()=>{
         api.getApartments({}).then(res=>{
             setApartments(res.data.reverse());
+            setPending(true)
         })
     },[]);
     let apartment;
@@ -35,6 +37,11 @@ const Cards = props =>{
                 userName={item.owner}
             />
         })
+    }
+    if(!pending){
+        return <div style={{textAlign: 'center'}}>
+            <img src="https://trader-system.com/img_bak/preloader.gif" alt="Loading..."/>
+        </div>
     }
     return(
         <div className={css.cardsWrapper}>

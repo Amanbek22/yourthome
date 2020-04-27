@@ -19,7 +19,9 @@ const AddApartmentForm = props => {
     const [mark, setMark] = useState([])
     const [question, setQuestion] = useState(false);
     const [hide, setHide] = useState(false)
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(5)
+    const [img, setImg] = useState([]);
+
     const pushLocation = e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
         props.setLat(latlng[0])
@@ -60,7 +62,6 @@ const AddApartmentForm = props => {
                     setHide(true)
                 }
             })
-
     };
     let width = window.innerWidth;
     const data = [
@@ -114,7 +115,7 @@ const AddApartmentForm = props => {
                 options={options}
             />}
             {page === 4 && <FormPage4 previousPage={prevPage} onSubmit={nextPage}/>}
-            {page === 5 && <Add previousPage={prevPage} onSubmit={nextPage} setPictures={props.setPictures}/>}
+            {page === 5 && <Add img={img} setImg={setImg} previousPage={prevPage} onSubmit={nextPage} setPictures={props.setPictures}/>}
             {page === 6 && <FormPage5 previousPage={prevPage} onSubmit={props.handleSubmit}
                                       regions={props.app.regions}
                                       setHide={setHide}
@@ -173,19 +174,21 @@ const AddApartmentReduxForm = reduxForm({form: 'addApartment', validate})(AddApa
 
 const AddApartment = props => {
     const [pictures, setPictures] = useState(null)
+    console.log(pictures)
     const sendData = (data) => {
         let formData = {
             "title": data.headline,
             "type": Number(data.apartmentType),
             "room": data.rooms,
             "floor": data.floor,
+            "storey": data.storey,
             "area": {
                 "id": 1,
                 "total_area": Number(data.area),
                 "living_area": Number(data.liveArea)
             },
             "series": 1,
-            "construction_type": Number(data.constractionType),
+            "construction_type": Number(data.construction_type),
             "state": Number(data.state),
             "detail": {
                 "furniture": data.details ? data.details.includes('furniture') : false,

@@ -103,13 +103,15 @@
     margin: 5px 0 15px 10px;
 }
 .commentWrapper>div>div>button{
-    height: 50px;
+    height: 40px;
     margin-top: 10px;
     color: white;
     border: none;
-    font-size: 18px;
+    font-size: 16px;
     border-radius: 3px;
-    background: rgb(0, 255, 13);
+    width: 160px;
+    margin-left: auto;
+    background: #4BA620;
 }
 .commentWrapper>div>div{
     display: grid;

@@ -70,6 +70,7 @@ const Filter = props => {
         <div className={css.filterWrapper}>
             <div>
                 <Cards/>
+
             </div>
             <div className={css.filterWrapperSecond}>
                 <div className={css.inputsWrapper}>
@@ -98,12 +99,11 @@ const Filter = props => {
                                 onChange={e => setConstruction_type(e.target.value)} name="price">
                             <option value="">Тип строения</option>
                             {props.app.types
-                                ? props.app.types.map(item => <option value={item.id}>{item.type}</option>)
+                                ? props.app.types.map(item => <option key={item.id} value={item.id}>{item.type}</option>)
                                 : <option value="">Загрузка...</option>
                             }
                         </select>
                     </div>
-
                     <select value={region} onChange={(e) => setRegion(e.target.value)} name="find_by_region">
                         <option value="">Все регионы</option>
                         <option value="1">Чуй</option>
@@ -114,7 +114,6 @@ const Filter = props => {
                         <option value="6">Джалал-Абад</option>
                         <option value="7">Баткен</option>
                     </select>
-
                     <div className={css.inputs}>
                         <select className={css.inputFilter} value={rooms} onChange={(e) => setRooms(e.target.value)}>
                             <option value="">Количество комнат</option>
@@ -125,7 +124,7 @@ const Filter = props => {
                             <option value="5">5 комнат</option>
                             <option value="6">6 комнат</option>
                         </select>
-                        <input value={floor} onChange={e => setFloor(e.target.value)} name="floor"
+                        <input className={css.inputFilter} value={floor} onChange={e => setFloor(e.target.value)} name="floor"
                                placeholder={'Этаж'}/>
                     </div>
                     <div className={css.dateWrapper}>
@@ -178,6 +177,7 @@ const Filter = props => {
                                 rooms,
                                 atHome,
                                 nearby_objects,
+                                construction_type,
                                 dateFrom: state.startDate,
                                 dateTo: state.endDate,
                                 priceFrom,

@@ -6,9 +6,11 @@ import {validate} from './validate';
 
 export const Sel = props => {
     let {placeholder, options} = props
+
     useEffect(()=>{
         props.setDetails(props.input.value)
-    }, [])
+    })
+
     let values
     if(props.input.value) {
         let arr = [...props.input.value]

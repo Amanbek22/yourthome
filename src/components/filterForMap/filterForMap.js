@@ -133,9 +133,7 @@ const FilterMap = props =>{
                 <h4>Детали</h4>
                 <Select placeholder={'Детальная фильтрация...'} autoFocus onChange={(data) => {
                     let arr = []
-                    data.map(item => {
-                        arr.push(item.value)
-                    })
+                    data.map(item => arr.push(item.value))
                     setDetails(arr)
                 }} options={options} isMulti  />
             </div>

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {withRouter} from "react-router-dom";
 import api from "../../api/api";
 import axios from "axios";
-// import css from './change.module.css';
 import {WithNotAuthRedirect} from "../../HOC/AuthRedirect";
 import {compose} from "redux";
 import {change, Field, reduxForm} from "redux-form";
@@ -13,27 +12,47 @@ import {initialize} from 'redux-form';
 import {validate} from '../add_apartment/validate'
 import {MyMapComponent} from "../add_apartment/FormPage5";
 import {Sel} from "../add_apartment/FormPage3";
+import {FileUpdate} from "../addPhoto/addPhoto";
+
+
+const AddPhoto = props => {
+    let {loadetImages} = props;
+    return (
+        <div>
+            <div className={css.files}>
+                <FileUpdate image={loadetImages[0]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate image={loadetImages[1]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate image={loadetImages[2]} img={props.images} setimg={props.setImages}/>
+            </div>
+            <div className={css.files}>
+                <FileUpdate image={loadetImages[3]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate image={loadetImages[4]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate image={loadetImages[5]} img={props.images} setimg={props.setImages}/>
+            </div>
+        </div>
+    )
+}
+
 
 const Form = props => {
+    const [mark, setMark] = useState([])
+    const [question, setQuestion] = useState(false);
+    const [hide, setHide] = useState(false)
+    const [loadetImages, setLoadetImages] = useState([])
+    let width = window.innerWidth;
     useEffect(() => {
         api.getApartmentApi(props.id)
             .then(res => {
-                console.log(res.data)
-                // props.initializePost({...res.data,area: {...res.data.area},detail: {...res.data.details},location:  {...res.data.location}, contact: {...res.data.contact}})
                 props.initializePost({
                     ...res.data,
                     total_area: res.data.area.total_area,
                     living_area: res.data.area.living_area
                 })
                 setMark([res.data.location.latitude, res.data.location.longitude])
-                // props.setNearHome(res.data.nearby_objects)
-                // props.setAtHome(res.data.objects_in_apartment)
+                props.setImages(res.data.apartment_image)
+                setLoadetImages(res.data.apartment_image)
             })
     }, [])
-    const [mark, setMark] = useState([])
-    const [question, setQuestion] = useState(false);
-    const [hide, setHide] = useState(false)
-    let width = window.innerWidth;
     const pushLocation = e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
         props.setLat(latlng[0])
@@ -104,7 +123,7 @@ const Form = props => {
         {value: 'parking', label: 'Парковка'},
     ]
     return (
-        <form onSubmit={props.handleSubmit} className={css.formWrapper}>
+        <form onSubmit={props.handleSubmit} style={{marginTop: '20px'}} className={css.formWrapper}>
             <div className={css.main}>
                 <div>
                     <label>Заголовок*</label>
@@ -130,11 +149,13 @@ const Form = props => {
                         />
                     </div>
                 </div>
-
                 <div>
                     <label>Количество комнат</label>
                     <Field component={InputAdd} name={'room'}/>
                 </div>
+
+                <div/>
+
                 <div>
                     <label>Площадь</label>
                     <Field name={'total_area'} placeholder={"Площадь"} type="number" component={InputAdd}/>
@@ -143,17 +164,20 @@ const Form = props => {
                     <label>Этаж</label>
                     <Field name={'floor'} component={InputAdd} placeholder={'Этаж'} type={'number'}/>
                 </div>
+                <div/>
                 <div>
                     <label>Жилая площадь</label>
                     <Field name={'living_area'} placeholder={"Площадь"} type="number" component={InputAdd}/>
                 </div>
                 <div>
                     <label>Этажность дома</label>
-                    <Field name={'floors'} component={InputAdd} type={'number'} placeholder={'Этажность дома'}/>
+                    <Field name={'storey'} component={InputAdd} type={'number'} placeholder={'Этажность дома'}/>
                 </div>
+                <div/>
+
                 <div>
                     <label>Тип строения</label>
-                    <Field name={'constractionType'} component={SelectAdd}
+                    <Field name={'construction_type'} component={SelectAdd}
                            data={constractionType}
                     />
                 </div>
@@ -166,13 +190,13 @@ const Form = props => {
             </div>
             <div className={css.main + ' ' + css.details}>
                 <Field
-                    setDetails={props.setNearHome}
+                    setDetails={props.setAtHome}
                     name={'objects_in_apartment'}
                     component={Sel} options={options} isMulti
                     placeholder={'В квартире есть...'}
                 />
                 <Field
-                    setDetails={props.setAtHome}
+                    setDetails={props.setNearHome}
                     name={'nearby_objects'}
                     component={Sel} options={options} isMulti
                     placeholder={'Рядом есть...'}
@@ -182,6 +206,9 @@ const Form = props => {
                 <div>
                     <label>Описание</label>
                     <Field component={TextareaAdd} name={'description'} placeholder={"Описание...."}/>
+                </div>
+                <div>
+                    <AddPhoto loadetImages={loadetImages} images={props.images} setImages={props.setImages}/>
                 </div>
             </div>
 
@@ -222,8 +249,8 @@ const Form = props => {
                         </div> : null}
                     </div>
                     <div style={{display: 'none'}}>
-                        <Field name={'lat'} component={'input'}/>
-                        <Field name={'lng'} component={'input'}/>
+                        <Field name={'location.latitude'} component={'input'}/>
+                        <Field name={'location.longitude'} component={'input'}/>
                     </div>
                     <div>
                         <label>Номер дома</label>
@@ -260,10 +287,10 @@ function mapDispatchToProps(dispatch) {
             dispatch(initialize('changeApartment', post));
         },
         setLat: function (lat) {
-            dispatch(change('changeApartment', 'location.lat', lat));
+            dispatch(change('changeApartment', 'location.latitude', lat));
         },
         setLng: function (lng) {
-            dispatch(change('changeApartment', 'location.lng', lng));
+            dispatch(change('changeApartment', 'location.longitude', lng));
         },
         setHouse: function (num) {
             dispatch(change('changeApartment', 'location.house_number', num))
@@ -295,126 +322,83 @@ const FormChange = reduxForm({
 })(FormConnect)
 
 const Change = props => {
-
-
+    const [images, setImages] = useState([]);
+    console.log(images)
     const send = (data) => {
-        // alert('aaaaa')
+
+        const preview_image = new FormData();
+        let i = 1;
+        if (images.length) {
+            images.map(item => {
+                preview_image.append(`image` + i, item);
+                i++
+            })
+        }
+        preview_image.forEach((value, key) => {
+            preview_image[key] = value;
+        });
         console.log(data)
+
         let formData = {
+            "title": data.title,
             "type": data.type,
             "room": data.room,
             "floor": data.floor,
+            "storey": data.storey,
             "area": {
-                "id": 1,
-                "total_area": data.area.total_area,
-                "living_area": data.area.living_area
+                "total_area": data.total_area,
+                "living_area": data.living_area
             },
             "series": 1,
-            "construction_type": data.constractionType,
-            "state": 1,
-            "detail": {
-                "furniture": data.details ? data.details.includes('furniture') : false,
-                "heat": data.details ? data.details.includes('heat') : false,
-                "gas": data.details ? data.details.includes('gas') : false,
-                "electricity": data.details ? data.details.includes('electricity') : false,
-                "internet": data.details ? data.details.includes('internet') : false,
-                "phone": data.details ? data.details.includes('phone') : false,
-                "elevator": data.details ? data.details.includes('elevator') : false,
-                "security": data.details ? data.details.includes('security') : false,
-                "parking": data.details ? data.details.includes('parking') : false
-            },
+            "construction_type": data.construction_type,
+            "state": data.state,
+            // "detail": {
+            //     "furniture": data.details ? data.details.includes('furniture') : false,
+            //     "heat": data.details ? data.details.includes('heat') : false,
+            //     "gas": data.details ? data.details.includes('gas') : false,
+            //     "electricity": data.details ? data.details.includes('electricity') : false,
+            //     "internet": data.details ? data.details.includes('internet') : false,
+            //     "phone": data.details ? data.details.includes('phone') : false,
+            //     "elevator": data.details ? data.details.includes('elevator') : false,
+            //     "security": data.details ? data.details.includes('security') : false,
+            //     "parking": data.details ? data.details.includes('parking') : false
+            // },
             "location": {
-                "id": 1,
                 "country": 1,
                 "region": data.location.region,
-                "city": 1,
+                "city": data.location.city,
                 "district": 1,
                 "street": data.location.street,
                 "house_number": data.location.house_number,
-                "latitude": data.location.lat,
-                "longitude": data.location.lng
+                "latitude": data.location.latitude,
+                "longitude": data.location.longitude
             },
+            // "apartment_image": preview_image,
             "price": Number(data.price),
             "nearby_objects": data.nearby_objects,
             "objects_in_apartment": data.objects_in_apartment,
             "currency": data.currency,
             "description": data.description,
-            "images": [],
-            "comments": [],
-            "orders": []
         }
         console.log(formData)
-        let token = JSON.parse(localStorage.getItem('newToken'));
-        axios.patch(`https://yourthomemaster.herokuapp.com/apartment/${props.match.params.id}/`,
-            // {
-            //     "title": data.title,
-            //     'description': data.description,
-            //     'price': data.price,
-            //     'room': data.room,
-            //     'floor': data.floor,
-            // }
-            {
-                "type": Number(data.type),
-                "room": Number(data.room),
-                "floor": data.floor,
-                "area": {
-                    "total_area": Number(data.area.total_area),
-                    "living_area": Number(data.area.living_area),
-                },
-                "series": 1,
-                "construction_type": Number(data.constractionType),
-                "state": 1,
-                // "detail": {
-                "furniture": data.details ? data.details.includes('furniture') : false,
-                "heat": data.details ? data.details.includes('heat') : false,
-                "gas": data.details ? data.details.includes('gas') : false,
-                "electricity": data.details ? data.details.includes('electricity') : false,
-                "internet": data.details ? data.details.includes('internet') : false,
-                "phone": data.details ? data.details.includes('phone') : false,
-                "elevator": data.details ? data.details.includes('elevator') : false,
-                "security": data.details ? data.details.includes('security') : false,
-                "parking": data.details ? data.details.includes('parking') : false,
-                // },
-                // "location": {
-                "country": 1,
-                "region": data.location.region,
-                "city": data.city,
-                "district": 1,
-                "street": data.location.street,
-                "house_number": data.location.house_number,
-                "latitude": data.location.latitude,
-                "longitude": data.location.longitude,
-                // },
-                "price": Number(data.price),
-                "currency": data.currency,
-                "objects_in_apartment": [],
-                "nearby_objects": [],
-                "description": data.description,
-                "images": [],
-                "tags": [],
-            }
-            , {
-                headers: {
-                    "Authorization": "Bearer " + token.access
-                }
-            })
+        api.changeApartment(props.match.params.id, formData)
             .then(
                 res => {
                     console.log(res);
-                    // window.location.href = '/admin'
+                    api.addPhoto(props.match.params.id, preview_image).then(res => {
+                        console.log(res)
+                        // props.history.push('/admin')
+                    })
                 },
                 error => alert(error)
             )
 
     }
-    // const deleteApartment = () =>{
-    //     api.deleteApartment(props.match.params.id).then(res=>{
-    //         window.location.href = '/admin'
-    //     })
-    // }
+
     return (
         <div>
-            <FormChange app={props.app} onSubmit={send} id={props.match.params.id}/>
+            <FormChange images={images} setImages={setImages} app={props.app} onSubmit={send}
+                        id={props.match.params.id}/>
         </div>
     )
 }
@@ -426,61 +410,3 @@ const mapStateToProps = state => {
     }
 }
 export default compose(WithNotAuthRedirect, withRouter, connect(mapStateToProps, {}))(Change)
-
-// <div className={css.wrapper}>
-//     <div>
-//     <label>Загаловок</label>
-// <input type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
-// </div>
-// <div>
-//     <label>Описание</label>
-//     <input type="text" value={description} onChange={(e) => setDescription(e.target.value)}/>
-// </div>
-// <div>
-// <label>Количество комнат</label>
-// <input type="text" value={rooms} onChange={(e) => setRooms(e.target.value)}/>
-// </div>
-// {/*<input type="text" value={area} onChange={(e)=>setArea(e.target.value)}/>*/}
-// <div>
-//     <label>Цена</label>
-//     <input type="text" value={price} onChange={(e) => setPrice(e.target.value)}/>
-// </div>
-// <div>
-// <label>Этаж</label>
-// <input type="text" value={floor} onChange={(e) => setFloor(e.target.value)}/>
-// </div>
-// <button className={css.deleteBtn} onClick={() => setVisible(true)}>
-//     Change
-// </button>
-// <Modal
-// visible={visible}
-// width="400"
-// height="300"
-// effect="fadeInDown"
-// onClickAway={() => setVisible(false)}
-// >
-// <div className={css.modal}>
-//     <a style={{
-//     position: 'absolute',
-//         top: 0,
-//         right: 0,
-//         width: 20,
-//         height: 20,
-//         marginRight: 5,
-//         marginTop: 5,
-// }} href="javascript:void(0);" onClick={() => setVisible(false)}>
-// <img style={{width: 100 + '%', height: 100 + '%'}}
-// src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
-//     </a>
-// <p>Вы действительно хотите изменить это объявление?</p>
-// <div className={css.btnWrapperDel}>
-//     <div className={css.yesBtn} onClick={send}>
-//     Да
-//     </div>
-// <div style={{background: 'red'}} className={css.yesBtn} onClick={() => setVisible(false)}>Нет
-// </div>
-// </div>
-// </div>
-// </Modal>
-// {/* <button onClick={deleteApartment} className={css.deleteBtn}>Удалить объявление</button> */}
-// </div>

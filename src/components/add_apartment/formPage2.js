@@ -41,11 +41,11 @@ const FormPage2 = props => {
             </div>
             <div>
                 <label>Этажность дома</label>
-                <Field name={'floors'}  normalize={greaterThan(0)} component={InputAdd} type={'number'} placeholder={'Этажность дома'}/>
+                <Field name={'storey'}  normalize={greaterThan(0)} component={InputAdd} type={'number'} placeholder={'Этажность дома'}/>
             </div>
             <div>
                 <label>Тип строения</label>
-                <Field name={'constractionType'} component={SelectAdd} data={props.constractionType}/>
+                <Field name={'construction_type'} component={SelectAdd} data={props.constractionType}/>
             </div>
             <div>
                 <label>Тип ремонта</label>
@@ -53,7 +53,7 @@ const FormPage2 = props => {
             </div>
             <div></div>
             <div className={css.nextPrevBtn}>
-                <span onClick={()=>props.previousPage()} className={css.sendBtn}>Назад</span>
+                <button onClick={()=>props.previousPage()} className={css.sendBtn}>Назад</button>
                 <button type={"submit"} className={css.sendBtn}>Далее</button>
             </div>
         </form>
@@ -62,7 +62,8 @@ const FormPage2 = props => {
 
 const mapStateToProps = state => {
     return {
-        currency: state.app.currency
+        currency: state.app.currency,
+        minData: state.form.addApartment.values
     }
 }
 

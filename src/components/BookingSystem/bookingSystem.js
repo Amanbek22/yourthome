@@ -1,14 +1,14 @@
 import React, {useEffect, useReducer, useState} from 'react';
 import {withRouter} from "react-router-dom";
 import api from "../../api/api";
-import {DatePickerInput} from "rc-datepicker";
 import css from "./booking.module.css";
 import Modal from 'react-awesome-modal';
-import {DateRangeInput, START_DATE} from '@datepicker-react/styled'
+import {DateRangeInput} from '@datepicker-react/styled'
 import {ThemeProvider} from "styled-components";
 import {WithNotAuthRedirect} from "../../HOC/AuthRedirect";
 import {compose} from "redux";
-
+import pencil from '../../img/pencil.png'
+import trash from '../../img/trash.png'
 
 const initialState = {
     startDate: null,
@@ -28,6 +28,59 @@ function reducer(state, action) {
 }
 
 
+const Orders = props => {
+    const [changeDate, setChangeDate] = useState(false)
+    const [arrivalDate, setArrivalDate] = useState(props.arrival_date)
+    const [departureDate, setDepartureDate] = useState(props.departure_date)
+    const sendChangeDate = (e) => {
+        e.preventDefault()
+        setChangeDate(false)
+        console.log(arrivalDate)
+        console.log(departureDate)
+    }
+    return (
+        <form onSubmit={sendChangeDate} className={css.listWrapper} >
+            <div>
+                От
+                {
+                    changeDate
+                        ? <input required className={css.changeInput} type="date" value={arrivalDate} onChange={(e)=>setArrivalDate(e.target.value)}/>
+                        : <input disabled={true} value={arrivalDate}/>
+                }
+            </div>
+            <div>
+                До
+                {
+                    changeDate
+                     ? <input required className={css.changeInput} type="date"  value={departureDate} onChange={(e) => setDepartureDate(e.target.value)}/>
+                     : < input  disabled={true} value={departureDate}/>
+                }
+            </div>
+            <div className={css.btnsWrapper}>
+                {
+                    !changeDate
+                    ? <div onClick={() => {
+                            setChangeDate(true)
+                        }} style={{width: "25px", height: '25px', cursor: 'pointer', margin: 'auto 1% auto 0',}}>
+                            <img src={pencil} alt="del"/>
+                        </div>
+                        : <button>
+                            Save
+                        </button>
+                }
+
+                <div onClick={() => {
+                    props.setDelId(props.id)
+                    props.setVisible(true)
+                }} style={{width: "25px", height: '25px', cursor: 'pointer', margin: 'auto 1% auto 15px',}}>
+                    <img src={trash} alt="del"/>
+                </div>
+            </div>
+        </form>
+    )
+}
+
+
 const Booking = props => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -40,7 +93,6 @@ const Booking = props => {
 
         api.getOrders(id)
             .then(res => {
-                console.log(res.data)
                 setOrders(res.data)
             })
     }, [])
@@ -58,43 +110,30 @@ const Booking = props => {
         })
     }
     const listOrder = orders.map(item => {
-        return (
-            <div className={css.listWrapper} key={item.id} >
-                <div>
-
-                    <input
-                        disabled={true}
-                        value={item.arrival_date}
-                    />
-                </div>
-                <div>
-                    <input
-                        disabled={true}
-                        value={item.departure_date}
-                    />
-                </div>
-                <div onClick={()=>{
-                    setDelId(item.id)
-                    setVisible(true)
-                }} style={{width: "25px", height: '25px', cursor: 'pointer', margin: 'auto 1% auto 0',}}>
-                    <img style={{width: "100%", height: "100%"}} src={'https://image.flaticon.com/icons/svg/1214/1214926.svg'} alt="del"/>
-                </div>
-            </div>
-        )
+        return <Orders
+            key={item.id}
+            id={item.id}
+            arrival_date={item.arrival_date}
+            departure_date={item.departure_date}
+            setDelId={setDelId}
+            setVisible={setVisible}
+        />
     })
     const [blocked, setBlocked] = useState([]);
     let arr = [];
-    function daysInMonth (month, year) {
-        return new Date(year, month + 1 , 0).getDate();
+
+    function daysInMonth(month, year) {
+        return new Date(year, month + 1, 0).getDate();
     }
+
     useEffect(() => {
         orders.map(async item => {
             let adate = new Date(item.arrival_date);
             let dDate = new Date(item.departure_date);
-            if (adate.getFullYear() < dDate.getFullYear()){
-                for(let i = adate.getFullYear(); i < dDate.getFullYear(); i++){
-                    if(adate.getMonth() > dDate.getMonth    ()){
-                        for(let i = adate.getMonth(); i < dDate.getMonth() + 12; i++) {
+            if (adate.getFullYear() < dDate.getFullYear()) {
+                for (let i = adate.getFullYear(); i < dDate.getFullYear(); i++) {
+                    if (adate.getMonth() > dDate.getMonth()) {
+                        for (let i = adate.getMonth(); i < dDate.getMonth() + 12; i++) {
                             let days = daysInMonth(adate.getMonth(), adate.getFullYear())
                             arr.push(new Date(adate));
                             for (let i = adate.getDate(); i < days; i++) {
@@ -106,7 +145,7 @@ const Booking = props => {
                                 arr.push(new Date(adate));
                             }
                         }
-                    }else{
+                    } else {
                         arr.push(new Date(adate));
                         for (let i = adate.getDate(); i < dDate.getDate(); i++) {
                             adate.setDate(adate.getDate() + 1)
@@ -114,9 +153,9 @@ const Booking = props => {
                         }
                     }
                 }
-            }else{
-                if(adate.getMonth() < dDate.getMonth()){
-                    for(let i = adate.getMonth(); i < dDate.getMonth(); i++) {
+            } else {
+                if (adate.getMonth() < dDate.getMonth()) {
+                    for (let i = adate.getMonth(); i < dDate.getMonth(); i++) {
                         let days = daysInMonth(adate.getMonth(), adate.getFullYear())
                         arr.push(new Date(adate));
                         for (let i = adate.getDate(); i < days; i++) {
@@ -128,7 +167,7 @@ const Booking = props => {
                             arr.push(new Date(adate));
                         }
                     }
-                }else{
+                } else {
                     arr.push(new Date(adate));
                     for (let i = adate.getDate(); i < dDate.getDate(); i++) {
                         adate.setDate(adate.getDate() + 1);
@@ -159,19 +198,19 @@ const Booking = props => {
                 }}
             >
                 <div className={css.dateRangeWrapper}>
-                <DateRangeInput
-                    onDatesChange={data => dispatch({type: "dateChange", payload: data})}
-                    onFocusChange={focusedInput =>
-                        dispatch({type: "focusChange", payload: focusedInput})
-                    }
-                    startDate={state.startDate} // Date or null
-                    endDate={state.endDate} // Date or null
-                    focusedInput={state.focusedInput}
-                    minBookingDate={new Date()}
-                    unavailableDates={blocked}
-                    vertical={width <= 768}
-                    phrases={{startDatePlaceholder: 'Дата заезда', endDatePlaceholder: 'Дата выезда'}}
-                />
+                    <DateRangeInput
+                        onDatesChange={data => dispatch({type: "dateChange", payload: data})}
+                        onFocusChange={focusedInput =>
+                            dispatch({type: "focusChange", payload: focusedInput})
+                        }
+                        startDate={state.startDate} // Date or null
+                        endDate={state.endDate} // Date or null
+                        focusedInput={state.focusedInput}
+                        minBookingDate={new Date()}
+                        unavailableDates={blocked}
+                        vertical={width <= 768}
+                        phrases={{startDatePlaceholder: 'Дата заезда', endDatePlaceholder: 'Дата выезда'}}
+                    />
                 </div>
             </ThemeProvider>
             <div className={css.btnWrapper}>
@@ -179,25 +218,7 @@ const Booking = props => {
                     Добавить
                 </button>
             </div>
-            <div >
-                <div className={css.listWrapper} >
-                    <div>
-
-                        <input
-                            disabled={true}
-                            value={'От'}
-                        />
-                    </div>
-                    <div>
-                        <input
-                            disabled={true}
-                            value={'До'}
-                        />
-                    </div>
-                    <div style={{width: "25px", height: '25px', cursor: 'pointer', margin: 'auto 1% auto 0',}}>
-                        {/*<img style={{width: "100%", height: "100%"}} src={'https://image.flaticon.com/icons/svg/1214/1214926.svg'} alt="del"/>*/}
-                    </div>
-                </div>
+            <div>
                 {listOrder}
             </div>
             <Modal
@@ -216,7 +237,7 @@ const Booking = props => {
                         height: 20,
                         marginRight: 5,
                         marginTop: 5,
-                    }} href="javascript:void(0);" onClick={() => setVisible(false)}>
+                    }} onClick={() => setVisible(false)}>
                         <img style={{width: 100 + '%', height: 100 + '%'}}
                              src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
                     </a>

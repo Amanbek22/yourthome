@@ -20,11 +20,11 @@ const DeteilsPage = props => {
     const [orders, setOrders] = useState([])
     const [commentInput, setCommentInput] = useState();
     const [images, setImages] = useState([]);
-    const [details, setDetails] = useState({})
     const [description, setDescription] = useState([])
     const [nearby_objects, setNearby_objects] = useState([])
     const [objects_in_apartment, setObjects_in_apartment] = useState([])
     const [phone, setPhone] = useState('')
+    const [nearApartments, setNearApartments] = useState([])
     let token = JSON.parse(localStorage.getItem('newToken'));
     let comment = comments.map(item => {
         return (
@@ -36,20 +36,20 @@ const DeteilsPage = props => {
             </div>
         )
     })
+    console.log(comment)
     useEffect(() => {
         api.getApartmentApi(props.match.params.id)
             .then(res => {
-                console.log(res.data)
                 setDescription(res.data.description.split('\n'))
                 setApartment(res.data)
                 setPhone(res.data.contact.phone)
                 setComments(res.data.comments)
                 setOrders(res.data.orders)
-                setDetails({...res.data.detail})
                 setImages(res.data.apartment_image)
                 setNearby_objects(res.data.nearby_objects)
                 setObjects_in_apartment(res.data.objects_in_apartment)
             })
+        api.nearApartment(id).then(res => setNearApartments(res.data))
     }, []);
     const sendComment = () => {
         api.sendComment(id, commentInput)
@@ -127,28 +127,19 @@ const DeteilsPage = props => {
                         <div>Общая площадь: {area.total_area}m<sup>2</sup></div>
                         <div>Этаж: {apartment.floor}</div>
                         <div>Тип строение: {apartment.construction_type}</div>
-                        <div>Этажность дома: {apartment.floor}</div>
+                        <div>Этажность дома: {apartment.storey}</div>
                         <div>Тип ремонта: {apartment.state}</div>
                     </div>
                     <div className={css.listNear}>
                         <div>
                             <div>Рядом есть:</div>
                             <div className={css.details}>
-                                {details.parking ? <div>Парковка</div> : null}
-                                {details.security ? <div>Охрана</div> : null}
                                 {nearby_objects.map(item=> <div key={item}>{item}</div>)}
                             </div>
                         </div>
                         <div>
                             <div>В квартире есть:</div>
                             <div className={css.details}>
-                                {details.furniture ? <div>Мебель</div> : null}
-                                {details.internet ? <div>Интернет</div> : null}
-                                {details.gas ? <div>Газ</div> : null}
-                                {details.heat ? <div>Отопление</div> : null}
-                                {details.electricity ? <div>Электричество</div> : null}
-                                {details.elevator ? <div>Лифт</div> : null}
-                                {details.phone ? <div>Телефон</div> : null}
                                 {objects_in_apartment.map(item=> <div key={item}>{item}</div>)}
                             </div>
                         </div>
@@ -201,7 +192,7 @@ const DeteilsPage = props => {
                     <div className={css.commentWrapper}>
                         <h2>Отзывы</h2>
                         <div className={css.comments}>
-                            {comment}
+                            {comment.length ? comment : <h3>Пока нет отзывов</h3>}
                         </div>
                         {token ?
                             <div>
@@ -213,12 +204,17 @@ const DeteilsPage = props => {
                                         placeholder="Введите текст..."
                                     />
                                 </div>
-                                < div>
-                                    < button onClick={sendComment}>Отправить</button>
+                                <div>
+                                    <button onClick={sendComment}>Отправить</button>
                                 </div>
                             </div> : console.log('error')
                         }
                     </div>
+                </div>
+                <div>
+                    {
+                        nearApartments.length ? nearApartments.map(item => <div key={item.id}>{item.title}</div>) : <div></div>
+                    }
                 </div>
             </div>
         </div>
@@ -254,31 +250,12 @@ const mapStateToProps = state => {
 export default compose(withRouter, connect(mapStateToProps, {}))(DeteilsPage)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// {details.parking ? <div>Парковка</div> : null}
+// {details.security ? <div>Охрана</div> : null}
+// {details.furniture ? <div>Мебель</div> : null}
+// {details.internet ? <div>Интернет</div> : null}
+// {details.gas ? <div>Газ</div> : null}
+// {details.heat ? <div>Отопление</div> : null}
+// {details.electricity ? <div>Электричество</div> : null}
+// {details.elevator ? <div>Лифт</div> : null}
+// {details.phone ? <div>Телефон</div> : null}

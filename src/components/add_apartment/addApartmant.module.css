@@ -25,6 +25,7 @@
 .nextPrevBtn{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
 }
 .inputs, .selects{
     height: 35px;
@@ -37,7 +38,7 @@
 .main{
     padding: 0 15% 15px 15%;
     margin-bottom: 15px;
-    border-bottom: 1px solid rgb(172, 172, 172);
+    border-bottom: 1px solid #B1B1B1;
     display: grid;
     grid-template-columns: 3fr 2fr;
     grid-gap: 2em;
@@ -51,11 +52,19 @@
 .details>div>label>input{
     margin: 0 5px 0 0 ;
 }
+.infos{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+}
+.infos>div>label, div>label{
+    font-size: 12px;
+}
 .modal{
     display: grid;
     grid-template-columns: 6fr 2fr;
     grid-gap: 1em;
-    margin: 50px 10px;
+    margin: 0 10px;
     overflow: hidden;
 }
 .addressWrapper>div{
@@ -80,6 +89,10 @@
     font-size: 16px;
     margin-top: 14px;
     font-weight: 400;
+}
+.files{
+    display: flex;
+    justify-content: space-between;
 }
 @media screen and (max-width: 768px){
     .main, .wrapper{

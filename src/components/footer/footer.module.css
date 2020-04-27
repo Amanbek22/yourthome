@@ -27,5 +27,7 @@
     color: #fff;
 }
 @media screen and (max-width: 768px){
-
+    .wrapper{
+        display: grid;
+    }
 }

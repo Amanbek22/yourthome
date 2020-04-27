@@ -19,9 +19,16 @@ import {initializeApp, initializeAppData} from "./redux/appReducer";
 import {compose} from "redux";
 
 function App(props) {
-    useEffect(async () => {
-        await props.initializeAppData()
+    const allPromiseRejection = (promiseRejectionEvent) =>{
+        alert(promiseRejectionEvent)
+    }
+    useEffect( () => {
+        props.initializeAppData()
         props.initializeApp()
+        window.addEventListener('unhandledrejection', allPromiseRejection)
+        return () => {
+            window.removeEventListener('unhandledrejection', allPromiseRejection)
+        }
     }, [])
     if (!props.initialized.initialise) {
         return <div>

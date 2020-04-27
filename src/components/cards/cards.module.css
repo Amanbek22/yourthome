@@ -29,11 +29,14 @@
     margin-right: 3%;
 }
 .more{
-    background: #ffffff;
+    background: #05BA02;
     border: 1px solid #05BA02;
     padding: 12px 35px;
     border-radius: 4px;
     margin-top: 10px;
+}
+.more>a{
+    color: #FFFFFF;
 }
 .more:focus{
     outline: none;

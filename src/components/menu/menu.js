@@ -27,6 +27,12 @@ const Menu = props => {
                         </Link>
                     </div>
                     <div className={`${burger ? css.open : ''} ${css.lists}`}>
+                        {/*<div>*/}
+                            {/*<select name="currency">*/}
+                                {/*{props.currency ? props.currency.map(item => <option key={item.id} value={item.id}>{item.name}</option>) :*/}
+                                    {/*<option value="">Загрузка...</option>}*/}
+                            {/*</select>*/}
+                        {/*</div>*/}
                         {
                             props.data.logged === false ?
                                 <div className={css.addButtonWrapper}>
@@ -76,7 +82,8 @@ const Menu = props => {
 
 const mapStateToProps = state => {
     return {
-        data: state.data
+        data: state.data,
+        currency: state.app.currency
     }
 }
 

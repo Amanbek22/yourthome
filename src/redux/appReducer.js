@@ -15,7 +15,7 @@ let initialState = {
     constructionType: [],
     series: [],
     state: [],
-    currency: 1,
+    currency: null,
 }
 
 

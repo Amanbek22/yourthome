@@ -6,7 +6,6 @@ import {validate} from './validate';
 import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 
 
-
 export const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let map = React.createRef()
         return (
@@ -34,46 +33,51 @@ export const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 ))
 
 const FormPage5 = props => {
-    return(
-        <div className={css.modal}>
-            <div style={{display: props.width <= 768 ? props.hide ? 'none' : 'block' : 'block'}}>
-                <MyMapComponent
-                    marker={props.mark}
-                    googleMapURL="
+    return (
+        <form onSubmit={props.onSubmit} style={{marginTop: '-10px'}}>
+            <div style={{marginLeft: '2%'}}>Укажите на карте где находится Ваш дом или квартира*</div>
+            <div className={css.modal}>
+                <div style={{display: props.width <= 768 ? props.hide ? 'none' : 'block' : 'block'}}>
+                    <MyMapComponent
+                        marker={props.mark}
+                        googleMapURL="
                             https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyC31ZdDwrrTeMu4oaL5m5q4m6gCqAGkIKM&language=ru&region=RU
                             "
-                    loadingElement={<div
-                        style={{
-                            height: `90%`,
-                            position: `sticky`,
-                            zIndex: `99999990`,
-                            top: `0`,
-                            left: `0`
-                        }}/>}
-                    containerElement={<div
-                        style={{
-                            height: `85vh`,
-                            position: `sticky`,
-                            zIndex: `99999990`,
-                            left: `0`
-                        }}/>}
-                    mapElement={<div
-                        style={{
-                            height: `100%`,
-                            position: `sticky`,
-                            zIndex: `99999990`,
-                            top: `0`,
-                            left: `0`
-                        }}/>}
-                    pushLocation={props.pushLocation}
-                />
+                        loadingElement={<div
+                            style={{
+                                height: `90%`,
+                                position: `sticky`,
+                                top: `0`,
+                                left: `0`
+                            }}/>}
+                        containerElement={<div
+                            style={{
+                                height: `78vh`,
+                                position: `sticky`,
+                                left: `0`
+                            }}/>}
+                        mapElement={<div
+                            style={{
+                                height: `100%`,
+                                position: `sticky`,
+                                top: `0`,
+                                left: `0`
+                            }}/>}
+                        pushLocation={props.pushLocation}
+                    />
+                </div>
+                <MapForm
+                         regions={props.regions}
+                         setHide={props.setHide}
+                         setMark={props.setMark}
+                         question={props.question}/>
+                <div></div>
+                <div style={{margin: '0 0 25px 0'}} className={css.nextPrevBtn}>
+                    <button onClick={() => props.previousPage()} className={css.sendBtn}>Назад</button>
+                    <button type={"submit"} className={css.sendBtn}>Далее</button>
+                </div>
             </div>
-            <MapForm onSubmit={props.onSubmit}
-                     regions={props.regions}
-                     setHide={props.setHide}
-                     setMark={props.setMark}
-                     question={props.question}/>
-        </div>
+        </form>
     )
 }
 
@@ -83,7 +87,7 @@ export const MapForm = props => {
         {id: '', name: 'Регион'},
         ...props.regions
     ]
-    const { pristine, submitting } = props
+    const {pristine, submitting} = props
     return (
         <form onSubmit={props.onSubmit} className={css.addressWrapper}>
             <div style={{textAlign: 'center'}}>
@@ -115,33 +119,32 @@ export const MapForm = props => {
                 <label>Страна</label>
                 <Field component={InputAdd} name={'country'} placeholder={"Страна"} type="text"/>
             </div>
-            {
-                props.question ?
-                    <div>
-                        <div style={{fontSize: "14px"}}>Если ваш адресс указан не правильно вы
-                            можете исправить вручную.
-                        </div>
-                        <div style={{display: "flex"}}>
-                            <input style={{width: "100px"}} type="submit"
-                                   value={'Да'}
-                                   disabled={pristine || submitting}
-                                   className={css.sendBtn}/>
-                            <input
-                                style={{width: "100px", background: 'red'}} type="button"
-                                value={'Нет'} className={`${css.sendBtn} ${css.rejectBtn}`}
-                                onClick={() => {
-                                    props.setHide(false)
-                                    props.setMark('')
-                                }}
-                            />
-                        </div>
-                    </div>
-                    : null
-            }
+            {/*{*/}
+            {/*props.question ?*/}
+            {/*<div>*/}
+            {/*<div style={{fontSize: "14px"}}>Если ваш адресс указан не правильно вы*/}
+            {/*можете исправить вручную.*/}
+            {/*</div>*/}
+            {/*<div style={{display: "flex"}}>*/}
+            {/*<input style={{width: "100px"}} type="submit"*/}
+            {/*value={'Да'}*/}
+            {/*disabled={pristine || submitting}*/}
+            {/*className={css.sendBtn}/>*/}
+            {/*<input*/}
+            {/*style={{width: "100px", background: 'red'}} type="button"*/}
+            {/*value={'Нет'} className={`${css.sendBtn} ${css.rejectBtn}`}*/}
+            {/*onClick={() => {*/}
+            {/*props.setHide(false)*/}
+            {/*props.setMark('')*/}
+            {/*}}*/}
+            {/*/>*/}
+            {/*</div>*/}
+            {/*</div>*/}
+            {/*: null*/}
+            {/*}*/}
         </form>
     )
 }
-
 
 
 export default reduxForm({

@@ -134,6 +134,7 @@ const Admin = props => {
         api.getOwnApartments()
             .then(res => {
                 setApartment(res.data)
+                console.log(res.data)
             })
     }, [])
     let items;
