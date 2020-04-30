@@ -3,15 +3,21 @@ import {Link} from "react-router-dom";
 import imgg from '../../img/room.png'
 import css from './card.module.css'
 
+
 const Card = props => {
-    let {city, street, houseNumber, price, id, rooms, area, floor, img, title, userName} = props
+    let {city, street, houseNumber, price, id, img, title, userName} = props
     const [hover, setHover] = useState(false)
     return (
         <div className={css.wrapper} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-            <div style={{display: hover ? 'none' : 'block'}}>
+            <div
+                style={{
+                    transition: 'display 1s ease-out',
+                    display: hover ? 'none' : 'block',
+                }}
+            >
                 <Link to={`more-info/${id}`}>
                     <div className={css.imgWrapper}>
-                        <img src={!img ? imgg : img}  alt=" "/>
+                        <img src={!img ? imgg : img} alt=" "/>
                     </div>
                     <div className={css.description}>
                         <div style={{marginBottom: '8px'}}>Цена: {price}$</div>
@@ -21,7 +27,10 @@ const Card = props => {
                     <div className={css.userName}>{userName}</div>
                 </Link>
             </div>
-            <div style={{display: hover ? 'block' : 'none'}} className={css.hovered}>
+            <div style={{
+                transition: 'display 1s ease-out',
+                display: hover ? 'block' : 'none',
+            }} className={css.hovered}>
                 <div className={css.hoveredTitle}>
                     {title}
                 </div>

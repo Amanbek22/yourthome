@@ -40,6 +40,7 @@
     position: relative;
     text-align: left;
     color: #000;
+    transition: all 1s ease-in-out;
 }
 .hovered>div{
     padding: 10px 12px;
@@ -72,4 +73,12 @@
     font-size: 17px;
     line-height: 20px;
     font-weight: 300;
+}
+@-webkit-keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }

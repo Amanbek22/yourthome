@@ -8,10 +8,11 @@ import api from "../../api/api";
 import {DatePickerInput} from "rc-datepicker";
 import 'moment/locale/ru.js';
 import 'rc-datepicker/lib/style.css';
-import {GoogleMap,  Marker, withGoogleMap, withScriptjs} from "react-google-maps";
+import {GoogleMap, Marker, withGoogleMap, withScriptjs} from "react-google-maps";
 import {compose} from "redux";
 import img from '../../img/mainImg.png'
-
+import Card from '../card/card'
+import dropDown from '../../img/dropDown.png'
 
 const DeteilsPage = props => {
     const {id} = props.match.params;
@@ -25,6 +26,7 @@ const DeteilsPage = props => {
     const [objects_in_apartment, setObjects_in_apartment] = useState([])
     const [phone, setPhone] = useState('')
     const [nearApartments, setNearApartments] = useState([])
+    const [details, setDetails] = useState(true)
     let token = JSON.parse(localStorage.getItem('newToken'));
     let comment = comments.map(item => {
         return (
@@ -130,17 +132,23 @@ const DeteilsPage = props => {
                         <div>Этажность дома: {apartment.storey}</div>
                         <div>Тип ремонта: {apartment.state}</div>
                     </div>
-                    <div className={css.listNear}>
-                        <div>
-                            <div>Рядом есть:</div>
-                            <div className={css.details}>
-                                {nearby_objects.map(item=> <div key={item}>{item}</div>)}
-                            </div>
+                    <div className={css.detailsWrapper}>
+                        <div style={{cursor: 'pointer'}} onClick={()=> setDetails(!details)}>
+                            <span>Детали  </span>
+                            <img style={{marginLeft: '4px',transition: 'transform 0.4s ease',transform: details ? 'rotate(0)' : 'rotate(-180deg)'}} src={dropDown} alt="^"/>
                         </div>
-                        <div>
-                            <div>В квартире есть:</div>
-                            <div className={css.details}>
-                                {objects_in_apartment.map(item=> <div key={item}>{item}</div>)}
+                        <div className={css.listNear} style={{transitionDuration: '1s',display: details ? 'none' : 'grid'}}>
+                            <div>
+                                <div>Рядом есть:</div>
+                                <div className={css.details}>
+                                    {nearby_objects.map(item => <div key={item}>{item}</div>)}
+                                </div>
+                            </div>
+                            <div>
+                                <div>В квартире есть:</div>
+                                <div className={css.details}>
+                                    {objects_in_apartment.map(item => <div key={item}>{item}</div>)}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,7 +165,7 @@ const DeteilsPage = props => {
                                   style={{marginLeft: "20%"}}>тел.: {phone}</span>
                         </div>
                         <div style={{margin: '10px 0 0 10px'}}>
-                            {description.map((item,index) => <span key={index}>{item} <br/></span>)}
+                            {description.map((item, index) => <span key={index}>{item} <br/></span>)}
                         </div>
                     </div>
                     <div>
@@ -192,7 +200,7 @@ const DeteilsPage = props => {
                     <div className={css.commentWrapper}>
                         <h2>Отзывы</h2>
                         <div className={css.comments}>
-                            {comment.length ? comment : <h3>Пока нет отзывов</h3>}
+                            {comment.length ? comment : <div className={css.titles}>Пока нет отзывов</div>}
                         </div>
                         {token ?
                             <div>
@@ -211,9 +219,25 @@ const DeteilsPage = props => {
                         }
                     </div>
                 </div>
-                <div>
+                <div className={css.titles}>Другие варианты жилья в этом районе</div>
+                <div className={css.cards}>
                     {
-                        nearApartments.length ? nearApartments.map(item => <div key={item.id}>{item.title}</div>) : <div></div>
+                        nearApartments.length ? nearApartments.map(item => {
+                            return <Card
+                                id={item.id}
+                                key={item.id}
+                                img={item.apartment_image[0] ? item.apartment_image[0].image : null}
+                                city={item.location.city}
+                                street={item.location.street}
+                                houseNumber={item.location.house_number}
+                                price={item.price}
+                                rooms={item.room}
+                                floor={item.floor}
+                                area={item.area.total_area}
+                                title={item.title}
+                                userName={item.owner}
+                            />
+                        }) : <div>No apartments</div>
                     }
                 </div>
             </div>

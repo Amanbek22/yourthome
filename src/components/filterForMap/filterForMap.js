@@ -3,11 +3,12 @@ import css from './filter.module.css'
 import {DatePickerInput} from "rc-datepicker";
 import {connect} from "react-redux";
 import {setFilterData} from '../../redux/filterReducer'
-import Select from "react-select";
+import  {Creatable} from "react-select";
 
 
 const FilterMap = props =>{
     const [city,setCity] = useState(props.filterData.city);
+    const [region, setRegion] = useState(props.filterData.region);
     const [apartmentType, setApartmentType] = useState(props.filterData.type)
     const [construction_type, setConstruction_type] = useState(props.filterData.construction_type)
     const [rooms,setRooms] = useState(props.filterData.rooms)
@@ -20,11 +21,16 @@ const FilterMap = props =>{
     const onDataChange = (jsDate,dateString) => setDateFrom(jsDate)
     const onDataToChange = (jsDate,dateString) => setDateTo(jsDate)
     const [details, setDetails] = useState([])
+    const [nearby_objects, setNearby_objects] = useState(props.filterData.nearby_objects)
+    const [atHome, setAtHome] = useState(props.filterData.atHome)
     const filter = () =>{
-        props.setItem(city,'')
-        props.setFilterData(
-            {city,rooms,floor,dateFrom,dateTo,priceFrom,priceTo,apartmentType,construction_type, details}
-            )
+        props.setItem(region,'')
+        props.setFilterData({
+                city,region,rooms,
+                floor,dateFrom,dateTo,
+                priceFrom,priceTo,apartmentType,
+                construction_type, details
+            })
     }
     let width = window.innerWidth;
     const widthFilter = () => {
@@ -52,7 +58,7 @@ const FilterMap = props =>{
                     widthFilter()
                 } }>Применить</button>
             </div>
-            <select value={city} onChange={e=>{setCity(e.target.value)}} name="cities" >
+            <select value={region} onChange={e=>{setRegion(e.target.value)}} name="cities" >
                 <option value="">Все Регионы</option>
                 <option value="1">Чуй</option>
                 <option value="2">Ош</option>
@@ -131,11 +137,27 @@ const FilterMap = props =>{
             </div>
             <div className={css.detailsWrapper}>
                 <h4>Детали</h4>
-                <Select placeholder={'Детальная фильтрация...'} autoFocus onChange={(data) => {
-                    let arr = []
-                    data.map(item => arr.push(item.value))
-                    setDetails(arr)
-                }} options={options} isMulti  />
+                <div>
+                    <Creatable
+                        placeholder={'Рядом есть'}
+                        options={options}
+                        value={atHome}
+                        onChange={(data) => {
+                            setAtHome(data)
+                        }}
+                        isMulti
+                    />
+                    <br/>
+                    <Creatable
+                        placeholder={'В доме есть'}
+                        options={options}
+                        value={nearby_objects}
+                        onChange={(data) => {
+                            setNearby_objects(data)
+                        }}
+                        isMulti
+                    />
+                </div>
             </div>
         </div>
     )

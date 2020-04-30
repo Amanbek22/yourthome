@@ -4,6 +4,7 @@ const SET_FILTER_DATA = 'SET_DATA_FILTER';
 
 const initialState = {
     city: '',
+    region: '',
     dateFrom: null,
     dateTo: null,
     rooms: '',
@@ -19,7 +20,7 @@ const initialState = {
     elevator: false,
     security: false,
     parcking: false,
-    details: null
+    details: null,
 }
 
 export const FilterReducer = (state = initialState,action) => {

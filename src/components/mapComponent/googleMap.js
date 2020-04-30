@@ -37,7 +37,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                             }, 500)
                         }}
                         ref={map}
-                        onZoomChanged={zoom}
+                        onZoomChanged={(e)=>console.log(e)}
                         zoom={zoom}
                         center={props.latLng}
                         onBoundsChanged={() => {
@@ -148,8 +148,9 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 
 const WrapperMap = props => {
     const {
-        city, dateFrom, dateTo, rooms, floor,
-        priceFrom, priceTo, apartmentType,  construction_type,details
+        region, city, dateFrom, dateTo, rooms, floor,
+        priceFrom, priceTo, apartmentType,
+        construction_type,details
     } = props.filterData;
 
     const [filteredCity, setFilteredCity] = useState('')
@@ -159,7 +160,6 @@ const WrapperMap = props => {
     const [openMap, setOpenMap] = useState(true);
     const [latLng, setLatLng] = useState({})
     const [zoome, setZoome] = useState(6)
-
     useEffect(() => {
         setApartments(props.points.points)
     });
@@ -168,7 +168,7 @@ const WrapperMap = props => {
             setLatLng({lat: 41.204380, lng: 74.766098})
             setZoome(7)
         } else {
-            setZoome(9);
+            setZoome(zoome === 9 ? 9.01 : 9 );
             return filteredCity === '1' ? setLatLng({lat: 42.771211, lng: 74.545287}) :
                 filteredCity === '2' ? setLatLng({lat: 40.532589, lng: 72.771791}) :
                     filteredCity === '3' ? setLatLng({lat: 41.426350, lng: 75.991058}) :
@@ -184,7 +184,7 @@ const WrapperMap = props => {
     useEffect(() => {
         props.getApartment({...props.filterData})
     }, [
-        city, dateFrom, dateTo, rooms, floor,
+        city,region, dateFrom, dateTo, rooms, floor,
         priceFrom, priceTo, apartmentType,
         details, construction_type
     ]);
@@ -245,6 +245,7 @@ const WrapperMap = props => {
                         chooseApartment={props.setApartment}
                         latLng={latLng}
                         zoom={zoome}
+                        setZoome={setZoome}
                         setVisibleMarkers={setSelected}
                         sended={props.points.send}
                         googleMapURL="

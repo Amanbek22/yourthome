@@ -17,22 +17,30 @@ import {FileUpdate} from "../addPhoto/addPhoto";
 
 const AddPhoto = props => {
     let {loadetImages} = props;
+    let idApartment = props.match.params.id
+    const onDelete = id => {
+        api.deletePhoto(idApartment, id)
+            .then(res => {
+                console.log(res)
+            })
+    }
     return (
         <div>
             <div className={css.files}>
-                <FileUpdate image={loadetImages[0]} img={props.images} setimg={props.setImages}/>
-                <FileUpdate image={loadetImages[1]} img={props.images} setimg={props.setImages}/>
-                <FileUpdate image={loadetImages[2]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate onDelete={onDelete} image={loadetImages[0]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate onDelete={onDelete} image={loadetImages[1]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate onDelete={onDelete} image={loadetImages[2]} img={props.images} setimg={props.setImages}/>
             </div>
             <div className={css.files}>
-                <FileUpdate image={loadetImages[3]} img={props.images} setimg={props.setImages}/>
-                <FileUpdate image={loadetImages[4]} img={props.images} setimg={props.setImages}/>
-                <FileUpdate image={loadetImages[5]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate onDelete={onDelete} image={loadetImages[3]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate onDelete={onDelete} image={loadetImages[4]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate onDelete={onDelete} image={loadetImages[5]} img={props.images} setimg={props.setImages}/>
             </div>
         </div>
     )
 }
 
+const AddPhtoWithId = withRouter(AddPhoto)
 
 const Form = props => {
     const [mark, setMark] = useState([])
@@ -41,7 +49,7 @@ const Form = props => {
     const [loadetImages, setLoadetImages] = useState([])
     let width = window.innerWidth;
     useEffect(() => {
-        api.getApartmentApi(props.id)
+        api.getOwnApartmentApi(props.id)
             .then(res => {
                 props.initializePost({
                     ...res.data,
@@ -208,7 +216,7 @@ const Form = props => {
                     <Field component={TextareaAdd} name={'description'} placeholder={"Описание...."}/>
                 </div>
                 <div>
-                    <AddPhoto loadetImages={loadetImages} images={props.images} setImages={props.setImages}/>
+                    <AddPhtoWithId loadetImages={loadetImages} images={props.images} setImages={props.setImages}/>
                 </div>
             </div>
 
@@ -381,13 +389,21 @@ const Change = props => {
             "description": data.description,
         }
         console.log(formData)
-        api.changeApartment(props.match.params.id, formData)
+        let token = JSON.parse(localStorage.getItem('newToken'));
+        axios.patch(`https://yourthomemaster.herokuapp.com/apartment/${props.match.params.id}/`,formData,
+        // api.changeApartment(props.match.params.id, formData)
+            {
+                headers: {
+                    "Authorization": "Bearer " + token.access
+                }
+            }
+        )
             .then(
                 res => {
                     console.log(res);
                     api.addPhoto(props.match.params.id, preview_image).then(res => {
                         console.log(res)
-                        // props.history.push('/admin')
+                        props.history.push('/admin')
                     })
                 },
                 error => alert(error)

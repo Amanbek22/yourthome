@@ -19,7 +19,7 @@ const AddApartmentForm = props => {
     const [mark, setMark] = useState([])
     const [question, setQuestion] = useState(false);
     const [hide, setHide] = useState(false)
-    const [page, setPage] = useState(5)
+    const [page, setPage] = useState(1)
     const [img, setImg] = useState([]);
 
     const pushLocation = e => {

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {DateRangeInput} from "@datepicker-react/styled";
 import Cards from "../cards/cards";
 import {Creatable} from "react-select";
-import dropDown from  '../../img/dropDown.png'
+import dropDown from '../../img/dropDown.png'
 
 const initialState = {
     startDate: null,
@@ -42,8 +42,8 @@ const Filter = props => {
     const [priceTo, setPriceTo] = useState('');
     const [floor, setFloor] = useState('')
     const [construction_type, setConstruction_type] = useState(props.filterData.construction_type)
-    const [nearby_objects, setNearby_objects] = useState([])
-    const [atHome, setAtHome] = useState([])
+    const [nearby_objects, setNearby_objects] = useState(props.filterData.nearby_objects)
+    const [atHome, setAtHome] = useState(props.filterData.atHome)
     const [moreVisible, setMoreVisible] = useState(false)
     const [state, dispatch] = useReducer(reducer, initialState);
     useEffect(() => {
@@ -99,7 +99,8 @@ const Filter = props => {
                                 onChange={e => setConstruction_type(e.target.value)} name="price">
                             <option value="">Тип строения</option>
                             {props.app.types
-                                ? props.app.types.map(item => <option key={item.id} value={item.id}>{item.type}</option>)
+                                ? props.app.types.map(item => <option key={item.id}
+                                                                      value={item.id}>{item.type}</option>)
                                 : <option value="">Загрузка...</option>
                             }
                         </select>
@@ -124,7 +125,8 @@ const Filter = props => {
                             <option value="5">5 комнат</option>
                             <option value="6">6 комнат</option>
                         </select>
-                        <input className={css.inputFilter} value={floor} onChange={e => setFloor(e.target.value)} name="floor"
+                        <input className={css.inputFilter} value={floor} onChange={e => setFloor(e.target.value)}
+                               name="floor"
                                placeholder={'Этаж'}/>
                     </div>
                     <div className={css.dateWrapper}>
@@ -133,15 +135,23 @@ const Filter = props => {
                         <input value={priceTo} onChange={e => setPriceTo(e.target.value)} type="number"
                                placeholder={'Цена до'}/>
                     </div>
-                    <div className={css.moreDetails} onClick={()=>setMoreVisible(!moreVisible)} >
+                    <div className={css.moreDetails} onClick={() => setMoreVisible(!moreVisible)}>
                         Дополнительно
-                        {
-                            moreVisible
-                                ? <img style={{cursor: 'pointer',marginLeft: '5px', transform: 'rotate(180deg)'}} src={dropDown} alt={' '} />
-                                : <img style={{cursor: 'pointer',marginLeft: '5px'}} src={dropDown} alt={' '} />
-                        }
+                        <img
+                            style={{
+                                cursor: 'pointer',
+                                marginLeft: '5px',
+                                transition: 'transform 0.5s ease',
+                                transform: moreVisible ? 'rotate(180deg)' : 'rotate(0deg)'
+                            }}
+                            src={dropDown} alt={' '}/>
                     </div>
-                    <div style={{display: moreVisible ? 'block' : 'none'}} >
+                    <div
+                        style={{
+                            transition: 'opacity 0.5s liner',
+                            opacity: moreVisible ? '1' : '0',
+                            display: moreVisible ? 'block' : 'none',
+                        }}>
                         <Creatable
                             placeholder={'Рядом есть'}
                             options={options}
@@ -194,77 +204,3 @@ const Filter = props => {
 
 
 export default Filter;
-
-
-/*
-*
-* Рыбалов Арсений Сергеевич
-1. 0
-2. 1
-3. 1
-4. 1
-5. 0.5
-6. 0
-7. 0
-8. 1
-9. 1
-10. 0.5
-11. 1
-12. 1
-13. 1
-14. 0
-15. 0.5
-16. 1
-17. 1
-18. 0
-19. 1
-20. 0
-21. 1
-22. 1
-23. 0
-24. 1
-25. 1
-26. 0
-27. 0.5
-====17
-
-
-Герасько Вадим
-
-
-1. 1
-2. 1
-3. 1
-4. 0
-5. 0.5
-6. 0
-7. 0
-8. 0.5
-9. 1
-10. 1
-11. 1
-12. 0
-13. 0.5
-14. 1
-15. 1
-16. 1
-17. 0.5
-18. 0
-19. 0
-20. 0.5
-21. 1
-22. 0.5
-23. 0
-24. 1
-25. 1
-26. 0
-27. 1
-====16
-
-
-
-
-
-*
-*
-* */

@@ -31,9 +31,10 @@ export default {
         }
         return http.get(`/apartments/?location__region=${!region ? '' : region}&location__city=${!city ? '' : city}&location__district=${''}&type=${!construction_type ? '' : construction_type}&room=${!rooms ? '' : rooms}&floor=${!floor ? '' : floor}&construction_type=${''}&state=${''}&min_price=${!priceFrom ? '' : priceFrom}&max_price=${!priceTo ? '' : priceTo}&currency=${''}&arrival_date=${fromDate}&departure_date=${toDate}&min_area=${''}&max_area=${''}&rental_period=${''}&detail__internet=${details ? details.includes('internet') ? true : '' : ''}&detail__furniture=${details ? details.includes('furniture') ? true : '' : ''}&detail__heat=${details ? details.includes('heat') ? true : '' : ''}&detail__gas=${details ? details.includes('gas') ? true : '' : ''}&detail__phone=${details ? details.includes('phone') ? true : '' : ''}&detail__parking=${details ? details.includes('parking') ? true : '' : ''}&detail__elevator=${details ? details.includes('elevator') ? true : '' : ''}&detail__security=${details ? details.includes('security') ? true : '' : ''}`)
     },
-    getApartmentApi: (id) => {
+    getApartmentApi: id => http.get(`/apartment/${id}`),
+    getOwnApartmentApi: id => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.get(`/apartment/${id}`, {
+        return http.get(`/apartment/${id}`,{
             headers: {
                 "Authorization": "Bearer " + token.access
             }
@@ -118,11 +119,19 @@ export default {
             }
         })
     },
-    changeApartment: (id, data) => {
+    deletePhoto: (id, photoId) => {
         let token = JSON.parse(localStorage.getItem('newToken'));
-        return http.post(`/apartment/${id}`, data, {
+        return http.delete(`/own-apartments/${id}/upload/${photoId}`, {
             headers: {
                 "Authorization": "Bearer " + token.access
+            }
+        })
+    },
+    changeApartment: (id, data) => {
+        let token = JSON.parse(localStorage.getItem('newToken'));
+        return http.patch(`/apartment/${id}`, data, {
+            headers: {
+                "Authorization": "Bearer " + token.access,
             }
         })
     },

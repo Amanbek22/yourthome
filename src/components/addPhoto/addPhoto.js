@@ -5,6 +5,7 @@ import {compose} from "redux";
 import plus from '../../img/plus.png'
 import done from '../../img/done.png'
 import deleteImg from '../../img/del.png'
+import api from "../../api/api";
 
 export const FileUpdate = props => {
     let {setimg, image} = props;
@@ -65,6 +66,11 @@ export const FileUpdate = props => {
                  onClick={() => {
                      let images = [...props.img]
                      let arr = images.filter(item => {
+                         if (item.id) {
+                             if (item.name || item.image === name) {
+                                 props.onDelete(item.id)
+                             }
+                         }
                          return item.name || item.image !== name
                      })
                      setCheckName(name)

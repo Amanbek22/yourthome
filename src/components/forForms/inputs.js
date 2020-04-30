@@ -34,12 +34,12 @@ export const SelectAdd = ({input,data, type, placeholder, name, meta: {touched, 
     )
 }
 
-export const TextareaAdd = ({input, type, placeholder, name, meta: {touched, error, warning}}) => {
+export const TextareaAdd = ({input, type, placeholder, autoFocus, name, meta: {touched, error, warning}}) => {
     return (
         <>
             <textarea className={`${css.inputs} ${touched && error ? css.error : touched && css.inp2}`} {...input} placeholder={placeholder}
                       style={{height: "150px", fontSize: "16px", padding: "0 5px"}}
-                      required/>
+                      required autoFocus={autoFocus}/>
             {/*{touched && ((error && <span className={css.errorSpan}>{error}</span>))}*/}
         </>
     )

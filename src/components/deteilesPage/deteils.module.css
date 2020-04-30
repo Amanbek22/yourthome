@@ -51,9 +51,12 @@
     font-weight: 300;
 }
 .listNear{
-    margin-top: 5%;
     display: grid;
     grid-template-columns: 2fr 3fr;
+    margin: 10px 0 0 10px;
+}
+.detailsWrapper{
+    margin: 5% 0 0 0;
 }
 .listNear>div>ul>li{
     margin: 5px 0;
@@ -133,8 +136,17 @@
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
-
-
+.cards{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    margin-top: 25px;
+}
+.titles{
+    text-align: center;
+    font-size: 18px;
+    color: #636363;
+}
 @media screen and (max-width: 996px){
     .listInfo, .listNear{
         grid-template-columns: 1fr;
@@ -173,6 +185,11 @@
         padding: 0 2%;
     }
     .listInfo, .listNear{
+        grid-template-columns: 1fr;
+    }
+}
+@media screen and (max-width: 536px) {
+    .cards {
         grid-template-columns: 1fr;
     }
 }

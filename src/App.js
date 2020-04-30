@@ -1,9 +1,8 @@
 import React, {Suspense, useEffect} from 'react';
 import './App.css';
-import {BrowserRouter as Router, Switch, Route, withRouter} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import MenuContainer from "./components/menu/menu";
 import {FilterContainer} from "./components/filterComponent/filterContainer";
-import Cards from "./components/cards/cards";
 import Footer from "./components/footer/footer";
 import WithRouterDeteilsPage from "./components/deteilesPage/deteilsPage";
 import AddApartment from "./components/add_apartment/addApartmant";

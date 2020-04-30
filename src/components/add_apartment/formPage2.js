@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 const FormPage2 = props => {
     const greaterThan = otherField => (value) => value > otherField ? value : '';
     return(
-        <form onSubmit={props.onSubmit} className={css.infos + ' ' + css.wrapper}>
+        <form onSubmit={props.onSubmit} className={css.wrapper}>
             <div style={{display: 'grid',gridTemplateColumns: '1fr 1fr', gridGap: '1em'}}>
                 <div className={css.priceCur}>
                     <label>Цена</label>
