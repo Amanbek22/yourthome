@@ -39,7 +39,7 @@ export const TextareaAdd = ({input, type, placeholder, autoFocus, name, meta: {t
         <>
             <textarea className={`${css.inputs} ${touched && error ? css.error : touched && css.inp2}`} {...input} placeholder={placeholder}
                       style={{height: "150px", fontSize: "16px", padding: "0 5px"}}
-                      required autoFocus={autoFocus}/>
+                      required autoFocus={autoFocus} maxLength={500}/>
             {/*{touched && ((error && <span className={css.errorSpan}>{error}</span>))}*/}
         </>
     )

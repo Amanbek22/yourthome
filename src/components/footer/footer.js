@@ -13,7 +13,7 @@ const Footer = props =>{
                 <h2>YourtHome</h2>
             </div>
             <div className={css.links}>
-                <Link to={'#'}>О нас</Link>
+                <Link to={'/about-us'}>О нас</Link>
                 <Link to={'#'}>Обратная связь</Link>
                 <Link to={'/add-apartment'}>Как добавить объявление?</Link>
                 <Link to={'#'}>Помощь по сайту</Link>

@@ -8,7 +8,6 @@ export const validate = values => {
     } else if (values.headline.length > 0) {
         errors.headline = undefined
     }
-
     if (!values.price) {
         errors.price = 'Обязательное поле'
     }else if (values.price < 0) {
@@ -28,7 +27,7 @@ export const validate = values => {
     }
     if (!values.liveArea) {
         errors.liveArea = 'Обязательное поле'
-    } else if (values.liveArea > values.area) {
+    } else if (Number(values.liveArea) > Number(values.area)) {
         errors.liveArea = 'Жилая площадь не может быть больше чем площадь жилья!'
     }else if (values.liveArea.length > 0) {
         errors.liveArea = undefined

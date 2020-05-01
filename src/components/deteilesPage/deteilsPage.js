@@ -27,6 +27,7 @@ const DeteilsPage = props => {
     const [phone, setPhone] = useState('')
     const [nearApartments, setNearApartments] = useState([])
     const [details, setDetails] = useState(true)
+    const [noApartments, setNoApartments] = useState(false)
     let token = JSON.parse(localStorage.getItem('newToken'));
     let comment = comments.map(item => {
         return (
@@ -51,7 +52,12 @@ const DeteilsPage = props => {
                 setNearby_objects(res.data.nearby_objects)
                 setObjects_in_apartment(res.data.objects_in_apartment)
             })
-        api.nearApartment(id).then(res => setNearApartments(res.data))
+        api.nearApartment(id).then(res => {
+            setNearApartments(res.data)
+            if ( !res.data.length ){
+                setNoApartments(true)
+            }
+        }, error => setNoApartments(false))
     }, []);
     const sendComment = () => {
         api.sendComment(id, commentInput)
@@ -133,11 +139,16 @@ const DeteilsPage = props => {
                         <div>Тип ремонта: {apartment.state}</div>
                     </div>
                     <div className={css.detailsWrapper}>
-                        <div style={{cursor: 'pointer'}} onClick={()=> setDetails(!details)}>
+                        <div style={{cursor: 'pointer'}} onClick={() => setDetails(!details)}>
                             <span>Детали  </span>
-                            <img style={{marginLeft: '4px',transition: 'transform 0.4s ease',transform: details ? 'rotate(0)' : 'rotate(-180deg)'}} src={dropDown} alt="^"/>
+                            <img style={{
+                                marginLeft: '4px',
+                                transition: 'transform 0.4s ease',
+                                transform: details ? 'rotate(0)' : 'rotate(-180deg)'
+                            }} src={dropDown} alt="^"/>
                         </div>
-                        <div className={css.listNear} style={{transitionDuration: '1s',display: details ? 'none' : 'grid'}}>
+                        <div className={css.listNear}
+                             style={{transitionDuration: '1s', display: details ? 'none' : 'grid'}}>
                             <div>
                                 <div>Рядом есть:</div>
                                 <div className={css.details}>
@@ -220,26 +231,31 @@ const DeteilsPage = props => {
                     </div>
                 </div>
                 <div className={css.titles}>Другие варианты жилья в этом районе</div>
-                <div className={css.cards}>
+                <div style={{position: 'relative'}} className={css.cards}>
                     {
                         nearApartments.length ? nearApartments.map(item => {
-                            return <Card
-                                id={item.id}
-                                key={item.id}
-                                img={item.apartment_image[0] ? item.apartment_image[0].image : null}
-                                city={item.location.city}
-                                street={item.location.street}
-                                houseNumber={item.location.house_number}
-                                price={item.price}
-                                rooms={item.room}
-                                floor={item.floor}
-                                area={item.area.total_area}
-                                title={item.title}
-                                userName={item.owner}
-                            />
-                        }) : <div>No apartments</div>
+                                return <Card
+                                    id={item.id}
+                                    key={item.id}
+                                    img={item.apartment_image[0] ? item.apartment_image[0].image : null}
+                                    city={item.location.city}
+                                    street={item.location.street}
+                                    houseNumber={item.location.house_number}
+                                    price={item.price}
+                                    rooms={item.room}
+                                    floor={item.floor}
+                                    area={item.area.total_area}
+                                    title={item.title}
+                                    userName={item.owner}
+                                />
+                            }) : <div />
                     }
                 </div>
+                {
+                    !noApartments
+                        ? <div className={css.titles}>Больше нет объявлений в этом районе.</div>
+                        : <div />
+                }
             </div>
         </div>
     )

@@ -16,6 +16,7 @@ import SignUp from "./components/signUp/signup";
 import {connect} from "react-redux";
 import {initializeApp, initializeAppData} from "./redux/appReducer";
 import {compose} from "redux";
+import About from "./components/about-us/About-us";
 
 function App(props) {
     const allPromiseRejection = (promiseRejectionEvent) =>{
@@ -81,6 +82,9 @@ function App(props) {
                             </Route>
                             <Route exact path={"/addPhoto/:id"}>
                                 <AddPhoto/>
+                            </Route>
+                            <Route exact path={"/about-us"}>
+                                <About/>
                             </Route>
                         </Switch>
                     </Suspense>

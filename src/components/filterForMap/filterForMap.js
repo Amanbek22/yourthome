@@ -29,7 +29,8 @@ const FilterMap = props =>{
                 city,region,rooms,
                 floor,dateFrom,dateTo,
                 priceFrom,priceTo,apartmentType,
-                construction_type, details
+                construction_type, details,
+                nearby_objects,atHome
             })
     }
     let width = window.innerWidth;
@@ -101,7 +102,7 @@ const FilterMap = props =>{
                 <select value={construction_type} onChange={e=>setConstruction_type(e.target.value)} name="price" >
                     <option value="">Тип строения</option>
                     {props.app.types
-                        ? props.app.types.map(item => <option value={item.id}>{item.type}</option> )
+                        ? props.app.types.map(item => <option key={item.id} value={item.id}>{item.type}</option> )
                         : <option value="">Загрузка...</option>
                     }
                 </select>
