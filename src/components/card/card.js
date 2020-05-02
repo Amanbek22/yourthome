@@ -43,7 +43,7 @@ const Card = props => {
                     <div>Дом: {houseNumber}</div>
                 </div>
                 <div className={css.moreBtn}>
-                    <Link to={`more-info/${id}`}>Подробнее</Link>
+                    <Link to={`/more-info/${id}`}>Подробнее</Link>
                 </div>
             </div>
         </div>

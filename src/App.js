@@ -17,6 +17,7 @@ import {connect} from "react-redux";
 import {initializeApp, initializeAppData} from "./redux/appReducer";
 import {compose} from "redux";
 import About from "./components/about-us/About-us";
+import Preloader from "./components/preloader/Preloader";
 
 function App(props) {
     const allPromiseRejection = (promiseRejectionEvent) =>{
@@ -31,13 +32,14 @@ function App(props) {
         }
     }, [])
     if (!props.initialized.initialise) {
-        return <div>
-            <div className="App-header">
-                <h2>Yourt Home</h2>
-            </div>
-            <p className="App-intro">
-                Loading site...
-            </p></div>
+        return <Preloader />
+        {/*<div>*/}
+            {/*<div className="App-header">*/}
+                {/*<h2>Yourt Home</h2>*/}
+            {/*</div>*/}
+            {/*<p className="App-intro">*/}
+                {/*Loading site...*/}
+            {/*</p></div>*/}
     }
     return (
         <div className="wrapper">
@@ -50,9 +52,7 @@ function App(props) {
                         <Switch>
                             <Route exact path={"/"}>
                                 <div className={'filterPage'}>
-                                {/*<MainPage />*/}
                                 <FilterContainer/>
-                                {/*<Cards/>*/}
                                 <Footer/>
                                 </div>
                             </Route>
@@ -68,7 +68,7 @@ function App(props) {
                             <Route exact path={"/sign-up"}>
                                 <SignUp/>
                             </Route>
-                            <Route exact path={"/more-info/:id"}>
+                            <Route path={"/more-info/:id"}>
                                 <WithRouterDeteilsPage/>
                             </Route>
                             <Route exact path={"/admin"}>

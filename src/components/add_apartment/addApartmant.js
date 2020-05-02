@@ -19,7 +19,7 @@ const AddApartmentForm = props => {
     const [mark, setMark] = useState([])
     const [question, setQuestion] = useState(false);
     const [hide, setHide] = useState(false)
-    const [page, setPage] = useState(1)
+    const [page, setPage] = useState(4)
     const [img, setImg] = useState([]);
 
     const pushLocation = e => {
@@ -176,6 +176,9 @@ const AddApartment = props => {
     const [pictures, setPictures] = useState(null)
     console.log(pictures)
     const sendData = (data) => {
+        const preview = new FormData()
+        preview.append('preview_image', data.preview);
+
         let formData = {
             "title": data.headline,
             "type": Number(data.apartmentType),
@@ -191,15 +194,15 @@ const AddApartment = props => {
             "construction_type": Number(data.construction_type),
             "state": Number(data.state),
             "detail": {
-                "furniture": data.details ? data.details.includes('furniture') : false,
-                "heat": data.details ? data.details.includes('heat') : false,
-                "gas": data.details ? data.details.includes('gas') : false,
-                "electricity": data.details ? data.details.includes('electricity') : false,
-                "internet": data.details ? data.details.includes('internet') : false,
-                "phone": data.details ? data.details.includes('phone') : false,
-                "elevator": data.details ? data.details.includes('elevator') : false,
-                "security": data.details ? data.details.includes('security') : false,
-                "parking": data.details ? data.details.includes('parking') : false
+                "furniture":  true,
+                "heat": true,
+                "gas": false,
+                "electricity": false,
+                "internet": false,
+                "phone": false,
+                "elevator": false,
+                "security": false,
+                "parking": false
             },
             "objects_in_apartment": data.atHome,
             "nearby_objects": data.nearHome,
@@ -218,7 +221,7 @@ const AddApartment = props => {
             "rental_period": null,
             "price": Number(data.price),
             "currency": data.currency,
-            "preview_image": null,
+            "preview_image": preview,
             "description": data.description,
             "images": [],
             "contact": {
@@ -231,13 +234,22 @@ const AddApartment = props => {
             "comments": [],
             "orders": []
         }
-        console.log(data)
+        const newFormData = new FormData()
+        let i;
+        for (i in JSON.stringify(formData)){
+            newFormData.append('data', formData)
+        }
+        // newFormData.append('preview_image', data.preview)
+        newFormData.forEach((value, key) => {
+            newFormData[key] = value;
+        });
+        console.log(newFormData)
         api.add(formData)
             .then(
                 (response) => {
-                    api.addPhoto(response.data.id,pictures).then(res => {
-                        props.history.push('/admin')
-                    })
+                    // api.addPhoto(response.data.id,pictures).then(res => {
+                    //     props.history.push('/admin')
+                    // })
                     // props.history.push(`/addPhoto/${response.data.id}`)
                 },
                 (error) => {

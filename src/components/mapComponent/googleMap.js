@@ -9,6 +9,7 @@ import marker2 from '../../img/marker10.png'
 import {Carousel} from "react-responsive-carousel";
 import {bounce, fadeInRight, fadeOutRight} from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
+import Preloader from "../preloader/Preloader";
 
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
@@ -29,7 +30,6 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         let windowWidth = window.innerWidth;
         return (
             <div className={css.mainWrapper}>
-                {props.sended === true ?
                     <GoogleMap
                         onTilesLoaded={() => {
                             setTimeout(() => {
@@ -136,10 +136,6 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                         )}
 
                     </GoogleMap>
-                    : <div className={css.loading}>
-                        <img src="https://flevix.com/wp-content/uploads/2019/07/Bubble-Loader-Icon.gif" alt="loading"/>
-                    </div>
-                }
             </div>
         )
     }
@@ -236,6 +232,9 @@ const WrapperMap = props => {
             animationName: Radium.keyframes(fadeOutRight, 'fadeOutRight')
         }
     }
+    if(!props.points.send){
+        return <Preloader/>
+    }
 
     return (
         <div>
@@ -254,7 +253,7 @@ const WrapperMap = props => {
                         loadingElement={<div
                             style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
                         containerElement={<div
-                            style={{height: `90vh`, position: `sticky`, zIndex: `99999990`, top: `10vh`, left: `0`,}}/>}
+                            style={{height: `90vh`, position: `sticky`, zIndex: `99999990`, top: `9vh`, left: `0`,}}/>}
                         mapElement={<div
                             style={{height: `100%`, position: `sticky`, zIndex: `99999990`, top: `0`, left: `0`}}/>}
                         points={apartments}

@@ -1,5 +1,5 @@
 .filterWrapper{
-    background: url("../../img/mainBackground.png") center center no-repeat fixed;
+    background: url("https://g5-assets-cld-res.cloudinary.com/image/upload/q_auto,f_auto,c_fill,g_center,h_1200,w_2000/v1543865297/g5/g5-c-ipa80i9e-robbins-property-associates/g5-cl-572wxwrnp-robbins-property-associates/uploads/TheAvana_022618-001-177_tohb9p.jpg") center center no-repeat fixed;
     /*background-attachment: fixed;*/
     display: grid;
     grid-template-columns: 4fr 2fr;
@@ -12,7 +12,7 @@
     background: rgba(0, 0, 0, 0.8);
     height: 92vh;
     position: sticky;
-    top: 9.7vh;
+    top: 9vh;
     right: 0;
 }
 .links{

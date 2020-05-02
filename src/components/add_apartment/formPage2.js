@@ -50,6 +50,7 @@ const FormPage2 = props => {
             <div>
                 <label>Тип ремонта</label>
                 <Field name={'state'} component={SelectAdd} data={props.state}/>
+                <Field name={'preview'} component={'Input'} type={'file'} />
             </div>
             <div></div>
             <div className={css.nextPrevBtn}>

@@ -61,6 +61,7 @@ export default {
         let token = JSON.parse(localStorage.getItem('newToken'));
         return http.post(`/add/`, data, {
             headers: {
+                "Content-Type": "multipart/form-data",
                 "Authorization": "Bearer " + token.access
             }
         })

@@ -3,6 +3,7 @@ import css from './cards.module.css'
 import Card from "../card/card";
 import api from "../../api/api";
 import { Link } from 'react-router-dom';
+import Preloader from "../preloader/Preloader";
 
 const Cards = props =>{
     const [apartments,setApartments] = useState([]);
@@ -39,9 +40,7 @@ const Cards = props =>{
         })
     }
     if(!pending){
-        return <div style={{textAlign: 'center'}}>
-            <img src="https://trader-system.com/img_bak/preloader.gif" alt="Loading..."/>
-        </div>
+        return <Preloader />
     }
     return(
         <div className={css.cardsWrapper}>

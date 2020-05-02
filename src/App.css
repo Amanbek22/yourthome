@@ -6,10 +6,6 @@
     display: grid;
     grid-template-rows: 1fr auto;
 }
-.footer {
-    grid-row-start: 2;
-    grid-row-end: 3;
-}
 .menuWrapper{
     position: sticky;
     top: 0;
@@ -17,8 +13,6 @@
     overflow: hidden;
     z-index: 9999;
     background: #ffffff;
-}
-.filterPage{
-    /*background: url("./img/Rectangle2.png") center center no-repeat;*/
-    /*background-size: 100%;*/
+    height: 9vh;
+    border-bottom: 1px solid #57C325;
 }

@@ -90,6 +90,5 @@ const Element = props => {
         </div>
     )
 }
-// style={{display: visible ? 'block' : 'none'}}
 
 export default Element;

@@ -35,16 +35,16 @@ const Orders = props => {
     const sendChangeDate = (e) => {
         e.preventDefault()
         setChangeDate(false)
-        console.log(arrivalDate)
-        console.log(departureDate)
     }
+    let today = new Date()
+    console.log(today)
     return (
         <form onSubmit={sendChangeDate} className={css.listWrapper} >
             <div>
                 От
                 {
                     changeDate
-                        ? <input required className={css.changeInput} type="date" value={arrivalDate} onChange={(e)=>setArrivalDate(e.target.value)}/>
+                        ? <input required className={css.changeInput} type="date" min={today} value={arrivalDate} onChange={(e)=>setArrivalDate(e.target.value)}/>
                         : <input disabled={true} value={arrivalDate}/>
                 }
             </div>
@@ -52,7 +52,7 @@ const Orders = props => {
                 До
                 {
                     changeDate
-                     ? <input required className={css.changeInput} type="date"  value={departureDate} onChange={(e) => setDepartureDate(e.target.value)}/>
+                     ? <input required className={css.changeInput} type="date" min={arrivalDate}  value={departureDate} onChange={(e) => setDepartureDate(e.target.value)}/>
                      : < input  disabled={true} value={departureDate}/>
                 }
             </div>

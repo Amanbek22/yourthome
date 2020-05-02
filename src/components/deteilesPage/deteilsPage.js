@@ -27,7 +27,7 @@ const DeteilsPage = props => {
     const [phone, setPhone] = useState('')
     const [nearApartments, setNearApartments] = useState([])
     const [details, setDetails] = useState(true)
-    const [noApartments, setNoApartments] = useState(false)
+    const [noApartments, setNoApartments] = useState(true)
     let token = JSON.parse(localStorage.getItem('newToken'));
     let comment = comments.map(item => {
         return (
@@ -54,11 +54,11 @@ const DeteilsPage = props => {
             })
         api.nearApartment(id).then(res => {
             setNearApartments(res.data)
-            if ( !res.data.length ){
-                setNoApartments(true)
+            if ( res.data.length === 0 ){
+                setNoApartments(false)
             }
         }, error => setNoApartments(false))
-    }, []);
+    }, [id]);
     const sendComment = () => {
         api.sendComment(id, commentInput)
             .then(res => res.status === 201 ? window.location.href = `/more-info/${id}` : console.log(res))
