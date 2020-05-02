@@ -32,6 +32,7 @@ const FilterMap = props =>{
                 construction_type, details,
                 nearby_objects,atHome
             })
+        props.setFilterStyle(false)
     }
     let width = window.innerWidth;
     const widthFilter = () => {

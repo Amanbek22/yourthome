@@ -25,7 +25,7 @@ export default {
             region, city, dateFrom,
             dateTo, rooms, floor,
             priceFrom, priceTo,
-            apartmentType, details, construction_type,
+            apartmentType, construction_type,
             atHome,nearby_objects
         } = data;
         let objects_in_apartment = `${atHome ? atHome.map(item => item.value) : ''}`
@@ -40,6 +40,7 @@ export default {
         return http.get(`/apartments/?location__region=${!region ? '' : region}&location__city=${!city ? '' : city}&location__district=${''}&type=${!construction_type ? '' : construction_type}&room=${!rooms ? '' : rooms}&floor=${!floor ? '' : floor}&construction_type=${!apartmentType ? '' : apartmentType}&state=${''}&min_price=${!priceFrom ? '' : priceFrom}&max_price=${!priceTo ? '' : priceTo}&currency=${''}&arrival_date=${fromDate}&departure_date=${toDate}&min_area=${''}&max_area=${''}&rental_period=${''}&objects_in_apartment=${!objects_in_apartment ? '' : objects_in_apartment}&nearby_objects=${!nearbyObjects ? '' : nearbyObjects}`)
         // &detail__internet=${details ? details.includes('internet') ? true : '' : ''}&detail__furniture=${details ? details.includes('furniture') ? true : '' : ''}&detail__heat=${details ? details.includes('heat') ? true : '' : ''}&detail__gas=${details ? details.includes('gas') ? true : '' : ''}&detail__phone=${details ? details.includes('phone') ? true : '' : ''}&detail__parking=${details ? details.includes('parking') ? true : '' : ''}&detail__elevator=${details ? details.includes('elevator') ? true : '' : ''}&detail__security=${details ? details.includes('security') ? true : '' : ''}`)
     },
+    getFrontApartments: () => http.get(`/front-apartments`),
     getApartmentApi: id => http.get(`/apartment/${id}`),
     getOwnApartmentApi: id => {
         let token = JSON.parse(localStorage.getItem('newToken'));
@@ -61,7 +62,6 @@ export default {
         let token = JSON.parse(localStorage.getItem('newToken'));
         return http.post(`/add/`, data, {
             headers: {
-                "Content-Type": "multipart/form-data",
                 "Authorization": "Bearer " + token.access
             }
         })

@@ -10,7 +10,8 @@ import {Carousel} from "react-responsive-carousel";
 import {bounce, fadeInRight, fadeOutRight} from 'react-animations';
 import Radium, {StyleRoot} from 'radium';
 import Preloader from "../preloader/Preloader";
-
+import left from '../../img/left.png'
+import right from '../../img/right.png'
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
 
@@ -263,19 +264,9 @@ const WrapperMap = props => {
                     <div className={`${css.elemetsWrapper} ${openMap ? css.hide : ''}`}>
                         <div onClick={() => !filterStyle ? setFilterStyle(true) : setFilterStyle(false)}
                              className={css.filterBtnWrapper}>
-                            <div style={
-                                !filterStyle ? null : {
-                                    width: 5 + '%',
-                                    marginLeft: 91 + '%',
-                                }
-                            } className={css.filterBtn}>
-                                {
-                                    !filterStyle ?
-                                        <img style={styles.fadeInLeft}
-                                             src="https://image.flaticon.com/icons/svg/566/566011.svg" alt="left"/> :
-                                        <img style={styles.fadeInLeft}
-                                             src="https://image.flaticon.com/icons/svg/271/271228.svg" alt="right"/>
-                                }
+                            <div style={{width: !filterStyle ? '30px' : '35px'}} >
+                                        <img style={{transition: 'transform 0.4s ease',transform: !filterStyle ? '' : 'rotate(180deg)'}}
+                                             src={ left } alt="left"/>
                             </div>
                         </div>
                         <div style={styles.fadeInLeft}>
@@ -284,6 +275,7 @@ const WrapperMap = props => {
                             }>
                                 <FilterForMap
                                     setItem={setFilteredCity}
+                                    setFilterStyle={setFilterStyle}
                                     openMap={openMap}
                                     setOpenMap={setOpenMap}
                                 />

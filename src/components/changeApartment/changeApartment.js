@@ -13,6 +13,7 @@ import {validate} from '../add_apartment/validate'
 import {MyMapComponent} from "../add_apartment/FormPage5";
 import {Sel} from "../add_apartment/FormPage3";
 import {FileUpdate} from "../addPhoto/addPhoto";
+import Preloader from "../preloader/Preloader";
 
 
 const AddPhoto = props => {
@@ -47,6 +48,7 @@ const Form = props => {
     const [question, setQuestion] = useState(false);
     const [hide, setHide] = useState(false)
     const [loadetImages, setLoadetImages] = useState([])
+    const [pending, setPending] = useState(true)
     let width = window.innerWidth;
     useEffect(() => {
         api.getOwnApartmentApi(props.id)
@@ -59,6 +61,7 @@ const Form = props => {
                 setMark([res.data.location.latitude, res.data.location.longitude])
                 props.setImages(res.data.apartment_image)
                 setLoadetImages(res.data.apartment_image)
+                setPending(false)
             })
     }, [])
     const pushLocation = e => {
@@ -130,8 +133,15 @@ const Form = props => {
         {value: 'security', label: 'Охрана'},
         {value: 'parking', label: 'Парковка'},
     ]
+    if(pending) {
+        return <Preloader />
+    }
+    const submit = () => {
+        props.handleSubmit()
+        setPending(true)
+    }
     return (
-        <form onSubmit={props.handleSubmit} style={{marginTop: '20px'}} className={css.formWrapper}>
+        <form onSubmit={submit} style={{marginTop: '20px'}} className={css.formWrapper}>
             <div className={css.main}>
                 <div>
                     <label>Заголовок*</label>

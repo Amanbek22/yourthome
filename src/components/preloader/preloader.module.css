@@ -4,10 +4,10 @@
     box-sizing: border-box;
 }
 
-section.wrapper {
+.wrapper {
     padding: 40px 0;
 }
-div.spinner {
+.spinner {
     -moz-animation: rotate 10s infinite linear;
     -webkit-animation: rotate 10s infinite linear;
     animation: rotate 10s infinite linear;
@@ -17,7 +17,7 @@ div.spinner {
     width: 142px;
     height: 142px;
 }
-div.spinner i {
+.spinner i {
     -moz-animation: rotate 3s infinite cubic-bezier(0.09, 0.6, 0.8, 0.03);
     -webkit-animation: rotate 3s infinite cubic-bezier(0.09, 0.6, 0.8, 0.03);
     animation: rotate 3s infinite cubic-bezier(0.09, 0.6, 0.8, 0.03);

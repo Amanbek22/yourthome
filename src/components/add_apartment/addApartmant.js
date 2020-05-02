@@ -13,15 +13,15 @@ import FormPage5 from "./FormPage5";
 import {validate} from './validate';
 import {withRouter} from "react-router-dom";
 import Add from "../addPhoto/addPhoto";
+import Preloader from "../preloader/Preloader";
 
 
 const AddApartmentForm = props => {
     const [mark, setMark] = useState([])
     const [question, setQuestion] = useState(false);
     const [hide, setHide] = useState(false)
-    const [page, setPage] = useState(4)
+    const [page, setPage] = useState(1)
     const [img, setImg] = useState([]);
-
     const pushLocation = e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
         props.setLat(latlng[0])
@@ -102,6 +102,7 @@ const AddApartmentForm = props => {
     const prevPage = () => {
         setPage(page - 1)
     }
+
     return (
         <div className={css.formWrapper}>
             {page === 1 && <TitleForm onSubmit={nextPage} data={data}/>}
@@ -174,11 +175,10 @@ const AddApartmentReduxForm = reduxForm({form: 'addApartment', validate})(AddApa
 
 const AddApartment = props => {
     const [pictures, setPictures] = useState(null)
-    console.log(pictures)
-    const sendData = (data) => {
-        const preview = new FormData()
-        preview.append('preview_image', data.preview);
+    const [pending, setPending] = useState(false)
 
+    const sendData = (data) => {
+        setPending(true)
         let formData = {
             "title": data.headline,
             "type": Number(data.apartmentType),
@@ -194,7 +194,7 @@ const AddApartment = props => {
             "construction_type": Number(data.construction_type),
             "state": Number(data.state),
             "detail": {
-                "furniture":  true,
+                "furniture":  false,
                 "heat": true,
                 "gas": false,
                 "electricity": false,
@@ -221,7 +221,7 @@ const AddApartment = props => {
             "rental_period": null,
             "price": Number(data.price),
             "currency": data.currency,
-            "preview_image": preview,
+            "preview_image": null,
             "description": data.description,
             "images": [],
             "contact": {
@@ -234,22 +234,12 @@ const AddApartment = props => {
             "comments": [],
             "orders": []
         }
-        const newFormData = new FormData()
-        let i;
-        for (i in JSON.stringify(formData)){
-            newFormData.append('data', formData)
-        }
-        // newFormData.append('preview_image', data.preview)
-        newFormData.forEach((value, key) => {
-            newFormData[key] = value;
-        });
-        console.log(newFormData)
         api.add(formData)
             .then(
                 (response) => {
-                    // api.addPhoto(response.data.id,pictures).then(res => {
-                    //     props.history.push('/admin')
-                    // })
+                    api.addPhoto(response.data.id,pictures).then(res => {
+                        props.history.push('/admin')
+                    })
                     // props.history.push(`/addPhoto/${response.data.id}`)
                 },
                 (error) => {
@@ -257,6 +247,9 @@ const AddApartment = props => {
                     alert(error)
                 }
             )
+    }
+    if(pending){
+        return <Preloader />
     }
     return (
         <div>

@@ -10,6 +10,7 @@ import {Carousel} from "react-responsive-carousel";
 import Modal from 'react-awesome-modal';
 import {connect} from "react-redux";
 import { WithNotAuthRedirect} from "../../HOC/AuthRedirect";
+import Preloader from "../preloader/Preloader";
 const {MarkerClusterer} = require("react-google-maps/lib/components/addons/MarkerClusterer");
 
 
@@ -126,6 +127,7 @@ const Admin = props => {
     const [visible, setVisible] = useState(false)
     const [show, setShow] = useState(false)
     const [delApartment, setDelApartment] = useState(0)
+    const [pending, setPending] = useState(true)
     const DeleteAction = () => {
         api.deleteApartment(delApartment)
             .then(res => window.location.href = "/admin")
@@ -134,7 +136,7 @@ const Admin = props => {
         api.getOwnApartments()
             .then(res => {
                 setApartment(res.data)
-                console.log(res.data)
+                setPending(false)
             })
     }, [])
     let items;
@@ -163,6 +165,9 @@ const Admin = props => {
         })
     }
     let width = window.innerWidth;
+    if(pending){
+        return <Preloader />
+    }
     return (
         <div className={css.wrapper}>
             <div style={{display: width > 768 ? 'block' : show ? 'none' : 'block'}}>

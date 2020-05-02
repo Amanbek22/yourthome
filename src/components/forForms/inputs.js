@@ -26,7 +26,7 @@ export const SelectAdd = ({input,data, type, placeholder, name, meta: {touched, 
         <>
             <select className={`${css.selects} ${touched && error ? css.error : !touched && !error ? css.inp2 : touched && css.inp2}`} {...input} required>
                 {
-                    data ? data.map(item => <option key={item.id} value={item.id} > {item.type ? item.type : item.name}  </option>) : <option>загрузка...</option>
+                    data ? data.map(item => <option key={item.id} value={item.id} disabled={item.id === ''} > {item.type ? item.type : item.name}  </option>) : <option>загрузка...</option>
                 }
             </select>
             {/*{touched && ((error && <span className={css.errorSpan}>{error}</span>))}*/}
