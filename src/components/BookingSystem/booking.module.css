@@ -55,6 +55,13 @@
     background: #57C325;
     color: white;
 }
+.saveBtn{
+    background: none;
+    border: none;
+    width: 25px;
+    height: 25px;
+    margin: auto;
+}
 .btnWrapperDel{
     display: grid;
     grid-template-columns: 1fr 1fr;

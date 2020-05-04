@@ -153,4 +153,12 @@ export default {
     getState: () => http.get(`/front-states/`),
     getCurrency: () => http.get(`/front-currency/`),
     getCountry: () => http.get(`/front-countries/`),
+    changeBooking: (id, orderId, data) => {
+        let token = JSON.parse(localStorage.getItem('newToken'));
+        return http.put(`own-apartments/${id}/booking/${orderId}/`, data , {
+            headers: {
+                "Authorization": "Bearer " + token.access,
+            }
+        })
+    }
 };

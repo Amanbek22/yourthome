@@ -1,6 +1,8 @@
 import React, {Suspense, useEffect} from 'react';
 import './App.css';
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import {initializeApp, initializeAppData} from "./redux/appReducer";
+import {compose} from "redux";
 import MenuContainer from "./components/menu/menu";
 import {FilterContainer} from "./components/filterComponent/filterContainer";
 import Footer from "./components/footer/footer";
@@ -8,17 +10,15 @@ import WithRouterDeteilsPage from "./components/deteilesPage/deteilsPage";
 import AddApartment from "./components/add_apartment/addApartmant";
 import Admin from "./components/admin/admin";
 import ChangeApartment from "./components/changeApartment/changeApartment";
-import BookingSystem from "./components/BookingSystem/bookingSystem";
-import AddPhoto from "./components/addPhoto/addPhoto";
 import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
-import SignIn from "./components/signin/signin";
-import SignUp from "./components/signUp/signup";
 import {connect} from "react-redux";
-import {initializeApp, initializeAppData} from "./redux/appReducer";
-import {compose} from "redux";
-import About from "./components/about-us/About-us";
 import Preloader from "./components/preloader/Preloader";
-import Feedback from "./components/feedback/feedback";
+import AddPhoto from "./components/addPhoto/addPhoto";
+const BookingSystem = React.lazy(()=> import("./components/BookingSystem/bookingSystem"));
+const SignIn = React.lazy(()=>import("./components/signin/signin"));
+const SignUp = React.lazy(()=> import("./components/signUp/signup"));
+const About = React.lazy(()=> import("./components/about-us/About-us"));
+const Feedback = React.lazy(()=> import("./components/feedback/feedback"));
 
 function App(props) {
     const allPromiseRejection = (promiseRejectionEvent) =>{
@@ -49,7 +49,7 @@ function App(props) {
                     <MenuContainer/>
                 </div>
                 <div className={"content"}>
-                    <Suspense fallback={<div style={{textAlign: 'center'}}>Загрузка...</div>}>
+                    <Suspense fallback={<Preloader/>}>
                         <Switch>
                             <Route exact path={"/"}>
                                 <div className={'filterPage'}>

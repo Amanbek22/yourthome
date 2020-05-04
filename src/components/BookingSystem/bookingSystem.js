@@ -29,22 +29,39 @@ function reducer(state, action) {
 
 
 const Orders = props => {
+    console.log(props)
     const [changeDate, setChangeDate] = useState(false)
     const [arrivalDate, setArrivalDate] = useState(props.arrival_date)
     const [departureDate, setDepartureDate] = useState(props.departure_date)
     const sendChangeDate = (e) => {
         e.preventDefault()
         setChangeDate(false)
+        api.changeBooking(props.apartmentId, props.id, {
+            'arrival_date': arrivalDate,
+            'departure_date': departureDate
+        })
     }
-    let today = new Date()
+    let data = new Date()
+    let year, month, day;
+    year = data.getFullYear();
+    month = data.getMonth() + 1;
+    day = data.getDate();
+    if (month <= 9) {
+        month = '0' + month
+    }
+    if (day <= 9) {
+        day = '0' + day
+    }
+    let today = year + '-' + month + '-' + day;
     console.log(today)
     return (
-        <form onSubmit={sendChangeDate} className={css.listWrapper} >
+        <form onSubmit={sendChangeDate} className={css.listWrapper}>
             <div>
                 От
                 {
                     changeDate
-                        ? <input required className={css.changeInput} type="date" min={today} value={arrivalDate} onChange={(e)=>setArrivalDate(e.target.value)}/>
+                        ? <input required className={css.changeInput} type="date" min={today} value={arrivalDate}
+                                 onChange={(e) => setArrivalDate(e.target.value)} />
                         : <input disabled={true} value={arrivalDate}/>
                 }
             </div>
@@ -52,20 +69,22 @@ const Orders = props => {
                 До
                 {
                     changeDate
-                     ? <input required className={css.changeInput} type="date" min={arrivalDate}  value={departureDate} onChange={(e) => setDepartureDate(e.target.value)}/>
-                     : < input  disabled={true} value={departureDate}/>
+                        ?
+                        <input required className={css.changeInput} type="date" min={arrivalDate} value={departureDate}
+                               onChange={(e) => setDepartureDate(e.target.value)}/>
+                        : < input disabled={true} value={departureDate}/>
                 }
             </div>
             <div className={css.btnsWrapper}>
                 {
                     !changeDate
-                    ? <div onClick={() => {
+                        ? <div onClick={() => {
                             setChangeDate(true)
                         }} style={{width: "25px", height: '25px', cursor: 'pointer', margin: 'auto 1% auto 0',}}>
                             <img src={pencil} alt="del"/>
                         </div>
-                        : <button>
-                            Save
+                        : <button className={css.saveBtn}>
+                            <img src="https://image.flaticon.com/icons/svg/390/390973.svg" alt="save"/>
                         </button>
                 }
 
@@ -83,12 +102,13 @@ const Orders = props => {
 
 const Booking = props => {
     const [state, dispatch] = useReducer(reducer, initialState);
-
     let id = props.match.params.id;
 
     const [visible, setVisible] = useState(false)
     const [orders, setOrders] = useState([])
     const [delId, setDelId] = useState(0)
+    const [blocked, setBlocked] = useState([]);
+
     useEffect(() => {
 
         api.getOrders(id)
@@ -109,18 +129,19 @@ const Booking = props => {
             window.location.href = `/booking/${id}`
         })
     }
+    let arr = [];
     const listOrder = orders.map(item => {
         return <Orders
             key={item.id}
             id={item.id}
+            apartmentId={id}
             arrival_date={item.arrival_date}
             departure_date={item.departure_date}
             setDelId={setDelId}
             setVisible={setVisible}
+            blocked={blocked}
         />
     })
-    const [blocked, setBlocked] = useState([]);
-    let arr = [];
 
     function daysInMonth(month, year) {
         return new Date(year, month + 1, 0).getDate();

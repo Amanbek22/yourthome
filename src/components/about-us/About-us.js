@@ -36,9 +36,7 @@ const About = props => {
                     <div className={css.logos}>
                         <img src="https://images.spasibovsem.ru/catalog/original/operator-sotovoj-svyazi-bilajn-tula-otzyvy-1469559295.png" alt="coca cola"/>
                     </div>
-                    <div className={css.logos}>
-                        <img src="https://lh3.googleusercontent.com/proxy/59i5y-itHQIKIe26Q46BAzEDiFGtYaNsgnSQx2m_XCR-H9r-7gKBZzEarqmVwG8SzXdgKr2foAc6r6MGyskHWkWAkjvL3bOu6QcnmuLW4PF0kwU" alt="coca cola"/>
-                    </div>
+
                     <div className={css.logos}>
                         <img src="https://turbologo.ru/blog/wp-content/uploads/2020/02/Yandex-logo-678x381.png" alt="coca cola"/>
                     </div>
