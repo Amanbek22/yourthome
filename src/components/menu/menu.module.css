@@ -1,4 +1,28 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+.modal{
+    text-align: center;
+    margin-top: 50px;
+}
+.modal>p{
+    font-size: 22px;
+    margin: 0 10px;
+}
+.yesBtn{
+    font-size: 23px;
+    font-weight: 700;
+    padding: 20px 10px;
+    margin: 0 20%;
+    border-radius: 5px;
+    background: #57C325;
+    color: white;
+    cursor: pointer;
+}
+.btnWrapperDel{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 80px;
+    color: #fff;
+}
 .menuWrapper{
     font-family: 'Roboto', sans-serif;
     font-style: normal;
@@ -64,6 +88,7 @@
     margin: 0 10px;
 }
 .addButton{
+    /*cursor: pointer;*/
     /*display: block;*/
     /*position: absolute;*/
     /*right: 0;*/

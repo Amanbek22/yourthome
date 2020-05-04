@@ -16,15 +16,12 @@ const Cards = props => {
     console.log(next)
     useEffect(() => {
         api.getFrontApartments().then(res => {
-            console.log(res.data.next)
+            console.log(res.data)
             setNext(`${res.data.next}`)
             setApartments([...apartments, ...res.data.results]);
             setPending(true)
         })
-        document.addEventListener('scroll', trackScrolling);
-        return () => {
-            document.removeEventListener('scroll', trackScrolling);
-        }
+
     }, []);
     useEffect(() => {
         document.addEventListener('scroll', trackScrolling);
@@ -37,7 +34,9 @@ const Cards = props => {
     const nextPages = () => {
         axios.get(next).then(res => {
                 setNext(res.data.next)
-                setApartments([...apartments, ...res.data.results]);
+                if(res.data.results){
+                    setApartments([...apartments, ...res.data.results]);
+                }
                 setApartmentsPending(false)
             },
             error => {
@@ -71,7 +70,7 @@ const Cards = props => {
                 city={item.location.city}
                 street={item.location.street}
                 houseNumber={item.location.house_number}
-                price={item.price}
+                price={ item.currency === '$' ? item.price : item.another_price}
                 // rooms={item.room}
                 // floor={item.floor}
                 // area={item.area.total_area}

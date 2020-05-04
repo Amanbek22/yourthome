@@ -1,12 +1,21 @@
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {Link, NavLink} from "react-router-dom";
 import css from './menu.module.css'
 import {connect} from "react-redux";
 import {setData} from "../../redux/authReducer";
+import Modal from 'react-awesome-modal';
+
 
 const Menu = props => {
     const [burger, setBurger] = useState(false)
+    const [visible, setVisible] = useState(false)
     let logged = false;
+    const signUp = () => {
+        localStorage.removeItem("userData")
+        localStorage.removeItem("newToken")
+        props.setData(logged)
+        setVisible(false)
+    }
     return (
         <div className={css.menuWrapper}>
             <div>
@@ -28,53 +37,89 @@ const Menu = props => {
                     </div>
                     <div className={`${burger ? css.open : ''} ${css.lists}`}>
                         {/*<div>*/}
-                            {/*<select name="currency">*/}
-                                {/*{props.currency ? props.currency.map(item => <option key={item.id} value={item.id}>{item.name}</option>) :*/}
-                                    {/*<option value="">Загрузка...</option>}*/}
-                            {/*</select>*/}
+                        {/*<select name="currency">*/}
+                        {/*{props.currency ? props.currency.map(item => <option key={item.id} value={item.id}>{item.name}</option>) :*/}
+                        {/*<option value="">Загрузка...</option>}*/}
+                        {/*</select>*/}
                         {/*</div>*/}
                         {
                             props.data.logged === false ?
                                 <div className={css.addButtonWrapper}>
-                                    <Link to={"/sign-in"} className={css.addButton}  onClick={()=>burger ? setBurger(false) : null}>
+                                    <Link to={"/sign-in"} className={css.addButton}
+                                          onClick={() => burger ? setBurger(false) : null}>
                                         Войти
                                     </Link>
-                                    <Link to={"/sign-up"} className={css.addButton}  onClick={()=>burger ? setBurger(false) : null}>
+                                    <Link to={"/sign-up"} className={css.addButton}
+                                          onClick={() => burger ? setBurger(false) : null}>
                                         Зарегистрироваться
                                     </Link>
                                 </div>
                                 :
-                                    < div className={css.addButtonWrapper}>
-                                        <NavLink activeClassName={css.active} to={"/add-apartment"}
-                                                 onClick={()=>burger ? setBurger(false) : null}>
-                                            + Добавить объявление
-                                        </NavLink>
-                                        {/*<NavLink activeClassName={css.active} to={'./admin'}>Дамашняя страница</NavLink>*/}
-                                        <NavLink
-                                            activeClassName={css.active}
-                                            onClick={()=>burger ? setBurger(false) : null}
-                                                 to={'/admin'}
-                                        >{props.data.username ? props.data.username : "Профиль"}</NavLink>
-                                        <span onClick={() => {
-                                            localStorage.removeItem("userData")
-                                            localStorage.removeItem("newToken")
-                                            props.setData(logged)
-                                        }} className={css.addButton}>
+                                < div className={css.addButtonWrapper}>
+                                    <NavLink activeClassName={css.active} to={"/add-apartment"}
+                                             onClick={() => burger ? setBurger(false) : null}>
+                                        + Добавить объявление
+                                    </NavLink>
+                                    {/*<NavLink activeClassName={css.active} to={'./admin'}>Дамашняя страница</NavLink>*/}
+                                    <NavLink
+                                        activeClassName={css.active}
+                                        onClick={() => burger ? setBurger(false) : null}
+                                        to={'/admin'}
+                                    >{props.data.username ? props.data.username : "Профиль"}</NavLink>
+                                    <span onClick={() => {
+                                        setVisible(true)
+                                    }} className={css.addButton}>
                                         Выход
                                     </span>
-                                    </div>
+                                </div>
                         }
                     </div>
-                    <div onClick={()=> {
+                    <div onClick={() => {
                         burger
                             ? setBurger(false)
                             : setBurger(true)
                     }} className={css.burger}>
-                        <span style={{marginBottom: burger ? '0px': "3px", transform: burger ? 'rotate( 45deg) translate(0px, 0px)' : ''}} />
-                        <span style={{display: burger ? 'none' : 'block', transition: 'all 0.5s ease-in'}} />
-                        <span style={{marginTop: burger ? '0px': "3px", transform: burger ? 'rotate( 135deg) translate(-3px, 3px)':''}} />
+                        <span style={{
+                            marginBottom: burger ? '0px' : "3px",
+                            transform: burger ? 'rotate( 45deg) translate(0px, 0px)' : ''
+                        }}/>
+                        <span style={{display: burger ? 'none' : 'block', transition: 'all 0.5s ease-in'}}/>
+                        <span style={{
+                            marginTop: burger ? '0px' : "3px",
+                            transform: burger ? 'rotate( 135deg) translate(-3px, 3px)' : ''
+                        }}/>
                     </div>
                 </div>
+            </div>
+            <div style={{display: visible ? 'block' : 'none'}}>
+                <Modal
+                    visible={visible}
+                    width="400"
+                    height="300"
+                    effect="fadeInDown"
+                    onClickAway={() => setVisible(false)}
+                >
+                    <div className={css.modal}>
+                    <span style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        width: 20,
+                        height: 20,
+                        marginRight: 5,
+                        marginTop: 5,
+                    }} onClick={() => setVisible(false)}>
+                        <img style={{width: 100 + '%', height: 100 + '%'}}
+                             src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
+                    </span>
+                        <p>Вы действительно хотите удолить это объявление?</p>
+                        <div className={css.btnWrapperDel}>
+                            <div className={css.yesBtn} onClick={signUp}>Да</div>
+                            <div style={{background: 'red'}} className={css.yesBtn} onClick={() => setVisible(false)}>Нет
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         </div>
     )

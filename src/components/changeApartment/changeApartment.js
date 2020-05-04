@@ -41,14 +41,14 @@ const AddPhoto = props => {
     )
 }
 
-const AddPhtoWithId = withRouter(AddPhoto)
+const AddPhotoWithId = withRouter(AddPhoto)
 
 const Form = props => {
+    console.log(props)
     const [mark, setMark] = useState([])
     const [question, setQuestion] = useState(false);
     const [hide, setHide] = useState(false)
     const [loadetImages, setLoadetImages] = useState([])
-    const [pending, setPending] = useState(true)
     let width = window.innerWidth;
     useEffect(() => {
         api.getOwnApartmentApi(props.id)
@@ -61,9 +61,10 @@ const Form = props => {
                 setMark([res.data.location.latitude, res.data.location.longitude])
                 props.setImages(res.data.apartment_image)
                 setLoadetImages(res.data.apartment_image)
-                setPending(false)
+                props.setPending(false)
             })
     }, [])
+    //Находение местоположение по долготе и широте
     const pushLocation = e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
         props.setLat(latlng[0])
@@ -122,6 +123,10 @@ const Form = props => {
         {id: '', name: 'Регион'},
         ...props.app.regions
     ]
+    const country = [
+        { id: '', type: 'Страна' },
+        ...props.app.country
+    ]
     const options = [
         {value: 'internet', label: 'Интернет'},
         {value: 'gas', label: 'Газ'},
@@ -133,12 +138,12 @@ const Form = props => {
         {value: 'security', label: 'Охрана'},
         {value: 'parking', label: 'Парковка'},
     ]
-    if(pending) {
+    if(props.pending) {
         return <Preloader />
     }
-    const submit = () => {
+    const submit = (e) =>{
+        e.preventDefault()
         props.handleSubmit()
-        setPending(true)
     }
     return (
         <form onSubmit={submit} style={{marginTop: '20px'}} className={css.formWrapper}>
@@ -226,7 +231,7 @@ const Form = props => {
                     <Field component={TextareaAdd} name={'description'} placeholder={"Описание...."}/>
                 </div>
                 <div>
-                    <AddPhtoWithId loadetImages={loadetImages} images={props.images} setImages={props.setImages}/>
+                    <AddPhotoWithId loadetImages={loadetImages} images={props.images} setImages={props.setImages}/>
                 </div>
             </div>
 
@@ -289,7 +294,7 @@ const Form = props => {
                     </div>
                     <div>
                         <label>Страна</label>
-                        <Field component={InputAdd} name={'location.country'} placeholder={"Страна"} type="text"/>
+                        <Field component={SelectAdd} name={'location.country'} data={country}/>
                     </div>
                 </div>
             </div>
@@ -341,9 +346,10 @@ const FormChange = reduxForm({
 
 const Change = props => {
     const [images, setImages] = useState([]);
-    console.log(images)
-    const send = (data) => {
+    const [pending, setPending] = useState(true)
 
+    const send = (data) => {
+        setPending(true)
         const preview_image = new FormData();
         let i = 1;
         if (images.length) {
@@ -382,7 +388,7 @@ const Change = props => {
             //     "parking": data.details ? data.details.includes('parking') : false
             // },
             "location": {
-                "country": 1,
+                "country": data.location.country,
                 "region": data.location.region,
                 "city": data.location.city,
                 "district": 1,
@@ -423,7 +429,12 @@ const Change = props => {
 
     return (
         <div>
-            <FormChange images={images} setImages={setImages} app={props.app} onSubmit={send}
+            <FormChange images={images}
+                        setImages={setImages}
+                        app={props.app}
+                        onSubmit={send}
+                        pending={pending}
+                        setPending={setPending}
                         id={props.match.params.id}/>
         </div>
     )

@@ -14,9 +14,9 @@ const Footer = props =>{
             </div>
             <div className={css.links}>
                 <Link to={'/about-us'}>О нас</Link>
-                <Link to={'#'}>Обратная связь</Link>
+                <Link to={'/feedback'}>Обратная связь</Link>
                 <Link to={'/add-apartment'}>Как добавить объявление?</Link>
-                <a href={'https://neobis.kg/'} target={'_blank'} rel="noopener noreferrer" >Автор Neobis</a>
+                <a href={'https://neobis.kg/'} target={'_blank'} rel="noopener noreferrer" >Neobis</a>
             </div>
         </div>
     )

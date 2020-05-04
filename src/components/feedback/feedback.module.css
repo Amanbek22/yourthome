@@ -1,0 +1,20 @@
+.mainWrapper{
+    background: #57C325;
+    color: white;
+    min-height: 91vh;
+    padding: 40px 10%;
+}
+.wrapper{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.contacts {
+    border-radius: 5px;
+    height: 150px;
+    padding: 20px 40px;
+    background: rgba(54, 54, 54, 0.86);
+}
+.contacts>div{
+    margin: 5px 0;
+}

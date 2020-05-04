@@ -41,19 +41,19 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                             color={'#ffffff'}
                             markerWithLabel={"Hello"}
                             label={{
-                                text: Math.floor(item.price) + '$',
+                                text: Math.floor(item.currency === '$' ? item.price : item.another_price) + '$',
                                 color: '#000',
                                 fontSize: 16 + 'px'
                             }}
                             icon={
                                 // iconMarker
                                 {
-                                    url: String(item.price).length > 3 ? marker : String(item.price).length >= 2 ? marker2 : marker,
+                                    url: String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length > 3 ? marker : String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length >= 2 ? marker2 : marker,
                                     scaledSize: {
-                                        width: String(item.price).length > 3 ? 60 : String(item.price).length >= 5 ? 70 : 40,
+                                        width: String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length > 3 ? 60 : String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length >= 5 ? 70 : 40,
                                         height: 35
                                     },
-                                    labelOrigin: new window.google.maps.Point(String(item.price).length > 3 ? 30 : String(item.price).length >= 5 ? 25 : 20, 12),
+                                    labelOrigin: new window.google.maps.Point(String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length > 3 ? 30 : String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length >= 5 ? 25 : 20, 12),
                                 }
                             }
                             key={item.id}
@@ -157,7 +157,7 @@ const Admin = props => {
                         area={item.area.total_area}
                         room={item.room}
                         floor={item.floor}
-                        price={item.price}
+                        price={item.currency === '$' ? item.price : item.another_price}
                         // addetDate={item.date_of_arrival}
                     />
                 </div>

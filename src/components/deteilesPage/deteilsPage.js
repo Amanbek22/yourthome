@@ -13,6 +13,7 @@ import {compose} from "redux";
 import img from '../../img/mainImg.png'
 import Card from '../card/card'
 import dropDown from '../../img/dropDown.png'
+import Preloader from "../preloader/Preloader";
 
 const DeteilsPage = props => {
     const {id} = props.match.params;
@@ -28,6 +29,8 @@ const DeteilsPage = props => {
     const [nearApartments, setNearApartments] = useState([])
     const [details, setDetails] = useState(true)
     const [noApartments, setNoApartments] = useState(true)
+    const [pending, setPending] = useState(true)
+
     let token = JSON.parse(localStorage.getItem('newToken'));
     let comment = comments.map(item => {
         return (
@@ -39,10 +42,11 @@ const DeteilsPage = props => {
             </div>
         )
     })
-    console.log(comment)
+
     useEffect(() => {
         api.getApartmentApi(props.match.params.id)
             .then(res => {
+                console.log(res.data)
                 setDescription(res.data.description.split('\n'))
                 setApartment(res.data)
                 setPhone(res.data.contact.phone)
@@ -52,6 +56,7 @@ const DeteilsPage = props => {
                 setNearby_objects(res.data.nearby_objects)
                 setObjects_in_apartment(res.data.objects_in_apartment)
             })
+        setPending(false)
         api.nearApartment(id).then(res => {
             setNearApartments(res.data)
             if ( res.data.length === 0 ){
@@ -67,6 +72,11 @@ const DeteilsPage = props => {
     const onDataChange = (jsDate, dateString) => {
         console.log(jsDate, dateString)
     }
+
+    if(pending){
+        return <Preloader />
+    }
+
     let booking;
     if (orders.length > 0) {
         booking = orders.map(item => {
@@ -93,7 +103,6 @@ const DeteilsPage = props => {
             </div>
         })
     }
-
     return (
         <div className={css.wrapper}>
             <div className={css.slider_block}>
@@ -120,12 +129,19 @@ const DeteilsPage = props => {
                 <div className={css.priceBlock}>
                     <div>{apartment.title}</div>
                 </div>
+                <div className={css.information}>
+                    {
+                        apartment.status
+                            ? <div style={{color: '#57C325'}}>Свободно</div>
+                            : <div style={{color: 'red'}}>Занято до {orders.length ? orders[0].departure_date : ''}</div>
+                    }
+                </div>
                 <div className={css.price}>
                     <div>
                         Цена:
                     </div>
                     <div style={{marginLeft: '15px'}}>
-                        {Math.round(apartment.price)}$
+                        {Math.round(apartment.currency === '$' ? apartment.price : apartment.another_price)}$
                     </div>
                 </div>
                 <div className={css.information}>
@@ -140,7 +156,7 @@ const DeteilsPage = props => {
                     </div>
                     <div className={css.detailsWrapper}>
                         <div style={{cursor: 'pointer'}} onClick={() => setDetails(!details)}>
-                            <span>Детали  </span>
+                            <span style={{color: '#57C325', fontWeight: 500}}>Детали  </span>
                             <img style={{
                                 marginLeft: '4px',
                                 transition: 'transform 0.4s ease',

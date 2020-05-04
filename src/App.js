@@ -18,6 +18,7 @@ import {initializeApp, initializeAppData} from "./redux/appReducer";
 import {compose} from "redux";
 import About from "./components/about-us/About-us";
 import Preloader from "./components/preloader/Preloader";
+import Feedback from "./components/feedback/feedback";
 
 function App(props) {
     const allPromiseRejection = (promiseRejectionEvent) =>{
@@ -85,6 +86,9 @@ function App(props) {
                             </Route>
                             <Route exact path={"/about-us"}>
                                 <About/>
+                            </Route>
+                            <Route exact path={"/feedback"}>
+                                <Feedback/>
                             </Route>
                         </Switch>
                     </Suspense>

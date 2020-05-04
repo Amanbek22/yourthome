@@ -8,6 +8,7 @@ const INITIALIZE_SERIES = "app/INITIALIZE_SERIES";
 const INITIALIZE_STATE = "app/INITIALIZE_STATE";
 const INITIALIZE_CTYPES = "app/INITIALIZE_CTYPES";
 const INITIALIZE_CURRENCY = "app/INITIALIZE_CURRENCY"
+const INITIALIZE_COUNTRY = "app/INITIALIZE_COUNTRY"
 let initialState = {
     initialise: false,
     regions: [],
@@ -15,6 +16,7 @@ let initialState = {
     constructionType: [],
     series: [],
     state: [],
+    country: [],
     currency: null,
 }
 
@@ -56,6 +58,11 @@ export const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currency: [...action.data]
+            }
+        case INITIALIZE_COUNTRY:
+            return {
+                ...state,
+                country: [...action.data]
             }
         default:
             return {
@@ -107,7 +114,12 @@ export const initializeCurrency = (data) => {
         data
     }
 }
-
+export const initializeCountry = (data) => {
+    return {
+        type: INITIALIZE_COUNTRY,
+        data
+    }
+}
 export const initializeAppData = () => (dispatch) => {
     api.getTypes().then(res => dispatch(initializeTypes(res.data)))
     api.getSeries().then(res => dispatch(initializeSeries(res.data)))
@@ -115,6 +127,7 @@ export const initializeAppData = () => (dispatch) => {
     api.getCurrency().then(res => dispatch(initializeCurrency(res.data)))
     api.getRegions().then(res => dispatch(initializeRegions(res.data)))
     api.getConstructionType().then(res => dispatch(initializeCTypes(res.data)))
+    api.getCountry().then(res => dispatch(initializeCountry(res.data)))
 }
 
 export const initializeApp = () => (dispatch) => {

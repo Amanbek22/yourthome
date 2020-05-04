@@ -152,4 +152,5 @@ export default {
     getSeries: () => http.get(`/front-series/`),
     getState: () => http.get(`/front-states/`),
     getCurrency: () => http.get(`/front-currency/`),
+    getCountry: () => http.get(`/front-countries/`),
 };
