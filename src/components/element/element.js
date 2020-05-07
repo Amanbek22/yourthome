@@ -44,13 +44,13 @@ const Element = props => {
                 <Link to={`/change-apartment/${props.id}`}>Изменить контент</Link>
             </div>
             <div>
-                <Link to={`/booking/${props.id}`}>Изменить дату бранирования</Link>
+                <Link to={`/booking/${props.id}`}>Изменить дату бронирования</Link>
             </div>
             <div style={{cursor: 'pointer'}} onClick={()=> {
                     props.setVisible(true)
                     props.setDelApartment(props.id)
                 }}
-            >Удолить</div>
+            >Удалить</div>
         </div>
     } else {
         dropDown = undefined
@@ -73,7 +73,7 @@ const Element = props => {
                         <div>Этаж: {props.floor}</div>
                     </pre>
                     <div>
-                        Цена: {props.price}
+                        Цена: {props.price} $ <span> || </span> {props.priceSom} сом
                     </div>
                 </div>
             </Link>

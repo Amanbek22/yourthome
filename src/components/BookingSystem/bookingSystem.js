@@ -60,7 +60,8 @@ const Orders = props => {
                 От
                 {
                     changeDate
-                        ? <input required className={css.changeInput} type="date" min={today} value={arrivalDate}
+                        ? <input required className={css.changeInput} type="date"
+                                 min={today} max={departureDate} value={arrivalDate}
                                  onChange={(e) => setArrivalDate(e.target.value)} />
                         : <input disabled={true} value={arrivalDate}/>
                 }

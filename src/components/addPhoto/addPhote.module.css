@@ -1,10 +1,20 @@
 .wrapper{
-    margin: 0 14%;
+    margin: 0 12%;
 }
 .wrapper>form{
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    grid-gap: 1em;
+    grid-template-columns: 3fr 2fr;
+    grid-gap: 10px;
+}
+.filesWrapper{
+display: grid;
+}
+.files{
+    /*margin: 0 30px;*/
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    /*justify-content: space-between;*/
+    /*flex-wrap: wrap;*/
 }
 .btns{
     display: flex;
@@ -24,10 +34,6 @@
 }
 .chooseFile{
     display: none;
-}
-.files{
-    display: flex;
-    justify-content: space-between;
 }
 .fileWrapper{
     margin: 10px;
@@ -63,8 +69,29 @@
 }
 
 
+@media screen and (max-width: 596px) {
+    .wrapper{
+        margin: 0 5%;
+    }
+    .files{
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+    }
+    .lastPhoto{
+        display: none;
+    }
+}
 
 @media screen and (max-width: 768px) {
+    .filesWrapper{
+        margin: 0 auto;
+        /*flex-wrap: wrap;*/
+        /*display: flex;*/
+    }
+}
 
-
+@media screen and (max-width: 996px) {
+    .wrapper>form{
+        grid-template-columns: 1fr;
+    }
 }

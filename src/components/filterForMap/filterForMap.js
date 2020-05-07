@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import css from './filter.module.css'
 import {DatePickerInput} from "rc-datepicker";
 import {connect} from "react-redux";
@@ -23,6 +23,8 @@ const FilterMap = props =>{
     const [details, setDetails] = useState([])
     const [nearby_objects, setNearby_objects] = useState(props.filterData.nearby_objects)
     const [atHome, setAtHome] = useState(props.filterData.atHome)
+    const [nearbyObjects, setNearbyObjects] = useState([])
+    const [objects, setObjects] = useState([])
     const filter = () =>{
         props.setItem(region,'')
         props.setFilterData({
@@ -33,6 +35,9 @@ const FilterMap = props =>{
                 nearby_objects,atHome
             })
         props.setFilterStyle(false)
+        // props.setSend(false)
+        props.setPending(true)
+        // props.setZoom(6)
     }
     let width = window.innerWidth;
     const widthFilter = () => {
@@ -40,17 +45,25 @@ const FilterMap = props =>{
             props.setOpenMap(!props.openMap)
         }
     }
-    const options = [
-        {value: 'internet', label: 'Интернет'},
-        {value: 'gas', label: 'Газ'},
-        {value: 'heat', label: 'Отопление'},
-        {value: 'phone', label: 'Телефон'},
-        {value: 'electricity', label: 'Электричество'},
-        {value: 'furniture', label: 'Мебель'},
-        {value: 'elevator', label: 'Лифт'},
-        {value: 'security', label: 'Охрана'},
-        {value: 'parking', label: 'Парковка'},
-    ]
+
+    useEffect(()=>{
+        console.log(props.app.nearby_objects)
+        let arr = []
+        if (props.app.nearby_objects) {
+            props.app.nearby_objects.map(item => {
+                arr.push({value: item.name, label: item.name})
+            })
+        }
+        let objects_in_apartment = []
+        if (props.app.objects_in_apartment) {
+            props.app.objects_in_apartment.map(item => {
+                objects_in_apartment.push({value: item.name, label: item.name})
+            })
+        }
+        setNearbyObjects(arr)
+        setObjects(objects_in_apartment)
+    }, [props.app.nearby_objects, props.app.objects_in_apartment])
+
     return(
         <div className={css.wrapper}>
             <div className={css.filterWrapper}>
@@ -142,7 +155,7 @@ const FilterMap = props =>{
                 <div>
                     <Creatable
                         placeholder={'Рядом есть'}
-                        options={options}
+                        options={nearbyObjects}
                         value={atHome}
                         onChange={(data) => {
                             setAtHome(data)
@@ -152,7 +165,7 @@ const FilterMap = props =>{
                     <br/>
                     <Creatable
                         placeholder={'В доме есть'}
-                        options={options}
+                        options={objects}
                         value={nearby_objects}
                         onChange={(data) => {
                             setNearby_objects(data)

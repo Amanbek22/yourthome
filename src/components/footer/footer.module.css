@@ -33,5 +33,20 @@
 @media screen and (max-width: 768px){
     .wrapper{
         display: grid;
+        position: relative;
+        margin: 0 auto;
+        justify-content: center;
+    }
+    .firstWrapper{
+        margin: 0 auto;
+    }
+}
+@media screen and (max-width: 596px){
+    .links{
+        display: grid;
+        text-align: center;
+    }
+    .links>a{
+        margin: 5px 0;
     }
 }

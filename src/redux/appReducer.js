@@ -9,6 +9,8 @@ const INITIALIZE_STATE = "app/INITIALIZE_STATE";
 const INITIALIZE_CTYPES = "app/INITIALIZE_CTYPES";
 const INITIALIZE_CURRENCY = "app/INITIALIZE_CURRENCY"
 const INITIALIZE_COUNTRY = "app/INITIALIZE_COUNTRY"
+const INITIALIZE_NEARBYOBJECTS = "app/INITIALIZE_NEARBYOBJECTS"
+const INITIALIZE_OBJECTS_IN_APARTMENT = "app/INITIALIZE_OBJECTS_IN_APARTMENT"
 let initialState = {
     initialise: false,
     regions: [],
@@ -18,6 +20,8 @@ let initialState = {
     state: [],
     country: [],
     currency: null,
+    nearby_objects: null,
+    objects_in_apartment: null,
 }
 
 
@@ -63,6 +67,16 @@ export const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 country: [...action.data]
+            }
+        case INITIALIZE_OBJECTS_IN_APARTMENT:
+            return{
+                ...state,
+                objects_in_apartment: [...action.data]
+            }
+        case INITIALIZE_NEARBYOBJECTS:
+            return{
+                ...state,
+                nearby_objects: [...action.data]
             }
         default:
             return {
@@ -120,6 +134,18 @@ export const initializeCountry = (data) => {
         data
     }
 }
+export const initializeNearbyObjects = (data) => {
+    return {
+        type: INITIALIZE_NEARBYOBJECTS,
+        data
+    }
+}
+export const initializeObjectsInApartment = (data) => {
+    return {
+        type: INITIALIZE_OBJECTS_IN_APARTMENT,
+        data
+    }
+}
 export const initializeAppData = () => (dispatch) => {
     api.getTypes().then(res => dispatch(initializeTypes(res.data)))
     api.getSeries().then(res => dispatch(initializeSeries(res.data)))
@@ -128,6 +154,8 @@ export const initializeAppData = () => (dispatch) => {
     api.getRegions().then(res => dispatch(initializeRegions(res.data)))
     api.getConstructionType().then(res => dispatch(initializeCTypes(res.data)))
     api.getCountry().then(res => dispatch(initializeCountry(res.data)))
+    api.getNearby_object().then(res => dispatch(initializeNearbyObjects(res.data)))
+    api.getObjects_in_apartment().then(res => dispatch(initializeObjectsInApartment(res.data)))
 }
 
 export const initializeApp = () => (dispatch) => {

@@ -13,7 +13,7 @@ import ChangeApartment from "./components/changeApartment/changeApartment";
 import WrapperMapContainer from "./components/mapComponent/googleMapContainer";
 import {connect} from "react-redux";
 import Preloader from "./components/preloader/Preloader";
-import AddPhoto from "./components/addPhoto/addPhoto";
+
 const BookingSystem = React.lazy(()=> import("./components/BookingSystem/bookingSystem"));
 const SignIn = React.lazy(()=>import("./components/signin/signin"));
 const SignUp = React.lazy(()=> import("./components/signUp/signup"));
@@ -24,24 +24,25 @@ function App(props) {
     const allPromiseRejection = (promiseRejectionEvent) =>{
         alert(promiseRejectionEvent)
     }
+
     useEffect( () => {
         props.initializeAppData()
         props.initializeApp()
-        window.addEventListener('unhandledrejection', allPromiseRejection)
+        // window.addEventListener('unhandledrejection', allPromiseRejection)
         return () => {
             window.removeEventListener('unhandledrejection', allPromiseRejection)
         }
     }, [])
-    if (!props.initialized.initialise) {
-        return <Preloader />
-        {/*<div>*/}
-            {/*<div className="App-header">*/}
-                {/*<h2>Yourt Home</h2>*/}
-            {/*</div>*/}
-            {/*<p className="App-intro">*/}
-                {/*Loading site...*/}
-            {/*</p></div>*/}
-    }
+    // if (!props.initialized.initialise) {
+    //     return <Preloader />
+    //     {/*<div>*/}
+    //         {/*<div className="App-header">*/}
+    //             {/*<h2>Yourt Home</h2>*/}
+    //         {/*</div>*/}
+    //         {/*<p className="App-intro">*/}
+    //             {/*Loading site...*/}
+    //         {/*</p></div>*/}
+    // }
     return (
         <div className="wrapper">
             <Router>
@@ -81,9 +82,7 @@ function App(props) {
                             <Route exact path={"/booking/:id"}>
                                 <BookingSystem/>
                             </Route>
-                            <Route exact path={"/addPhoto/:id"}>
-                                <AddPhoto/>
-                            </Route>
+
                             <Route exact path={"/about-us"}>
                                 <About/>
                             </Route>

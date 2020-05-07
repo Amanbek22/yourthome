@@ -10,7 +10,7 @@ const Cards = props => {
     const [apartments, setApartments] = useState([]);
     const [pending, setPending] = useState(false)
     const [apartmentsPending, setApartmentsPending] = useState(false)
-    const [next, setNext] = useState('')
+    const [next, setNext] = useState(null)
     console.log(apartments)
     console.log(apartmentsPending)
     console.log(next)
@@ -24,9 +24,9 @@ const Cards = props => {
 
     }, []);
     useEffect(() => {
-        document.addEventListener('scroll', trackScrolling);
+        window.addEventListener('scroll', trackScrolling);
         return () => {
-            document.removeEventListener('scroll', trackScrolling);
+            window.removeEventListener('scroll', trackScrolling);
         }
     }, [next, apartments, apartmentsPending])
 
@@ -44,17 +44,18 @@ const Cards = props => {
                 console.log(error)
             })
     }
-
     const isBottom = (el) => {
-        return el.getBoundingClientRect().bottom <= window.innerHeight;
+        return el.getBoundingClientRect().bottom - 1 <= window.innerHeight;
     }
 
     function trackScrolling() {
         const wrappedElement = document.getElementById('root');
         if (isBottom(wrappedElement)) {
             if (!apartmentsPending) {
-                setApartmentsPending(true)
-                nextPages()
+                if(!next) {
+                    setApartmentsPending(true)
+                    nextPages()
+                }
             }
             // document.removeEventListener('scroll', trackScrolling);
         }
@@ -71,6 +72,7 @@ const Cards = props => {
                 street={item.location.street}
                 houseNumber={item.location.house_number}
                 price={ item.currency === '$' ? item.price : item.another_price}
+                priceSom={item.currency === '$' ? item.another_price : item.price}
                 // rooms={item.room}
                 // floor={item.floor}
                 // area={item.area.total_area}
@@ -94,9 +96,8 @@ const Cards = props => {
                     </div>
 
                     {
-                        !apartmentsPending ? <div/> : <Preloader/>
+                        !apartmentsPending ? '' : <Preloader/>
                     }
-
                     {/*<div className={css.moreWrapper}>*/}
                     {/*<button  className={css.more} onClick={()=> nextPages()}>*/}
                     {/*Загрузить ещё*/}

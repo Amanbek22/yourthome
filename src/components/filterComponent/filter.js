@@ -46,6 +46,8 @@ const Filter = props => {
     const [atHome, setAtHome] = useState(props.filterData.atHome)
     const [moreVisible, setMoreVisible] = useState(false)
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [nearbyObjects, setNearbyObjects] = useState([])
+    const [objects, setObjects] = useState([])
     useEffect(() => {
         dispatch({
             type: "dateChange", payload: {
@@ -55,26 +57,34 @@ const Filter = props => {
             }
         })
     }, [])
-    const options = [
-        {value: 'internet', label: 'Интернет'},
-        {value: 'gas', label: 'Газ'},
-        {value: 'heat', label: 'Отопление'},
-        {value: 'phone', label: 'Телефон'},
-        {value: 'electricity', label: 'Электричество'},
-        {value: 'furniture', label: 'Мебель'},
-        {value: 'elevator', label: 'Лифт'},
-        {value: 'security', label: 'Охрана'},
-        {value: 'parking', label: 'Парковка'},
-    ]
+    useEffect(()=>{
+        document.title = 'Yourt Home'
+    })
+    useEffect(()=>{
+        console.log(props.app.nearby_objects)
+        let arr = []
+        if (props.app.nearby_objects) {
+            props.app.nearby_objects.map(item => {
+                arr.push({value: item.name, label: item.name})
+            })
+        }
+        let objects_in_apartment = []
+        if (props.app.objects_in_apartment) {
+            props.app.objects_in_apartment.map(item => {
+                objects_in_apartment.push({value: item.name, label: item.name})
+            })
+        }
+        setNearbyObjects(arr)
+        setObjects(objects_in_apartment)
+    }, [props.app.nearby_objects, props.app.objects_in_apartment])
     return (
         <div className={css.filterWrapper}>
-            <div>
+            <div className={css.cards}>
                 <Cards/>
-
             </div>
             <div className={css.filterWrapperSecond}>
                 <div className={css.inputsWrapper}>
-                    <p className={css.bookingDate}>Укажите дату бранирования</p>
+                    <p className={css.bookingDate}>Укажите дату бронирования</p>
                     <div>
                         <div className={css.dateRangeWrapper}>
                             <DateRangeInput
@@ -151,10 +161,13 @@ const Filter = props => {
                             transition: 'opacity 0.5s liner',
                             opacity: moreVisible ? '1' : '0',
                             display: moreVisible ? 'block' : 'none',
-                        }}>
+                            position: 'relative'
+                        }}
+
+                    >
                         <Creatable
                             placeholder={'Рядом есть'}
-                            options={options}
+                            options={nearbyObjects}
                             value={atHome}
                             onChange={(data) => {
                                 setAtHome(data)
@@ -165,7 +178,7 @@ const Filter = props => {
                         <br/>
                         <Creatable
                             placeholder={'В доме есть'}
-                            options={options}
+                            options={objects}
                             value={nearby_objects}
                             onChange={(data) => {
                                 setNearby_objects(data)

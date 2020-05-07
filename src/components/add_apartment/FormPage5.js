@@ -37,7 +37,9 @@ const FormPage5 = props => {
         <form onSubmit={props.onSubmit} style={{marginTop: '-10px'}}>
             <div style={{marginLeft: '2%'}}>Укажите на карте где находится Ваш дом или квартира*</div>
             <div className={css.modal}>
-                <div style={{display: props.width <= 768 ? props.hide ? 'none' : 'block' : 'block'}}>
+                <div
+                    // style={{display: props.width <= 768 ? props.hide ? 'none' : 'block' : 'block'}}
+                >
                     <MyMapComponent
                         marker={props.mark}
                         googleMapURL="
@@ -67,10 +69,10 @@ const FormPage5 = props => {
                     />
                 </div>
                 <MapForm
-                         regions={props.regions}
-                         setHide={props.setHide}
-                         setMark={props.setMark}
-                         question={props.question}/>
+                    regions={props.regions}
+                    setHide={props.setHide}
+                    setMark={props.setMark}
+                    question={props.question}/>
                 <div></div>
                 <div style={{margin: '0 0 25px 0'}} className={css.nextPrevBtn}>
                     <button onClick={() => props.previousPage()} className={css.sendBtn}>Назад</button>
@@ -87,7 +89,6 @@ export const MapForm = props => {
         {id: '', name: 'Регион'},
         ...props.regions
     ]
-    const {pristine, submitting} = props
     return (
         <form onSubmit={props.onSubmit} className={css.addressWrapper}>
             <div style={{textAlign: 'center'}}>
@@ -119,29 +120,6 @@ export const MapForm = props => {
                 <label>Страна</label>
                 <Field component={InputAdd} name={'country'} placeholder={"Страна"} type="text"/>
             </div>
-            {/*{*/}
-            {/*props.question ?*/}
-            {/*<div>*/}
-            {/*<div style={{fontSize: "14px"}}>Если ваш адресс указан не правильно вы*/}
-            {/*можете исправить вручную.*/}
-            {/*</div>*/}
-            {/*<div style={{display: "flex"}}>*/}
-            {/*<input style={{width: "100px"}} type="submit"*/}
-            {/*value={'Да'}*/}
-            {/*disabled={pristine || submitting}*/}
-            {/*className={css.sendBtn}/>*/}
-            {/*<input*/}
-            {/*style={{width: "100px", background: 'red'}} type="button"*/}
-            {/*value={'Нет'} className={`${css.sendBtn} ${css.rejectBtn}`}*/}
-            {/*onClick={() => {*/}
-            {/*props.setHide(false)*/}
-            {/*props.setMark('')*/}
-            {/*}}*/}
-            {/*/>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*: null*/}
-            {/*}*/}
         </form>
     )
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import rectangle from '../../img/Rectangle.png'
+import rectangle from '../../img/logo.png'
 import css from './footer.module.css'
 import {Link} from "react-router-dom";
 

@@ -49,7 +49,7 @@ export const googleMapReducer = (state = initialState, action) => {
         case send :
             return {
                 ...state,
-                send: true
+                send: action.data
             }
         default:
             return {
@@ -77,14 +77,16 @@ export const setApartment = apartment => {
         apartment
     }
 }
-export const setSend = () => {
+export const setSend = (data) => {
     return {
-        type: send
+        type: send,
+        data
     }
 }
 
 export const getApartment = (data) => async (dispatch) => {
     let res = await api.getApartments({...data})
     dispatch(setPoint(res.data))
-    dispatch(setSend())
+    dispatch(setSend(true))
+    return true
 }

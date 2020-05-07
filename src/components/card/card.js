@@ -5,7 +5,7 @@ import css from './card.module.css'
 
 
 const Card = props => {
-    let {city, street, houseNumber, price, id, img, title, userName} = props
+    let {city, street, houseNumber, price, id, img, title, userName, priceSom} = props
     const [hover, setHover] = useState(false)
     return (
         <div className={css.wrapper} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
@@ -20,7 +20,9 @@ const Card = props => {
                         <img src={!img ? imgg : img} alt=" "/>
                     </div>
                     <div className={css.description}>
-                        <div style={{marginBottom: '8px'}}>Цена: {price}$</div>
+                        <div style={{marginBottom: '8px'}}>Цена: {price}$
+                            {/*<span>{priceSom}сом</span>*/}
+                        </div>
                         <div className={css.title}>{title}</div>
                     </div>
                     <div></div>
@@ -35,7 +37,8 @@ const Card = props => {
                     {title}
                 </div>
                 <div className={css.hoveredTitle}>
-                    {price} $
+                    <div>{price} $</div>
+                    <div>{priceSom} сом</div>
                 </div>
                 <div className={css.address}>
                     <div>Город: {city}</div>

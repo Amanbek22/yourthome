@@ -132,6 +132,9 @@ const Admin = props => {
         api.deleteApartment(delApartment)
             .then(res => window.location.href = "/admin")
     }
+    useEffect(()=>{
+        document.title = 'Yourt Home - Админ панель'
+    })
     useEffect(() => {
         api.getOwnApartments()
             .then(res => {
@@ -158,6 +161,7 @@ const Admin = props => {
                         room={item.room}
                         floor={item.floor}
                         price={item.currency === '$' ? item.price : item.another_price}
+                        priceSom={item.currency === '$' ? item.another_price : item.price}
                         // addetDate={item.date_of_arrival}
                     />
                 </div>

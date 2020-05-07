@@ -142,6 +142,8 @@ const DeteilsPage = props => {
                     </div>
                     <div style={{marginLeft: '15px'}}>
                         {Math.round(apartment.currency === '$' ? apartment.price : apartment.another_price)}$
+                        <span> || </span>
+                        {Math.round(apartment.currency === '$' ? apartment.another_price : apartment.price)}сом
                     </div>
                 </div>
                 <div className={css.information}>
@@ -150,9 +152,9 @@ const DeteilsPage = props => {
                         <div>Комнат: {apartment.room}</div>
                         <div>Общая площадь: {area.total_area}m<sup>2</sup></div>
                         <div>Этаж: {apartment.floor}</div>
-                        <div>Тип строение: {apartment.construction_type}</div>
+                        <div>Тип строения: {apartment.construction_type}</div>
                         <div>Этажность дома: {apartment.storey}</div>
-                        <div>Тип ремонта: {apartment.state}</div>
+                        <div>Состояние ремонта: {apartment.state}</div>
                     </div>
                     <div className={css.detailsWrapper}>
                         <div style={{cursor: 'pointer'}} onClick={() => setDetails(!details)}>
@@ -180,7 +182,7 @@ const DeteilsPage = props => {
                         </div>
                     </div>
                     <div>
-                        <div className={css.description} style={{marginTop: "20px"}}>Даты арендования:</div>
+                        <div className={css.description} style={{marginTop: "20px"}}>Даты бронирования:</div>
                         <div style={{margin: '10px 0 0 10px'}}>
                             {booking}
                         </div>
@@ -209,7 +211,7 @@ const DeteilsPage = props => {
                             />
                         </div>
                     </div>
-                    <h4 style={{marginTop: '10px'}}>Место положение на карте:</h4>
+                    <h4 style={{marginTop: '10px'}}>Местоположение на карте:</h4>
                     <div className={css.mapWrapper}>
                         <MyMapComponent
                             googleMapURL="

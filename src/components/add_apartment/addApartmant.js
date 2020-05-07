@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import css from "./addApartmant.module.css";
 import axios from "axios";
 import api from "../../api/api";
@@ -22,6 +22,9 @@ const AddApartmentForm = props => {
     const [hide, setHide] = useState(false)
     const [page, setPage] = useState(1)
     const [img, setImg] = useState([]);
+    const [nearbyObjects, setNearbyObjects] = useState([])
+    const [objects, setObjects] = useState([])
+    console.log(img)
     const pushLocation = e => {
         let latlng = [e.latLng.lat(), e.latLng.lng()];
         props.setLat(latlng[0])
@@ -81,17 +84,6 @@ const AddApartmentForm = props => {
         {id: '', type: 'Тип строения'},
         ...props.app.constructionType
     ]
-    const options = [
-        {value: 'internet', label: 'Интернет'},
-        {value: 'gas', label: 'Газ'},
-        {value: 'heat', label: 'Отопление'},
-        {value: 'phone', label: 'Телефон'},
-        {value: 'electricity', label: 'Электричество'},
-        {value: 'furniture', label: 'Мебель'},
-        {value: 'elevator', label: 'Лифт'},
-        {value: 'security', label: 'Охрана'},
-        {value: 'parking', label: 'Парковка'},
-    ]
     const state = [
         {id: '', name: 'Тип ремонта'},
         ...props.app.state
@@ -102,7 +94,23 @@ const AddApartmentForm = props => {
     const prevPage = () => {
         setPage(page - 1)
     }
-
+    useEffect(()=>{
+        console.log(props.app.nearby_objects)
+        let arr = []
+        if (props.app.nearby_objects) {
+            props.app.nearby_objects.map(item => {
+                arr.push({value: item.name, label: item.name})
+            })
+        }
+        let objects_in_apartment = []
+        if (props.app.objects_in_apartment) {
+            props.app.objects_in_apartment.map(item => {
+                objects_in_apartment.push({value: item.name, label: item.name})
+            })
+        }
+        setNearbyObjects(arr)
+        setObjects(objects_in_apartment)
+    }, [props.app.nearby_objects, props.app.objects_in_apartment])
     return (
         <div className={css.formWrapper}>
             {page === 1 && <TitleForm onSubmit={nextPage} data={data}/>}
@@ -113,10 +121,16 @@ const AddApartmentForm = props => {
                 onSubmit={nextPage}
                 setNearHome={props.setNearHome}
                 setAtHome={props.setAtHome}
-                options={options}
+                nearbyObjects={nearbyObjects}
+                objects={objects}
             />}
             {page === 4 && <FormPage4 previousPage={prevPage} onSubmit={nextPage}/>}
-            {page === 5 && <Add img={img} setImg={setImg} previousPage={prevPage} onSubmit={nextPage} setPictures={props.setPictures}/>}
+            {page === 5 && <Add
+                img={img}
+                setImg={setImg}
+                previousPage={prevPage}
+                onSubmit={nextPage}
+                setPictures={props.setPictures}/>}
             {page === 6 && <FormPage5 previousPage={prevPage} onSubmit={props.handleSubmit}
                                       regions={props.app.regions}
                                       setHide={setHide}
@@ -176,7 +190,6 @@ const AddApartmentReduxForm = reduxForm({form: 'addApartment', validate})(AddApa
 const AddApartment = props => {
     const [pictures, setPictures] = useState(null)
     const [pending, setPending] = useState(false)
-
     const sendData = (data) => {
         setPending(true)
         let formData = {
@@ -245,9 +258,13 @@ const AddApartment = props => {
                 (error) => {
                     console.log(error)
                     alert(error)
+                    setPending(false);
                 }
             )
     }
+    useEffect(()=>{
+        document.title = 'Подать объявление'
+    })
     if(pending){
         return <Preloader />
     }

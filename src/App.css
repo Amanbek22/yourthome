@@ -13,6 +13,6 @@
     overflow: hidden;
     z-index: 9999;
     background: #ffffff;
-    height: 9vh;
+    min-height: 9vh;
     border-bottom: 1px solid #57C325;
 }

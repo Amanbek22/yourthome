@@ -45,10 +45,10 @@ export const Sel = props => {
 const FormPage3 = props => {
     return(
         <form onSubmit={props.onSubmit} className={css.main + ' ' + css.details}>
-            <Field setDetails={props.setNearHome} name={'nearHome'} component={Sel} options={props.options} isClearable
+            <Field setDetails={props.setNearHome} name={'nearHome'} component={Sel} options={props.nearbyObjects} isClearable
                    isMulti autoFocus={'autoFocus'}
                    placeholder={'Рядом есть...'}/>
-            <Field setDetails={props.setAtHome} name={'atHome'} component={Sel} options={props.options} isClearable
+            <Field setDetails={props.setAtHome} name={'atHome'} component={Sel} options={props.objects} isClearable
                    isMulti
                    placeholder={'Дома есть...'}/>
                    <div></div>

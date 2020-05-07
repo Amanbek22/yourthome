@@ -1,11 +1,11 @@
 .filterWrapper{
     background: url("../../img/for-background.jpg") center center no-repeat fixed;
-    /*background-attachment: fixed;*/
+    background-size: cover;
     display: grid;
     grid-template-columns: 4fr 2fr;
     position: relative;
     color: white;
-    min-height: 100vh;
+    /*min-height: 100vh;*/
 }
 .filterWrapperSecond{
     /*display: block;*/
@@ -125,13 +125,15 @@
     background: none;
     min-height: 38px;
 }
-
 @media screen and (max-width: 996px){
     .dateRangeWrapper>div>div>div{
         left: -25%;
     }
 }
 @media screen and (max-width: 768px) {
+    .cards{
+        margin-top: 20px;
+    }
     .dateRangeWrapper>div>div>div{
         left: 0;
     }
@@ -143,7 +145,7 @@
     }
     .moreWrapper{
         display: flex;
-        margin: 0 0 40px 0;
+        margin: 20px 0 40px 0;
     }
     .inputsWrapper{
         display: grid;
@@ -157,6 +159,7 @@
         font-size: 13px;
     }
     .filterWrapper{
+        margin-top: -30px;
         display:flex;
         flex-direction: column-reverse;
     }

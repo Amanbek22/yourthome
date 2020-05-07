@@ -108,11 +108,11 @@ const Form = props => {
 
     };
     const data = [
-        {id: '', type: 'Тип недвижемости'},
+        {id: '', type: 'Тип недвижимости'},
         ...props.app.types
     ]
     const state = [
-        {id: '', name: 'Тип ремонта'},
+        {id: '', name: 'Состояния ремонта'},
         ...props.app.state
     ]
     const constractionType = [
@@ -154,7 +154,7 @@ const Form = props => {
                            type="text" component={InputAdd}/>
                 </div>
                 <div>
-                    <label>Тип недвижемости</label>
+                    <label>Тип недвижимости</label>
                     <Field name={'type'} component={SelectAdd} data={data} valueField={'value'}
                            textField={'text'}/>
                 </div>
@@ -205,7 +205,7 @@ const Form = props => {
                     />
                 </div>
                 <div>
-                    <label>Тип ремонта</label>
+                    <label>Состояния ремонта</label>
                     <Field name={'state'} component={SelectAdd}
                            data={state}
                     />

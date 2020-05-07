@@ -153,6 +153,8 @@ export default {
     getState: () => http.get(`/front-states/`),
     getCurrency: () => http.get(`/front-currency/`),
     getCountry: () => http.get(`/front-countries/`),
+    getNearby_object: () => http.get(`/nearby-objects/`),
+    getObjects_in_apartment: () => http.get(`/objects-in-apartment/`),
     changeBooking: (id, orderId, data) => {
         let token = JSON.parse(localStorage.getItem('newToken'));
         return http.put(`own-apartments/${id}/booking/${orderId}/`, data , {
