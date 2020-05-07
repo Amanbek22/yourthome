@@ -118,18 +118,21 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                     infiniteLoop={true}
                                     showThumbs={false}
                                 >
-                                    <div>
-                                        <img
-                                            src="https://img.freepik.com/free-vector/vector-illustration-cartoon-interior-orange-home-room-living-room-with-two-soft-armchairs_1441-399.jpg?size=626&ext=jpg"/>
-                                    </div>
-                                    <div>
-                                        <img
-                                            src="https://media.gettyimages.com/photos/laptop-on-coffee-table-in-a-modern-living-room-of-an-old-country-picture-id900217718?s=612x612"/>
-                                    </div>
-                                    <div>
-                                        <img
-                                            src="https://yourthomeneobis2.herokuapp.com/media/photos/1a4da06bcdf207407ef4767711eeb20e.jpg"/>
-                                    </div>
+                                    {selectedPark.apartment_image.map(item => <div>
+                                        <img src={item.image} alt=" "/>
+                                    </div>)}
+                                    {/*<div>*/}
+                                        {/*<img*/}
+                                            {/*src="https://img.freepik.com/free-vector/vector-illustration-cartoon-interior-orange-home-room-living-room-with-two-soft-armchairs_1441-399.jpg?size=626&ext=jpg"/>*/}
+                                    {/*</div>*/}
+                                    {/*<div>*/}
+                                        {/*<img*/}
+                                            {/*src="https://media.gettyimages.com/photos/laptop-on-coffee-table-in-a-modern-living-room-of-an-old-country-picture-id900217718?s=612x612"/>*/}
+                                    {/*</div>*/}
+                                    {/*<div>*/}
+                                        {/*<img*/}
+                                            {/*src="https://yourthomeneobis2.herokuapp.com/media/photos/1a4da06bcdf207407ef4767711eeb20e.jpg"/>*/}
+                                    {/*</div>*/}
                                 </Carousel>
                                 <div>
                                     <Link
@@ -163,9 +166,8 @@ const WrapperMap = props => {
     const [latLng, setLatLng] = useState({})
     const [zoome, setZoome] = useState(6)
     const [pending, setPending] = useState(true)
-    const [newArr, setNewArr] = useState([])
     let arr = [];
-
+    console.log(apartments)
     useEffect(() => {
         setApartments(props.points.points)
     });
@@ -197,7 +199,6 @@ const WrapperMap = props => {
         details, construction_type, nearby_objects, atHome
     ]);
     useEffect(() => {
-        setNewArr([...arr])
         props.getApartment(
             {...props.filterData}
         ).then(res => {
@@ -209,10 +210,6 @@ const WrapperMap = props => {
     let chooseApartment = item => {
         props.setApartment(item)
     };
-    console.log(arr)
-    // useEffect(()=>{
-    //
-    // },[])
     let items;
     if (arr.length > 0) {
 

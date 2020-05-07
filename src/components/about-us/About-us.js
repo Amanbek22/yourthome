@@ -26,7 +26,7 @@ const About = props => {
                 <div className={css.title}>
                     <div>Компании с которыми мы сотрудничаем</div>
                 </div>
-                <div style={{display: 'flex', justifyContent: 'space-between', textAlign: 'center'}}>
+                <div className={css.logoWrapper}>
                     <div className={css.logos}>
                         <img src="https://dwglogo.com/wp-content/uploads/2016/03/1920px_Coca_Cola_logo.png" alt="coca cola"/>
                     </div>

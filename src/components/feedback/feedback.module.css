@@ -18,3 +18,13 @@
 .contacts>div{
     margin: 5px 0;
 }
+
+@media screen and (max-width: 768px){
+    .mainWrapper{
+        text-align: center;
+    }
+    .wrapper{
+        grid-template-columns: 1fr;
+        grid-gap: 1em;
+    }
+}
