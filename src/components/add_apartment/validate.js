@@ -104,5 +104,10 @@ export const validate = values => {
     } else if (values.living_area.length > 0) {
         errors.living_areastorey = undefined
     }
+    if (!values.currency) {
+        errors.currency = 'Обязательное поле'
+    } else if (values.currency.length > 0) {
+        errors.currency = undefined
+    }
     return errors
 }

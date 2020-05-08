@@ -52,7 +52,7 @@ const Cards = props => {
         const wrappedElement = document.getElementById('root');
         if (isBottom(wrappedElement)) {
             if (!apartmentsPending) {
-                if(!next) {
+                if(next) {
                     setApartmentsPending(true)
                     nextPages()
                 }

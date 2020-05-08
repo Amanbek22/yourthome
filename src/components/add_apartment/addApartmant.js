@@ -192,6 +192,7 @@ const AddApartment = props => {
     const [pending, setPending] = useState(false)
     const sendData = (data) => {
         setPending(true)
+
         let formData = {
             "title": data.headline,
             "type": Number(data.apartmentType),

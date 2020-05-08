@@ -8,6 +8,10 @@ import {connect} from "react-redux";
 
 const FormPage2 = props => {
     const greaterThan = otherField => (value) => value > otherField ? value : '';
+    const currency = [
+        {id: '', type: 'Валюта'},
+        ...props.currency
+    ]
     return(
         <form onSubmit={props.onSubmit} className={css.wrapper}>
             <div style={{display: 'grid',gridTemplateColumns: '1fr 1fr', gridGap: '1em'}}>
@@ -18,7 +22,7 @@ const FormPage2 = props => {
                 </div>
                 <div className={css.priceCur}>
                     <label>Валюта</label>
-                    <Field normalize={greaterThan(0)} placeholder={"Валюта*"} type="number" name={'currency'} component={SelectAdd} data={props.currency}
+                    <Field normalize={greaterThan(0)} placeholder={"Валюта*"} type="number" name={'currency'} component={SelectAdd} data={currency}
                     />
                 </div>
             </div>
