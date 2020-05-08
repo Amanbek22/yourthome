@@ -12,7 +12,7 @@ const FormPage4 = props => {
                 <Field autoFocus={'autoFocus'} component={TextareaAdd} name={'description'}
                        placeholder={"Описание...."}/>
             </div>
-            <div className={css.description}>Напишете краткое описание</div>
+            <div className={css.description}>Напишите краткое описание</div>
             <div></div>
             <div className={css.nextPrevBtn}>
                 <button onClick={() => props.previousPage()} className={css.sendBtn}>Назад</button>

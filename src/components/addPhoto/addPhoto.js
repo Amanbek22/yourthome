@@ -29,6 +29,7 @@ export const FileUpdate = props => {
             <label className={css.inpWrapper}>
                 <input
                     {...props}
+
                     onChange={(e) => {
                         setBlock('none')
                         const arr = Array.from(e.target.files)

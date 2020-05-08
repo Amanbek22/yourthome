@@ -28,21 +28,14 @@ function App(props) {
     useEffect( () => {
         props.initializeAppData()
         props.initializeApp()
-        // window.addEventListener('unhandledrejection', allPromiseRejection)
+        window.addEventListener('unhandledrejection', allPromiseRejection)
         return () => {
             window.removeEventListener('unhandledrejection', allPromiseRejection)
         }
     }, [])
-    // if (!props.initialized.initialise) {
-    //     return <Preloader />
-    //     {/*<div>*/}
-    //         {/*<div className="App-header">*/}
-    //             {/*<h2>Yourt Home</h2>*/}
-    //         {/*</div>*/}
-    //         {/*<p className="App-intro">*/}
-    //             {/*Loading site...*/}
-    //         {/*</p></div>*/}
-    // }
+    if (!props.initialized.initialise) {
+        return <Preloader />
+    }
     return (
         <div className="wrapper">
             <Router>

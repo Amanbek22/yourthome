@@ -1,10 +1,11 @@
 import React, {useEffect, useReducer, useState} from 'react';
 import css from './filter.module.css'
 import {Link} from "react-router-dom";
-import {DateRangeInput} from "@datepicker-react/styled";
+// import {DateRangeInput} from "@datepicker-react/styled";
 import Cards from "../cards/cards";
 import {Creatable} from "react-select";
 import dropDown from '../../img/dropDown.png'
+import {DatePickerInput} from "rc-datepicker";
 
 const initialState = {
     startDate: null,
@@ -48,6 +49,12 @@ const Filter = props => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [nearbyObjects, setNearbyObjects] = useState([])
     const [objects, setObjects] = useState([])
+    const [dateFrom,setDateFrom] = useState(props.filterData.dateFrom);
+    const [dateTo,setDateTo] = useState(props.filterData.dateTo);
+
+    const onDataChange = (jsDate,dateString) => setDateFrom(jsDate)
+    const onDataToChange = (jsDate,dateString) => setDateTo(jsDate)
+
     useEffect(() => {
         dispatch({
             type: "dateChange", payload: {
@@ -87,19 +94,46 @@ const Filter = props => {
                     <p className={css.bookingDate}>Укажите дату бронирования</p>
                     <div>
                         <div className={css.dateRangeWrapper}>
-                            <DateRangeInput
-                                onDatesChange={data => dispatch({type: "dateChange", payload: data})}
-                                onFocusChange={focusedInput =>
-                                    dispatch({type: "focusChange", payload: focusedInput})
-                                }
-                                startDate={state.startDate} // Date or null
-                                endDate={state.endDate} // Date or null
-                                focusedInput={state.focusedInput}
-                                minBookingDate={new Date()}
-                                unavailableDates={[]}
-                                vertical={true}
-                                phrases={{startDatePlaceholder: 'Дата заезда', endDatePlaceholder: 'Дата выезда'}}
-                            />
+                            <label>
+                                Дата заезда
+                                <DatePickerInput
+                                    onChange={onDataChange}
+                                    value={ dateFrom}
+                                    className='my-custom-datepicker-component'
+                                    onHide={()=>0}
+                                    showOnInputClick={true}
+                                    onClear={()=>setDateFrom('')}
+                                    minDate={new Date()}
+                                    placeholder={'Дата заезда'}
+                                />
+                            </label>
+                            <label>
+                                Дата выезда
+                                <DatePickerInput
+                                    onChange={onDataToChange}
+                                    value={dateTo}
+                                    className='my-custom-datepicker-component'
+                                    onHide={()=>0}
+                                    showOnInputClick={true}
+                                    onClear={()=>setDateTo('')}
+                                    minDate={dateTo}
+                                    placeholder={'Дата выезда'}
+                                    // style={{ margin: 50+'px' }}
+                                />
+                            </label>
+                            {/*<DateRangeInput*/}
+                                {/*onDatesChange={data => dispatch({type: "dateChange", payload: data})}*/}
+                                {/*onFocusChange={focusedInput =>*/}
+                                    {/*dispatch({type: "focusChange", payload: focusedInput})*/}
+                                {/*}*/}
+                                {/*startDate={state.startDate} // Date or null*/}
+                                {/*endDate={state.endDate} // Date or null*/}
+                                {/*focusedInput={state.focusedInput}*/}
+                                {/*minBookingDate={new Date()}*/}
+                                {/*unavailableDates={[]}*/}
+                                {/*vertical={true}*/}
+                                {/*phrases={{startDatePlaceholder: 'Дата заезда', endDatePlaceholder: 'Дата выезда'}}*/}
+                            {/*/>*/}
                         </div>
                     </div>
                     <div className={css.inputs}>
@@ -201,8 +235,8 @@ const Filter = props => {
                                 atHome,
                                 nearby_objects,
                                 construction_type,
-                                dateFrom: state.startDate,
-                                dateTo: state.endDate,
+                                dateFrom,
+                                dateTo,
                                 priceFrom,
                                 priceTo,
                                 floor

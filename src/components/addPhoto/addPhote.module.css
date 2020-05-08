@@ -1,25 +1,30 @@
-.wrapper{
+.wrapper {
     margin: 0 12%;
 }
-.wrapper>form{
+
+.wrapper > form {
     display: grid;
     grid-template-columns: 3fr 2fr;
     grid-gap: 10px;
 }
-.filesWrapper{
-display: grid;
+
+.filesWrapper {
+    display: grid;
 }
-.files{
+
+.files {
     /*margin: 0 30px;*/
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     /*justify-content: space-between;*/
     /*flex-wrap: wrap;*/
 }
-.btns{
+
+.btns {
     display: flex;
 }
-.btns>input{
+
+.btns > input {
     background: #05BA02;
     font-size: 17px;
     color: white;
@@ -32,10 +37,15 @@ display: grid;
     border-radius: 6px;
     margin: 0 0 0 auto;
 }
-.chooseFile{
-    display: none;
+
+.chooseFile {
+    /*display: none;*/
+    width: 0;
+    height: 0;
+    opacity: 0;
 }
-.fileWrapper{
+
+.fileWrapper {
     margin: 10px;
     width: 80px;
     height: 80px;
@@ -45,7 +55,8 @@ display: grid;
     text-align: center;
     position: relative;
 }
-.fileWrapper>img{
+
+.fileWrapper > img {
     cursor: pointer;
     padding: 15px;
     background: #57C325;
@@ -56,7 +67,8 @@ display: grid;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
-.inpWrapper>img{
+
+.inpWrapper > img {
     cursor: pointer;
     padding: 15px;
     background: #57C325;
@@ -70,20 +82,22 @@ display: grid;
 
 
 @media screen and (max-width: 596px) {
-    .wrapper{
+    .wrapper {
         margin: 0 5%;
     }
-    .files{
+
+    .files {
         display: grid;
-        grid-template-columns: 1fr 1fr ;
+        grid-template-columns: 1fr 1fr;
     }
-    .lastPhoto{
+
+    .lastPhoto {
         display: none;
     }
 }
 
 @media screen and (max-width: 768px) {
-    .filesWrapper{
+    .filesWrapper {
         margin: 0 auto;
         /*flex-wrap: wrap;*/
         /*display: flex;*/
@@ -91,7 +105,7 @@ display: grid;
 }
 
 @media screen and (max-width: 996px) {
-    .wrapper>form{
+    .wrapper > form {
         grid-template-columns: 1fr;
     }
 }

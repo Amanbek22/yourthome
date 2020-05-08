@@ -107,36 +107,43 @@
 .bookingDate{
     font-weight: 300;
 }
-
-.dateRangeWrapper>div>div{
+.dateRangeWrapper{
     display: grid;
-    grid-template-columns: 1fr 1em 1fr;
-    /*grid-gap: 1em;*/
-    z-index: 99;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
 }
+/*.dateRangeWrapper>div>div{*/
+    /*display: grid;*/
+    /*grid-template-columns: 1fr 1em 1fr;*/
+    /*!*grid-gap: 1em;*!*/
+    /*z-index: 99;*/
+/*}*/
 
-.dateRangeWrapper>div>div>div>svg{
-    display: none;
-}
-.dateRangeWrapper>div>div>label{
-    border-radius: 3px;
-}
-.dateRangeWrapper>div>div>label>input{
-    background: none;
-    min-height: 38px;
-}
+/*.dateRangeWrapper>div>div>div>svg{*/
+    /*display: none;*/
+/*}*/
+/*.dateRangeWrapper>div>div>label{*/
+    /*border-radius: 3px;*/
+/*}*/
+/*.dateRangeWrapper>div>div>label>input{*/
+    /*background: none;*/
+    /*min-height: 38px;*/
+/*}*/
 @media screen and (max-width: 996px){
     .dateRangeWrapper>div>div>div{
         left: -25%;
     }
 }
 @media screen and (max-width: 768px) {
+    .dateRangeWrapper{
+        grid-template-columns: 1fr;
+    }
     .cards{
         margin-top: 20px;
     }
-    .dateRangeWrapper>div>div>div{
-        left: 0;
-    }
+    /*.dateRangeWrapper>div>div>div{*/
+        /*left: 0;*/
+    /*}*/
     .findButton{
         display: grid;
         grid-template-columns: 1fr 1fr;

@@ -19,16 +19,26 @@ import Preloader from "../preloader/Preloader";
 const AddPhoto = props => {
     let {loadetImages} = props;
     let idApartment = props.match.params.id
+    const [firstImg, setFirstImg] = useState(false)
+    useEffect(()=>{
+        if(!loadetImages[0]){
+            setFirstImg(true)
+        }
+    })
     const onDelete = id => {
+        if(loadetImages[0].id === id){
+            setFirstImg(true)
+        }
         api.deletePhoto(idApartment, id)
             .then(res => {
                 console.log(res)
             })
     }
+    console.log(!loadetImages[0])
     return (
         <div>
             <div className={css.files}>
-                <FileUpdate onDelete={onDelete} image={loadetImages[0]} img={props.images} setimg={props.setImages}/>
+                <FileUpdate required={firstImg} onDelete={onDelete} image={loadetImages[0]} img={props.images} setimg={props.setImages}/>
                 <FileUpdate onDelete={onDelete} image={loadetImages[1]} img={props.images} setimg={props.setImages}/>
                 <FileUpdate onDelete={onDelete} image={loadetImages[2]} img={props.images} setimg={props.setImages}/>
             </div>
@@ -401,7 +411,7 @@ const Change = props => {
             "price": Number(data.price),
             "nearby_objects": data.nearby_objects,
             "objects_in_apartment": data.objects_in_apartment,
-            "currency": data.currency,
+            "currency": Number(data.currency),
             "description": data.description,
         }
         console.log(formData)
