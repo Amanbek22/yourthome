@@ -160,8 +160,8 @@ const Admin = props => {
                         area={item.area.total_area}
                         room={item.room}
                         floor={item.floor}
-                        price={item.currency === '$' ? item.price : item.another_price}
-                        priceSom={item.currency === '$' ? item.another_price : item.price}
+                        price={item.currency === 2 ? item.price : item.another_price}
+                        priceSom={item.currency === 2 ? item.another_price : item.price}
                         // addetDate={item.date_of_arrival}
                     />
                 </div>
