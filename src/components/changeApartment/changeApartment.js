@@ -386,17 +386,6 @@ const Change = props => {
             "series": 1,
             "construction_type": data.construction_type,
             "state": data.state,
-            // "detail": {
-            //     "furniture": data.details ? data.details.includes('furniture') : false,
-            //     "heat": data.details ? data.details.includes('heat') : false,
-            //     "gas": data.details ? data.details.includes('gas') : false,
-            //     "electricity": data.details ? data.details.includes('electricity') : false,
-            //     "internet": data.details ? data.details.includes('internet') : false,
-            //     "phone": data.details ? data.details.includes('phone') : false,
-            //     "elevator": data.details ? data.details.includes('elevator') : false,
-            //     "security": data.details ? data.details.includes('security') : false,
-            //     "parking": data.details ? data.details.includes('parking') : false
-            // },
             "location": {
                 "country": data.location.country,
                 "region": data.location.region,
