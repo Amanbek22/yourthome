@@ -94,7 +94,10 @@ const Menu = props => {
                     </div>
                 </div>
             </div>
-            <div style={{display: visible ? 'block' : 'none'}}>
+            <div style={{
+                display: visible ? 'block' : 'none',
+                height: visible ? '100%' : '0'
+            }}>
                 <Modal
                     visible={visible}
                     width="400"
@@ -115,7 +118,7 @@ const Menu = props => {
                         <img style={{width: 100 + '%', height: 100 + '%'}}
                              src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
                     </span>
-                        <p>Вы действительно хотите удолить это объявление?</p>
+                        <p>Вы действительно хотите выйти?</p>
                         <div className={css.btnWrapperDel}>
                             <div className={css.yesBtn} onClick={signUp}>Да</div>
                             <div style={{background: 'red'}} className={css.yesBtn}
