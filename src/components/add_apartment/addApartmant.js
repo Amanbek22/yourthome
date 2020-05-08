@@ -233,7 +233,7 @@ const AddApartment = props => {
             },
             "rental_period": null,
             "price": Number(data.price),
-            "currency": data.currency,
+            "currency": Number(data.currency),
             "preview_image": null,
             "description": data.description,
             "images": [],
