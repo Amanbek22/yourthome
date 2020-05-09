@@ -23,6 +23,26 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
         const [center, setCenter] = useState(props.latLng)
         const [selectedPark, setSelectedPark] = useState(null);
 
+        const a = [
+            {id: 1, name: "Aman"},
+            {id: 1, name: "Aman"},
+            {id: 3, name: "Turar"},
+            {id: 2, name: "Esen"},
+            {id: 1, name: "Aman"},
+        ]
+        const filteredArray = props.points.map((item, index) => {
+            let len = props.points.length;
+            if(index < len - 1) {
+                let c = props.points[1+index];
+                if (item.id !== c.id) {
+                    return item
+                }
+            }else{
+                return item
+            }
+            return null
+        })
+        const newArray = filteredArray.filter(item => item !== null)
         const onMarkerMounted = (element) => {
             arr.push(element)
         }
@@ -43,7 +63,6 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                         }, 500)
                     }}
                     ref={map}
-                    onZoomChanged={(e) => console.log(e)}
                     zoom={zoom}
                     center={props.latLng}
                     onBoundsChanged={() => {
@@ -66,41 +85,41 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                         enableRetinaIcons
                         gridSize={60}
                     >
-                        {props.points.map((item) => (
-                            <Marker
-                                ref={onMarkerMounted}
-                                onClick={() => {
-                                    setSelectedPark(item)
-                                }}
-                                position={{
-                                    lat: item.location.latitude,
-                                    lng: item.location.longitude
-                                }}
-                                title={item.description}
-                                color={'#ffffff'}
-                                markerWithLabel={"Hello"}
-                                label={{
-                                    text: Math.floor(item.currency === '$' ? item.price : item.another_price) + '$',
-                                    color: '#000',
-                                    fontSize: 16 + 'px',
-                                    textAlign: center,
-                                }}
-                                icon={
-                                    // iconMarker
-                                    {
-                                        url: String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length > 3 ? marker : String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length >= 2 ? marker2 : marker,
-                                        scaledSize: {
-                                            width: String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length > 3 ? 60 : String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length >= 5 ? 70 : 40,
-                                            height: 35
-                                        },
-                                        labelOrigin: new window.google.maps.Point(String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length > 3 ? 30 : String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length >= 5 ? 25 : 20, 12),
+                        {newArray.map((item) =>{
+                                return <Marker
+                                    ref={onMarkerMounted}
+                                    onClick={() => {
+                                        setSelectedPark(item)
+                                    }}
+                                    position={{
+                                        lat: item.location.latitude,
+                                        lng: item.location.longitude
+                                    }}
+                                    title={item.description}
+                                    color={'#ffffff'}
+                                    markerWithLabel={"Hello"}
+                                    label={{
+                                        text: Math.floor(item.currency === '$' ? item.price : item.another_price) + '$',
+                                        color: '#000',
+                                        fontSize: 16 + 'px',
+                                        textAlign: center,
+                                    }}
+                                    icon={
+                                        // iconMarker
+                                        {
+                                            url: String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length > 3 ? marker : String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length >= 2 ? marker2 : marker,
+                                            scaledSize: {
+                                                width: String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length > 3 ? 60 : String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length >= 5 ? 70 : 40,
+                                                height: 35
+                                            },
+                                            labelOrigin: new window.google.maps.Point(String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length > 3 ? 30 : String(Math.floor(item.currency === '$' ? item.price : item.another_price)).length >= 5 ? 25 : 20, 12),
+                                        }
                                     }
-                                }
-                                key={item.id}
-                                id={item.id}
-                                cursor={"pointer"}
-                            />
-                        ))}
+                                    key={item.id}
+                                    id={item.id}
+                                    cursor={"pointer"}
+                                />
+                        })}
                     </MarkerClusterer>
                     {selectedPark && (
                         <InfoWindow
@@ -167,7 +186,6 @@ const WrapperMap = props => {
     const [zoome, setZoome] = useState(6)
     const [pending, setPending] = useState(true)
     let arr = [];
-    console.log(apartments)
     useEffect(() => {
         setApartments(props.points.points)
     });
@@ -212,8 +230,20 @@ const WrapperMap = props => {
     };
     let items;
     if (arr.length > 0) {
-
-        items = arr.map(item => {
+        const filteredArray = arr.map((item, index) => {
+            let len = arr.length;
+            if(index < len - 1) {
+                let c = arr[1+index];
+                if (item.id !== c.id) {
+                    return item
+                }
+            }else{
+                return item
+            }
+            return null
+        })
+        const newArray = filteredArray.filter(item => item !== null)
+        items = newArray.map(item => {
             return (
                 <div key={item.id}>
                     <Element

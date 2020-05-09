@@ -94,7 +94,7 @@ const AddApartmentForm = props => {
     const prevPage = () => {
         setPage(page - 1)
     }
-    useEffect(()=>{
+    useEffect(() => {
         console.log(props.app.nearby_objects)
         let arr = []
         if (props.app.nearby_objects) {
@@ -208,7 +208,7 @@ const AddApartment = props => {
             "construction_type": Number(data.construction_type),
             "state": Number(data.state),
             "detail": {
-                "furniture":  false,
+                "furniture": false,
                 "heat": true,
                 "gas": false,
                 "electricity": false,
@@ -251,23 +251,30 @@ const AddApartment = props => {
         api.add(formData)
             .then(
                 (response) => {
-                    api.addPhoto(response.data.id,pictures).then(res => {
-                        props.history.push('/admin')
-                    })
+                    api.addPhoto(response.data.id, pictures)
+                        .then(
+                            res => {
+                                props.history.push('/admin')
+                            },
+                            error => {
+                                api.deleteApartment(response.data.id).then(res=>console.log(res))
+                                alert('Что-то пошло не так! Попробуйте снова!')
+                            }
+                        )
                     // props.history.push(`/addPhoto/${response.data.id}`)
                 },
                 (error) => {
                     console.log(error)
-                    alert(error)
+                    alert('Что-то пошло не так! Попробуйте позже!')
                     setPending(false);
                 }
             )
     }
-    useEffect(()=>{
+    useEffect(() => {
         document.title = 'Подать объявление'
     })
-    if(pending){
-        return <Preloader />
+    if (pending) {
+        return <Preloader/>
     }
     return (
         <div>
