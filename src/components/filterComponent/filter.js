@@ -109,6 +109,7 @@ const Filter = props => {
                                 placeholderText="Дата заезда"
                                 startDate={startDate}
                                 endDate={endDate}
+                                minDate={new Date()}
                             />
                             <div style={{width: '2em'}} />
                             <DatePicker

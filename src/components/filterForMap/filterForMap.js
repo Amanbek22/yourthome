@@ -97,6 +97,7 @@ const FilterMap = props =>{
                     placeholderText="Дата заезда"
                     startDate={startDate}
                     endDate={endDate}
+                    minDate={new Date()}
                 />
                 <DatePicker
                     locale={'ru'}
@@ -109,33 +110,6 @@ const FilterMap = props =>{
                     minDate={startDate}
                     placeholderText="Дата выезда"
                 />
-                {/*<label>*/}
-                    {/*Дата заезда*/}
-                {/*<DatePickerInput*/}
-                    {/*onChange={onDataChange}*/}
-                    {/*value={ dateFrom}*/}
-                    {/*className='my-custom-datepicker-component'*/}
-                    {/*onHide={()=>0}*/}
-                    {/*showOnInputClick={true}*/}
-                    {/*onClear={()=>setDateFrom('')}*/}
-                    {/*minDate={new Date()}*/}
-                    {/*placeholder={'placeholder'}*/}
-                {/*/>*/}
-                {/*</label>*/}
-                {/*<label>*/}
-                    {/*Дата выезда*/}
-                {/*<DatePickerInput*/}
-                    {/*onChange={onDataToChange}*/}
-                    {/*value={dateTo}*/}
-                    {/*className='my-custom-datepicker-component'*/}
-                    {/*onHide={()=>0}*/}
-                    {/*showOnInputClick={true}*/}
-                    {/*onClear={()=>setDateTo('')}*/}
-                    {/*minDate={new Date()}*/}
-                    {/*placeholder={'От какого числа занято'}*/}
-                    {/*// style={{ margin: 50+'px' }}*/}
-                {/*/>*/}
-                {/*</label>*/}
             </div>
             <div className={css.impWrapper}>
                 <select value={construction_type} onChange={e=>setConstruction_type(e.target.value)} name="price" >
