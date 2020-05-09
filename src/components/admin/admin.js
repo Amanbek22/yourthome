@@ -226,7 +226,7 @@ const Admin = props => {
                         <img style={{width: 100 + '%', height: 100 + '%'}}
                              src="https://image.flaticon.com/icons/svg/1828/1828774.svg" alt="x"/>
                     </span>
-                    <p>Вы действительно хотите удолить это объявление?</p>
+                    <p>Вы действительно хотите удалить это объявление?</p>
                     <div className={css.btnWrapperDel}>
                         <div className={css.yesBtn} onClick={DeleteAction}>Да</div>
                         <div style={{background: 'red'}} className={css.yesBtn} onClick={() => setVisible(false)}>Нет

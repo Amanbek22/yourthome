@@ -4,9 +4,11 @@ import {DatePickerInput} from "rc-datepicker";
 import {connect} from "react-redux";
 import {setFilterData} from '../../redux/filterReducer'
 import  {Creatable} from "react-select";
+import DatePicker from "react-datepicker";
 
 
 const FilterMap = props =>{
+
     const [city,setCity] = useState(props.filterData.city);
     const [region, setRegion] = useState(props.filterData.region);
     const [apartmentType, setApartmentType] = useState(props.filterData.type)
@@ -20,18 +22,20 @@ const FilterMap = props =>{
     const [priceTo,setPriceTo] = useState(props.filterData.priceTo)
     const onDataChange = (jsDate,dateString) => setDateFrom(jsDate)
     const onDataToChange = (jsDate,dateString) => setDateTo(jsDate)
-    const [details, setDetails] = useState([])
     const [nearby_objects, setNearby_objects] = useState(props.filterData.nearby_objects)
     const [atHome, setAtHome] = useState(props.filterData.atHome)
     const [nearbyObjects, setNearbyObjects] = useState([])
     const [objects, setObjects] = useState([])
+    const [state, setState] = useState('')
+    const [startDate, setStartDate] = useState(props.filterData.dateFrom);
+    const [endDate, setEndDate] = useState(props.filterData.dateTo);
     const filter = () =>{
         props.setItem(region,'')
         props.setFilterData({
                 city,region,rooms,
-                floor,dateFrom,dateTo,
+                floor,dateFrom:startDate,dateTo: endDate,
                 priceFrom,priceTo,apartmentType,
-                construction_type, details,
+                construction_type, state,
                 nearby_objects,atHome
             })
         props.setFilterStyle(false)
@@ -84,39 +88,60 @@ const FilterMap = props =>{
                 <option value="7">Баткен</option>
             </select>
             <div className={css.dataWrapper}>
-                <label>
-                    Дата заезда
-                <DatePickerInput
-                    onChange={onDataChange}
-                    value={ dateFrom}
-                    className='my-custom-datepicker-component'
-                    onHide={()=>0}
-                    showOnInputClick={true}
-                    onClear={()=>setDateFrom('')}
-                    minDate={new Date()}
-                    placeholder={'placeholder'}
+                <DatePicker
+                    locale={'ru'}
+                    isClearable
+                    selected={startDate}
+                    onChange={date => setStartDate(date)}
+                    selectsStart
+                    placeholderText="Дата заезда"
+                    startDate={startDate}
+                    endDate={endDate}
                 />
-                </label>
-                <label>
-                    Дата выезда
-                <DatePickerInput
-                    onChange={onDataToChange}
-                    value={dateTo}
-                    className='my-custom-datepicker-component'
-                    onHide={()=>0}
-                    showOnInputClick={true}
-                    onClear={()=>setDateTo('')}
-                    minDate={new Date()}
-                    placeholder={'От какого числа занято'}
-                    // style={{ margin: 50+'px' }}
+                <DatePicker
+                    locale={'ru'}
+                    isClearable
+                    selected={endDate}
+                    onChange={date => setEndDate(date)}
+                    selectsEnd
+                    startDate={startDate}
+                    endDate={endDate}
+                    minDate={startDate}
+                    placeholderText="Дата выезда"
                 />
-                </label>
+                {/*<label>*/}
+                    {/*Дата заезда*/}
+                {/*<DatePickerInput*/}
+                    {/*onChange={onDataChange}*/}
+                    {/*value={ dateFrom}*/}
+                    {/*className='my-custom-datepicker-component'*/}
+                    {/*onHide={()=>0}*/}
+                    {/*showOnInputClick={true}*/}
+                    {/*onClear={()=>setDateFrom('')}*/}
+                    {/*minDate={new Date()}*/}
+                    {/*placeholder={'placeholder'}*/}
+                {/*/>*/}
+                {/*</label>*/}
+                {/*<label>*/}
+                    {/*Дата выезда*/}
+                {/*<DatePickerInput*/}
+                    {/*onChange={onDataToChange}*/}
+                    {/*value={dateTo}*/}
+                    {/*className='my-custom-datepicker-component'*/}
+                    {/*onHide={()=>0}*/}
+                    {/*showOnInputClick={true}*/}
+                    {/*onClear={()=>setDateTo('')}*/}
+                    {/*minDate={new Date()}*/}
+                    {/*placeholder={'От какого числа занято'}*/}
+                    {/*// style={{ margin: 50+'px' }}*/}
+                {/*/>*/}
+                {/*</label>*/}
             </div>
             <div className={css.impWrapper}>
                 <select value={construction_type} onChange={e=>setConstruction_type(e.target.value)} name="price" >
                     <option value="">Тип строения</option>
-                    {props.app.types
-                        ? props.app.types.map(item => <option key={item.id} value={item.id}>{item.type}</option> )
+                    {props.app.constructionType
+                        ? props.app.constructionType.map(item => <option key={item.id} value={item.id}>{item.name}</option> )
                         : <option value="">Загрузка...</option>
                     }
                 </select>
@@ -132,18 +157,22 @@ const FilterMap = props =>{
             </div>
             <div className={css.impWrapper}>
                 <input value={floor} onChange={e=>setFloor(e.target.value)} name="floor" placeholder={'Этаж'} />
-                <input value={floors} onChange={e=>setFloors(e.target.value)} name="floor" placeholder={'Этажность домв'} />
+                <input value={floors} onChange={e=>setFloors(e.target.value)} name="floor" placeholder={'Этажность дома'} />
             </div>
             <div className={css.impWrapper}>
                 <select name="price" value={apartmentType} onChange={e => setApartmentType(e.target.value)} >
-                    <option value="">Тип недвижемость</option>
-                    <option value={1}>Квартира</option>
-                    <option value={2}>Дом</option>
+                    <option value="">Тип недвижемости</option>
+                    {props.app.types
+                        ? props.app.types.map(item => <option key={item.id} value={item.id}>{item.type}</option> )
+                        : <option value="">Загрузка...</option>
+                    }
                 </select>
-                <select name="more" >
-                    <option value="more">Мебелирван</option>
-                    <option value="more">Да</option>
-                    <option value="more">Нет</option>
+                <select name="state" value={state} onChange={ e => setState(e.target.value)}>
+                    <option value="">Тип ремонта</option>
+                    {props.app.state
+                        ? props.app.state.map(item => <option key={item.id} value={item.id}>{item.name}</option> )
+                        : <option value="">Загрузка...</option>
+                    }
                 </select>
             </div>
             <div className={`${css.impWrapper}  ${css.priceWrapper}`}>

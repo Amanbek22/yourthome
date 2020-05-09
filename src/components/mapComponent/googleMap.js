@@ -155,7 +155,7 @@ const WrapperMap = props => {
     const {
         region, city, dateFrom, dateTo, rooms, floor,
         priceFrom, priceTo, apartmentType,
-        construction_type, details, nearby_objects, atHome
+        construction_type, state, nearby_objects, atHome
     } = props.filterData;
 
     const [filteredCity, setFilteredCity] = useState('')
@@ -196,7 +196,7 @@ const WrapperMap = props => {
     }, [
         city, region, dateFrom, dateTo, rooms, floor,
         priceFrom, priceTo, apartmentType,
-        details, construction_type, nearby_objects, atHome
+        state, construction_type, nearby_objects, atHome
     ]);
     useEffect(() => {
         props.getApartment(

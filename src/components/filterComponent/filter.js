@@ -5,7 +5,11 @@ import {Link} from "react-router-dom";
 import Cards from "../cards/cards";
 import {Creatable} from "react-select";
 import dropDown from '../../img/dropDown.png'
-import {DatePickerInput} from "rc-datepicker";
+// import {DatePickerInput} from "rc-datepicker";
+import DatePicker, {registerLocale} from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import ru from 'date-fns/locale/ru';
+registerLocale('ru', ru)
 
 const initialState = {
     startDate: null,
@@ -36,14 +40,15 @@ const customStyles = {
 
 
 const Filter = props => {
+
     const [city, setCity] = useState('');
     const [region, setRegion] = useState('');
     const [rooms, setRooms] = useState('');
     const [priceFrom, setPriceFrom] = useState('');
     const [priceTo, setPriceTo] = useState('');
     const [floor, setFloor] = useState('')
-    const [construction_type, setConstruction_type] = useState(props.filterData.construction_type)
     const [nearby_objects, setNearby_objects] = useState(props.filterData.nearby_objects)
+    const [construction_type, setConstruction_type] = useState(props.filterData.construction_type)
     const [atHome, setAtHome] = useState(props.filterData.atHome)
     const [moreVisible, setMoreVisible] = useState(false)
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -51,7 +56,8 @@ const Filter = props => {
     const [objects, setObjects] = useState([])
     const [dateFrom,setDateFrom] = useState(props.filterData.dateFrom);
     const [dateTo,setDateTo] = useState(props.filterData.dateTo);
-
+    const [startDate, setStartDate] = useState(props.filterData.dateFrom);
+    const [endDate, setEndDate] = useState(props.filterData.dateTo);
     const onDataChange = (jsDate,dateString) => setDateFrom(jsDate)
     const onDataToChange = (jsDate,dateString) => setDateTo(jsDate)
 
@@ -94,33 +100,55 @@ const Filter = props => {
                     <p className={css.bookingDate}>Укажите дату бронирования</p>
                     <div>
                         <div className={css.dateRangeWrapper}>
-                            <label>
-                                Дата заезда
-                                <DatePickerInput
-                                    onChange={onDataChange}
-                                    value={ dateFrom}
-                                    className='my-custom-datepicker-component'
-                                    onHide={()=>0}
-                                    showOnInputClick={true}
-                                    onClear={()=>setDateFrom('')}
-                                    minDate={new Date()}
-                                    placeholder={'Дата заезда'}
-                                />
-                            </label>
-                            <label>
-                                Дата выезда
-                                <DatePickerInput
-                                    onChange={onDataToChange}
-                                    value={dateTo}
-                                    className='my-custom-datepicker-component'
-                                    onHide={()=>0}
-                                    showOnInputClick={true}
-                                    onClear={()=>setDateTo('')}
-                                    minDate={dateTo}
-                                    placeholder={'Дата выезда'}
-                                    // style={{ margin: 50+'px' }}
-                                />
-                            </label>
+                            <DatePicker
+                                locale={'ru'}
+                                isClearable
+                                selected={startDate}
+                                onChange={date => setStartDate(date)}
+                                selectsStart
+                                placeholderText="Дата заезда"
+                                startDate={startDate}
+                                endDate={endDate}
+                            />
+                            <div style={{width: '2em'}} />
+                            <DatePicker
+                                locale={'ru'}
+                                isClearable
+                                selected={endDate}
+                                onChange={date => setEndDate(date)}
+                                selectsEnd
+                                startDate={startDate}
+                                endDate={endDate}
+                                minDate={startDate}
+                                placeholderText="Дата выезда"
+                            />
+                            {/*<label>*/}
+                                {/*Дата заезда*/}
+                                {/*<DatePickerInput*/}
+                                    {/*onChange={onDataChange}*/}
+                                    {/*value={ dateFrom}*/}
+                                    {/*className='my-custom-datepicker-component'*/}
+                                    {/*onHide={()=>0}*/}
+                                    {/*showOnInputClick={true}*/}
+                                    {/*onClear={()=>setDateFrom('')}*/}
+                                    {/*minDate={new Date()}*/}
+                                    {/*placeholder={'Дата заезда'}*/}
+                                {/*/>*/}
+                            {/*</label>*/}
+                            {/*<label>*/}
+                                {/*Дата выезда*/}
+                                {/*<DatePickerInput*/}
+                                    {/*onChange={onDataToChange}*/}
+                                    {/*value={dateTo}*/}
+                                    {/*className='my-custom-datepicker-component'*/}
+                                    {/*onHide={()=>0}*/}
+                                    {/*showOnInputClick={true}*/}
+                                    {/*onClear={()=>setDateTo('')}*/}
+                                    {/*minDate={dateTo}*/}
+                                    {/*placeholder={'Дата выезда'}*/}
+                                    {/*// style={{ margin: 50+'px' }}*/}
+                                {/*/>*/}
+                            {/*</label>*/}
                             {/*<DateRangeInput*/}
                                 {/*onDatesChange={data => dispatch({type: "dateChange", payload: data})}*/}
                                 {/*onFocusChange={focusedInput =>*/}
@@ -235,8 +263,8 @@ const Filter = props => {
                                 atHome,
                                 nearby_objects,
                                 construction_type,
-                                dateFrom,
-                                dateTo,
+                                dateFrom: startDate,
+                                dateTo: endDate,
                                 priceFrom,
                                 priceTo,
                                 floor

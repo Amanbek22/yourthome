@@ -151,6 +151,9 @@
     .listInfo, .listNear{
         grid-template-columns: 1fr;
     }
+    .cards{
+        grid-template-columns: 1fr;
+    }
 }
 @media screen and (max-width: 870px){
     .dateWrapper{

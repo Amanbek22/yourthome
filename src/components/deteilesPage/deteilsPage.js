@@ -59,6 +59,7 @@ const DeteilsPage = props => {
         setPending(false)
         api.nearApartment(id).then(res => {
             setNearApartments(res.data)
+            console.log(res.data)
             if ( res.data.length === 0 ){
                 setNoApartments(false)
             }
@@ -259,7 +260,8 @@ const DeteilsPage = props => {
                                     city={item.location.city}
                                     street={item.location.street}
                                     houseNumber={item.location.house_number}
-                                    price={item.price}
+                                    price={item.currency === '$' ? item.price : item.another_price}
+                                    priceSom={item.currency === '$' ? item.another_price : item.price}
                                     rooms={item.room}
                                     floor={item.floor}
                                     area={item.area.total_area}
