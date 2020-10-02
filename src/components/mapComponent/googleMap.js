@@ -92,8 +92,8 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                                         setSelectedPark(item)
                                     }}
                                     position={{
-                                        lat: item.location.latitude,
-                                        lng: item.location.longitude
+                                        lat: +item.location.latitude,
+                                        lng: +item.location.longitude
                                     }}
                                     title={item.description}
                                     color={'#ffffff'}
@@ -124,8 +124,8 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
                     {selectedPark && (
                         <InfoWindow
                             position={{
-                                lat: selectedPark.location.latitude,
-                                lng: selectedPark.location.longitude,
+                                lat: +selectedPark.location.latitude,
+                                lng: +selectedPark.location.longitude,
                             }}
                             onCloseClick={() => setSelectedPark(null)}
                         >
